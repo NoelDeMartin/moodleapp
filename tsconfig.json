@@ -23,15 +23,25 @@
       "@directives/*": ["directives/*"],
       "@pipes/*": ["pipes/*"]
     },
-    "typeRoots": [
-      "node_modules/@types"
+    "types": [
+      "cordova",
+      "cordova-plugin-file",
+      "cordova-plugin-file-transfer",
+      "cordova-plugin-globalization",
+      "cordova-plugin-network-information",
+      "events",
+      "glob",
+      "minimatch",
+      "node",
+      "promise.prototype.finally"
     ]
   },
   "include": [
     "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/**/*.test.ts"
   ],
   "compileOnSave": false,
   "atom": {
