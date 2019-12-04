@@ -1,0 +1,18 @@
+name: Testing
+
+on: [push]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 10
+    - name: Install Node Dependencies
+      run: npm ci
+    - name: Run build tasks
+      run: npx gulp
+    - name: Run tests
+      run: npm run test:ci
