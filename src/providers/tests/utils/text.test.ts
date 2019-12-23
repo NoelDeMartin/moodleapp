@@ -12,19 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { DomSanitizer } from '@angular/platform-browser';
+import { mock, instance, when, anyString, reset, verify } from 'ts-mockito';
+import { Platform } from 'ionic-angular';
+
 import { CoreTextUtilsProvider } from '@providers/utils/text';
 
 describe('CoreTextUtilsProvider', () => {
 
+    const sanitizer: DomSanitizer = mock<DomSanitizer>();
+    const platform: Platform = mock(Platform);
+
     let textUtils: CoreTextUtilsProvider;
 
     beforeEach(() => {
+        reset(sanitizer);
+        reset(platform);
+
         textUtils = new CoreTextUtilsProvider(
             jest.fn() as any,
             jest.fn() as any,
             jest.fn() as any,
-            jest.fn() as any,
-            jest.fn() as any,
+            instance(sanitizer),
+            instance(platform),
         );
     });
 
@@ -42,6 +52,33 @@ describe('CoreTextUtilsProvider', () => {
         const url = textUtils.addEndingSlash(originalUrl);
 
         expect(url).toEqual('https://moodle.org/');
+    });
+
+    it('builds address URL for Android platforms', () => {
+        const address = 'Moodle Spain HQ';
+
+        when(sanitizer.bypassSecurityTrustUrl(anyString())).thenCall((url) => url);
+        when(platform.is('android')).thenReturn(true);
+
+        const url = textUtils.buildAddressURL(address);
+
+        expect(url).toEqual('geo:0,0?q=Moodle%20Spain%20HQ');
+
+        verify(sanitizer.bypassSecurityTrustUrl(anyString())).once();
+        verify(platform.is('android')).once();
+    });
+
+    it('builds address URL for non-Android platforms', () => {
+        const address = 'Moodle Spain HQ';
+
+        when(sanitizer.bypassSecurityTrustUrl(anyString())).thenCall((url) => url);
+
+        const url = textUtils.buildAddressURL(address);
+
+        expect(url).toEqual('http://maps.google.com?q=Moodle%20Spain%20HQ');
+
+        verify(sanitizer.bypassSecurityTrustUrl(anyString())).once();
+        verify(platform.is('android')).once();
     });
 
 });
