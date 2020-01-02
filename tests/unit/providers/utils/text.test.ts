@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { CoreTextUtilsProvider } from '@providers/utils/text';
+
 import { DomSanitizer } from '@angular/platform-browser';
 import { mock, instance, when, anyString, reset, verify } from 'ts-mockito';
 import { Platform } from 'ionic-angular';
-
-import { CoreTextUtilsProvider } from '@providers/utils/text';
 
 describe('CoreTextUtilsProvider', () => {
 

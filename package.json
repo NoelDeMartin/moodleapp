@@ -130,7 +130,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.2.2",
-    "@types/jest": "^24.0.23",
+    "@types/jest": "^20.0.8",
     "electron-builder-lib": "^20.23.1",
     "electron-rebuild": "^1.8.1",
     "gulp": "4.0.2",

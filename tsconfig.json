@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "allowJs": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -8,21 +9,6 @@
       "dom",
       "es2015"
     ],
-    "module": "es2015",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "target": "es5",
-    "baseUrl": "./src",
-    "paths": {
-      "@addon/*": ["addon/*"],
-      "@app/*": ["app/*"],
-      "@classes/*": ["classes/*"],
-      "@core/*": ["core/*"],
-      "@providers/*": ["providers/*"],
-      "@components/*": ["components/*"],
-      "@directives/*": ["directives/*"],
-      "@pipes/*": ["pipes/*"]
-    },
     "types": [
       "cordova",
       "cordova-plugin-file",
@@ -33,15 +19,32 @@
       "glob",
       "minimatch",
       "node",
-      "promise.prototype.finally"
-    ]
+      "promise.prototype.finally",
+      "jest"
+    ],
+    "module": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "target": "es5",
+    "baseUrl": "./",
+    "paths": {
+      "@addon/*": ["src/addon/*"],
+      "@app/*": ["src/app/*"],
+      "@classes/*": ["src/classes/*"],
+      "@core/*": ["src/core/*"],
+      "@providers/*": ["src/providers/*"],
+      "@components/*": ["src/components/*"],
+      "@directives/*": ["src/directives/*"],
+      "@pipes/*": ["src/pipes/*"],
+      "@testing/*": ["tests/testing/*"]
+    }
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "tests/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "src/**/*.test.ts"
+    "node_modules"
   ],
   "compileOnSave": false,
   "atom": {

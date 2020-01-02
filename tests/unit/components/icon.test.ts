@@ -12,29 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreIconComponent } from './icon';
+import { CoreIconComponent } from '@components/icon/icon';
 
-import { IonicModule } from 'ionic-angular';
-import { TestBed } from '@angular/core/testing';
+import TestCase from '@testing/ComponentTestCase';
+
+const test = new TestCase(CoreIconComponent, {
+    template: '<core-icon name="thumbs-up"></core-icon>'
+});
 
 describe('CoreIconComponent', () => {
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            declarations: [CoreIconComponent],
-            imports: [
-                IonicModule.forRoot(CoreIconComponent),
-            ],
-        });
-    });
+    beforeEach(() => test.configureTestingModule());
 
     it('should render', async () => {
-        const fixture = TestBed.createComponent(CoreIconComponent);
-        const element = fixture.nativeElement;
-
-        fixture.detectChanges();
+        const element = test.render();
 
         expect(element.innerHTML.trim()).not.toHaveLength(0);
+        expect(element.querySelector('ion-icon').classList).toContain('ion-md-thumbs-up');
     });
 
 });

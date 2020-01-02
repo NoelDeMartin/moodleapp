@@ -5,7 +5,7 @@ module.exports = {
     preset: 'jest-preset-angular',
     setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
     roots: [
-        '<rootDir>/src',
+        '<rootDir>/tests/unit',
     ],
     testMatch: [
         '**/?(*.)test.ts',
@@ -16,10 +16,10 @@ module.exports = {
     transformIgnorePatterns: [
         'node_modules/(?!@ionic-native|@ionic|ionic-angular)',
     ],
-    moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/src/' }),
+    moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
     globals: {
         'ts-jest': {
-            tsConfig: './tsconfig.test.json',
+            tsConfig: './tsconfig.json',
             stringifyContentPathRegex: '\\.html$',
             astTransformers: [
                 'jest-preset-angular/build/InlineFilesTransformer',
