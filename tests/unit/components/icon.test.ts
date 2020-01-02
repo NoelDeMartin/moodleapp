@@ -14,15 +14,18 @@
 
 import { CoreIconComponent } from '@components/icon/icon';
 
-import TestCase from '@testing/ComponentTestCase';
+import ComponentTestCase from '@testing/ComponentTestCase';
 
-const test = new TestCase(CoreIconComponent, {
+const test = new ComponentTestCase(CoreIconComponent, {
     template: '<core-icon name="thumbs-up"></core-icon>'
 });
 
 describe('CoreIconComponent', () => {
 
-    beforeEach(() => test.configureTestingModule());
+    beforeEach(() => {
+        test.reset();
+        test.configureTestingModule();
+    });
 
     it('should render', async () => {
         const element = test.render();

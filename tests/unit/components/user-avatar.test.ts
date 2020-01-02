@@ -20,11 +20,11 @@ import { CoreSitesProvider } from '@providers/sites';
 import { CoreUtilsProvider } from '@providers/utils/utils';
 import { NavController } from 'ionic-angular';
 import CoreExternalContentDirectiveStub from '@testing/stubs/directives/CoreExternalContent';
-import TestCase from '@testing/ComponentTestCase';
+import ComponentTestCase from '@testing/ComponentTestCase';
 import TranslatePipeStub from '@testing/stubs/pipes/Translate';
 
-const test = new TestCase(CoreUserAvatarComponent, {
-    services: [
+const test = new ComponentTestCase(CoreUserAvatarComponent, {
+    dependencies: [
         CoreSitesProvider,
         CoreUtilsProvider,
         CoreAppProvider,
@@ -35,6 +35,7 @@ const test = new TestCase(CoreUserAvatarComponent, {
 describe('CoreUserAvatarComponent', () => {
 
     beforeEach(() => {
+        test.reset();
         test.configureTestingModule({
             declarations: [
                 CoreExternalContentDirectiveStub,

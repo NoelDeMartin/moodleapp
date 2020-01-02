@@ -15,32 +15,28 @@
 import { CoreTextUtilsProvider } from '@providers/utils/text';
 
 import { DomSanitizer } from '@angular/platform-browser';
-import { mock, instance, when, anyString, reset, verify } from 'ts-mockito';
 import { Platform } from 'ionic-angular';
+import { when, anyString, verify } from 'ts-mockito';
+import UnitTestCase from '@testing/UnitTestCase';
+
+const test = new UnitTestCase(CoreTextUtilsProvider, {
+    dependencies: [
+        null,
+        null,
+        null,
+        'sanitizer',
+        Platform,
+    ],
+});
 
 describe('CoreTextUtilsProvider', () => {
 
-    const sanitizer: DomSanitizer = mock<DomSanitizer>();
-    const platform: Platform = mock(Platform);
-
-    let textUtils: CoreTextUtilsProvider;
-
-    beforeEach(() => {
-        reset(sanitizer);
-        reset(platform);
-
-        textUtils = new CoreTextUtilsProvider(
-            jest.fn() as any,
-            jest.fn() as any,
-            jest.fn() as any,
-            instance(sanitizer),
-            instance(platform),
-        );
-    });
+    beforeEach(() => test.reset());
 
     it('adds ending slashes', async () => {
         const originalUrl = 'https://moodle.org';
 
+        const textUtils = test.createInstance();
         const url = textUtils.addEndingSlash(originalUrl);
 
         expect(url).toEqual('https://moodle.org/');
@@ -49,36 +45,49 @@ describe('CoreTextUtilsProvider', () => {
     it('doesn\'t add duplicated ending slashes', async () => {
         const originalUrl = 'https://moodle.org/';
 
+        const textUtils = test.createInstance();
         const url = textUtils.addEndingSlash(originalUrl);
 
         expect(url).toEqual('https://moodle.org/');
     });
 
     it('builds address URL for Android platforms', () => {
+        // Arrange
         const address = 'Moodle Spain HQ';
+        const sanitizerMock = test.getDependencyMock<DomSanitizer>('sanitizer');
+        const platformMock = test.getDependencyMock(Platform);
 
-        when(sanitizer.bypassSecurityTrustUrl(anyString())).thenCall((url) => url);
-        when(platform.is('android')).thenReturn(true);
+        when(sanitizerMock.bypassSecurityTrustUrl(anyString())).thenCall((url) => url);
+        when(platformMock.is('android')).thenReturn(true);
 
+        // Act
+        const textUtils = test.createInstance();
         const url = textUtils.buildAddressURL(address);
 
+        // Assert
         expect(url).toEqual('geo:0,0?q=Moodle%20Spain%20HQ');
 
-        verify(sanitizer.bypassSecurityTrustUrl(anyString())).once();
-        verify(platform.is('android')).once();
+        verify(sanitizerMock.bypassSecurityTrustUrl(anyString())).once();
+        verify(platformMock.is('android')).once();
     });
 
     it('builds address URL for non-Android platforms', () => {
+        // Arrange
         const address = 'Moodle Spain HQ';
+        const sanitizerMock = test.getDependencyMock<DomSanitizer>('sanitizer');
+        const platformMock = test.getDependencyMock(Platform);
 
-        when(sanitizer.bypassSecurityTrustUrl(anyString())).thenCall((url) => url);
+        when(sanitizerMock.bypassSecurityTrustUrl(anyString())).thenCall((url) => url);
 
+        // Act
+        const textUtils = test.createInstance();
         const url = textUtils.buildAddressURL(address);
 
+        // Assert
         expect(url).toEqual('http://maps.google.com?q=Moodle%20Spain%20HQ');
 
-        verify(sanitizer.bypassSecurityTrustUrl(anyString())).once();
-        verify(platform.is('android')).once();
+        verify(sanitizerMock.bypassSecurityTrustUrl(anyString())).once();
+        verify(platformMock.is('android')).once();
     });
 
 });

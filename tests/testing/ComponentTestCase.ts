@@ -13,79 +13,85 @@
 // limitations under the License.
 
 import { IonicModule } from 'ionic-angular';
-import { mock, reset, instance } from 'ts-mockito';
 import { TestBed, ComponentFixture, TestModuleMetadata } from '@angular/core/testing';
-import { Type, Component } from '@angular/core';
+import { Type, Component, ViewChild } from '@angular/core';
+import UnitTestCase, { Config as BaseConfig } from './UnitTestCase';
 
-type Host = {};
-
-export interface Config {
+export interface Config extends BaseConfig {
     template?: string;
-    services?: any[];
 }
 
-export default class ComponentTestCase<C> {
+export default class ComponentTestCase<C> extends UnitTestCase<C> {
 
-    constructor(component: Type<C>, config: Config = {}) {
-        this.component = component;
-        this.services = config.services || [];
-        this.serviceMocks = this.services.map(mock);
+    constructor(componentClass: Type<C>, config: Config = {}) {
+        super(componentClass, config);
 
-        if (config.template) {
-            this.rootComponent = declareHostComponent(config.template);
-        } else {
-            this.rootComponent = component;
-        }
+        this.componentClass = componentClass;
+        this.rootComponentClass = config.template
+            ? declareWrapperComponent(config.template, componentClass)
+            : componentClass;
     }
 
-    private rootComponent: Type<C> | Type<Host>;
-    private component: Type<C>;
-    private services: any[];
-    private serviceMocks: any[];
-    private _fixture?: ComponentFixture<C> | ComponentFixture<Host>;
+    private rootComponentClass: Type<C | Wrapper<C>>;
+    private componentClass: Type<C>;
+    private _fixture?: ComponentFixture<C | Wrapper<C>>;
 
-    get fixture(): ComponentFixture<C> | ComponentFixture<Host> {
+    get fixture(): ComponentFixture<C | Wrapper<C>> {
         return this._fixture;
     }
 
-    configureTestingModule(metadata: TestModuleMetadata = {}): void {
-        this.serviceMocks.forEach(reset);
+    get usesTemplate(): boolean {
+        return this.rootComponentClass !== this.componentClass;
+    }
 
+    configureTestingModule(metadata: TestModuleMetadata = {}): void {
         metadata.declarations = metadata.declarations || [];
         metadata.imports = metadata.imports || [];
         metadata.providers = metadata.providers || [];
 
-        metadata.declarations.push(this.component);
-        metadata.imports.push(IonicModule.forRoot(this.component));
-        metadata.providers.push(...this.serviceMocks.map((serviceMock, index) => ({
-            provide: this.services[index],
-            useValue: instance(serviceMock),
+        metadata.declarations.push(this.componentClass);
+        metadata.imports.push(IonicModule.forRoot(this.componentClass));
+        metadata.providers.push(...this.dependencies.map((dependency, index) => ({
+            provide: dependency,
+            useValue: this.dependencyInstances[index],
         })));
 
-        if (this.usesTemplate()) {
-            metadata.declarations.push(this.rootComponent);
+        if (this.usesTemplate) {
+            metadata.declarations.push(this.rootComponentClass);
         }
 
         TestBed.configureTestingModule(metadata);
     }
 
     render(): HTMLElement {
-        this._fixture = TestBed.createComponent(this.rootComponent);
-
-        this.fixture.detectChanges();
+        this.createInstance();
 
         return this.fixture.nativeElement;
     }
 
-    usesTemplate(): boolean {
-        return this.rootComponent !== this.component;
-    }
+    // Override
+    createInstance(): C {
+        this._fixture = TestBed.createComponent<C | Wrapper<C>>(this.rootComponentClass);
 
+        this.fixture.detectChanges();
+
+        this._instance = this.fixture.componentInstance instanceof Wrapper
+            ? this.fixture.componentInstance.child
+            : this.fixture.componentInstance;
+
+        return this.instance;
+    }
 }
 
-function declareHostComponent(template: string): Type<Host> {
+function declareWrapperComponent<C>(template: string, componentClass: Type<C>): Type<Wrapper<C>> {
     @Component({ template })
-    class HostComponent implements Host {}
+    class W extends Wrapper<C> {
+        @ViewChild(componentClass) child: C;
+    }
 
-    return HostComponent;
+    return W;
+}
+
+abstract class Wrapper<C> {
+    child: C;
 }

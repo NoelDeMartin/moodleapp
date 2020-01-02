@@ -18,11 +18,11 @@ import { CoreDomUtilsProvider } from '@providers/utils/dom';
 import { CoreIframeUtilsProvider } from '@providers/utils/iframe';
 import { CoreLoggerProvider } from '@providers/logger';
 import { NavController } from 'ionic-angular';
-import TestCase from '@testing/ComponentTestCase';
+import ComponentTestCase from '@testing/ComponentTestCase';
 
-const test = new TestCase(CoreIframeComponent, {
+const test = new ComponentTestCase(CoreIframeComponent, {
     template: '<core-iframe src="https://moodle.org/"></core-iframe>',
-    services: [
+    dependencies: [
         CoreLoggerProvider,
         CoreIframeUtilsProvider,
         CoreDomUtilsProvider,
@@ -32,6 +32,7 @@ const test = new TestCase(CoreIframeComponent, {
 describe('CoreIframeComponent', () => {
 
     beforeEach(() => {
+        test.reset();
         test.configureTestingModule({
             providers: [
                 NavController,
