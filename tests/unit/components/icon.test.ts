@@ -27,7 +27,7 @@ describe('CoreIconComponent', () => {
         test.configureTestingModule();
     });
 
-    it('should render', async () => {
+    it('should render', () => {
         const element = test.render();
 
         expect(element.innerHTML.trim()).not.toHaveLength(0);

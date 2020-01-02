@@ -33,7 +33,7 @@ describe('CoreTextUtilsProvider', () => {
 
     beforeEach(() => test.reset());
 
-    it('adds ending slashes', async () => {
+    it('adds ending slashes', () => {
         const originalUrl = 'https://moodle.org';
 
         const textUtils = test.createInstance();
@@ -42,7 +42,7 @@ describe('CoreTextUtilsProvider', () => {
         expect(url).toEqual('https://moodle.org/');
     });
 
-    it('doesn\'t add duplicated ending slashes', async () => {
+    it('doesn\'t add duplicated ending slashes', () => {
         const originalUrl = 'https://moodle.org/';
 
         const textUtils = test.createInstance();
