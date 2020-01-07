@@ -34,40 +34,11 @@ import { when, anything, verify } from 'ts-mockito';
 import ComponentTestCase from '@testing/ComponentTestCase';
 import CoreDomUtilsProviderStub from '@testing/stubs/providers/utils/dom';
 
-const test = new ComponentTestCase(CoreFormatTextDirective, {
-    template: '<core-format-text text="Lorem ipsum dolor"></core-format-text>',
-    dependencies: [
-        CoreSitesProvider,
-        CoreTextUtilsProvider,
-        TranslateService,
-        CoreUtilsProvider,
-        CoreUrlUtilsProvider,
-        CoreLoggerProvider,
-        CoreFilepoolProvider,
-        CoreAppProvider,
-        CoreContentLinksHelperProvider,
-        CoreSplitViewComponent,
-        CoreIframeUtilsProvider,
-        CoreEventsProvider,
-        CoreFilterProvider,
-        CoreFilterHelperProvider,
-        CoreFilterDelegate,
-    ],
-});
-
 describe('CoreFormatTextDirective', () => {
-
-    beforeEach(() => {
-        test.reset();
-        test.configureTestingModule({
-            providers: [
-                { provide: CoreDomUtilsProvider, useValue: new CoreDomUtilsProviderStub() },
-            ],
-        });
-    });
 
     it('should render', async () => {
         // Arrange
+        const test = prepareTest('<core-format-text text="Lorem ipsum dolor"></core-format-text>');
         const sitesProvider = test.getDependencyMock(CoreSitesProvider);
         const filterProvider = test.getDependencyMock(CoreFilterProvider);
 
@@ -88,4 +59,67 @@ describe('CoreFormatTextDirective', () => {
         verify(filterProvider.formatText('Lorem ipsum dolor', anything(), anything(), anything())).once();
     });
 
+    it('should apply filters from server', async () => {
+        // Arrange
+        const test = prepareTest(`
+            <core-format-text
+                text="Lorem ipsum dolor"
+                contextLevel="course"
+                [contextInstanceId]="42"
+            ></core-format-text>
+        `);
+        const sitesProvider = test.getDependencyMock(CoreSitesProvider);
+        const filterHelper = test.getDependencyMock(CoreFilterHelperProvider);
+
+        when(sitesProvider.getSite(anything())).thenReturn(test.rejectedAsyncOperation());
+        when(filterHelper.getFiltersAndFormatText(anything(), anything(), anything(), anything(), anything())).thenCall((text) => {
+            return test.resolvedAsyncOperation({
+                text: 'Formatted text',
+                filters: [],
+            });
+        });
+
+        // Act
+        const element = test.render();
+
+        await test.whenAsyncOperationsFinished();
+
+        // Assert
+        expect(element.innerHTML.trim()).not.toHaveLength(0);
+        expect(element.children[0].innerHTML).toEqual('Formatted text');
+
+        verify(filterHelper.getFiltersAndFormatText('Lorem ipsum dolor', 'course', 42, anything(), anything())).once();
+    });
+
 });
+
+function prepareTest(template: string): ComponentTestCase<CoreFormatTextDirective> {
+    const test = new ComponentTestCase(CoreFormatTextDirective, {
+        template,
+        dependencies: [
+            CoreSitesProvider,
+            CoreTextUtilsProvider,
+            TranslateService,
+            CoreUtilsProvider,
+            CoreUrlUtilsProvider,
+            CoreLoggerProvider,
+            CoreFilepoolProvider,
+            CoreAppProvider,
+            CoreContentLinksHelperProvider,
+            CoreSplitViewComponent,
+            CoreIframeUtilsProvider,
+            CoreEventsProvider,
+            CoreFilterProvider,
+            CoreFilterHelperProvider,
+            CoreFilterDelegate,
+        ],
+    });
+
+    test.configureTestingModule({
+        providers: [
+            { provide: CoreDomUtilsProvider, useValue: new CoreDomUtilsProviderStub() },
+        ],
+    });
+
+    return test;
+}

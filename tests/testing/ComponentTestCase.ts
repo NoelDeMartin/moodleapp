@@ -45,6 +45,8 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
     }
 
     configureTestingModule(metadata: TestModuleMetadata = {}): void {
+        this.createDependencyInstances();
+
         metadata.declarations = metadata.declarations || [];
         metadata.imports = metadata.imports || [];
         metadata.providers = metadata.providers || [];

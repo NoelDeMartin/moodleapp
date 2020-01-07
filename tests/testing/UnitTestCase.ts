@@ -25,6 +25,7 @@ export default class UnitTestCase<U> {
         this.unitConstructor = unitConstructor;
         this.dependencies = config.dependencies || [];
         this.dependencyMocks = this.dependencies.map((dependency) => typeof dependency === 'string' ? mock() : mock(dependency));
+        this.asyncOperationPromises = [];
     }
 
     protected unitConstructor: Type<U>;
@@ -48,8 +49,6 @@ export default class UnitTestCase<U> {
         delete this._instance;
 
         this.dependencyMocks.forEach(reset);
-
-        this.dependencyInstances = this.dependencyMocks.map(instance);
         this.asyncOperationPromises = [];
     }
 
@@ -72,6 +71,8 @@ export default class UnitTestCase<U> {
     }
 
     createInstance(): U {
+        this.createDependencyInstances();
+
         this._instance = new (this.unitConstructor)(...this.dependencyInstances);
 
         return this._instance;
@@ -86,6 +87,10 @@ export default class UnitTestCase<U> {
         );
 
         await Promise.all(promises);
+    }
+
+    protected createDependencyInstances(): void {
+        this.dependencyInstances = this.dependencyMocks.map(instance);
     }
 
 }
