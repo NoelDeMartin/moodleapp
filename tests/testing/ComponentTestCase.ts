@@ -71,6 +71,14 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
         return this.fixture.nativeElement;
     }
 
+    async asyncRender(): Promise<HTMLElement> {
+        const element = this.render();
+
+        await this.whenAsyncOperationsFinished();
+
+        return element;
+    }
+
     // Override
     createInstance(): C {
         this._fixture = TestBed.createComponent<C | Wrapper<C>>(this.rootComponentClass);
@@ -87,6 +95,7 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
     // Override
     async whenAsyncOperationsFinished(): Promise<void> {
         await super.whenAsyncOperationsFinished();
+        await this.fixture.whenRenderingDone();
         await this.fixture.whenStable();
     }
 }

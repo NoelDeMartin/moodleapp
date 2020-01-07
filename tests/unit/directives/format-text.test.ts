@@ -46,9 +46,7 @@ describe('CoreFormatTextDirective', () => {
         withoutTextFormatting(test);
 
         // Act
-        const element = test.render();
-
-        await test.whenAsyncOperationsFinished();
+        const element = await test.asyncRender();
 
         // Assert
         expect(element.innerHTML.trim()).not.toHaveLength(0);
@@ -66,9 +64,7 @@ describe('CoreFormatTextDirective', () => {
         withoutSite(test);
 
         // Act
-        const element = test.render();
-
-        await test.whenAsyncOperationsFinished();
+        const element = await test.asyncRender();
 
         // Assert
         expect(element.innerHTML.trim()).not.toHaveLength(0);
@@ -97,9 +93,7 @@ describe('CoreFormatTextDirective', () => {
         withoutSite(test);
 
         // Act
-        const element = test.render();
-
-        await test.whenAsyncOperationsFinished();
+        const element = await test.asyncRender();
 
         // Assert
         expect(element.innerHTML.trim()).not.toHaveLength(0);
@@ -131,9 +125,7 @@ describe('CoreFormatTextDirective', () => {
         withoutTimeouts(test);
 
         // Act
-        const element = test.render();
-
-        await test.whenAsyncOperationsFinished();
+        const element = await test.asyncRender();
 
         // Assert
         expect(element.innerHTML.trim()).not.toHaveLength(0);
