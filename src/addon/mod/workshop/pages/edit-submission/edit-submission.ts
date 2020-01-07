@@ -275,26 +275,6 @@ export class AddonModWorkshopEditSubmissionPage implements OnInit, OnDestroy {
     }
 
     /**
-     * Pull to refresh.
-     *
-     * @param refresher Refresher.
-     */
-    refreshSubmission(refresher: any): void {
-        if (this.loaded) {
-            const promises = [];
-
-            promises.push(this.workshopProvider.invalidateSubmissionData(this.workshopId, this.submission.id));
-            promises.push(this.workshopProvider.invalidateSubmissionsData(this.workshopId));
-
-            Promise.all(promises).finally(() => {
-                return this.fetchSubmissionData();
-            }).finally(() => {
-                refresher.complete();
-            });
-        }
-    }
-
-    /**
      * Save the submission.
      */
     save(): void {
@@ -328,7 +308,8 @@ export class AddonModWorkshopEditSubmissionPage implements OnInit, OnDestroy {
 
         const noText = this.textUtils.htmlIsBlank(inputData.content);
         const noFiles = !inputData.attachmentfiles.length;
-        if (this.textRequired && noText || this.fileRequired && noFiles || noText && noFiles) {
+
+        if ((this.textRequired && noText) || (this.fileRequired && noFiles) || (noText && noFiles)) {
             this.domUtils.showAlertTranslated('core.notice', 'addon.mod_workshop.submissionrequiredcontent');
 
             return Promise.reject(null);

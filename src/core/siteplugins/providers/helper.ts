@@ -32,6 +32,7 @@ import { CoreQuestionProvider } from '@core/question/providers/question';
 import { CoreCourseProvider } from '@core/course/providers/course';
 import { CoreCoursesProvider } from '@core/courses/providers/courses';
 import { CoreFilterHelperProvider } from '@core/filter/providers/helper';
+import { CorePluginFileDelegate } from '@providers/plugin-file-delegate';
 
 // Delegates
 import { CoreMainMenuDelegate } from '@core/mainmenu/providers/delegate';
@@ -85,7 +86,7 @@ export class CoreSitePluginsHelperProvider {
     protected logger;
     protected courseRestrictHandlers = {};
 
-    constructor(logger: CoreLoggerProvider,
+    constructor(protected loggerProvider: CoreLoggerProvider,
             private sitesProvider: CoreSitesProvider,
             private domUtils: CoreDomUtilsProvider,
             private mainMenuDelegate: CoreMainMenuDelegate,
@@ -117,9 +118,10 @@ export class CoreSitePluginsHelperProvider {
             private workshopAssessmentStrategyDelegate: AddonWorkshopAssessmentStrategyDelegate,
             private courseProvider: CoreCourseProvider,
             private blockDelegate: CoreBlockDelegate,
-            private filterHelper: CoreFilterHelperProvider) {
+            private filterHelper: CoreFilterHelperProvider,
+            private pluginFileDelegate: CorePluginFileDelegate) {
 
-        this.logger = logger.getInstance('CoreSitePluginsHelperProvider');
+        this.logger = loggerProvider.getInstance('CoreSitePluginsHelperProvider');
 
         // Fetch the plugins on login.
         eventsProvider.on(CoreEventsProvider.LOGIN, (data) => {
@@ -834,13 +836,14 @@ export class CoreSitePluginsHelperProvider {
         const uniqueName = this.sitePluginsProvider.getHandlerUniqueName(plugin, handlerName),
             modName = (handlerSchema.moodlecomponent || plugin.component).replace('mod_', '');
 
-        this.moduleDelegate.registerHandler(new CoreSitePluginsModuleHandler(uniqueName, modName, handlerSchema, initResult));
+        this.moduleDelegate.registerHandler(new CoreSitePluginsModuleHandler(uniqueName, modName, plugin, handlerSchema,
+                initResult, this.sitePluginsProvider, this.loggerProvider));
 
         if (handlerSchema.offlinefunctions && Object.keys(handlerSchema.offlinefunctions).length) {
             // Register the prefetch handler.
             this.prefetchDelegate.registerHandler(new CoreSitePluginsModulePrefetchHandler(this.translate, this.appProvider,
                 this.utils, this.courseProvider, this.filepoolProvider, this.sitesProvider, this.domUtils, this.filterHelper,
-                this.sitePluginsProvider, plugin.component, uniqueName, modName, handlerSchema));
+                this.pluginFileDelegate, this.sitePluginsProvider, plugin.component, uniqueName, modName, handlerSchema));
         }
 
         return uniqueName;

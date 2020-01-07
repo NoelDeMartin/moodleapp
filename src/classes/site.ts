@@ -212,6 +212,7 @@ export class CoreSite {
         3.6: 2018120300,
         3.7: 2019052000
     };
+    static MINIMUM_MOODLE_VERSION = '3.1';
 
     // Possible cache update frequencies.
     protected UPDATE_FREQUENCIES = [
@@ -657,7 +658,8 @@ export class CoreSite {
         const promise = this.getFromCache(method, data, preSets, false, originalData).catch(() => {
             if (preSets.forceOffline) {
                 // Don't call the WS, just fail.
-                return Promise.reject(this.wsProvider.createFakeWSError('core.cannotconnect', true));
+                return Promise.reject(this.wsProvider.createFakeWSError('core.cannotconnect', true,
+                    {$a: CoreSite.MINIMUM_MOODLE_VERSION}));
             }
 
             // Call the WS.
@@ -1903,7 +1905,7 @@ export class CoreSite {
      * Get a certain cache expiration delay.
      *
      * @param updateFrequency The update frequency of the entry.
-     * @return {number} Expiration delay.
+     * @return Expiration delay.
      */
     getExpirationDelay(updateFrequency?: number): number {
         let expirationDelay = this.UPDATE_FREQUENCIES[updateFrequency] || this.UPDATE_FREQUENCIES[CoreSite.FREQUENCY_USUALLY];
@@ -1923,8 +1925,8 @@ export class CoreSite {
      * @return Promise resolved with boolean: whether it works or not.
      */
     checkTokenPluginFile(url: string): Promise<boolean> {
-        if (!this.infos || !this.infos.userprivateaccesskey) {
-            // No access key, cannot use tokenpluginfile.
+        if (!this.urlUtils.canUseTokenPluginFile(url, this.siteUrl, this.infos && this.infos.userprivateaccesskey)) {
+            // Cannot use tokenpluginfile.
             return Promise.resolve(false);
         } else if (typeof this.tokenPluginFileWorks != 'undefined') {
             // Already checked.
@@ -1935,9 +1937,6 @@ export class CoreSite {
         } else if (!this.appProvider.isOnline()) {
             // Not online, cannot check it. Assume it's working, but don't save the result.
             return Promise.resolve(true);
-        } else if (!this.urlUtils.isPluginFileUrl(url)) {
-            // Not a pluginfile URL, ignore it.
-            return Promise.resolve(false);
         }
 
         url = this.fixPluginfileURL(url);

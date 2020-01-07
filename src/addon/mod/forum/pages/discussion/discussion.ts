@@ -22,6 +22,7 @@ import { CoreSitesProvider } from '@providers/sites';
 import { CoreDomUtilsProvider } from '@providers/utils/dom';
 import { CoreUtilsProvider } from '@providers/utils/utils';
 import { CoreFileUploaderProvider } from '@core/fileuploader/providers/fileuploader';
+import { CoreUserProvider } from '@core/user/providers/user';
 import { CoreSplitViewComponent } from '@components/split-view/split-view';
 import { CoreRatingProvider, CoreRatingInfo } from '@core/rating/providers/rating';
 import { CoreRatingOfflineProvider } from '@core/rating/providers/offline';
@@ -32,6 +33,8 @@ import { AddonModForumHelperProvider } from '../../providers/helper';
 import { AddonModForumSyncProvider } from '../../providers/sync';
 
 type SortType = 'flat-newest' | 'flat-oldest' | 'nested';
+
+type Post = any & { children?: Post[]; };
 
 /**
  * Page that displays a forum discussion.
@@ -51,11 +54,11 @@ export class AddonModForumDiscussionPage implements OnDestroy {
     discussion: any;
     posts: any[];
     discussionLoaded = false;
-    defaultSubject: string;
+    postSubjects: { [id: string]: string };
     isOnline: boolean;
     isSplitViewOn: boolean;
     postHasOffline: boolean;
-    sort: SortType = 'flat-oldest';
+    sort: SortType = 'nested';
     trackPosts: boolean;
     replyData = {
         replyingTo: 0,
@@ -94,19 +97,20 @@ export class AddonModForumDiscussionPage implements OnDestroy {
     constructor(navParams: NavParams,
             network: Network,
             zone: NgZone,
-            private appProvider: CoreAppProvider,
-            private eventsProvider: CoreEventsProvider,
-            private sitesProvider: CoreSitesProvider,
-            private domUtils: CoreDomUtilsProvider,
-            private utils: CoreUtilsProvider,
-            private translate: TranslateService,
-            private uploaderProvider: CoreFileUploaderProvider,
-            private forumProvider: AddonModForumProvider,
-            private forumOffline: AddonModForumOfflineProvider,
-            private forumHelper: AddonModForumHelperProvider,
-            private forumSync: AddonModForumSyncProvider,
-            private ratingOffline: CoreRatingOfflineProvider,
-            @Optional() private svComponent: CoreSplitViewComponent,
+            protected appProvider: CoreAppProvider,
+            protected eventsProvider: CoreEventsProvider,
+            protected sitesProvider: CoreSitesProvider,
+            protected domUtils: CoreDomUtilsProvider,
+            protected utils: CoreUtilsProvider,
+            protected translate: TranslateService,
+            protected uploaderProvider: CoreFileUploaderProvider,
+            protected forumProvider: AddonModForumProvider,
+            protected forumOffline: AddonModForumOfflineProvider,
+            protected forumHelper: AddonModForumHelperProvider,
+            protected forumSync: AddonModForumSyncProvider,
+            protected ratingOffline: CoreRatingOfflineProvider,
+            protected userProvider: CoreUserProvider,
+            @Optional() protected svComponent: CoreSplitViewComponent,
             protected navCtrl: NavController) {
         this.courseId = navParams.get('courseId');
         this.cmId = navParams.get('cmId');
@@ -132,7 +136,29 @@ export class AddonModForumDiscussionPage implements OnDestroy {
      * View loaded.
      */
     ionViewDidLoad(): void {
-        this.sitesProvider.getCurrentSite().getLocalSiteConfig('AddonModForumDiscussionSort', this.sort).then((value) => {
+        this.sitesProvider.getCurrentSite().getLocalSiteConfig('AddonModForumDiscussionSort').catch(() => {
+            this.userProvider.getUserPreference('forum_displaymode').catch(() => {
+                // Ignore errors.
+            }).then((value) => {
+                const sortValue = value && parseInt(value, 10);
+
+                switch (sortValue) {
+                    case 1:
+                        this.sort = 'flat-oldest';
+                        break;
+                    case -1:
+                        this.sort = 'flat-newest';
+                        break;
+                    case 3:
+                        this.sort = 'nested';
+                        break;
+                    case 2: // Threaded not implemented.
+                    default:
+                        // Not set, use default sort.
+                        // @TODO add fallback to $CFG->forum_displaymode.
+                }
+            });
+        }).then((value) => {
             this.sort = value;
         }).finally(() => {
             this.fetchPosts(true, false, true).then(() => {
@@ -191,8 +217,8 @@ export class AddonModForumDiscussionPage implements OnDestroy {
         });
 
         this.changeDiscObserver = this.eventsProvider.on(AddonModForumProvider.CHANGE_DISCUSSION_EVENT, (data) => {
-            if ((this.forum && this.forum.id === data.forumId) || data.cmId === this.cmId) {
-                this.forumProvider.invalidateDiscussionsList(this.forum.id).finally(() => {
+            if ((this.forumId && this.forumId === data.forumId) || data.cmId === this.cmId) {
+                this.forumProvider.invalidateDiscussionsList(this.forumId).finally(() => {
                     if (typeof data.locked != 'undefined') {
                         this.discussion.locked = data.locked;
                     }
@@ -324,10 +350,17 @@ export class AddonModForumDiscussionPage implements OnDestroy {
         }).then(() => {
             let posts = offlineReplies.concat(onlinePosts);
 
+            const startingPost = this.forumProvider.extractStartingPost(posts);
+            if (startingPost) {
+                // Update discussion data from first post.
+                this.discussion = Object.assign(this.discussion || {}, startingPost);
+            }
+
             // If sort type is nested, normal sorting is disabled and nested posts will be displayed.
             if (this.sort == 'nested') {
                 // Sort first by creation date to make format tree work.
                 this.forumProvider.sortDiscussionPosts(posts, 'ASC');
+
                 posts = this.utils.formatTree(posts, 'parent', 'id', this.discussion.id);
             } else {
                 // Set default reply subject.
@@ -350,7 +383,7 @@ export class AddonModForumDiscussionPage implements OnDestroy {
 
                 const promises = [];
 
-                promises.push(this.forumProvider.getAccessInformation(this.forum.id).then((accessInfo) => {
+                promises.push(this.forumProvider.getAccessInformation(this.forumId).then((accessInfo) => {
                     this.accessInfo = accessInfo;
 
                     // Disallow replying if cut-off date is reached and the user has not the capability to override it.
@@ -362,34 +395,20 @@ export class AddonModForumDiscussionPage implements OnDestroy {
                     }
                 }));
 
-                // Fetch the discussion if not passed as parameter.
+                // The discussion object was not passed as parameter and there is no starting post. Should not happen.
                 if (!this.discussion) {
-                    promises.push(this.forumHelper.getDiscussionById(forum.id, this.discussionId).then((discussion) => {
-                        this.discussion = discussion;
-                    }).catch(() => {
-                        // Ignore errors.
-                    }));
+                    promises.push(this.loadDiscussion(this.forumId, this.discussionId));
                 }
 
                 return Promise.all(promises);
             }).catch(() => {
                 // Ignore errors.
             }).then(() => {
-                this.defaultSubject = this.translate.instant('addon.mod_forum.re') + ' ' +
-                    (this.discussion ? this.discussion.subject : '');
-                this.replyData.subject = this.defaultSubject;
 
-                const startingPost = this.forumProvider.extractStartingPost(posts);
-                if (startingPost) {
-                    // Update discussion data from first post.
-                    this.discussion = Object.assign(this.discussion || {}, startingPost);
-                } else if (!this.discussion) {
-                    // The discussion object was not passed as parameter and there is no starting post.
+                if (!this.discussion) {
+                    // The discussion object was not passed as parameter and there is no starting post. Should not happen.
                     return Promise.reject('Invalid forum discussion.');
                 }
-
-                this.defaultSubject = this.translate.instant('addon.mod_forum.re') + ' ' + this.discussion.subject;
-                this.replyData.subject = this.defaultSubject;
 
                 if (this.discussion.userfullname && this.discussion.parent == 0 && this.forum.type == 'single') {
                     // Hide author for first post and type single.
@@ -398,6 +417,11 @@ export class AddonModForumDiscussionPage implements OnDestroy {
 
                 this.posts = posts;
                 this.ratingInfo = ratingInfo;
+                this.postSubjects = this.getAllPosts().reduce((postSubjects, post) => {
+                    postSubjects[post.id] = post.subject;
+
+                    return postSubjects;
+                }, { [this.discussion.id]: this.discussion.subject });
             });
         }).then(() => {
             if (this.forumProvider.isSetPinStateAvailableForSite()) {
@@ -434,6 +458,27 @@ export class AddonModForumDiscussionPage implements OnDestroy {
                 });
             }
         });
+    }
+
+    /**
+     * Convenience function to load discussion.
+     *
+     * @param  forumId Forum ID.
+     * @param  discussionId Discussion ID.
+     * @return Promise resolved when done.
+     */
+    protected loadDiscussion(forumId: number, discussionId: number): Promise<void> {
+        // Fetch the discussion if not passed as parameter.
+        if (!this.discussion && forumId) {
+            return this.forumHelper.getDiscussionById(forumId, discussionId).then((discussion) => {
+                this.discussion = discussion;
+                this.discussionId = this.discussion.discussion;
+            }).catch(() => {
+                // Ignore errors.
+            });
+        }
+
+        return Promise.resolve();
     }
 
     /**
@@ -653,4 +698,31 @@ export class AddonModForumDiscussionPage implements OnDestroy {
     ngOnDestroy(): void {
         this.onlineObserver && this.onlineObserver.unsubscribe();
     }
+
+    /**
+     * Get all the posts contained in the discussion.
+     *
+     * @return Array containing all the posts of the discussion.
+     */
+    protected getAllPosts(): Post[] {
+        return [].concat(...this.posts.map(this.flattenPostHierarchy.bind(this)));
+    }
+
+    /**
+     * Flatten a post's hierarchy into an array.
+     *
+     * @param parent Parent post.
+     * @return Array containing all the posts within the hierarchy (including the parent).
+     */
+    protected flattenPostHierarchy(parent: Post): Post[] {
+        const posts = [parent];
+        const children = parent.children || [];
+
+        for (const child of children) {
+            posts.push(...this.flattenPostHierarchy(child));
+        }
+
+        return posts;
+    }
+
 }

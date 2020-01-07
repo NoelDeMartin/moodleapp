@@ -143,9 +143,12 @@ export class CoreCourseHelperProvider {
      * @param courseId Course ID of the modules.
      * @param completionStatus List of completion status.
      * @param courseName Course name. Recommended if completionStatus is supplied.
+     * @param forCoursePage Whether the data will be used to render the course page.
      * @return Whether the sections have content.
      */
-    addHandlerDataForModules(sections: any[], courseId: number, completionStatus?: any, courseName?: string): boolean {
+    addHandlerDataForModules(sections: any[], courseId: number, completionStatus?: any, courseName?: string,
+            forCoursePage?: boolean): boolean {
+
         let hasContent = false;
 
         sections.forEach((section) => {
@@ -156,7 +159,8 @@ export class CoreCourseHelperProvider {
             hasContent = true;
 
             section.modules.forEach((module) => {
-                module.handlerData = this.moduleDelegate.getModuleDataFor(module.modname, module, courseId, section.id);
+                module.handlerData = this.moduleDelegate.getModuleDataFor(module.modname, module, courseId, section.id,
+                        forCoursePage);
 
                 if (module.completiondata && module.completion > 0) {
                     module.completiondata.courseId = courseId;
@@ -434,7 +438,7 @@ export class CoreCourseHelperProvider {
             sizePromise = this.prefetchDelegate.getDownloadSize(section.modules, courseId);
 
             // Check if the section has embedded files in the description.
-            haveEmbeddedFiles = this.domUtils.extractDownloadableFilesFromHtml(section.summary).length > 0;
+            haveEmbeddedFiles = this.filepoolProvider.extractDownloadableFilesFromHtml(section.summary).length > 0;
         } else {
             const promises = [],
                 results = {
@@ -450,7 +454,7 @@ export class CoreCourseHelperProvider {
                     }));
 
                     // Check if the section has embedded files in the description.
-                    if (!haveEmbeddedFiles && this.domUtils.extractDownloadableFilesFromHtml(s.summary).length > 0) {
+                    if (!haveEmbeddedFiles && this.filepoolProvider.extractDownloadableFilesFromHtml(s.summary).length > 0) {
                         haveEmbeddedFiles = true;
                     }
                 }
@@ -657,7 +661,6 @@ export class CoreCourseHelperProvider {
 
         const mainFile = files[0],
             fileUrl = this.fileHelper.getFileUrl(mainFile),
-            timemodified = this.fileHelper.getFileTimemodified(mainFile),
             result = {
                 fixedUrl: undefined,
                 path: undefined,
@@ -674,48 +677,23 @@ export class CoreCourseHelperProvider {
                 return this.filepoolProvider.getPackageStatus(siteId, component, componentId).then((status) => {
                     result.status = status;
 
-                    const isWifi = this.appProvider.isWifi(),
-                        isOnline = this.appProvider.isOnline();
-
                     if (status === CoreConstants.DOWNLOADED) {
                         // Get the local file URL.
                         return this.filepoolProvider.getInternalUrlByUrl(siteId, fileUrl).catch((error) => {
-                            // File not found, mark the module as not downloaded and reject.
+                            // File not found, mark the module as not downloaded and try again.
                             return this.filepoolProvider.storePackageStatus(siteId, CoreConstants.NOT_DOWNLOADED, component,
                                     componentId).then(() => {
 
-                                return Promise.reject(error);
+                                return this.downloadModuleWithMainFile(module, courseId, fixedUrl, files, status, component,
+                                        componentId, siteId);
                             });
                         });
                     } else if (status === CoreConstants.DOWNLOADING && !this.appProvider.isDesktop()) {
                         // Return the online URL.
                         return fixedUrl;
                     } else {
-                        if (!isOnline && status === CoreConstants.NOT_DOWNLOADED) {
-                            // Not downloaded and we're offline, reject.
-                            return Promise.reject(this.translate.instant('core.networkerrormsg'));
-                        }
-
-                        return this.filepoolProvider.shouldDownloadBeforeOpen(fixedUrl, mainFile.filesize).then(() => {
-                            // Download and then return the local URL.
-                            return this.downloadModule(module, courseId, component, componentId, files, siteId).then(() => {
-                                return this.filepoolProvider.getInternalUrlByUrl(siteId, fileUrl);
-                            });
-                        }, () => {
-                            // Start the download if in wifi, but return the URL right away so the file is opened.
-                            if (isWifi) {
-                                this.downloadModule(module, courseId, component, componentId, files, siteId);
-                            }
-
-                            if (!this.fileHelper.isStateDownloaded(status) || isOnline) {
-                                // Not downloaded or online, return the online URL.
-                                return fixedUrl;
-                            } else {
-                                // Outdated but offline, so we return the local URL. Use getUrlByUrl so it's added to the queue.
-                                return this.filepoolProvider.getUrlByUrl(siteId, fileUrl, component, componentId, timemodified,
-                                        false, false, mainFile);
-                            }
-                        });
+                        return this.downloadModuleWithMainFile(module, courseId, fixedUrl, files, status, component, componentId,
+                                siteId);
                     }
                 }).then((path) => {
                     result.path = path;
@@ -727,6 +705,55 @@ export class CoreCourseHelperProvider {
                 result.path = fixedUrl;
 
                 return result;
+            }
+        });
+    }
+
+    /**
+     * Convenience function to download a module that has a main file and return the local file's path and other info.
+     * This is meant for modules like mod_resource.
+     *
+     * @param module The module to download.
+     * @param courseId The course ID of the module.
+     * @param fixedUrl Main file's fixed URL.
+     * @param files List of files of the module.
+     * @param status The package status.
+     * @param component The component to link the files to.
+     * @param componentId An ID to use in conjunction with the component.
+     * @param siteId The site ID. If not defined, current site.
+     * @return Promise resolved when done.
+     */
+    protected downloadModuleWithMainFile(module: any, courseId: number, fixedUrl: string, files: any[], status: string,
+            component?: string, componentId?: string | number, siteId?: string): Promise<string> {
+
+        const isOnline = this.appProvider.isOnline();
+        const mainFile = files[0];
+        const fileUrl = this.fileHelper.getFileUrl(mainFile);
+        const timemodified = this.fileHelper.getFileTimemodified(mainFile);
+
+        if (!isOnline && status === CoreConstants.NOT_DOWNLOADED) {
+            // Not downloaded and we're offline, reject.
+            return Promise.reject(this.translate.instant('core.networkerrormsg'));
+        }
+
+        return this.filepoolProvider.shouldDownloadBeforeOpen(fixedUrl, mainFile.filesize).then(() => {
+            // Download and then return the local URL.
+            return this.downloadModule(module, courseId, component, componentId, files, siteId).then(() => {
+                return this.filepoolProvider.getInternalUrlByUrl(siteId, fileUrl);
+            });
+        }, () => {
+            // Start the download if in wifi, but return the URL right away so the file is opened.
+            if (this.appProvider.isWifi()) {
+                this.downloadModule(module, courseId, component, componentId, files, siteId);
+            }
+
+            if (!this.fileHelper.isStateDownloaded(status) || isOnline) {
+                // Not downloaded or online, return the online URL.
+                return fixedUrl;
+            } else {
+                // Outdated but offline, so we return the local URL. Use getUrlByUrl so it's added to the queue.
+                return this.filepoolProvider.getUrlByUrl(siteId, fileUrl, component, componentId, timemodified,
+                        false, false, mainFile);
             }
         });
     }
@@ -915,7 +942,7 @@ export class CoreCourseHelperProvider {
             const totalOffline = offlineCompletions.length;
             let loaded = 0;
 
-            offlineCompletions = this.utils.arrayToObject(offlineCompletions, 'cmid');
+            const offlineCompletionsMap = this.utils.arrayToObject(offlineCompletions, 'cmid');
 
             // Load the offline data in the modules.
             for (let i = 0; i < sections.length; i++) {
@@ -927,7 +954,7 @@ export class CoreCourseHelperProvider {
 
                 for (let j = 0; j < section.modules.length; j++) {
                     const module = section.modules[j],
-                        offlineCompletion = offlineCompletions[module.id];
+                        offlineCompletion = offlineCompletionsMap[module.id];
 
                     if (offlineCompletion && typeof module.completiondata != 'undefined' &&
                             offlineCompletion.timecompleted >= module.completiondata.timecompleted * 1000) {
@@ -1085,7 +1112,7 @@ export class CoreCourseHelperProvider {
 
         // Get the time it was downloaded (if it was downloaded).
         promises.push(this.filepoolProvider.getPackageData(siteId, component, module.id).then((data) => {
-            if (data && data.downloadTime && (data.status == CoreConstants.OUTDATED || data.status == CoreConstants.DOWNLOADED)) {
+            if (data && data.downloadTime && this.fileHelper.isStateDownloaded(data.status)) {
                 const now = this.timeUtils.timestamp();
                 moduleInfo.downloadTime = data.downloadTime;
                 if (now - data.downloadTime < 7 * 86400) {
@@ -1112,6 +1139,37 @@ export class CoreCourseHelperProvider {
      */
     getSectionDownloadId(section: any): string {
         return 'Section-' + section.id;
+    }
+
+    /**
+     * Navigate to a module using instance ID and module name.
+     *
+     * @param instanceId Activity instance ID.
+     * @param modName Module name of the activity.
+     * @param siteId Site ID. If not defined, current site.
+     * @param courseId Course ID. If not defined we'll try to retrieve it from the site.
+     * @param sectionId Section the module belongs to. If not defined we'll try to retrieve it from the site.
+     * @param useModNameToGetModule If true, the app will retrieve all modules of this type with a single WS call. This reduces the
+     *                              number of WS calls, but it isn't recommended for modules that can return a lot of contents.
+     * @param modParams Params to pass to the module
+     * @param navCtrl NavController for adding new pages to the current history. Optional for legacy support, but
+     *                generates a warning if omitted.
+     * @return Promise resolved when done.
+     */
+    navigateToModuleByInstance(instanceId: number, modName: string, siteId?: string, courseId?: number, sectionId?: number,
+            useModNameToGetModule: boolean = false, modParams?: any, navCtrl?: NavController): Promise<void> {
+
+        const modal = this.domUtils.showModalLoading();
+
+        return this.courseProvider.getModuleBasicInfoByInstance(instanceId, modName, siteId).then((module) => {
+            this.navigateToModule(parseInt(module.id, 10), siteId, module.course, sectionId,
+                useModNameToGetModule ? modName : undefined, modParams, navCtrl);
+        }).catch((error) => {
+            this.domUtils.showErrorModalDefault(error, 'core.course.errorgetmodule', true);
+        }).finally(() => {
+            // Just in case. In fact we need to dismiss the modal before showing a toast or error message.
+            modal.dismiss();
+        });
     }
 
     /**
@@ -1166,24 +1224,24 @@ export class CoreCourseHelperProvider {
             // Get the module.
             return this.courseProvider.getModule(moduleId, courseId, sectionId, false, false, siteId, modName);
         }).then((module) => {
-            const params = {
-                course: { id: courseId },
-                module: module,
-                sectionId: sectionId,
-                modParams: modParams
-            };
-
-            module.handlerData = this.moduleDelegate.getModuleDataFor(module.modname, module, courseId, sectionId);
+            module.handlerData = this.moduleDelegate.getModuleDataFor(module.modname, module, courseId, sectionId, false);
 
             if (navCtrl && module.handlerData && module.handlerData.action) {
                 // If the link handler for this module passed through navCtrl, we can use the module's handler to navigate cleanly.
                 // Otherwise, we will redirect below.
                 modal.dismiss();
 
-                return module.handlerData.action(new Event('click'), navCtrl, module, courseId);
+                return module.handlerData.action(new Event('click'), navCtrl, module, courseId, undefined, modParams);
             }
 
             this.logger.warn('navCtrl was not passed to navigateToModule by the link handler for ' + module.modname);
+
+            const params = {
+                course: { id: courseId },
+                module: module,
+                sectionId: sectionId,
+                modParams: modParams
+            };
 
             if (courseId == site.getSiteHomeId()) {
                 // Check if site home is available.
@@ -1215,7 +1273,7 @@ export class CoreCourseHelperProvider {
      */
     openModule(navCtrl: NavController, module: any, courseId: number, sectionId?: number, modParams?: any): boolean {
         if (!module.handlerData) {
-            module.handlerData = this.moduleDelegate.getModuleDataFor(module.modname, module, courseId, sectionId);
+            module.handlerData = this.moduleDelegate.getModuleDataFor(module.modname, module, courseId, sectionId, false);
         }
 
         if (module.handlerData && module.handlerData.action) {
@@ -1414,7 +1472,7 @@ export class CoreCourseHelperProvider {
         }));
 
         // Download the files in the section description.
-        const introFiles = this.domUtils.extractDownloadableFilesFromHtmlAsFakeFileObjects(section.summary),
+        const introFiles = this.filepoolProvider.extractDownloadableFilesFromHtmlAsFakeFileObjects(section.summary),
             siteId = this.sitesProvider.getCurrentSiteId();
 
         promises.push(this.filepoolProvider.addFilesToQueue(siteId, introFiles, CoreCourseProvider.COMPONENT, courseId)

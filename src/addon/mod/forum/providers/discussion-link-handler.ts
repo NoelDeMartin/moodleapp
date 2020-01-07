@@ -45,10 +45,13 @@ export class AddonModForumDiscussionLinkHandler extends CoreContentLinksHandlerB
             CoreContentLinksAction[] | Promise<CoreContentLinksAction[]> {
         data = data || {};
 
+        // On 3.6 downwards, it will open the discussion but without knowing the lock status of the discussion.
+        // However canreply will be false.
+
         return [{
             action: (siteId, navCtrl?): void => {
                 const pageParams: any = {
-                    courseId: courseId || parseInt(params.courseid, 10) || parseInt(params.cid, 10),
+                    courseId: courseId || parseInt(params.courseid, 10) || parseInt(params.cid, 10) || undefined,
                     discussionId: parseInt(params.d, 10),
                     cmId: data.cmid && parseInt(data.cmid, 10),
                     forumId: data.instance && parseInt(data.instance, 10)

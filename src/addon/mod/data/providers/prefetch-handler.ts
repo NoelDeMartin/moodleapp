@@ -28,6 +28,7 @@ import { AddonModDataProvider, AddonModDataEntry } from './data';
 import { AddonModDataSyncProvider } from './sync';
 import { AddonModDataHelperProvider } from './helper';
 import { CoreFilterHelperProvider } from '@core/filter/providers/helper';
+import { CorePluginFileDelegate } from '@providers/plugin-file-delegate';
 
 /**
  * Handler to prefetch databases.
@@ -47,6 +48,7 @@ export class AddonModDataPrefetchHandler extends CoreCourseActivityPrefetchHandl
             sitesProvider: CoreSitesProvider,
             domUtils: CoreDomUtilsProvider,
             filterHelper: CoreFilterHelperProvider,
+            pluginFileDelegate: CorePluginFileDelegate,
             protected dataProvider: AddonModDataProvider,
             protected timeUtils: CoreTimeUtilsProvider,
             protected dataHelper: AddonModDataHelperProvider,
@@ -54,7 +56,8 @@ export class AddonModDataPrefetchHandler extends CoreCourseActivityPrefetchHandl
             protected commentsProvider: CoreCommentsProvider,
             protected syncProvider: AddonModDataSyncProvider) {
 
-        super(translate, appProvider, utils, courseProvider, filepoolProvider, sitesProvider, domUtils, filterHelper);
+        super(translate, appProvider, utils, courseProvider, filepoolProvider, sitesProvider, domUtils, filterHelper,
+                pluginFileDelegate);
     }
 
     /**
@@ -282,6 +285,7 @@ export class AddonModDataPrefetchHandler extends CoreCourseActivityPrefetchHandl
         return this.getDatabaseInfoHelper(module, courseId, false, false, true, siteId).then((info) => {
             // Prefetch the database data.
             const database = info.database,
+                commentsEnabled = !this.commentsProvider.areCommentsDisabledInSite(),
                 promises = [];
 
             promises.push(this.dataProvider.getFields(database.id, false, true, siteId));
@@ -295,7 +299,7 @@ export class AddonModDataPrefetchHandler extends CoreCourseActivityPrefetchHandl
             info.entries.forEach((entry) => {
                 promises.push(this.dataProvider.getEntry(database.id, entry.id, true, siteId));
 
-                if (database.comments) {
+                if (commentsEnabled && database.comments) {
                     promises.push(this.commentsProvider.getComments('module', database.coursemodule, 'mod_data', entry.id,
                         'database_entry', 0, siteId));
                 }

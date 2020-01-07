@@ -4,7 +4,7 @@
 npm list --depth=0
 
 # Compile AOT.
-if [ $TRAVIS_BRANCH == 'integration' ] || [ $TRAVIS_BRANCH == 'master' ] || [ $TRAVIS_BRANCH == 'desktop' ] || [ -z $TRAVIS_BRANCH ] ; then
+if [ $TRAVIS_BRANCH == 'integration' ] || [ $TRAVIS_BRANCH == 'master' ] || [ $TRAVIS_BRANCH == 'desktop' ] || [ $TRAVIS_BRANCH == 'security' ] || [ -z $TRAVIS_BRANCH ] ; then
     cd scripts
     ./build_lang.sh
     cd ..
@@ -51,7 +51,7 @@ if [ ! -z $GIT_ORG ] && [ ! -z $GIT_TOKEN ] ; then
 
     git checkout $TRAVIS_BRANCH
 
-    rm -Rf assets build index.html templates www destkop
+    rm -Rf assets build index.html templates www destkop lib
 
     if [ $TRAVIS_BRANCH == 'desktop' ] ; then
         cp -Rf ../$gitfolder/desktop ./

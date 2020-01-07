@@ -278,14 +278,9 @@ export class AddonModForumProvider {
      * @return Starting post or undefined if not found.
      */
     extractStartingPost(posts: any[]): any {
-        // Check the last post first, since they'll usually be ordered by create time.
-        for (let i = posts.length - 1; i >= 0; i--) {
-            if (posts[i].parent == 0) {
-                return posts.splice(i, 1).pop(); // Remove it from the array.
-            }
-        }
+        const index = posts.findIndex((post) => post.parent == 0);
 
-        return undefined;
+        return index >= 0 ? posts.splice(index, 1).pop() : undefined;
     }
 
     /**
@@ -599,7 +594,8 @@ export class AddonModForumProvider {
      * @param forceCache True to always get the value from cache. false otherwise.
      * @param siteId Site ID. If not defined, current site.
      * @return Promise resolved with an object with:
-     *         - discussions: List of discussions.
+     *         - discussions: List of discussions. Note that for every discussion in the list discussion.id is the main post ID but
+     *         discussion ID is discussion.discussion.
      *         - canLoadMore: True if there may be more discussions to load.
      */
     getDiscussions(forumId: number, sortOrder?: number, page: number = 0, forceCache?: boolean, siteId?: string): Promise<any> {

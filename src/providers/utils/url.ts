@@ -50,13 +50,19 @@ export class CoreUrlUtilsProvider {
      * @param url URL to add the params to.
      * @param params Object with the params to add.
      * @param anchor Anchor text if needed.
+     * @param boolToNumber Whether to convert bools to 1 or 0.
      * @return URL with params.
      */
-    addParamsToUrl(url: string, params?: {[key: string]: any}, anchor?: string): string {
+    addParamsToUrl(url: string, params?: {[key: string]: any}, anchor?: string, boolToNumber?: boolean): string {
         let separator = url.indexOf('?') != -1 ? '&' : '?';
 
         for (const key in params) {
-            const value = params[key];
+            let value = params[key];
+
+            if (boolToNumber && typeof value == 'boolean') {
+                // Convert booleans to 1 or 0.
+                value = value ? 1 : 0;
+            }
 
             // Ignore objects.
             if (typeof value != 'object') {
@@ -81,6 +87,22 @@ export class CoreUrlUtilsProvider {
      */
     buildLink(url: string, text: string): string {
         return '<a href="' + url + '">' + text + '</a>';
+    }
+
+    /**
+     * Check whether we can use tokenpluginfile.php endpoint for a certain URL.
+     *
+     * @param url URL to check.
+     * @param siteUrl The URL of the site the URL belongs to.
+     * @param accessKey User access key for tokenpluginfile.
+     * @return Whether tokenpluginfile.php can be used.
+     */
+    canUseTokenPluginFile(url: string, siteUrl: string, accessKey?: string): boolean {
+        // Do not use tokenpluginfile if site doesn't use slash params, the URL doesn't work.
+        // Also, only use it for "core" pluginfile endpoints. Some plugins can implement their own endpoint (like customcert).
+        return accessKey && !url.match(/[\&?]file=/) && (
+                url.indexOf(this.textUtils.concatenatePaths(siteUrl, 'pluginfile.php')) === 0 ||
+                url.indexOf(this.textUtils.concatenatePaths(siteUrl, 'webservice/pluginfile.php')) === 0);
     }
 
     /**
@@ -145,8 +167,10 @@ export class CoreUrlUtilsProvider {
 
         url = url.replace(/&amp;/g, '&');
 
+        const canUseTokenPluginFile = accessKey && this.canUseTokenPluginFile(url, siteUrl, accessKey);
+
         // First check if we need to fix this url or is already fixed.
-        if (!accessKey && url.indexOf('token=') != -1) {
+        if (!canUseTokenPluginFile && url.indexOf('token=') != -1) {
             return url;
         }
 
@@ -155,11 +179,13 @@ export class CoreUrlUtilsProvider {
             return url;
         }
 
-        const hasSlashParams = !url.match(/[\&?]file=/);
-
-        if (accessKey && hasSlashParams) {
-            // We have the user access key, use tokenpluginfile.php.
-            // Do not use it without slash params, the URL doesn't work.
+        // Check if is a valid URL (contains the pluginfile endpoint) and belongs to the site.
+        if (!this.isPluginFileUrl(url) || url.indexOf(this.textUtils.addEndingSlash(siteUrl)) !== 0) {
+            return url;
+        }
+      
+        if (canUseTokenPluginFile) {
+            // Use tokenpluginfile.php.
             url = url.replace(/(\/webservice)?\/pluginfile\.php/, '/tokenpluginfile.php/' + accessKey);
 
             return url;
@@ -231,6 +257,58 @@ export class CoreUrlUtilsProvider {
         }).catch(() => {
             return docsUrl;
         });
+    }
+
+    /**
+     * Returns the Youtube Embed Video URL or null if not found.
+     *
+     * @param  url URL
+     * @return Youtube Embed Video URL or null if not found.
+     */
+    getYoutubeEmbedUrl(url: string): string {
+        if (!url) {
+            return;
+        }
+
+        let videoId;
+        const params: any = {};
+
+        url = this.textUtils.decodeHTML(url);
+
+        // Get the video ID.
+        let match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
+
+        if (match && match[2].length === 11) {
+            videoId = match[2];
+        }
+
+        // No videoId, do not continue.
+        if (!videoId) {
+            return;
+        }
+
+        // Now get the playlist (if any).
+        match = url.match(/[?&]list=([^#\&\?]+)/);
+
+        if (match && match[1]) {
+            params.list = match[1];
+        }
+
+        // Now get the start time (if any).
+        match = url.match(/[?&]start=(\d+)/);
+
+        if (match && match[1]) {
+            params.start = parseInt(match[1], 10);
+        } else {
+            // No start param, but it could have a time param.
+            match = url.match(/[?&]t=(\d+h)?(\d+m)?(\d+s)?/);
+            if (match) {
+                params.start = (match[1] ? parseInt(match[1], 10) * 3600 : 0) + (match[2] ? parseInt(match[2], 10) * 60 : 0) +
+                        (match[3] ? parseInt(match[3], 10) : 0);
+            }
+        }
+
+        return this.addParamsToUrl('https://www.youtube.com/embed/' + videoId, params);
     }
 
     /**

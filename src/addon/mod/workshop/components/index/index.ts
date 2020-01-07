@@ -49,6 +49,7 @@ export class AddonModWorkshopIndexComponent extends CoreCourseModuleMainActivity
         visibleGroups: false
     };
     canSubmit = false;
+    showSubmit = false;
     canAssess = false;
     hasNextPage = false;
 
@@ -153,6 +154,7 @@ export class AddonModWorkshopIndexComponent extends CoreCourseModuleMainActivity
                 promises.push(this.workshopProvider.invalidateReviewerAssesmentsData(this.workshop.id));
             }
             promises.push(this.workshopProvider.invalidateGradesData(this.workshop.id));
+            promises.push(this.workshopProvider.invalidateWorkshopWSData(this.workshop.id));
         }
 
         return Promise.all(promises);
@@ -303,7 +305,8 @@ export class AddonModWorkshopIndexComponent extends CoreCourseModuleMainActivity
             const modal = this.modalCtrl.create('AddonModWorkshopPhaseInfoPage', {
                     phases: this.utils.objectToArray(this.phases),
                     workshopPhase: this.workshop.phase,
-                    externalUrl: this.externalUrl
+                    externalUrl: this.externalUrl,
+                    showSubmit: this.showSubmit
                 });
             modal.onDidDismiss((goSubmit) => {
                 goSubmit && this.gotoSubmit();
@@ -337,6 +340,10 @@ export class AddonModWorkshopIndexComponent extends CoreCourseModuleMainActivity
 
         this.canSubmit = this.workshopHelper.canSubmit(this.workshop, this.access,
             this.phases[AddonModWorkshopProvider.PHASE_SUBMISSION].tasks);
+
+        this.showSubmit = this.workshop.phase == AddonModWorkshopProvider.PHASE_SUBMISSION && this.canSubmit &&
+            ((this.access.creatingsubmissionallowed && !this.submission) ||
+                (this.access.modifyingsubmissionallowed && this.submission));
 
         const promises = [];
 

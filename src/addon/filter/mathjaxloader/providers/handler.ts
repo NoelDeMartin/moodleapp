@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable } from '@angular/core';
+import { Injectable, ViewContainerRef } from '@angular/core';
 import { CoreFilterDefaultHandler } from '@core/filter/providers/default-filter';
 import { CoreFilterFilter, CoreFilterFormatTextOptions } from '@core/filter/providers/filter';
 import { CoreEventsProvider } from '@providers/events';
@@ -32,12 +32,31 @@ export class AddonFilterMathJaxLoaderHandler extends CoreFilterDefaultHandler {
 
     // Default values for MathJax config for sites where we cannot retrieve it.
     protected DEFAULT_URL = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js';
-    protected DEFAULT_CONFIG = 'MathJax.Hub.Config({' +
-            'config: ["Accessible.js", "Safe.js"],' +
-            'errorSettings: { message: ["!"] },' +
-            'skipStartupTypeset: true,' +
-            'messageStyle: "none"' +
-        '});';
+    protected DEFAULT_CONFIG = `
+        MathJax.Hub.Config({
+            extensions: [
+                "Safe.js",
+                "tex2jax.js",
+                "mml2jax.js",
+                "MathEvents.js",
+                "MathZoom.js",
+                "MathMenu.js",
+                "toMathML.js",
+                "TeX/noErrors.js",
+                "TeX/noUndefined.js",
+                "TeX/AMSmath.js",
+                "TeX/AMSsymbols.js",
+                "fast-preview.js",
+                "AssistiveMML.js",
+                "[a11y]/accessibility-menu.js"
+            ],
+            jax: ["input/TeX","input/MathML","output/SVG"],
+            showMathMenu: false,
+            errorSettings: { message: ["!"] },
+            skipStartupTypeset: true,
+            messageStyle: "none"
+        });
+    `;
 
     // List of language codes found in the MathJax/localization/ directory.
     protected MATHJAX_LANG_CODES = [
@@ -138,10 +157,14 @@ export class AddonFilterMathJaxLoaderHandler extends CoreFilterDefaultHandler {
      * @param container The HTML container to handle.
      * @param filter The filter.
      * @param options Options passed to the filters.
+     * @param viewContainerRef The ViewContainerRef where the container is.
+     * @param component Component.
+     * @param componentId Component ID.
      * @param siteId Site ID. If not defined, current site.
      * @return If async, promise resolved when done.
      */
-    handleHtml(container: HTMLElement, filter: CoreFilterFilter, options: CoreFilterFormatTextOptions, siteId?: string)
+    handleHtml(container: HTMLElement, filter: CoreFilterFilter, options: CoreFilterFormatTextOptions,
+            viewContainerRef: ViewContainerRef, component?: string, componentId?: string | number, siteId?: string)
             : void | Promise<void> {
 
         return this.waitForReady().then(() => {

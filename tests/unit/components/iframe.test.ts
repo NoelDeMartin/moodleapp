@@ -17,6 +17,8 @@ import { CoreIframeComponent } from '@components/iframe/iframe';
 import { CoreDomUtilsProvider } from '@providers/utils/dom';
 import { CoreIframeUtilsProvider } from '@providers/utils/iframe';
 import { CoreLoggerProvider } from '@providers/logger';
+import { CoreUrlUtilsProvider } from '@providers/utils/url';
+import { CoreUtilsProvider } from '@providers/utils/utils';
 import { NavController } from 'ionic-angular';
 import ComponentTestCase from '@testing/ComponentTestCase';
 
@@ -26,6 +28,8 @@ const test = new ComponentTestCase(CoreIframeComponent, {
         CoreLoggerProvider,
         CoreIframeUtilsProvider,
         CoreDomUtilsProvider,
+        CoreUrlUtilsProvider,
+        CoreUtilsProvider,
     ],
 });
 
