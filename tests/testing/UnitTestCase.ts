@@ -31,6 +31,7 @@ export default class UnitTestCase<U> {
     protected dependencies: any[];
     protected dependencyMocks: any[];
     protected dependencyInstances: any[];
+    protected asyncOperationPromises: Promise<any>[];
     protected _instance?: U;
 
     get instance(): U {
@@ -49,12 +50,42 @@ export default class UnitTestCase<U> {
         this.dependencyMocks.forEach(reset);
 
         this.dependencyInstances = this.dependencyMocks.map(instance);
+        this.asyncOperationPromises = [];
+    }
+
+    resolvedAsyncOperation<R>(result?: R): Promise<R> {
+        return this.asyncOperation(Promise.resolve(result));
+    }
+
+    rejectedAsyncOperation<R>(reason?: R): Promise<R> {
+        return this.asyncOperation(Promise.reject(reason));
+    }
+
+    asyncOperation<R>(promise: Promise<R> | (() => Promise<R>)): Promise<R> {
+        if (typeof promise === 'function') {
+            promise = promise();
+        }
+
+        this.asyncOperationPromises.push(promise);
+
+        return promise;
     }
 
     createInstance(): U {
         this._instance = new (this.unitConstructor)(...this.dependencyInstances);
 
         return this._instance;
+    }
+
+    async whenAsyncOperationsFinished(): Promise<void> {
+        const promises = this.asyncOperationPromises.map(
+            (promise) => promise.catch(() => {
+                // Silence rejections, we want to wait until all promises are completed regardless
+                // Of being rejected or resolved.
+            }),
+        );
+
+        await Promise.all(promises);
     }
 
 }

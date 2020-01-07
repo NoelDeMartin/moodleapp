@@ -49,15 +49,15 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
         metadata.imports = metadata.imports || [];
         metadata.providers = metadata.providers || [];
 
-        metadata.declarations.push(this.componentClass);
-        metadata.imports.push(IonicModule.forRoot(this.componentClass));
+        metadata.declarations.push(this.rootComponentClass);
+        metadata.imports.push(IonicModule.forRoot(this.rootComponentClass));
         metadata.providers.push(...this.dependencies.map((dependency, index) => ({
             provide: dependency,
             useValue: this.dependencyInstances[index],
         })));
 
         if (this.usesTemplate) {
-            metadata.declarations.push(this.rootComponentClass);
+            metadata.declarations.push(this.componentClass);
         }
 
         TestBed.configureTestingModule(metadata);
@@ -73,13 +73,19 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
     createInstance(): C {
         this._fixture = TestBed.createComponent<C | Wrapper<C>>(this.rootComponentClass);
 
-        this.fixture.detectChanges();
+        this.fixture.autoDetectChanges(true);
 
         this._instance = this.fixture.componentInstance instanceof Wrapper
             ? this.fixture.componentInstance.child
             : this.fixture.componentInstance;
 
         return this.instance;
+    }
+
+    // Override
+    async whenAsyncOperationsFinished(): Promise<void> {
+        await super.whenAsyncOperationsFinished();
+        await this.fixture.whenStable();
     }
 }
 
