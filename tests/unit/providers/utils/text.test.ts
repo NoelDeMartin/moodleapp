@@ -16,7 +16,7 @@ import { CoreTextUtilsProvider } from '@providers/utils/text';
 
 import { DomSanitizer } from '@angular/platform-browser';
 import { Platform } from 'ionic-angular';
-import { when, anyString, verify } from 'ts-mockito';
+import { when, anything, verify } from '@testing/mocking';
 import UnitTestCase from '@testing/UnitTestCase';
 
 const test = new UnitTestCase(CoreTextUtilsProvider, {
@@ -57,7 +57,7 @@ describe('CoreTextUtilsProvider', () => {
         const sanitizerMock = test.getDependencyMock<DomSanitizer>('sanitizer');
         const platformMock = test.getDependencyMock(Platform);
 
-        when(sanitizerMock.bypassSecurityTrustUrl(anyString())).thenCall((url) => url);
+        when(sanitizerMock.bypassSecurityTrustUrl(anything())).thenCall((url) => url);
         when(platformMock.is('android')).thenReturn(true);
 
         // Act
@@ -67,7 +67,7 @@ describe('CoreTextUtilsProvider', () => {
         // Assert
         expect(url).toEqual('geo:0,0?q=Moodle%20Spain%20HQ');
 
-        verify(sanitizerMock.bypassSecurityTrustUrl(anyString())).once();
+        verify(sanitizerMock.bypassSecurityTrustUrl(anything())).once();
         verify(platformMock.is('android')).once();
     });
 
@@ -77,7 +77,7 @@ describe('CoreTextUtilsProvider', () => {
         const sanitizerMock = test.getDependencyMock<DomSanitizer>('sanitizer');
         const platformMock = test.getDependencyMock(Platform);
 
-        when(sanitizerMock.bypassSecurityTrustUrl(anyString())).thenCall((url) => url);
+        when(sanitizerMock.bypassSecurityTrustUrl(anything())).thenCall((url) => url);
 
         // Act
         const textUtils = test.createInstance();
@@ -86,7 +86,7 @@ describe('CoreTextUtilsProvider', () => {
         // Assert
         expect(url).toEqual('http://maps.google.com?q=Moodle%20Spain%20HQ');
 
-        verify(sanitizerMock.bypassSecurityTrustUrl(anyString())).once();
+        verify(sanitizerMock.bypassSecurityTrustUrl(anything())).once();
         verify(platformMock.is('android')).once();
     });
 

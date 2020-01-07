@@ -35,4 +35,11 @@ export default class CoreDomUtilsProvider {
         return movedChildren;
     }
 
+    wrapElement(el: HTMLElement, wrapper: HTMLElement): void {
+        // Insert the wrapper before the element.
+        el.parentNode.insertBefore(wrapper, el);
+        // Now move the element into the wrapper.
+        wrapper.appendChild(el);
+    }
+
 }
