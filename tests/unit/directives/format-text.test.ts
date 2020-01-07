@@ -32,12 +32,12 @@ import { CoreUtilsProvider } from '@providers/utils/utils';
 import { TranslateService } from '@ngx-translate/core';
 import { when, anything, verify } from 'ts-mockito';
 import ComponentTestCase from '@testing/ComponentTestCase';
+import CoreDomUtilsProviderStub from '@testing/stubs/providers/utils/dom';
 
 const test = new ComponentTestCase(CoreFormatTextDirective, {
     template: '<core-format-text text="Lorem ipsum dolor"></core-format-text>',
     dependencies: [
         CoreSitesProvider,
-        CoreDomUtilsProvider,
         CoreTextUtilsProvider,
         TranslateService,
         CoreUtilsProvider,
@@ -59,17 +59,19 @@ describe('CoreFormatTextDirective', () => {
 
     beforeEach(() => {
         test.reset();
-        test.configureTestingModule();
+        test.configureTestingModule({
+            providers: [
+                { provide: CoreDomUtilsProvider, useValue: new CoreDomUtilsProviderStub() },
+            ],
+        });
     });
 
     it('should render', async () => {
         // Arrange
         const sitesProvider = test.getDependencyMock(CoreSitesProvider);
-        const domUtils = test.getDependencyMock(CoreDomUtilsProvider);
         const filterProvider = test.getDependencyMock(CoreFilterProvider);
 
         when(sitesProvider.getSite(anything())).thenReturn(test.rejectedAsyncOperation());
-        when(domUtils.moveChildren(anything(), anything())).thenCall(moveChildren);
         when(filterProvider.formatText(anything(), anything(), anything(), anything())).thenCall((text) => {
             return test.resolvedAsyncOperation(text);
         });
@@ -87,17 +89,3 @@ describe('CoreFormatTextDirective', () => {
     });
 
 });
-
-function moveChildren(oldParent: HTMLElement, newParent: HTMLElement, prepend?: boolean): Node[] {
-    const movedChildren: Node[] = [];
-    const referenceNode = prepend ? newParent.firstChild : null;
-
-    while (oldParent.childNodes.length > 0) {
-        const child = oldParent.childNodes[0];
-        movedChildren.push(child);
-
-        newParent.insertBefore(child, referenceNode);
-    }
-
-    return movedChildren;
-}
