@@ -74,7 +74,8 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
     async asyncRender(): Promise<HTMLElement> {
         const element = this.render();
 
-        await this.whenAsyncOperationsFinished();
+        await this.fixture.whenRenderingDone();
+        await this.fixture.whenStable();
 
         return element;
     }
@@ -92,12 +93,6 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
         return this.instance;
     }
 
-    // Override
-    async whenAsyncOperationsFinished(): Promise<void> {
-        await super.whenAsyncOperationsFinished();
-        await this.fixture.whenRenderingDone();
-        await this.fixture.whenStable();
-    }
 }
 
 function declareWrapperComponent<C>(template: string, componentClass: Type<C>): Type<Wrapper<C>> {

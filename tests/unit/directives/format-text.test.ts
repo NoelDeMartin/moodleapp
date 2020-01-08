@@ -58,8 +58,7 @@ describe('CoreFormatTextDirective', () => {
         const test = prepareTest('<core-format-text text="Lorem ipsum dolor"></core-format-text>');
         const filterProvider = test.getDependencyMock(CoreFilterProvider);
 
-        when(filterProvider.formatText(anything(), anything(), anything(), anything()))
-            .thenReturn(test.resolvedAsyncOperation('Formatted text'));
+        when(filterProvider.formatText(anything(), anything(), anything(), anything())).thenResolve('Formatted text');
 
         withoutSite(test);
 
@@ -84,10 +83,10 @@ describe('CoreFormatTextDirective', () => {
         const filterHelper = test.getDependencyMock(CoreFilterHelperProvider);
 
         when(filterHelper.getFiltersAndFormatText(anything(), anything(), anything(), anything(), anything()))
-            .thenReturn(test.resolvedAsyncOperation({
+            .thenResolve({
                 text: 'Formatted text',
                 filters: [],
-            }));
+            });
 
         withoutSite(test);
 
@@ -112,10 +111,10 @@ describe('CoreFormatTextDirective', () => {
         const filepoolProvider = test.getDependencyMock(CoreFilepoolProvider);
         const site = mock(CoreSite);
 
-        when(sitesProvider.getSite(anything())).thenReturn(test.resolvedAsyncOperation(instance(site)));
+        when(sitesProvider.getSite(anything())).thenResolve(instance(site));
 
         when(filepoolProvider.getSrcByUrl(anything(), anything(), anything(), anything(), anything(), anything(), anything()))
-            .thenReturn(test.resolvedAsyncOperation('file://local-path/'));
+            .thenResolve('file://local-path/');
 
         when(site.canDownloadFiles()).thenReturn(true);
 
@@ -149,7 +148,7 @@ describe('CoreFormatTextDirective', () => {
         const contentLinksHelper = test.getDependencyMock(CoreContentLinksHelperProvider);
 
         when(contentLinksHelper.handleLink(anything(), anything(), anything(), anything(), anything()))
-            .thenReturn(test.resolvedAsyncOperation(true));
+            .thenResolve(true);
 
         withoutTextFormatting(test);
         withoutSite(test);
@@ -218,29 +217,24 @@ function withMethodStubs(test: TestCase): void {
 function withoutSite(test: TestCase): void {
     const sitesProvider = test.getDependencyMock(CoreSitesProvider);
 
-    when(sitesProvider.getSite(anything())).thenReturn(test.rejectedAsyncOperation());
+    when(sitesProvider.getSite(anything())).thenReject();
 }
 
 function withoutTextFormatting(test: TestCase): void {
     const filterProvider = test.getDependencyMock(CoreFilterProvider);
     const filterHelper = test.getDependencyMock(CoreFilterHelperProvider);
 
-    when(filterProvider.formatText(anything(), anything(), anything(), anything())).thenCall((text) => {
-        return test.resolvedAsyncOperation(text);
-    });
+    when(filterProvider.formatText(anything(), anything(), anything(), anything()))
+        .thenCall((text) => Promise.resolve(text));
 
-    when(filterHelper.getFiltersAndFormatText(anything(), anything(), anything(), anything(), anything())).thenCall((text) => {
-        return test.resolvedAsyncOperation({
-            text,
-            filters: [],
-        });
-    });
+    when(filterHelper.getFiltersAndFormatText(anything(), anything(), anything(), anything(), anything()))
+        .thenCall((text) => Promise.resolve({ text, filters: [] }));
 }
 
 function withoutTimeouts(test: TestCase): void {
     const utils = test.getDependencyMock(CoreUtilsProvider);
 
-    when(utils.timeoutPromise(anything(), anything())).thenReturn(test.resolvedAsyncOperation());
+    when(utils.timeoutPromise(anything(), anything())).thenResolve();
 }
 
 function click(element: any): void {

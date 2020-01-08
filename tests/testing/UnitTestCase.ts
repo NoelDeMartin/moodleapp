@@ -25,14 +25,12 @@ export default class UnitTestCase<U> {
         this.unitConstructor = unitConstructor;
         this.dependencies = config.dependencies || [];
         this.dependencyMocks = this.dependencies.map((dependency) => typeof dependency === 'string' ? mock() : mock(dependency));
-        this.asyncOperationPromises = [];
     }
 
     protected unitConstructor: Type<U>;
     protected dependencies: any[];
     protected dependencyMocks: any[];
     protected dependencyInstances: any[];
-    protected asyncOperationPromises: Promise<any>[];
     protected _instance?: U;
 
     get instance(): U {
@@ -49,25 +47,6 @@ export default class UnitTestCase<U> {
         delete this._instance;
 
         this.dependencyMocks.forEach(reset);
-        this.asyncOperationPromises = [];
-    }
-
-    resolvedAsyncOperation<R>(result?: R): Promise<R> {
-        return this.asyncOperation(Promise.resolve(result));
-    }
-
-    rejectedAsyncOperation<R>(reason?: R): Promise<R> {
-        return this.asyncOperation(Promise.reject(reason));
-    }
-
-    asyncOperation<R>(promise: Promise<R> | (() => Promise<R>)): Promise<R> {
-        if (typeof promise === 'function') {
-            promise = promise();
-        }
-
-        this.asyncOperationPromises.push(promise);
-
-        return promise;
     }
 
     createInstance(): U {
@@ -76,17 +55,6 @@ export default class UnitTestCase<U> {
         this._instance = new (this.unitConstructor)(...this.dependencyInstances);
 
         return this._instance;
-    }
-
-    async whenAsyncOperationsFinished(): Promise<void> {
-        const promises = this.asyncOperationPromises.map(
-            (promise) => promise.catch(() => {
-                // Silence rejections, we want to wait until all promises are completed regardless
-                // Of being rejected or resolved.
-            }),
-        );
-
-        await Promise.all(promises);
     }
 
     protected createDependencyInstances(): void {
