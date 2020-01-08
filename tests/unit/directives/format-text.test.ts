@@ -67,7 +67,6 @@ describe('CoreFormatTextDirective', () => {
         const element = await test.asyncRender();
 
         // Assert
-        expect(element.innerHTML.trim()).not.toHaveLength(0);
         expect(element.children[0].innerHTML).toEqual('Formatted text');
 
         verify(filterProvider.formatText('Lorem ipsum dolor', anything(), anything(), anything())).once();
@@ -96,7 +95,6 @@ describe('CoreFormatTextDirective', () => {
         const element = await test.asyncRender();
 
         // Assert
-        expect(element.innerHTML.trim()).not.toHaveLength(0);
         expect(element.children[0].innerHTML).toEqual('Formatted text');
 
         verify(filterHelper.getFiltersAndFormatText('Lorem ipsum dolor', 'course', 42, anything(), anything())).once();
@@ -106,7 +104,7 @@ describe('CoreFormatTextDirective', () => {
         // Arrange
         const test = prepareTest(`
             <core-format-text
-                text="&lt;img src=&quot;https://online-url&quot;/&gt;"
+                text="&lt;img src=&quot;https://image-url&quot;/&gt;"
                 siteId="42"
             ></core-format-text>
         `);
@@ -128,8 +126,6 @@ describe('CoreFormatTextDirective', () => {
         const element = await test.asyncRender();
 
         // Assert
-        expect(element.innerHTML.trim()).not.toHaveLength(0);
-
         const image = element.querySelector('img');
         expect(image).not.toBeNull();
         expect(image.src).toEqual('file://local-path/');
@@ -137,10 +133,39 @@ describe('CoreFormatTextDirective', () => {
         verify(sitesProvider.getSite('42')).called();
         verify(
             filepoolProvider.getSrcByUrl(
-                '42', 'https://online-url',
+                '42', 'https://image-url',
                 anything(), anything(), anything(), anything(), anything(),
             ),
         ).once();
+    });
+
+    it('should use link directive on anchors', async () => {
+        // Arrange
+        const test = prepareTest(`
+            <core-format-text
+                text="&lt;a href=&quot;https://anchor-url/&quot;&gt;Link&lt;/a&gt;"
+            ></core-format-text>
+        `);
+        const contentLinksHelper = test.getDependencyMock(CoreContentLinksHelperProvider);
+
+        when(contentLinksHelper.handleLink(anything(), anything(), anything(), anything(), anything()))
+            .thenReturn(test.resolvedAsyncOperation(true));
+
+        withoutTextFormatting(test);
+        withoutSite(test);
+
+        // Act
+        const element = await test.asyncRender();
+        const anchor = element.querySelector('a');
+
+        if (anchor) {
+            click(anchor);
+        }
+
+        // Assert
+        expect(anchor).not.toBeNull();
+
+        verify(contentLinksHelper.handleLink('https://anchor-url/', anything(), anything(), anything(), anything())).once();
     });
 
 });
@@ -175,7 +200,19 @@ function prepareTest(template: string): TestCase {
         ],
     });
 
+    withMethodStubs(test);
+
     return test;
+}
+
+function withMethodStubs(test: TestCase): void {
+    const utils = test.getDependencyMock(CoreUtilsProvider);
+    const textUtils = test.getDependencyMock(CoreTextUtilsProvider);
+
+    when(utils.isTrueOrOne(anything()))
+        .thenCall((value) => typeof value != 'undefined' && (value === true || value === 'true' || parseInt(value, 10) === 1));
+
+    when(textUtils.decodeURI(anything())).thenCall(decodeURI);
 }
 
 function withoutSite(test: TestCase): void {
@@ -204,4 +241,11 @@ function withoutTimeouts(test: TestCase): void {
     const utils = test.getDependencyMock(CoreUtilsProvider);
 
     when(utils.timeoutPromise(anything(), anything())).thenReturn(test.resolvedAsyncOperation());
+}
+
+function click(element: any): void {
+    // TODO click element with native APIs instead
+    const task = element.__zone_symbol__clickfalse[0];
+
+    task.invoke(task, element, [new MouseEvent('click')]);
 }
