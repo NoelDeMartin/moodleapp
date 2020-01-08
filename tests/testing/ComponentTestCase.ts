@@ -45,6 +45,8 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
     }
 
     configureTestingModule(metadata: TestModuleMetadata = {}): void {
+        const ionicConfig = { tapPolyfill: true };
+
         this.createDependencyInstances();
 
         metadata.declarations = metadata.declarations || [];
@@ -52,7 +54,7 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
         metadata.providers = metadata.providers || [];
 
         metadata.declarations.push(this.rootComponentClass);
-        metadata.imports.push(IonicModule.forRoot(this.rootComponentClass));
+        metadata.imports.push(IonicModule.forRoot(this.rootComponentClass, ionicConfig));
         metadata.providers.push(...this.dependencies.map((dependency, index) => ({
             provide: dependency,
             useValue: this.dependencyInstances[index],

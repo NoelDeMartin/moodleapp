@@ -157,13 +157,9 @@ describe('CoreFormatTextDirective', () => {
         const element = await test.asyncRender();
         const anchor = element.querySelector('a');
 
-        if (anchor) {
-            click(anchor);
-        }
+        anchor.click();
 
         // Assert
-        expect(anchor).not.toBeNull();
-
         verify(contentLinksHelper.handleLink('https://anchor-url/', anything(), anything(), anything(), anything())).once();
     });
 
@@ -235,11 +231,4 @@ function withoutTimeouts(test: TestCase): void {
     const utils = test.getDependencyMock(CoreUtilsProvider);
 
     when(utils.timeoutPromise(anything(), anything())).thenResolve();
-}
-
-function click(element: any): void {
-    // TODO click element with native APIs instead
-    const task = element.__zone_symbol__clickfalse[0];
-
-    task.invoke(task, element, [new MouseEvent('click')]);
 }

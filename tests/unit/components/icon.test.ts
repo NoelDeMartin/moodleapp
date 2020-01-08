@@ -17,7 +17,7 @@ import { CoreIconComponent } from '@components/icon/icon';
 import ComponentTestCase from '@testing/ComponentTestCase';
 
 const test = new ComponentTestCase(CoreIconComponent, {
-    template: '<core-icon name="thumbs-up"></core-icon>'
+    template: '<core-icon name="thumbs-up"></core-icon>',
 });
 
 describe('CoreIconComponent', () => {
