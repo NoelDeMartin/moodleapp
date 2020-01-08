@@ -32,9 +32,9 @@ import { CoreUrlUtilsProvider } from '@providers/utils/url';
 import { CoreUtilsProvider } from '@providers/utils/utils';
 import { TranslateService } from '@ngx-translate/core';
 import { when, anything, verify, instance, mock } from '@testing/mocking';
-import ComponentTestCase from '@testing/ComponentTestCase';
 import CoreDomUtilsProviderStub from '@testing/stubs/providers/utils/dom';
 import CoreLoggerProviderStub from '@testing/stubs/providers/logger';
+import IonicUnitTestCase from '@testing/IonicUnitTestCase';
 
 describe('CoreFormatTextDirective', () => {
 
@@ -165,10 +165,10 @@ describe('CoreFormatTextDirective', () => {
 
 });
 
-type TestCase = ComponentTestCase<CoreFormatTextDirective>;
+type TestCase = IonicUnitTestCase<CoreFormatTextDirective>;
 
 function prepareTest(template: string): TestCase {
-    const test = new ComponentTestCase(CoreFormatTextDirective, {
+    const test = new IonicUnitTestCase(CoreFormatTextDirective, {
         template,
         dependencies: [
             CoreSitesProvider,

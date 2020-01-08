@@ -21,10 +21,10 @@ import { CoreTextUtilsProvider } from '@providers/utils/text';
 import { CoreUrlUtilsProvider } from '@providers/utils/url';
 import { CoreUtilsProvider } from '@providers/utils/utils';
 import { when, anything, verify } from '@testing/mocking';
-import ComponentTestCase from '@testing/ComponentTestCase';
 import CoreDomUtilsProviderStub from '@testing/stubs/providers/utils/dom';
+import IonicUnitTestCase from '@testing/IonicUnitTestCase';
 
-const test = new ComponentTestCase(CoreLinkDirective, {
+const test = new IonicUnitTestCase(CoreLinkDirective, {
     template: '<a href="https://moodle.org/" core-link [capture]="true">Link</a>',
     dependencies: [
         CoreUtilsProvider,

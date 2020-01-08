@@ -14,9 +14,9 @@
 
 import { CoreIconComponent } from '@components/icon/icon';
 
-import ComponentTestCase from '@testing/ComponentTestCase';
+import IonicUnitTestCase from '@testing/IonicUnitTestCase';
 
-const test = new ComponentTestCase(CoreIconComponent, {
+const test = new IonicUnitTestCase(CoreIconComponent, {
     template: '<core-icon name="thumbs-up"></core-icon>',
 });
 

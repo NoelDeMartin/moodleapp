@@ -21,27 +21,25 @@ export interface Config extends BaseConfig {
     template?: string;
 }
 
-export default class ComponentTestCase<C> extends UnitTestCase<C> {
+export default class IonicUnitTestCase<U> extends UnitTestCase<U> {
 
-    constructor(componentClass: Type<C>, config: Config = {}) {
-        super(componentClass, config);
+    constructor(unitConstructor: Type<U>, config: Config = {}) {
+        super(unitConstructor, config);
 
-        this.componentClass = componentClass;
-        this.rootComponentClass = config.template
-            ? declareWrapperComponent(config.template, componentClass)
-            : componentClass;
+        this.rootComponent = config.template
+            ? declareWrapperComponent(config.template, unitConstructor)
+            : unitConstructor;
     }
 
-    private rootComponentClass: Type<C | Wrapper<C>>;
-    private componentClass: Type<C>;
-    private _fixture?: ComponentFixture<C | Wrapper<C>>;
+    private rootComponent: Type<U | Wrapper<U>>;
+    private _fixture?: ComponentFixture<U | Wrapper<U>>;
 
-    get fixture(): ComponentFixture<C | Wrapper<C>> {
+    get fixture(): ComponentFixture<U | Wrapper<U>> {
         return this._fixture;
     }
 
     get usesTemplate(): boolean {
-        return this.rootComponentClass !== this.componentClass;
+        return this.rootComponent !== this.unitConstructor;
     }
 
     configureTestingModule(metadata: TestModuleMetadata = {}): void {
@@ -53,15 +51,15 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
         metadata.imports = metadata.imports || [];
         metadata.providers = metadata.providers || [];
 
-        metadata.declarations.push(this.rootComponentClass);
-        metadata.imports.push(IonicModule.forRoot(this.rootComponentClass, ionicConfig));
+        metadata.declarations.push(this.rootComponent);
+        metadata.imports.push(IonicModule.forRoot(this.rootComponent, ionicConfig));
         metadata.providers.push(...this.dependencies.map((dependency, index) => ({
             provide: dependency,
             useValue: this.dependencyInstances[index],
         })));
 
         if (this.usesTemplate) {
-            metadata.declarations.push(this.componentClass);
+            metadata.declarations.push(this.unitConstructor);
         }
 
         TestBed.configureTestingModule(metadata);
@@ -83,8 +81,8 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
     }
 
     // Override
-    createInstance(): C {
-        this._fixture = TestBed.createComponent<C | Wrapper<C>>(this.rootComponentClass);
+    createInstance(): U {
+        this._fixture = TestBed.createComponent<U | Wrapper<U>>(this.rootComponent);
 
         this.fixture.autoDetectChanges(true);
 
@@ -97,15 +95,15 @@ export default class ComponentTestCase<C> extends UnitTestCase<C> {
 
 }
 
-function declareWrapperComponent<C>(template: string, componentClass: Type<C>): Type<Wrapper<C>> {
+function declareWrapperComponent<U>(template: string, unitConstructor: Type<U>): Type<Wrapper<U>> {
     @Component({ template })
-    class W extends Wrapper<C> {
-        @ViewChild(componentClass) child: C;
+    class W extends Wrapper<U> {
+        @ViewChild(unitConstructor) child: U;
     }
 
     return W;
 }
 
-abstract class Wrapper<C> {
-    child: C;
+abstract class Wrapper<U> {
+    child: U;
 }

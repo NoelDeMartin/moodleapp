@@ -20,9 +20,9 @@ import { CoreLoggerProvider } from '@providers/logger';
 import { CoreUrlUtilsProvider } from '@providers/utils/url';
 import { CoreUtilsProvider } from '@providers/utils/utils';
 import { NavController } from 'ionic-angular';
-import ComponentTestCase from '@testing/ComponentTestCase';
+import IonicUnitTestCase from '@testing/IonicUnitTestCase';
 
-const test = new ComponentTestCase(CoreIframeComponent, {
+const test = new IonicUnitTestCase(CoreIframeComponent, {
     template: '<core-iframe src="https://moodle.org/"></core-iframe>',
     dependencies: [
         CoreLoggerProvider,

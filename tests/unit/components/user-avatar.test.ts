@@ -20,10 +20,10 @@ import { CoreSitesProvider } from '@providers/sites';
 import { CoreUtilsProvider } from '@providers/utils/utils';
 import { NavController } from 'ionic-angular';
 import CoreExternalContentDirectiveStub from '@testing/stubs/directives/CoreExternalContent';
-import ComponentTestCase from '@testing/ComponentTestCase';
+import IonicUnitTestCase from '@testing/IonicUnitTestCase';
 import TranslatePipeStub from '@testing/stubs/pipes/Translate';
 
-const test = new ComponentTestCase(CoreUserAvatarComponent, {
+const test = new IonicUnitTestCase(CoreUserAvatarComponent, {
     dependencies: [
         CoreSitesProvider,
         CoreUtilsProvider,
