@@ -12,34 +12,62 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { CoreAppProvider } from '@providers/app';
+import { CoreConfigProvider } from '@providers/config';
+import { CoreDomUtilsProvider as RealCoreDomUtilsProvider } from '@providers/utils/dom';
+import { CoreFileProvider } from '@providers/file';
+import { CoreTextUtilsProvider } from '@providers/utils/text';
+import { CoreUrlUtilsProvider } from '@providers/utils/url';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Injectable } from '@angular/core';
+import { LoadingController, ToastController, AlertController, Platform, ModalController, PopoverController } from 'ionic-angular';
+import { mock, instance, when, anything } from '@testing/mocking';
+import { TranslateService } from '@ngx-translate/core';
+import CoreLoggerProviderStub from '@testing/stubs/providers/logger';
 
 @Injectable()
-export default class CoreDomUtilsProvider {
+export default class CoreDomUtilsProviders {
+
+    constructor() {
+        const configProvider = mock(CoreConfigProvider);
+
+        when(configProvider.get(anything(), anything())).thenCall((_, defaultValue) => Promise.resolve(defaultValue));
+
+        this.dom = new RealCoreDomUtilsProvider(
+            instance(mock(TranslateService)),
+            instance(mock(LoadingController)),
+            instance(mock(ToastController)),
+            instance(mock(AlertController)),
+            instance(mock(CoreTextUtilsProvider)),
+            instance(mock(CoreAppProvider)),
+            instance(mock(Platform)),
+            instance(configProvider),
+            instance(mock(CoreUrlUtilsProvider)),
+            instance(mock(ModalController)),
+            instance(mock(DomSanitizer)),
+            instance(mock(PopoverController)),
+            instance(mock(CoreFileProvider)),
+            new CoreLoggerProviderStub() as any,
+        );
+    }
+
+    private dom: RealCoreDomUtilsProvider;
 
     handleBootstrapTooltips(): void {
         //
     }
 
     moveChildren(oldParent: HTMLElement, newParent: HTMLElement, prepend?: boolean): Node[] {
-        const movedChildren: Node[] = [];
-        const referenceNode = prepend ? newParent.firstChild : null;
-
-        while (oldParent.childNodes.length > 0) {
-            const child = oldParent.childNodes[0];
-            movedChildren.push(child);
-
-            newParent.insertBefore(child, referenceNode);
-        }
-
-        return movedChildren;
+        return this.dom.moveChildren(oldParent, newParent, prepend);
     }
 
     wrapElement(el: HTMLElement, wrapper: HTMLElement): void {
-        // Insert the wrapper before the element.
-        el.parentNode.insertBefore(wrapper, el);
-        // Now move the element into the wrapper.
-        wrapper.appendChild(el);
+        this.dom.wrapElement(el, wrapper);
+    }
+
+    getElementWidth(element: any, usePadding?: boolean, useMargin?: boolean, useBorder?: boolean,
+            innerMeasure?: boolean): number {
+        return this.dom.getElementWidth(element, usePadding, useMargin, useBorder, innerMeasure);
     }
 
 }
