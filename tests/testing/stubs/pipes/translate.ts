@@ -17,7 +17,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
     name: 'translate',
 })
-export default class Translate implements PipeTransform {
+export default class TranslatePipeStub implements PipeTransform {
 
     transform(text: string): string {
         return text;

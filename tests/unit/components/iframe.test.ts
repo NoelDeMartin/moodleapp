@@ -45,10 +45,15 @@ describe('CoreIframeComponent', () => {
     });
 
     it('should render', () => {
+        // Act
         const element = test.render();
 
+        // Assert
         expect(element.innerHTML.trim()).not.toHaveLength(0);
-        expect(element.querySelector('iframe').src).toEqual('https://moodle.org/');
+
+        const iframe = element.querySelector('iframe');
+        expect(iframe).not.toBeNull();
+        expect(iframe.src).toEqual('https://moodle.org/');
     });
 
 });

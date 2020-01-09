@@ -24,7 +24,13 @@ export default class UnitTestCase<U> {
     constructor(unitConstructor: Type<U>, config: Config = {}) {
         this.unitConstructor = unitConstructor;
         this.dependencies = config.dependencies || [];
-        this.dependencyMocks = this.dependencies.map((dependency) => typeof dependency === 'string' ? mock() : mock(dependency));
+        this.dependencyMocks = this.dependencies.map((dependency) => {
+            if (typeof dependency === 'string') {
+                return mock();
+            }
+
+            return mock(dependency);
+        });
     }
 
     protected unitConstructor: Type<U>;

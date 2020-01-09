@@ -26,9 +26,11 @@ export default class IonicUnitTestCase<U> extends UnitTestCase<U> {
     constructor(unitConstructor: Type<U>, config: Config = {}) {
         super(unitConstructor, config);
 
-        this.rootComponent = config.template
-            ? declareWrapperComponent(config.template, unitConstructor)
-            : unitConstructor;
+        if (config.template) {
+            this.rootComponent = declareWrapperComponent(config.template, unitConstructor);
+        } else {
+            this.rootComponent = unitConstructor;
+        }
     }
 
     private rootComponent: Type<U | Wrapper<U>>;
@@ -43,25 +45,29 @@ export default class IonicUnitTestCase<U> extends UnitTestCase<U> {
     }
 
     configureTestingModule(metadata: TestModuleMetadata = {}): void {
-        const ionicConfig = { tapPolyfill: true };
-
         this.createDependencyInstances();
 
+        // Initialize required configuration properties if they don't exist
         metadata.declarations = metadata.declarations || [];
         metadata.imports = metadata.imports || [];
         metadata.providers = metadata.providers || [];
 
-        metadata.declarations.push(this.rootComponent);
-        metadata.imports.push(IonicModule.forRoot(this.rootComponent, ionicConfig));
-        metadata.providers.push(...this.dependencies.map((dependency, index) => ({
+        // Add test configuration
+        const ionicModule = IonicModule.forRoot(this.rootComponent, { tapPolyfill: true });
+        const dependencyProviders = this.dependencies.map((dependency, index) => ({
             provide: dependency,
             useValue: this.dependencyInstances[index],
-        })));
+        }));
+
+        metadata.declarations.push(this.rootComponent);
+        metadata.imports.push(ionicModule);
+        metadata.providers.push(...dependencyProviders);
 
         if (this.usesTemplate) {
             metadata.declarations.push(this.unitConstructor);
         }
 
+        // Initialize testing module
         TestBed.configureTestingModule(metadata);
     }
 
@@ -86,9 +92,11 @@ export default class IonicUnitTestCase<U> extends UnitTestCase<U> {
 
         this.fixture.autoDetectChanges(true);
 
-        this._instance = this.fixture.componentInstance instanceof Wrapper
-            ? this.fixture.componentInstance.child
-            : this.fixture.componentInstance;
+        if (this.fixture.componentInstance instanceof Wrapper) {
+            this._instance = this.fixture.componentInstance.child;
+        } else {
+            this._instance = this.fixture.componentInstance;
+        }
 
         return this.instance;
     }

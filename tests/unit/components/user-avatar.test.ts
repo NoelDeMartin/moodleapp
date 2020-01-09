@@ -19,9 +19,9 @@ import { CoreEventsProvider } from '@providers/events';
 import { CoreSitesProvider } from '@providers/sites';
 import { CoreUtilsProvider } from '@providers/utils/utils';
 import { NavController } from 'ionic-angular';
-import CoreExternalContentDirectiveStub from '@testing/stubs/directives/CoreExternalContent';
+import CoreExternalContentDirectiveStub from '@testing/stubs/directives/external-content';
 import IonicUnitTestCase from '@testing/IonicUnitTestCase';
-import TranslatePipeStub from '@testing/stubs/pipes/Translate';
+import TranslatePipeStub from '@testing/stubs/pipes/translate';
 
 const test = new IonicUnitTestCase(CoreUserAvatarComponent, {
     dependencies: [
@@ -48,10 +48,15 @@ describe('CoreUserAvatarComponent', () => {
     });
 
     it('should render', () => {
+        // Act
         const element = test.render();
 
+        // Assert
         expect(element.innerHTML.trim()).not.toHaveLength(0);
-        expect(element.querySelector('img').src).toEqual(document.location.href + 'assets/img/user-avatar.png');
+
+        const image = element.querySelector('img');
+        expect(image).not.toBeNull();
+        expect(image.src).toEqual(document.location.href + 'assets/img/user-avatar.png');
     });
 
 });

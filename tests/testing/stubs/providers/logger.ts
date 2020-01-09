@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export default class CoreLoggerProvider {
+export default class CoreLoggerProviderStub {
 
     getInstance(): any {
         return {

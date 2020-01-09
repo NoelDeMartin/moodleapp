@@ -54,11 +54,11 @@ describe('CoreTextUtilsProvider', () => {
     it('builds address URL for Android platforms', () => {
         // Arrange
         const address = 'Moodle Spain HQ';
-        const sanitizerMock = test.getDependencyMock<DomSanitizer>('sanitizer');
-        const platformMock = test.getDependencyMock(Platform);
+        const sanitizer = test.getDependencyMock<DomSanitizer>('sanitizer');
+        const platform = test.getDependencyMock(Platform);
 
-        when(sanitizerMock.bypassSecurityTrustUrl(anything())).thenCall((url) => url);
-        when(platformMock.is('android')).thenReturn(true);
+        when(sanitizer.bypassSecurityTrustUrl(anything())).thenCall((url) => url);
+        when(platform.is('android')).thenReturn(true);
 
         // Act
         const textUtils = test.createInstance();
@@ -67,17 +67,17 @@ describe('CoreTextUtilsProvider', () => {
         // Assert
         expect(url).toEqual('geo:0,0?q=Moodle%20Spain%20HQ');
 
-        verify(sanitizerMock.bypassSecurityTrustUrl(anything())).once();
-        verify(platformMock.is('android')).once();
+        verify(sanitizer.bypassSecurityTrustUrl(anything())).once();
+        verify(platform.is('android')).once();
     });
 
     it('builds address URL for non-Android platforms', () => {
         // Arrange
         const address = 'Moodle Spain HQ';
-        const sanitizerMock = test.getDependencyMock<DomSanitizer>('sanitizer');
-        const platformMock = test.getDependencyMock(Platform);
+        const sanitizer = test.getDependencyMock<DomSanitizer>('sanitizer');
+        const platform = test.getDependencyMock(Platform);
 
-        when(sanitizerMock.bypassSecurityTrustUrl(anything())).thenCall((url) => url);
+        when(sanitizer.bypassSecurityTrustUrl(anything())).thenCall((url) => url);
 
         // Act
         const textUtils = test.createInstance();
@@ -86,8 +86,8 @@ describe('CoreTextUtilsProvider', () => {
         // Assert
         expect(url).toEqual('http://maps.google.com?q=Moodle%20Spain%20HQ');
 
-        verify(sanitizerMock.bypassSecurityTrustUrl(anything())).once();
-        verify(platformMock.is('android')).once();
+        verify(sanitizer.bypassSecurityTrustUrl(anything())).once();
+        verify(platform.is('android')).once();
     });
 
 });

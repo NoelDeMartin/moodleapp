@@ -14,7 +14,7 @@
 
 import { CoreAppProvider } from '@providers/app';
 import { CoreConfigProvider } from '@providers/config';
-import { CoreDomUtilsProvider as RealCoreDomUtilsProvider } from '@providers/utils/dom';
+import { CoreDomUtilsProvider } from '@providers/utils/dom';
 import { CoreFileProvider } from '@providers/file';
 import { CoreTextUtilsProvider } from '@providers/utils/text';
 import { CoreUrlUtilsProvider } from '@providers/utils/url';
@@ -26,14 +26,15 @@ import { TranslateService } from '@ngx-translate/core';
 import CoreLoggerProviderStub from '@testing/stubs/providers/logger';
 
 @Injectable()
-export default class CoreDomUtilsProviders {
+export default class CoreDomUtilsProvidersStub {
 
     constructor() {
         const configProvider = mock(CoreConfigProvider);
 
-        when(configProvider.get(anything(), anything())).thenCall((_, defaultValue) => Promise.resolve(defaultValue));
+        when(configProvider.get(anything(), anything()))
+            .thenCall((_, defaultValue) => Promise.resolve(defaultValue));
 
-        this.dom = new RealCoreDomUtilsProvider(
+        this.dom = new CoreDomUtilsProvider(
             instance(mock(TranslateService)),
             instance(mock(LoadingController)),
             instance(mock(ToastController)),
@@ -51,7 +52,7 @@ export default class CoreDomUtilsProviders {
         );
     }
 
-    private dom: RealCoreDomUtilsProvider;
+    private dom: CoreDomUtilsProvider;
 
     handleBootstrapTooltips(): void {
         //

@@ -17,6 +17,6 @@ import { Directive, Input } from '@angular/core';
 @Directive({
     selector: '[core-external-content]'
 })
-export default class CoreExternalContent {
+export default class CoreExternalContentStub {
     @Input() siteId?: string;
 }

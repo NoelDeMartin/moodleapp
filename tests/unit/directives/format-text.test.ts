@@ -49,8 +49,9 @@ describe('CoreFormatTextDirective', () => {
         const element = await test.asyncRender();
 
         // Assert
-        expect(element.innerHTML.trim()).not.toHaveLength(0);
-        expect(element.children[0].innerHTML).toEqual('Lorem ipsum dolor');
+        const text = element.querySelector('core-format-text');
+        expect(text).not.toBeNull();
+        expect(text.innerHTML).toEqual('Lorem ipsum dolor');
     });
 
     it('should format text', async () => {
@@ -58,7 +59,8 @@ describe('CoreFormatTextDirective', () => {
         const test = prepareTest('<core-format-text text="Lorem ipsum dolor"></core-format-text>');
         const filterProvider = test.getDependencyMock(CoreFilterProvider);
 
-        when(filterProvider.formatText(anything(), anything(), anything(), anything())).thenResolve('Formatted text');
+        when(filterProvider.formatText(anything(), anything(), anything(), anything()))
+            .thenResolve('Formatted text');
 
         withoutSite(test);
 
@@ -66,7 +68,9 @@ describe('CoreFormatTextDirective', () => {
         const element = await test.asyncRender();
 
         // Assert
-        expect(element.children[0].innerHTML).toEqual('Formatted text');
+        const text = element.querySelector('core-format-text');
+        expect(text).not.toBeNull();
+        expect(text.innerHTML).toEqual('Formatted text');
 
         verify(filterProvider.formatText('Lorem ipsum dolor', anything(), anything(), anything())).once();
     });
@@ -94,9 +98,12 @@ describe('CoreFormatTextDirective', () => {
         const element = await test.asyncRender();
 
         // Assert
-        expect(element.children[0].innerHTML).toEqual('Formatted text');
+        const text = element.querySelector('core-format-text');
+        expect(text).not.toBeNull();
+        expect(text.innerHTML).toEqual('Formatted text');
 
-        verify(filterHelper.getFiltersAndFormatText('Lorem ipsum dolor', 'course', 42, anything(), anything())).once();
+        verify(filterHelper.getFiltersAndFormatText('Lorem ipsum dolor', 'course', 42, anything(), anything()))
+            .once();
     });
 
     it('should use external-content directive on images', async () => {
@@ -129,13 +136,12 @@ describe('CoreFormatTextDirective', () => {
         expect(image).not.toBeNull();
         expect(image.src).toEqual('file://local-path/');
 
+        const getSrcByUrlCall = filepoolProvider.getSrcByUrl(
+            '42', 'https://image-url',
+            anything(), anything(), anything(), anything(), anything(),
+        );
         verify(sitesProvider.getSite('42')).called();
-        verify(
-            filepoolProvider.getSrcByUrl(
-                '42', 'https://image-url',
-                anything(), anything(), anything(), anything(), anything(),
-            ),
-        ).once();
+        verify(getSrcByUrlCall).once();
     });
 
     it('should use link directive on anchors', async () => {
@@ -160,7 +166,8 @@ describe('CoreFormatTextDirective', () => {
         anchor.click();
 
         // Assert
-        verify(contentLinksHelper.handleLink('https://anchor-url/', anything(), anything(), anything(), anything())).once();
+        verify(contentLinksHelper.handleLink('https://anchor-url/', anything(), anything(), anything(), anything()))
+            .once();
     });
 
 });

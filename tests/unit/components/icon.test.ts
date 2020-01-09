@@ -28,10 +28,15 @@ describe('CoreIconComponent', () => {
     });
 
     it('should render', () => {
+        // Act
         const element = test.render();
 
+        // Assert
         expect(element.innerHTML.trim()).not.toHaveLength(0);
-        expect(element.querySelector('ion-icon').classList).toContain('ion-md-thumbs-up');
+
+        const icon = element.querySelector('ion-icon');
+        expect(icon).not.toBeNull();
+        expect(icon.classList).toContain('ion-md-thumbs-up');
     });
 
 });

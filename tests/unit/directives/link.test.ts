@@ -45,20 +45,19 @@ describe('CoreLinkDirective', () => {
             ],
         });
 
-        const utils = test.getDependencyMock(CoreUtilsProvider);
-        const textUtils = test.getDependencyMock(CoreTextUtilsProvider);
-
-        when(utils.isTrueOrOne(anything()))
-            .thenCall((value) => typeof value != 'undefined' && (value === true || value === 'true' || parseInt(value, 10) === 1));
-
-        when(textUtils.decodeURI(anything())).thenCall(decodeURI);
+        withMethodStubs(test);
     });
 
     it('should render', () => {
+        // Act
         const element = test.render();
 
+        // Assert
         expect(element.innerHTML.trim()).not.toHaveLength(0);
-        expect(element.querySelector('a').href).toEqual('https://moodle.org/');
+
+        const anchor = element.querySelector('a');
+        expect(anchor).not.toBeNull();
+        expect(anchor.href).toEqual('https://moodle.org/');
     });
 
     it('should capture clicks', async () => {
@@ -79,3 +78,13 @@ describe('CoreLinkDirective', () => {
     });
 
 });
+
+function withMethodStubs(test: IonicUnitTestCase<CoreLinkDirective>): void {
+    const utils = test.getDependencyMock(CoreUtilsProvider);
+    const textUtils = test.getDependencyMock(CoreTextUtilsProvider);
+
+    when(utils.isTrueOrOne(anything()))
+        .thenCall((value) => typeof value != 'undefined' && (value === true || value === 'true' || parseInt(value, 10) === 1));
+
+    when(textUtils.decodeURI(anything())).thenCall(decodeURI);
+}
