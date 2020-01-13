@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { CustomCoreCoursesProvider } from './providers/courses';
 import { CoreCoursesProvider } from '@core/courses/providers/courses';
 
@@ -26,4 +26,7 @@ import { CoreCoursesProvider } from '@core/courses/providers/courses';
     exports: []
 })
 export class CustomModule {
+
+    static rootProviders: Provider[] = [];
+
 }
