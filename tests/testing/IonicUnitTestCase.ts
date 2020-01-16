@@ -80,10 +80,14 @@ export default class IonicUnitTestCase<U> extends UnitTestCase<U> {
     async asyncRender(): Promise<HTMLElement> {
         const element = this.render();
 
-        await this.fixture.whenRenderingDone();
-        await this.fixture.whenStable();
+        await this.whenAsyncOperationsCompleted();
 
         return element;
+    }
+
+    async whenAsyncOperationsCompleted(): Promise<void> {
+        await this.fixture.whenRenderingDone();
+        await this.fixture.whenStable();
     }
 
     // Override
