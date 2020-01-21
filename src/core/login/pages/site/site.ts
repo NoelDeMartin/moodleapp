@@ -116,7 +116,7 @@ export class CoreLoginSitePage {
 
                 // Attempt parsing the domain after initial check failed
                 .catch((error) => {
-                    const urlParts = CoreUrl.parse(url);
+                    const urlParts = CoreUrl.parse(url, 'http');
 
                     if (!urlParts || !urlParts.domain) {
                         throw error;
