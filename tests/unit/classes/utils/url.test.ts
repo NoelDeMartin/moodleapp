@@ -16,13 +16,30 @@ import { CoreUrl } from '@classes/utils/url';
 
 describe('CoreUrl', () => {
 
-    it('parses domains', () => {
-        expect(CoreUrl.parseDomain('https://moodle.org/my/')).toEqual('moodle.org');
-        expect(CoreUrl.parseDomain('http://moodle.org/my/')).toEqual('moodle.org');
-        expect(CoreUrl.parseDomain('https://moodle.org')).toEqual('moodle.org');
-        expect(CoreUrl.parseDomain('http://moodle.org')).toEqual('moodle.org');
-        expect(CoreUrl.parseDomain('moodle.org/my/')).toEqual('moodle.org');
-        expect(CoreUrl.parseDomain('moodle.org')).toEqual('moodle.org');
+    it('parses urls', () => {
+        expect(CoreUrl.parse('http://moodle.org/my/')).toEqual({
+            protocol: 'http',
+            domain: 'moodle.org',
+            path: '/my/',
+        });
+
+        expect(CoreUrl.parse('https://moodle.org')).toEqual({
+            protocol: 'https',
+            domain: 'moodle.org',
+        });
+    });
+
+    it('parses urls with implicit domains', () => {
+        expect(CoreUrl.parse('moodle.org/my/', 'http')).toEqual({
+            protocol: 'http',
+            domain: 'moodle.org',
+            path: '/my/',
+        });
+
+        expect(CoreUrl.parse('moodle.org', 'https')).toEqual({
+            protocol: 'https',
+            domain: 'moodle.org',
+        });
     });
 
 });
