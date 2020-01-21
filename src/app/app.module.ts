@@ -151,6 +151,9 @@ import { AddonQtypeModule } from '@addon/qtype/qtype.module';
 import { AddonStorageManagerModule } from '@addon/storagemanager/storagemanager.module';
 import { AddonFilterModule } from '@addon/filter/filter.module';
 
+// Freemium module.
+import { FreemiumModule } from '@freemium/freemium.module';
+
 // For translate loader. AoT requires an exported function for factories.
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/lang/', '.json');
@@ -294,7 +297,8 @@ export const WP_PROVIDER: any = null;
         AddonQbehaviourModule,
         AddonQtypeModule,
         AddonStorageManagerModule,
-        AddonFilterModule
+        AddonFilterModule,
+        FreemiumModule,
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -338,6 +342,7 @@ export const WP_PROVIDER: any = null;
         {provide: COMPILER_OPTIONS, useValue: {}, multi: true},
         {provide: JitCompilerFactory, useClass: JitCompilerFactory, deps: [COMPILER_OPTIONS]},
         {provide: LocationStrategy, useClass: MockLocationStrategy},
+        ...FreemiumModule.rootProviders,
     ]
 })
 export class AppModule {
