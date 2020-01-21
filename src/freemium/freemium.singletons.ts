@@ -12,25 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { NgModule, Provider, Injector } from '@angular/core';
+import { Type, Injector } from '@angular/core';
 
-import { setSingletonsInjector } from '@freemium/freemium.singletons';
+import { SingletonsFactory, Singleton } from '@freemium/classes/singletons-factory';
 
-@NgModule({
-    declarations: [],
-    imports: [],
-    providers: [],
-    exports: [],
-})
-export class FreemiumModule {
+const factory = new SingletonsFactory();
 
-    /**
-     * Providers that need to be overriden in the declaration of the root module.
-     */
-    static rootProviders: Provider[] = [];
+export function setSingletonsInjector(injector: Injector): void {
+    factory.setInjector(injector);
+}
 
-    constructor(injector: Injector) {
-        setSingletonsInjector(injector);
-    }
-
+export function makeSingleton<Service>(service: Type<Service>): typeof Singleton & { instance: Service } {
+    return factory.makeSingleton(service);
 }
