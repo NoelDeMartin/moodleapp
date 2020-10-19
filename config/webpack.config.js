@@ -12,8 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { webpack } = require('webpack');
+const webpack = require('webpack');
 const { resolve } = require('path');
+const { execSync } = require('child_process');
+const isProduction = process.env.NODE_ENV === 'production';
+const buildInfo = {
+    lastCommit: execSync('git log -1 --pretty=format:"%H"').toString(),
+    compilationTime: Date.now(),
+};
 
 module.exports = (config, options, targetOptions) => {
     config.resolve.alias['@'] = resolve('src');
@@ -26,6 +32,13 @@ module.exports = (config, options, targetOptions) => {
     config.resolve.alias['@pipes'] = resolve('src/app/pipes');
     config.resolve.alias['@services'] = resolve('src/app/services');
     config.resolve.alias['@singletons'] = resolve('src/app/singletons');
+
+    config.plugins.push(new webpack.DefinePlugin({
+        'process.env': {
+            ENVIRONMENT: JSON.stringify(isProduction ? 'production' : 'development'),
+            BUILD_INFO: JSON.stringify(buildInfo),
+        },
+    }));
 
     return config;
 };

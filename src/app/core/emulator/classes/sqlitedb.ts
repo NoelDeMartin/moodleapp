@@ -157,6 +157,8 @@ export class SQLiteDBMock extends SQLiteDB {
      * Initialize the database.
      */
     init(): void {
+        console.log('using env!', process.env.ENVIRONMENT, process.env.BUILD_INFO);
+
         // This DB is for desktop apps, so use a big size to be sure it isn't filled.
         this.db = (<any> window).openDatabase(this.name, '1.0', this.name, 500 * 1024 * 1024);
         this.promise = Promise.resolve();
