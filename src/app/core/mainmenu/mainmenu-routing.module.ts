@@ -13,30 +13,36 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, Route } from '@angular/router';
 
 import { CoreMainMenuPage } from './pages/menu/menu.page';
 import { CoreMainMenuMorePage } from './pages/more/more.page';
+
+export const addRouteToTabs = (route: Route): void => {
+    // Add them both in tabs and in more page since a tab can be displayed in both places.
+    TABS_ROUTES.push(route);
+    MORE_PAGE_ROUTES.push(route);
+};
+
+const MORE_PAGE_ROUTES: Routes = [
+    {
+        path: '',
+        component: CoreMainMenuMorePage,
+    },
+];
+
+const TABS_ROUTES: Routes = [
+    {
+        path: 'more',
+        children: MORE_PAGE_ROUTES,
+    },
+];
 
 const routes: Routes = [
     {
         path: '',
         component: CoreMainMenuPage,
-        children: [
-            {
-                path: 'home', // @todo: Add this route dynamically.
-                loadChildren: () => import('../courses/pages/home/home.page.module').then( m => m.CoreCoursesHomePageModule),
-            },
-            {
-                path: 'more',
-                children: [
-                    {
-                        path: '',
-                        component: CoreMainMenuMorePage,
-                    },
-                ],
-            },
-        ],
+        children: TABS_ROUTES,
     },
 ];
 

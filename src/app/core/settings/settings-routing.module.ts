@@ -15,6 +15,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { addRouteToTabs } from '@core/mainmenu/mainmenu-routing.module';
+
 const routes: Routes = [
     {
         path: 'about',
@@ -34,6 +36,11 @@ const routes: Routes = [
         pathMatch: 'full',
     },
 ];
+
+addRouteToTabs({
+    path: 'settings',
+    children: routes,
+});
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

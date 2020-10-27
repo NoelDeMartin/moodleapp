@@ -151,13 +151,6 @@ export class CoreMainMenuMorePage implements OnInit, OnDestroy {
     }
 
     /**
-     * Open app settings page.
-     */
-    openAppSettings(): void {
-        // @todo
-    }
-
-    /**
      * Open site settings page.
      */
     openSitePreferences(): void {
