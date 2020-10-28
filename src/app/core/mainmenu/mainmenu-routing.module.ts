@@ -13,28 +13,24 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, Route } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { CoreMainMenuPage } from './pages/menu/menu.page';
 import { CoreMainMenuMorePage } from './pages/more/more.page';
 
-export const addRouteToTabs = (route: Route): void => {
-    // Add them both in tabs and in more page since a tab can be displayed in both places.
-    TABS_ROUTES.push(route);
-    MORE_PAGE_ROUTES.push(route);
-};
+import { routes as settingsRoutes } from '@core/settings/settings-routing.module';
 
-const MORE_PAGE_ROUTES: Routes = [
+const childRoutes = [
+    { path: 'settings', children: settingsRoutes },
     {
-        path: '',
-        component: CoreMainMenuMorePage,
-    },
-];
-
-const TABS_ROUTES: Routes = [
-    {
-        path: 'more',
-        children: MORE_PAGE_ROUTES,
+        path: 'home',
+        children: [
+            {
+                path: '',
+                loadChildren:
+                    () => import('../courses/pages/home/home.page.module').then( m => m.CoreCoursesHomePageModule),
+            },
+        ],
     },
 ];
 
@@ -42,7 +38,30 @@ const routes: Routes = [
     {
         path: '',
         component: CoreMainMenuPage,
-        children: TABS_ROUTES,
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../courses/pages/home/home.page.module').then(m => m.CoreCoursesHomePageModule),
+            },
+            {
+                path: 'more',
+                children: [
+                    {
+                        path: '',
+                        component: CoreMainMenuMorePage,
+                    },
+                    { path: 'settings', children: settingsRoutes },
+                    // ...childRoutes,
+                ],
+            },
+
+            // Would be nice to do it the other way around, but ion-tabs doesn't allow it (incorrect higlight :/)...
+            {
+                path: 'home',
+                redirectTo: '',
+            },
+            // ...childRoutes,
+        ],
     },
 ];
 
@@ -50,4 +69,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class CoreMainMenuRoutingModule {}
+export class CoreMainMenuRoutingModule { }

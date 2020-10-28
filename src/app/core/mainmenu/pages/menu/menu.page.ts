@@ -14,7 +14,7 @@
 
 import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NavController, IonTabs } from '@ionic/angular';
+import { NavController, IonRouterOutlet } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
 import { CoreApp } from '@services/app';
@@ -24,6 +24,11 @@ import { CoreMainMenu } from '../../services/mainmenu';
 import { CoreMainMenuDelegate, CoreMainMenuHandlerToDisplay } from '../../services/delegate';
 import { CoreDomUtils } from '@/app/services/utils/dom';
 import { Translate } from '@/app/singletons/core.singletons';
+import { StackEvent } from '@ionic/angular/directives/navigation/stack-utils';
+
+const TAB_ROUTES = {
+    home: '',
+};
 
 /**
  * Page that displays the main menu of the app.
@@ -42,6 +47,7 @@ export class CoreMainMenuPage implements OnInit, OnDestroy {
     redirectParams?: Params;
     showTabs = false;
     tabsPlacement = 'bottom';
+    currentPage: string;
 
     protected subscription?: Subscription;
     protected redirectObs?: CoreEventObserver;
@@ -50,7 +56,7 @@ export class CoreMainMenuPage implements OnInit, OnDestroy {
     protected mainMenuId: number;
     protected keyboardObserver?: CoreEventObserver;
 
-    @ViewChild('mainTabs') mainTabs?: IonTabs;
+    @ViewChild('outlet', { read: IonRouterOutlet, static: false }) outlet!: IonRouterOutlet;
 
     constructor(
         protected route: ActivatedRoute,
@@ -60,6 +66,12 @@ export class CoreMainMenuPage implements OnInit, OnDestroy {
         protected router: Router,
     ) {
         this.mainMenuId = CoreApp.instance.getMainMenuId();
+
+        if (router.url.startsWith('/more')) {
+            this.currentPage = 'more';
+        } else {
+            this.currentPage = 'home';
+        }
     }
 
     /**
@@ -87,13 +99,13 @@ export class CoreMainMenuPage implements OnInit, OnDestroy {
         this.showTabs = true;
 
         this.redirectObs = CoreEvents.on(CoreEvents.LOAD_PAGE_MAIN_MENU, (data: CoreEventLoadPageMainMenuData) => {
-            if (!this.loaded) {
-                // View isn't ready yet, wait for it to be ready.
-                this.pendingRedirect = data;
-            } else {
-                delete this.pendingRedirect;
-                this.handleRedirect(data);
-            }
+            // if (!this.loaded) {
+            //     // View isn't ready yet, wait for it to be ready.
+            //     this.pendingRedirect = data;
+            // } else {
+            //     delete this.pendingRedirect;
+            //     this.handleRedirect(data);
+            // }
         });
 
         this.subscription = this.menuDelegate.getHandlers().subscribe((handlers) => {
@@ -133,6 +145,20 @@ export class CoreMainMenuPage implements OnInit, OnDestroy {
         CoreApp.instance.setMainMenuOpen(this.mainMenuId, true);
     }
 
+    onTabSelected(detail: StackEvent): void {
+        console.log('detail', detail);
+
+        let stackId = detail.enteringView.stackId;
+
+        if (!stackId) {
+            stackId = 'home';
+        }
+
+        if (detail.tabSwitch && stackId !== undefined) {
+            this.currentPage = stackId;
+        }
+    }
+
     /**
      * Init handlers on change (size or handlers).
      */
@@ -164,11 +190,11 @@ export class CoreMainMenuPage implements OnInit, OnDestroy {
 
             this.loaded = this.menuDelegate.areHandlersLoaded();
 
-            if (this.loaded && this.mainTabs && !this.mainTabs.getSelected()) {
+            if (this.loaded && !this.currentPage) {
                 // Select the first tab.
-                setTimeout(() => {
-                    this.mainTabs!.select(this.tabs[0]?.page || 'more');
-                });
+                // setTimeout(() => {
+                //     this.mainTabs!.select(this.tabs[0]?.page || 'more');
+                // });
             }
         }
 
@@ -217,38 +243,110 @@ export class CoreMainMenuPage implements OnInit, OnDestroy {
      * Tab clicked.
      *
      * @param e Event.
-     * @param page Page of the tab.
+     * @param page Tab page.
      */
     async tabClicked(e: Event, page: string): Promise<void> {
-        if (this.mainTabs?.getSelected() != page) {
-            // Just change the tab.
-            return;
-        }
-
-        // Current tab was clicked. Check if user is already at root level.
-        if (this.router.url == '/mainmenu/' + page) {
-            // Already at root level, nothing to do.
-            return;
-        }
-
-        // Ask the user if he wants to go back to the root page of the tab.
         e.preventDefault();
         e.stopPropagation();
 
-        try {
-            const tab = this.tabs.find((tab) => tab.page == page);
-
-            if (tab?.title) {
-                await CoreDomUtils.instance.showConfirm(Translate.instance.instant('core.confirmgotabroot', { name: tab.title }));
-            } else {
-                await CoreDomUtils.instance.showConfirm(Translate.instance.instant('core.confirmgotabrootdefault'));
+        // Current tab was clicked.
+        if (this.currentPage === page) {
+            // Check if user is already at root level.
+            if (this.router.url === this.getPageRootUrl(page)) {
+                // Already at root level, nothing to do.
+                return;
             }
 
-            // User confirmed, go to root.
-            this.mainTabs?.select(page);
-        } catch (error) {
-            // User canceled.
+            // Ask the user if he wants to go back to the root page of the tab.
+            const goToRoot = await this.confirmGoToRoot(page);
+            if (!goToRoot) {
+                // User canceled.
+                return;
+            }
+
+            this.resetTabNavigation(page);
+
+            return;
         }
+
+        // Select new tab.
+        this.selectTab(page);
+    }
+
+    /**
+     * Confirm whether to go to the page root.
+     *
+     * @param page Page.
+     * @return Whether to go to page root or not.
+     */
+    private async confirmGoToRoot(page: string): Promise<boolean> {
+        try {
+            const tab = this.tabs.find((tab) => tab.page == page);
+            const message = tab?.title
+                ? Translate.instance.instant('core.confirmgotabroot', { name: tab.title })
+                : Translate.instance.instant('core.confirmgotabrootdefault');
+
+            await CoreDomUtils.instance.showConfirm(message);
+
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    /**
+     * Reset tab navigation stack.
+     *
+     * This method overrides Ionic's default behaviour to support page routes different to
+     * tabs stack id.
+     *
+     * @see https://github.com/ionic-team/ionic-framework/blob/master/angular/src/directives/navigation/ion-tabs.ts#L90
+     * @param page Tab page.
+     */
+    private resetTabNavigation(page: string): void {
+        const rootView = this.outlet.getRootView(page);
+        const navigationExtras = rootView?.savedExtras || {};
+
+        this.navCtrl.navigateRoot(this.getPageRootUrl(page), {
+            ...navigationExtras,
+            animated: true,
+            animationDirection: 'back',
+        });
+    }
+
+    /**
+     * Update selected tab.
+     *
+     * This method overrides Ionic's default behaviour to support page routes different to
+     * tabs stack id.
+     *
+     * @see https://github.com/ionic-team/ionic-framework/blob/master/angular/src/directives/navigation/ion-tabs.ts#L90
+     * @param page Tab page.
+     */
+    private selectTab(page: string): void {
+        const lastRoute = this.outlet.getLastRouteView(page);
+        const url = lastRoute?.url || this.getPageRootUrl(page);
+        const navigationExtras = lastRoute?.savedExtras || {};
+
+        // TODO clean up url
+        this.navCtrl.navigateRoot(url, {
+            ...navigationExtras,
+            animated: true,
+            animationDirection: 'back',
+        });
+    }
+
+    /**
+     * Get page root url.
+     *
+     * @param page Page.
+     * @return Page root url.
+     */
+    private getPageRootUrl(page: string): string {
+        const route = TAB_ROUTES[page] ?? page;
+        const url = `${this.outlet.tabsPrefix}/${route}`;
+
+        return url.replace(/\/+/, '/');
     }
 
 }

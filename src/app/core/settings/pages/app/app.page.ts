@@ -59,7 +59,10 @@ export class CoreSettingsAppPage {
     openSettings(page: string, params?: Params): void {
         this.selectedPage = page;
         // this.splitviewCtrl!.push(page, params);
-        this.router.navigate([`../${page}`], { relativeTo: this.route, queryParams: params });
+
+        // TODO why is back arrow removed on refresh!?
+
+        this.router.navigate([page], { relativeTo: this.route, queryParams: params });
     }
 
 }

@@ -20,6 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CoreIconComponent } from './icon/icon';
 import { CoreLoadingComponent } from './loading/loading';
 import { CoreShowPasswordComponent } from './show-password/show-password';
+import { CoreTabsComponent } from './tabs/tabs';
 import { CoreDirectivesModule } from '@app/directives/directives.module';
 import { CorePipesModule } from '@app/pipes/pipes.module';
 
@@ -28,6 +29,7 @@ import { CorePipesModule } from '@app/pipes/pipes.module';
         CoreIconComponent,
         CoreLoadingComponent,
         CoreShowPasswordComponent,
+        CoreTabsComponent,
     ],
     imports: [
         CommonModule,
@@ -40,6 +42,7 @@ import { CorePipesModule } from '@app/pipes/pipes.module';
         CoreIconComponent,
         CoreLoadingComponent,
         CoreShowPasswordComponent,
+        CoreTabsComponent,
     ],
 })
 export class CoreComponentsModule {}

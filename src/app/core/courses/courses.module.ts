@@ -14,19 +14,8 @@
 
 import { NgModule } from '@angular/core';
 
-import { addRouteToTabs } from '@core/mainmenu/mainmenu-routing.module';
 import { CoreMainMenuDelegate } from '@core/mainmenu/services/delegate';
 import { CoreHomeMainMenuHandler } from './handlers/mainmenu';
-
-addRouteToTabs({
-    path: 'home',
-    children: [
-        {
-            path: '',
-            loadChildren: () => import('../courses/pages/home/home.page.module').then( m => m.CoreCoursesHomePageModule),
-        },
-    ],
-});
 
 @NgModule({
     imports: [],

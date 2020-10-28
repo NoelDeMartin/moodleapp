@@ -17,6 +17,7 @@ import { NavController } from '@ionic/angular';
 
 import { CoreLangProvider } from '@services/lang';
 import { CoreEvents } from '@singletons/events';
+import { CoreInit } from './services/init';
 
 @Component({
     selector: 'app-root',
@@ -24,6 +25,8 @@ import { CoreEvents } from '@singletons/events';
     styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
+
+    appReady = false;
 
     constructor(
         protected langProvider: CoreLangProvider,
@@ -46,6 +49,9 @@ export class AppComponent implements OnInit {
             // @todo
             // this.removeVersionClass();
         });
+
+        // eslint-disable-next-line promise/catch-or-return
+        CoreInit.instance.ready().then(() => this.appReady = true);
     }
 
 }

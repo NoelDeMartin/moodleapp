@@ -15,32 +15,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { addRouteToTabs } from '@core/mainmenu/mainmenu-routing.module';
-
-const routes: Routes = [
+export const routes: Routes = [
     {
         path: 'about',
-        loadChildren: () => import('./pages/about/about.page.module').then( m => m.CoreSettingsAboutPageModule),
+        loadChildren: (): any => import('./pages/about/about.page.module').then( m => m.CoreSettingsAboutPageModule),
     },
     {
         path: 'deviceinfo',
-        loadChildren: () => import('./pages/deviceinfo/deviceinfo.page.module').then( m => m.CoreSettingsDeviceInfoPageModule),
-    },
-    {
-        path: 'app',
-        loadChildren: () => import('./pages/app/app.page.module').then( m => m.CoreSettingsAppPageModule),
+        loadChildren: (): any => import('./pages/deviceinfo/deviceinfo.page.module').then( m => m.CoreSettingsDeviceInfoPageModule),
     },
     {
         path: '',
-        redirectTo: 'app',
-        pathMatch: 'full',
+        loadChildren: (): any => import('./pages/app/app.page.module').then( m => m.CoreSettingsAppPageModule),
     },
 ];
-
-addRouteToTabs({
-    path: 'settings',
-    children: routes,
-});
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
