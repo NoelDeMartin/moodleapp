@@ -17,10 +17,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
-    selector: 'app-settings',
-    templateUrl: 'app.html',
+    selector: 'settings-index',
+    templateUrl: 'index.html',
 })
-export class CoreSettingsAppPage {
+export class CoreSettingsIndexPage {
 
     // @ViewChild(CoreSplitViewComponent) splitviewCtrl?: CoreSplitViewComponent;
 
@@ -59,7 +59,7 @@ export class CoreSettingsAppPage {
     openSettings(page: string, params?: Params): void {
         this.selectedPage = page;
         // this.splitviewCtrl!.push(page, params);
-        this.router.navigate([`../${page}`], { relativeTo: this.route, queryParams: params });
+        this.router.navigate([page], { relativeTo: this.route, queryParams: params });
     }
 
 }

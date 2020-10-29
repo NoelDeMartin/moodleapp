@@ -22,7 +22,7 @@
         <core-icon name="fa-user-secret" slot="start"></core-icon>
         <ion-label>{{ 'core.settings.privacypolicy' | translate }}</ion-label>
     </ion-item>
-    <ion-item text-wrap (click)="openPage('deviceinfo')" detail>
+    <ion-item text-wrap router-direction="forward" routerLink="deviceinfo" detail>
         <core-icon name="fa-mobile" slot="start"></core-icon>
         <ion-label>{{ 'core.settings.deviceinfo' | translate }}</ion-label>
     </ion-item>

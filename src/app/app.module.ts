@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { NgModule, Injector } from '@angular/core';
+import { NgModule, Injector, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -60,6 +60,9 @@ import { setSingletonsInjector } from '@singletons/core.singletons';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+const requireInitModule = require.context('@core', true, /-init\.module\.ts$/);
+const initModules = requireInitModule.keys().map(file => requireInitModule(file).default);
+
 // For translate loader. AoT requires an exported function for factories.
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/lang/', '.json');
@@ -83,8 +86,15 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
         CoreEmulatorModule,
         CoreLoginModule,
         CoreCoursesModule,
+        ...initModules,
     ],
     providers: [
+        ...initModules.map(moduleClass => ({
+            provide: APP_INITIALIZER,
+            multi: true,
+            useFactory: moduleInstance => () => moduleInstance.init && moduleInstance.init(),
+            deps: [moduleClass],
+        })),
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         { provide: HTTP_INTERCEPTORS, useClass: CoreInterceptor, multi: true },
         CoreAppProvider,

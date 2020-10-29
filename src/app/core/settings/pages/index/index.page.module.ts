@@ -21,12 +21,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CoreComponentsModule } from '@components/components.module';
 import { CoreDirectivesModule } from '@directives/directives.module';
 
-import { CoreSettingsAppPage } from './app.page';
+import { CoreSettingsIndexPage } from './index.page';
 
 const routes: Routes = [
     {
         path: '',
-        component: CoreSettingsAppPage,
+        component: CoreSettingsIndexPage,
     },
 ];
 
@@ -40,8 +40,8 @@ const routes: Routes = [
         CoreDirectivesModule,
     ],
     declarations: [
-        CoreSettingsAppPage,
+        CoreSettingsIndexPage,
     ],
     exports: [RouterModule],
 })
-export class CoreSettingsAppPageModule {}
+export class CoreSettingsIndexPageModule {}

@@ -13,18 +13,24 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 
-import { CoreMainMenuDelegate } from '@core/mainmenu/services/delegate';
-import { CoreHomeMainMenuHandler } from './handlers/mainmenu';
+import { CoreMainMenuRoutingModule } from '@core/mainmenu/mainmenu-routing.module';
+
+const routes: Routes = [
+    {
+        path: 'home',
+        loadChildren: () => import('../courses/pages/home/home.page.module').then(m => m.CoreCoursesHomePageModule),
+    },
+    {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'home',
+    },
+];
 
 @NgModule({
-    imports: [],
-    declarations: [],
+    imports: [CoreMainMenuRoutingModule.forChild(routes)],
+    exports: [CoreMainMenuRoutingModule],
 })
-export class CoreCoursesModule {
-
-    constructor(mainMenuDelegate: CoreMainMenuDelegate) {
-        mainMenuDelegate.registerHandler(new CoreHomeMainMenuHandler());
-    }
-
-}
+export default class CoreCoursesInitModule {}

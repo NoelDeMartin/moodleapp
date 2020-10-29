@@ -13,18 +13,19 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 
-import { CoreMainMenuDelegate } from '@core/mainmenu/services/delegate';
-import { CoreHomeMainMenuHandler } from './handlers/mainmenu';
+import { CoreMainMenuRoutingModule } from '@core/mainmenu/mainmenu-routing.module';
+
+const routes: Routes = [
+    {
+        path: 'settings',
+        loadChildren: () => import('@core/settings/settings.module').then(m => m.CoreSettingsModule),
+    },
+];
 
 @NgModule({
-    imports: [],
-    declarations: [],
+    imports: [CoreMainMenuRoutingModule.forMoreChild(routes)],
+    exports: [CoreMainMenuRoutingModule],
 })
-export class CoreCoursesModule {
-
-    constructor(mainMenuDelegate: CoreMainMenuDelegate) {
-        mainMenuDelegate.registerHandler(new CoreHomeMainMenuHandler());
-    }
-
-}
+export default class CoreSettingsInitModule {}

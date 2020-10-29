@@ -16,19 +16,26 @@ import { NavController } from '@ionic/angular';
 
 import { AppComponent } from '@app/app.component';
 import { CoreEvents } from '@singletons/events';
+import { CoreInit } from '@services/init';
 import { CoreLangProvider } from '@services/lang';
 
-import { mock, renderComponent, RenderConfig } from '@/tests/utils';
+import { mock, mockSingleton, renderComponent, RenderConfig } from '@/tests/utils';
 
 describe('AppComponent', () => {
 
     let langProvider: CoreLangProvider;
     let navController: NavController;
+    let initReadyPromise: Promise<void>;
+    let initReadyResolve: () => void;
     let config: Partial<RenderConfig>;
 
     beforeEach(() => {
         langProvider = mock<CoreLangProvider>(['clearCustomStrings']);
         navController = mock<NavController>(['navigateRoot']);
+        initReadyPromise = new Promise((resolve) => initReadyResolve = resolve);
+
+        mockSingleton(CoreInit, { ready: () => initReadyPromise });
+
         config = {
             providers: [
                 { provide: CoreLangProvider, useValue: langProvider },
@@ -38,18 +45,35 @@ describe('AppComponent', () => {
     });
 
     it('should render', async () => {
+        // Arrange
+        initReadyResolve();
+
+        // Act
         const fixture = await renderComponent(AppComponent, config);
 
+        // Assert
         expect(fixture.debugElement.componentInstance).toBeTruthy();
+        expect(fixture.nativeElement.innerHTML).not.toContain('Loading');
         expect(fixture.nativeElement.querySelector('ion-router-outlet')).toBeTruthy();
     });
 
+    it('shows loading while app isn\'t ready', async () => {
+        const fixture = await renderComponent(AppComponent, config);
+
+        expect(fixture.nativeElement.innerHTML).toContain('Loading');
+    });
+
     it('cleans up on logout', async () => {
+        // Arrange
+        initReadyResolve();
+
+        // Act
         const fixture = await renderComponent(AppComponent, config);
 
         fixture.componentInstance.ngOnInit();
         CoreEvents.trigger(CoreEvents.LOGOUT);
 
+        // Assert
         expect(langProvider.clearCustomStrings).toHaveBeenCalled();
         expect(navController.navigateRoot).toHaveBeenCalledWith('/login/sites');
     });
