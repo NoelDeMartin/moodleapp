@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 import { File } from '@ionic-native/file/ngx';
 import { Zip } from '@ionic-native/zip/ngx';
-import * as JSZip from 'jszip';
+import JSZip from 'jszip';
 
 import { CoreTextUtils } from '@services/utils/text';
 

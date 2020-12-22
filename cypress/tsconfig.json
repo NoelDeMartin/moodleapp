@@ -1,0 +1,42 @@
+{
+    "extends": "../tsconfig.test.json",
+    "compilerOptions": {
+        "allowJs": true,
+        "esModuleInterop": true,
+        "emitDecoratorMetadata": true,
+        "types": [
+            "cordova-plugin-file-transfer",
+            "cordova-plugin-inappbrowser",
+            "cordova",
+            "cypress",
+            "dom-mediacapture-record",
+            "faker",
+            "jest",
+            "node",
+            "webpack-env"
+          ],
+        "baseUrl": ".",
+        "paths": {
+            "@classes/*": ["../src/core/classes/*"],
+            "@components/*": ["../src/core/components/*"],
+            "@cy/*": ["./*"],
+            "@directives/*": ["../src/core/directives/*"],
+            "@features/*": ["../src/core/features/*"],
+            "@guards/*": ["../src/core/guards/*"],
+            "@pipes/*": ["../src/core/pipes/*"],
+            "@services/*": ["../src/core/services/*"],
+            "@singletons": ["../src/core/singletons/index"],
+            "@singletons/*": ["../src/core/singletons/*"],
+            "@/*": ["../src/*"]
+        },
+    },
+    "include": [
+        "./**/*.ts",
+        "../src/**/*.ts",
+        "../src/**/*.d.ts"
+    ],
+    "exclude": [
+        "../src/**/*.test.ts",
+        "../src/testing/**"
+    ]
+}

@@ -255,22 +255,30 @@ const appConfig = {
     },
 };
 
-var testsConfig = Object.assign({}, appConfig);
-testsConfig['rules']['padded-blocks'] = [
+var unitTestsConfig = Object.assign({}, appConfig);
+unitTestsConfig['rules']['padded-blocks'] = [
     'error',
     {
         classes: 'always',
         switches: 'never',
     },
 ];
-testsConfig['plugins'].push('jest');
-testsConfig['extends'].push('plugin:jest/recommended');
+unitTestsConfig['plugins'].push('jest');
+unitTestsConfig['extends'].push('plugin:jest/recommended');
+
+var integrationTestsConfig = Object.assign({}, unitTestsConfig);
+unitTestsConfig['rules']['jest/expect-expect'] = 'off';
+unitTestsConfig['rules']['jest/valid-expect-in-promise'] = 'off';
+unitTestsConfig['rules']['jest/valid-expect'] = 'off';
+unitTestsConfig['rules']['promise/always-return'] = 'off';
+unitTestsConfig['rules']['promise/catch-or-return'] = 'off';
 
 module.exports = {
     root: true,
     overrides: [
         Object.assign({ files: ['*.ts'] }, appConfig),
-        Object.assign({ files: ['*.test.ts'] }, testsConfig),
+        Object.assign({ files: ['*.test.ts'] }, unitTestsConfig),
+        Object.assign({ files: ['cypress/**'] }, integrationTestsConfig),
         {
             files: ['*.html'],
             extends: ['plugin:@angular-eslint/template/recommended'],

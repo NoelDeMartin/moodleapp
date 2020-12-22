@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Injectable, NgZone } from '@angular/core';
-import { InAppBrowserObject, InAppBrowserOptions } from '@ionic-native/in-app-browser';
+import { InAppBrowserObject, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 import { FileEntry } from '@ionic-native/file';
 import { Subscription } from 'rxjs';
 
