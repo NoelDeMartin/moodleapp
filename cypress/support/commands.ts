@@ -12,44 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { DbTransaction, SQLiteObject } from '@ionic-native/sqlite/ngx';
-
-async function dropTables(transaction: DbTransaction, tables: string[]): Promise<void> {
-    await Promise.all(tables.map(table => {
-        table = JSON.stringify(table);
-
-        return new Promise((resolve, reject) => transaction.executeSql(`DROP TABLE ${table}`, [], resolve, reject));
-    }));
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function emptyDatabase(window: any): Promise<void> {
-    const database: SQLiteObject = window.openDatabase('MoodleMobile', '1.0', 'MoodleMobile', 500 * 1024 * 1024);
-
-    return new Promise(
-        (resolve, reject) =>
-            database.transaction(transaction => transaction.executeSql(
-                `
-                    SELECT *
-                    FROM sqlite_master
-                    WHERE
-                        name NOT LIKE 'sqlite\\_%' escape '\\' AND
-                        name NOT LIKE '\\_%' escape '\\'
-                `,
-                [],
-                (transaction, result) => dropTables(transaction, [...result.rows].map(r => r.name)).then(resolve, reject),
-            )),
-    );
-}
+import Database from './utils/Database';
+import Interceptor from './utils/Interceptor';
 
 const customCommands = {
-    resetBrowser: (): Cypress.Chainable<void> => cy.window().then(emptyDatabase),
+    dontSee: (text: string): Cypress.Chainable<void> => cy.contains(text).should('not.exist'),
+    interceptSiteRequests: Interceptor.interceptSiteRequests,
+    press: (text: string): Cypress.Chainable<void> => cy.contains(text).click(),
+    resetBrowser: Database.reset,
     see: (text: string): Cypress.Chainable<void> => cy.contains(text).should('be.visible'),
 };
 
 for (const command in customCommands) {
     Cypress.Commands.add(command, customCommands[command]);
 }
-
 
 export default customCommands;

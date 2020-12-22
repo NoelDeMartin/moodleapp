@@ -12,22 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const path = require('path');
+const { resolve } = require('path');
 
 module.exports = {
     resolve: {
         extensions: ['.ts', '.js'],
         alias: {
-            '@': path.resolve(__dirname, '../src'),
-            '@classes': path.resolve(__dirname, '../src/core/classes'),
-            '@components': path.resolve(__dirname, '../src/core/components'),
+            '@': resolve(__dirname, '../src'),
+            '@classes': resolve(__dirname, '../src/core/classes'),
+            '@components': resolve(__dirname, '../src/core/components'),
             '@cy': __dirname,
-            '@directives': path.resolve(__dirname, '../src/core/directives'),
-            '@features': path.resolve(__dirname, '../src/core/features'),
-            '@guards': path.resolve(__dirname, '../src/core/guards'),
-            '@pipes': path.resolve(__dirname, '../src/core/pipes'),
-            '@services': path.resolve(__dirname, '../src/core/services'),
-            '@singletons': path.resolve(__dirname, '../src/core/singletons'),
+            '@directives': resolve(__dirname, '../src/core/directives'),
+            '@features': resolve(__dirname, '../src/core/features'),
+            '@guards': resolve(__dirname, '../src/core/guards'),
+            '@pipes': resolve(__dirname, '../src/core/pipes'),
+            '@services': resolve(__dirname, '../src/core/services'),
+            '@singletons': resolve(__dirname, '../src/core/singletons'),
         },
     },
     module: {
