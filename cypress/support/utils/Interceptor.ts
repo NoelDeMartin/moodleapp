@@ -19,6 +19,10 @@ import { CoreUrl } from '@singletons/url';
 
 export default class Interceptor {
 
+    private urlRegExp: RegExp;
+    private fixturesDomain: string;
+    private webServiceResponsesCount: Record<string, number> = {};
+
     static interceptSiteRequests(siteUrl: string, fixturesDomain: string = 'school.moodledemo.net'): void {
         const siteDomain = CoreUrl.parse(siteUrl)!.domain!;
         const escapedSiteDomain = siteDomain.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -31,7 +35,11 @@ export default class Interceptor {
         cy.intercept(urlRegExp, { statusCode: 404 });
     }
 
-    private constructor(private urlRegExp: RegExp, private fixturesDomain: string) {}
+    private constructor(urlRegExp: RegExp, fixturesDomain: string) {
+        this.urlRegExp = urlRegExp;
+        this.fixturesDomain = fixturesDomain;
+        this.webServiceResponsesCount = {};
+    }
 
     private interceptSiteRequest(
         pathname: string,
@@ -84,7 +92,15 @@ export default class Interceptor {
     }
 
     private getWebServiceResponse(wsFunction: string): Record<string, unknown> {
-        return require(`@cy/fixtures/${this.fixturesDomain}/${wsFunction}.json`);
+        this.webServiceResponsesCount[wsFunction] = this.webServiceResponsesCount[wsFunction] ?? 0;
+
+        try {
+            const responseNumber = ++this.webServiceResponsesCount[wsFunction];
+
+            return require(`@cy/fixtures/${this.fixturesDomain}/${wsFunction}_${responseNumber}.json`);
+        } catch (error) {
+            return require(`@cy/fixtures/${this.fixturesDomain}/${wsFunction}.json`);
+        }
     }
 
 }
