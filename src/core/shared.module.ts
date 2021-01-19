@@ -12,13 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CoreComponentsModule } from '@components/components.module';
 import { CoreDirectivesModule } from '@directives/directives.module';
+import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { CorePipesModule } from '@pipes/pipes.module';
 
 @NgModule({
-    imports: [
+    exports: [
+        CommonModule,
+        IonicModule,
+        TranslateModule,
         CoreComponentsModule,
         CoreDirectivesModule,
         CorePipesModule,

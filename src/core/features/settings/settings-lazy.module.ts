@@ -15,11 +15,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [
-    {
-        path: 'about',
-        loadChildren: () => import('./pages/about/about.module').then(m => m.CoreSettingsAboutPageModule),
-    },
+import { CoreSharedModule } from '@/core/shared.module';
+import { CoreScreen } from '@services/screen';
+
+import { CoreSettingsIndexMobilePage } from './pages/index/index-mobile';
+import { CoreSettingsIndexTabletPage } from './pages/index/index-tablet';
+
+const sectionRoutes: Routes = [
     {
         path: 'general',
         loadChildren: () => import('./pages/general/general.module').then(m => m.CoreSettingsGeneralPageModule),
@@ -34,13 +36,41 @@ const routes: Routes = [
             import('./pages/synchronization/synchronization.module')
                 .then(m => m.CoreSettingsSynchronizationPageModule),
     },
+    // @todo sharedfiles
     {
-        path: '',
-        loadChildren: () => import('./pages/app/app.module').then(m => m.CoreSettingsAppPageModule),
+        path: 'about',
+        loadChildren: () => import('./pages/about/about.module').then(m => m.CoreSettingsAboutPageModule),
     },
 ];
 
+const routes: Routes = [
+    {
+        matcher: () => !CoreScreen.instance.isMobile ? { consumed: [] } : null,
+        component: CoreSettingsIndexTabletPage,
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'general',
+            },
+            ...sectionRoutes,
+        ],
+    },
+    {
+        matcher: () => CoreScreen.instance.isMobile ? { consumed: [] } : null,
+        component: CoreSettingsIndexMobilePage,
+    },
+    ...sectionRoutes,
+];
+
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
+    imports: [
+        RouterModule.forChild(routes),
+        CoreSharedModule,
+    ],
+    declarations: [
+        CoreSettingsIndexMobilePage,
+        CoreSettingsIndexTabletPage,
+    ],
 })
 export class CoreSettingsLazyModule {}

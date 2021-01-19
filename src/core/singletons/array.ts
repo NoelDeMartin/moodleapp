@@ -29,6 +29,25 @@ export class CoreArray {
     }
 
     /**
+     * Get the first item from the array matching the given filter.
+     *
+     * @param items Items.
+     * @param filter Filter.
+     * @return First item matching the filter, null if none matched.
+     */
+    static first<T>(items: T[], filter: (item: T) => boolean): T | null {
+        for (const item of items) {
+            if (!filter(item)) {
+                continue;
+            }
+
+            return item;
+        }
+
+        return null;
+    }
+
+    /**
      * Flatten the first dimension of a multi-dimensional array.
      *
      * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#reduce_and_concat
