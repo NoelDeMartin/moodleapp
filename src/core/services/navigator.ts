@@ -64,6 +64,21 @@ export class CoreNavigatorService {
     }
 
     /**
+     * Check whether an instance of the given page is active in the route.
+     *
+     * @param pageClass Page class.
+     * @param route Route where the page component will be searched, defaults to the current root route.
+     * @return Whether an instance of the given page is active in the route.
+     */
+    isActive(pageClass: { new(): unknown }, route?: ActivatedRoute): boolean {
+        route = route ?? Router.instance.routerState.root;
+
+        return route.component === pageClass || (
+            route.firstChild !== null && this.isActive(pageClass, route.firstChild)
+        );
+    }
+
+    /**
      * Get current main menu tab.
      *
      * @return Current main menu tab or null if the current route is not using the main menu.
@@ -176,6 +191,31 @@ export class CoreNavigatorService {
 
         // User is logged in, navigate to the site path.
         return this.navigateToMainMenuPath(path, navigationOptions);
+    }
+
+    async reload(pageClass: { new(...args: any[]): unknown }): Promise<void> {
+        const stack: ActivatedRoute[] = [];
+        let route: ActivatedRoute = this.getCurrentRoute();
+
+        while (route.component !== pageClass && route.parent) {
+            stack.push(route);
+            route = route.parent;
+        }
+
+        const path: string[] = [];
+        while (route.parent) {
+            path.push(...route.snapshot.url.map(u => u.toString()));
+        }
+
+        console.log({ path, route, stack });
+
+        // await NavController.instance.navigateRoot('./', { relativeTo: stack[3], animated: false });
+
+        await CoreNavigator.instance.navigate('/main/more', { animated: false });
+        await CoreNavigator.instance.navigate('/main/more/settings/general', { animated: false });
+        // await CoreNavigator.instance.navigate('/main/more', { animated: false });
+        // await CoreNavigator.instance.navigate('./settings', { animated: false });
+        // await CoreNavigator.instance.navigate('./general', { animated: false });
     }
 
     /**

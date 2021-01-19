@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CoreConstants } from '@/core/constants';
 import { CoreConfig } from '@services/config';
 import { CoreEvents } from '@singletons/events';
@@ -20,6 +20,12 @@ import { CoreLang } from '@services/lang';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
 import { CoreSettingsHelper, CoreColorScheme } from '../../services/settings-helper';
+import { Subscription } from 'rxjs';
+import { CoreScreen, CoreScreenLayout } from '@services/screen';
+import { NgZone } from '@singletons';
+import { CoreNavigator } from '@services/navigator';
+import { CoreSettingsIndexTabletPage } from '../index/index-tablet';
+import { CoreMainMenuPage } from '@features/mainmenu/pages/menu/menu';
 
 /**
  * Page that displays the general settings.
@@ -29,7 +35,7 @@ import { CoreSettingsHelper, CoreColorScheme } from '../../services/settings-hel
     templateUrl: 'general.html',
     styleUrls: ['general.scss'],
 })
-export class CoreSettingsGeneralPage {
+export class CoreSettingsGeneralPage implements OnInit, OnDestroy {
 
     languages: { code: string; name: string }[] = [];
     selectedLanguage = '';
@@ -42,9 +48,29 @@ export class CoreSettingsGeneralPage {
     colorSchemes: CoreColorScheme[] = [];
     selectedScheme: CoreColorScheme = CoreColorScheme.LIGHT;
     colorSchemeDisabled = false;
+    layoutSubscription?: Subscription;
 
     constructor() {
         this.asyncInit();
+    }
+
+    ngOnInit(): void {
+        this.layoutSubscription = CoreScreen.instance.layoutObservable.subscribe(async layout => {
+            if (layout === CoreScreenLayout.Mobile || CoreNavigator.instance.isActive(CoreSettingsIndexTabletPage)) {
+                return;
+            }
+
+            await NgZone.instance.run(async () => {
+                await CoreNavigator.instance.reload(CoreMainMenuPage);
+                // await CoreNavigator.instance.navigate('/main/more', { animated: false });
+                // await CoreNavigator.instance.navigate('/main/more/settings', { animated: false });
+                // await CoreNavigator.instance.navigate('/main/more/settings/general', { animated: false });
+            });
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.layoutSubscription?.unsubscribe();
     }
 
     /**

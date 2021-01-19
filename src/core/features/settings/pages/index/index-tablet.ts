@@ -12,18 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSettingsConstants, CoreSettingsSection } from '@features/settings/constants';
 import { CoreArray } from '@singletons/array';
+import { CoreScreen, CoreScreenLayout } from '@services/screen';
 import { Subscription } from 'rxjs';
+import { NgZone } from '@singletons';
+import { CoreMainMenuPage } from '@features/mainmenu/pages/menu/menu';
 
 @Component({
     selector: 'page-core-settings-index-tablet',
     templateUrl: 'index-tablet.html',
     styleUrls: ['index-tablet.scss'],
 })
-export class CoreSettingsIndexTabletPage implements OnInit {
+export class CoreSettingsIndexTabletPage implements OnInit, OnDestroy {
 
     sections = CoreSettingsConstants.SECTIONS;
     activeSection?: string;
@@ -39,6 +42,23 @@ export class CoreSettingsIndexTabletPage implements OnInit {
         );
 
         this.activeSection = currentSection?.name;
+
+        this.layoutSubscription = CoreScreen.instance.layoutObservable.subscribe(async layout => {
+            if (layout !== CoreScreenLayout.Mobile) {
+                return;
+            }
+
+            await NgZone.instance.run(async () => {
+                await CoreNavigator.instance.reload(CoreMainMenuPage);
+                // await CoreNavigator.instance.navigate('/main/more', { animated: false });
+                // await CoreNavigator.instance.navigate('/main/more/settings', { animated: false });
+                // await CoreNavigator.instance.navigate('/main/more/settings/general', { animated: false });
+            });
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.layoutSubscription?.unsubscribe();
     }
 
     /**
