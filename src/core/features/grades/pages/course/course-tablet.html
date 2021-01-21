@@ -1,0 +1,14 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [attr.aria-label]="'core.back' | translate"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ 'core.grades.grades' | translate }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-split-pane contentId="main">
+        <core-grades-course class="core-avoid-header" [courseId]="courseId" [userId]="userId"></core-grades-course>
+        <ion-router-outlet id="main"></ion-router-outlet>
+    </ion-split-pane>
+</ion-content>

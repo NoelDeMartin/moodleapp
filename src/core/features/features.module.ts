@@ -27,6 +27,7 @@ import { CoreTagModule } from './tag/tag.module';
 import { CoreUserModule } from './user/user.module';
 import { CorePushNotificationsModule } from './pushnotifications/pushnotifications.module';
 import { CoreXAPIModule } from './xapi/xapi.module';
+import { CoreGradesModule } from './grades/grades.module';
 
 @NgModule({
     imports: [
@@ -34,15 +35,16 @@ import { CoreXAPIModule } from './xapi/xapi.module';
         CoreCoursesModule,
         CoreEmulatorModule,
         CoreFileUploaderModule,
+        CoreGradesModule,
+        CoreH5PModule,
         CoreLoginModule,
         CoreMainMenuModule,
+        CorePushNotificationsModule,
         CoreSettingsModule,
         CoreSiteHomeModule,
         CoreTagModule,
         CoreUserModule,
-        CorePushNotificationsModule,
         CoreXAPIModule,
-        CoreH5PModule,
     ],
 })
 export class CoreFeaturesModule {}

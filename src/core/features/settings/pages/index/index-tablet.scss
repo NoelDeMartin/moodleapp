@@ -1,3 +1,11 @@
-:host ::ng-deep ion-header:not(.index-tablet-header) {
-    display: none;
+
+// TODO use breakpoint variable instead
+
+@media (max-width: 767px) { // Mobile
+
+    // TODO back button is still useful!!
+    ion-header {
+        display: none;
+    }
+
 }

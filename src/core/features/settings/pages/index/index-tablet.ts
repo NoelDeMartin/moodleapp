@@ -15,7 +15,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSettingsConstants, CoreSettingsSection } from '@features/settings/constants';
-import { CoreArray } from '@singletons/array';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -33,8 +32,7 @@ export class CoreSettingsIndexTabletPage implements OnInit {
      * @inheritdoc
      */
     ngOnInit(): void {
-        const currentSection = CoreArray.first(
-            this.sections,
+        const currentSection = this.sections.find(
             section => CoreNavigator.instance.isCurrent(`**/settings/${section.path}`),
         );
 

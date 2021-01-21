@@ -11,23 +11,20 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <ion-split-pane contentId="main">
-        <ion-menu contentId="main">
-            <ion-content>
-                <ion-list>
-                    <ion-item
-                        *ngFor="let section of sections"
-                        [class.core-selected-item]="section.name === activeSection"
-                        button
-                        detail
-                        (click)="openSection(section)"
-                    >
-                        <ion-icon [name]="section.icon" slot="start"></ion-icon>
-                        <ion-label>{{ 'core.settings.' + section.name | translate }}</ion-label>
-                    </ion-item>
-                </ion-list>
-            </ion-content>
-        </ion-menu>
-        <ion-router-outlet id="main"></ion-router-outlet>
-    </ion-split-pane>
+    <core-split-view>
+        <ion-content class="core-split-view--side">
+            <ion-list>
+                <ion-item
+                    *ngFor="let section of sections"
+                    [class.core-selected-item]="section.name === activeSection"
+                    button
+                    detail
+                    (click)="openSection(section)"
+                >
+                    <ion-icon [name]="section.icon" slot="start"></ion-icon>
+                    <ion-label>{{ 'core.settings.' + section.name | translate }}</ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </core-split-view>
 </ion-content>

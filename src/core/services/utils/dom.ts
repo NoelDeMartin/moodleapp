@@ -35,6 +35,7 @@ import { CoreSilentError } from '@classes/errors/silenterror';
 import { makeSingleton, Translate, AlertController, LoadingController, ToastController } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreFileSizeSum } from '@services/plugin-file-delegate';
+import { errorMonitor } from 'events';
 
 /*
  * "Utils" service with helper functions for UI, DOM elements and HTML code.
