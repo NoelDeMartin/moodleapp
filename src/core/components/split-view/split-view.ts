@@ -45,12 +45,8 @@ export class CoreSplitViewComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         this.isNested = !!this.element.nativeElement.parentElement?.closest('core-split-view');
         this.subscriptions = [
-            this.outlet.activateEvents.subscribe(() => {
-                this.updateClasses();
-            }),
-            this.outlet.deactivateEvents.subscribe(() => {
-                this.updateClasses();
-            }),
+            this.outlet.activateEvents.subscribe(() => this.updateClasses()),
+            this.outlet.deactivateEvents.subscribe(() => this.updateClasses()),
             CoreScreen.instance.layoutObservable.subscribe(() => this.updateClasses()),
         ];
 

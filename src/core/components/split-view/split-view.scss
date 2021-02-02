@@ -2,6 +2,10 @@
     --menu-min-width: 270px;
     --menu-max-width: 28%;
     --border-width: 1;
+    --menu-display: flex;
+    --content-display: block;
+    --content-outlet-display: none;
+    --content-placeholder-display: var(--content-display);
 
     top: 0;
     right: 0;
@@ -26,14 +30,20 @@
     }
 
     .menu {
-        display: flex;
+        box-shadow: -4px 0px 16px rgba(0, 0, 0, 0.18);
+        z-index: 2;
+        display: var(--menu-display);
         flex-shrink: 0;
         order: -1;
         width: 100%;
+        border-inline-start: 0;
+        border-inline-end: var(--border);
+        min-width: var(--menu-min-width);
+        max-width: var(--menu-max-width);
     }
 
     .content-outlet {
-        display: block;
+        display: var(--content-outlet-display);
         flex: 1;
 
         ::ng-deep ion-header {
@@ -43,7 +53,7 @@
     }
 
     .content-placeholder {
-        display: none;
+        display: var(--content-placeholder-display);
         flex: 1;
         position: relative;
         background-color: var(--ion-background);
@@ -52,41 +62,20 @@
 }
 
 :host(.menu-only) {
-    .content-outlet {
-        display: none;
-    }
+    --menu-min-width: 0;
+    --menu-max-width: 100%;
+    --content-display: none;
+    --border-width: 0;
 }
 
 :host(.content-only) {
-    .menu {
-        display: none;
-    }
-}
-
-:host(.menu-and-content) {
-    .menu {
-        z-index: 2;
-        border-inline-start: 0;
-        border-inline-end: var(--border);
-        box-shadow: -4px 0px 16px rgba(0, 0, 0, 0.18);
-        min-width: var(--menu-min-width);
-        max-width: var(--menu-max-width);
-    }
-    .content-outlet {
-        display: none;
-    }
-    .content-placeholder {
-        display: block;
-    }
+    --menu-display: none;
+    --border-width: 0;
 }
 
 :host(.outlet-activated) {
-    .content-outlet {
-        display: block;
-    }
-    .content-placeholder {
-        display: none;
-    }
+    --content-placeholder-display: none;
+    --content-outlet-display: var(--content-display);
 }
 
 :host-context(ion-app.md) {
