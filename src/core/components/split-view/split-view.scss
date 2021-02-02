@@ -1,8 +1,6 @@
 :host {
     --menu-min-width: 270px;
     --menu-max-width: 28%;
-    --menu-display: flex;
-    --content-display: block;
     --border-width: 1;
 
     top: 0;
@@ -15,36 +13,76 @@
     flex-direction: row;
     flex-wrap: nowrap;
     contain: strict;
+
+    .menu,
+    .content-outlet {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        position: relative;
+        box-shadow: none;
+        z-index: 0;
+    }
+
+    .menu {
+        display: flex;
+        flex-shrink: 0;
+        order: -1;
+        width: 100%;
+    }
+
+    .content-outlet {
+        display: block;
+        flex: 1;
+
+        ::ng-deep ion-header {
+            display: none;
+        }
+
+    }
+
+    .content-placeholder {
+        display: none;
+        flex: 1;
+        position: relative;
+        background-color: var(--ion-background);
+    }
+
 }
 
 :host(.menu-only) {
-    --menu-min-width: 0;
-    --menu-max-width: 100%;
-    --content-display: none;
-    --border-width: 0;
+    .content-outlet {
+        display: none;
+    }
 }
 
 :host(.content-only) {
-    --menu-display: none;
-    --border-width: 0;
+    .menu {
+        display: none;
+    }
 }
 
 :host(.menu-and-content) {
     .menu {
         z-index: 2;
+        border-inline-start: 0;
+        border-inline-end: var(--border);
         box-shadow: -4px 0px 16px rgba(0, 0, 0, 0.18);
+        min-width: var(--menu-min-width);
+        max-width: var(--menu-max-width);
     }
     .content-outlet {
         display: none;
     }
     .content-placeholder {
-        display: var(--content-display);
+        display: block;
     }
 }
 
 :host(.outlet-activated) {
     .content-outlet {
-        display: var(--content-display);
+        display: block;
     }
     .content-placeholder {
         display: none;
@@ -57,45 +95,4 @@
 
 :host-context(ion-app.ios) {
     --border: calc(var(--border-width) * .55px) solid var(--ion-item-border-color, var(--ion-border-color, var(--ion-color-step-250, #c8c7cc)));
-}
-
-.menu,
-.content-outlet {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    position: relative;
-    box-shadow: none;
-    z-index: 0;
-}
-
-.menu {
-    display: var(--menu-display);
-    flex-shrink: 0;
-    order: -1;
-    border-left: unset;
-    border-right: unset;
-    border-inline-start: 0;
-    border-inline-end: var(--border);
-    min-width: var(--menu-min-width);
-    max-width: var(--menu-max-width);
-    width: 100%;
-}
-
-.content-outlet {
-    display: var(--content-display);
-    flex: 1;
-
-    ::ng-deep ion-header {
-        display: none;
-    }
-
-}
-
-.content-placeholder {
-    display: none;
-    flex: 1;
-    position: relative;
-    background-color: var(--ion-background);
 }
