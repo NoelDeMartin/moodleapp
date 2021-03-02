@@ -69,7 +69,7 @@ class CoreSingleton {}
 /**
  * Singleton class created using the factory.
  */
-export type CoreSingletonClass<Service> = typeof CoreSingleton & {
+export type CoreSingletonClass<Service> = typeof CoreSingleton & Service & {
     instance: Service;
     setInstance(instance: Service): void;
 };
@@ -90,28 +90,56 @@ export function setSingletonsInjector(injector: Injector): void {
  * provider was defined using a class or the string used in the `provide` key if it was defined using an object.
  */
 export function makeSingleton<Service>(injectionToken: Type<Service> | Type<unknown> | string): CoreSingletonClass<Service> {
-    return class {
+    let serviceInstance: Service;
 
-        private static serviceInstance: Service;
+    const singleton = class {
 
         static get instance(): Service {
             // Initialize instances lazily.
-            if (!this.serviceInstance) {
+            if (!serviceInstance) {
                 if (!singletonsInjector) {
                     throw new Error('Can\'t resolve a singleton instance without an injector');
                 }
 
-                this.serviceInstance = singletonsInjector.get(injectionToken);
+                serviceInstance = singletonsInjector.get(injectionToken);
             }
 
-            return this.serviceInstance;
+            return serviceInstance;
         }
 
-        static setInstance(instance: Service): void {
-            this.serviceInstance = instance;
+        static setInstance(instance: Service) {
+            serviceInstance = instance;
         }
 
     };
+
+    if (isServiceClass(injectionToken)) {
+        for (const [property, descriptor] of Object.entries(Object.getOwnPropertyDescriptors(injectionToken.prototype))) {
+            if (property === 'constructor') {
+                continue;
+            }
+
+            Object.defineProperty(
+                singleton,
+                property,
+                'get' in descriptor
+                    ? { get: () => (serviceInstance ?? singleton.instance)[property] }
+                    : {
+                        value: (...args) => {
+                            const instance = serviceInstance ?? singleton.instance;
+
+                            return instance[property].call(instance, ...args);
+                        },
+                    },
+            );
+        }
+    }
+
+    return singleton as unknown as CoreSingletonClass<Service>;
+}
+
+function isServiceClass(injectionToken: Type<unknown> | string): injectionToken is Type<unknown> {
+    return typeof injectionToken !== 'string';
 }
 
 // Convert ionic-native services to singleton.
