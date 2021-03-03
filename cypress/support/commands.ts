@@ -21,16 +21,18 @@ const customCommands = {
 
     // @todo bypass login with the UI
     // @see https://docs.cypress.io/guides/getting-started/testing-your-app.html#Bypassing-your-UI
-    login(): void {
+    login(firstTime: boolean = true): void {
         const siteUrl = 'https://campus.example';
 
-        // Prepare fixtures.
-        cy.interceptSiteRequests(siteUrl);
+        if (firstTime) {
+            // Prepare fixtures.
+            cy.interceptSiteRequests(siteUrl);
 
-        // Skip onboarding.
-        cy.see('Welcome to the Moodle App!');
-        cy.press('Skip');
-        cy.dontSee('Welcome to the Moodle App!');
+            // Skip onboarding.
+            cy.see('Welcome to the Moodle App!');
+            cy.press('Skip');
+            cy.dontSee('Welcome to the Moodle App!');
+        }
 
         // Introduce site url.
         cy.see('Connect to Moodle');
@@ -49,7 +51,8 @@ const customCommands = {
 
     press: (text: string, options?: Partial<Cypress.ClickOptions>): Cypress.Chainable<void> => cy.contains(text).click(options),
     resetBrowser: Database.reset,
-    see: (text: string): Cypress.Chainable<void> => cy.contains(text).should('be.visible'),
+    see: (text: string, options?: Partial<Cypress.Timeoutable>): Cypress.Chainable<void> =>
+        cy.contains(text, options).should('be.visible'),
 };
 
 for (const command in customCommands) {

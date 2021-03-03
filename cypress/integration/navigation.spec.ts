@@ -32,4 +32,23 @@ describe('Navigation', () => {
         cy.contains('ion-slide', 'Dashboard').should('have.attr', 'aria-selected', 'true');
     });
 
+    it('changes site', () => {
+        // Wait until site has initialized property (TODO: wait on some event instead of time)
+        cy.wait(1000);
+
+        cy.contains('ion-tab-button', 'more').click();
+        cy.press('Change site', { force: true });
+        cy.see('Sites');
+
+        // TODO select buttons inside of shadow parts
+        cy.get('body').click(275, 30);
+        cy.wait(100);
+        cy.get('body').click(315, 100);
+
+        cy.press('Delete');
+        cy.see('Connect to Moodle');
+        cy.login(false);
+        cy.contains('ion-slide', 'Dashboard').should('have.attr', 'aria-selected', 'true');
+    });
+
 });
