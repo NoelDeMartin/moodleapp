@@ -28,26 +28,26 @@ const customCommands = {
         cy.interceptSiteRequests(siteUrl);
 
         // Skip onboarding.
-        cy.see('core.login.onboarding');
-        cy.press('core.skip');
-        cy.dontSee('core.login.onboarding');
+        cy.see('Welcome to the Moodle App!');
+        cy.press('Skip');
+        cy.dontSee('Welcome to the Moodle App!');
 
         // Introduce site url.
-        cy.see('core.login.connecttomoodle');
-        cy.get('[placeholder="core.login.siteaddressplaceholder"]').type(siteUrl);
-        cy.press('core.login.yourenteredsite');
+        cy.see('Connect to Moodle');
+        cy.get('[placeholder="https://campus.example.edu"]').type(siteUrl);
+        cy.press('Connect to your site', { force: true });
 
         // Introduce user credentials.
-        cy.see('core.login.login');
-        cy.get('[placeholder="core.login.username"]').type('student', { force: true });
-        cy.get('[placeholder="core.login.password"]').type('secret', { force: true });
-        cy.press('core.login.loginbutton');
+        cy.see('Log in');
+        cy.get('[placeholder="Username"]').type('student', { force: true });
+        cy.get('[placeholder="Password"]').type('secret', { force: true });
+        cy.contains('ion-button', 'Log in').click();
 
         // See home.
         cy.see('You are currently using the demo student account of Barbara Gardner');
     },
 
-    press: (text: string): Cypress.Chainable<void> => cy.contains(text).click(),
+    press: (text: string, options?: Partial<Cypress.ClickOptions>): Cypress.Chainable<void> => cy.contains(text).click(options),
     resetBrowser: Database.reset,
     see: (text: string): Cypress.Chainable<void> => cy.contains(text).should('be.visible'),
 };

@@ -23,13 +23,13 @@ describe('Navigation', () => {
     });
 
     it('changes home tabs', () => {
-        cy.press('core.sitehome.sitehome');
+        cy.press('Site home', { force: true });
         cy.see('Mount Orange School provides high quality education for students aged from 8 to 18 years');
-        cy.contains('ion-slide', 'core.sitehome.sitehome').should('have.attr', 'aria-selected', 'true');
+        cy.contains('ion-slide', 'Site home').should('have.attr', 'aria-selected', 'true');
 
-        cy.press('core.courses.mymoodle');
+        cy.press('Dashboard', { force: true });
         cy.see('You are currently using the demo student account of Barbara Gardner');
-        cy.contains('ion-slide', 'core.courses.mymoodle').should('have.attr', 'aria-selected', 'true');
+        cy.contains('ion-slide', 'Dashboard').should('have.attr', 'aria-selected', 'true');
     });
 
 });

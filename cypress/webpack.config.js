@@ -19,6 +19,7 @@ module.exports = {
         extensions: ['.ts', '.js'],
         alias: {
             '@': resolve(__dirname, '../src'),
+            '@addons': resolve(__dirname, '../src/addons'),
             '@classes': resolve(__dirname, '../src/core/classes'),
             '@components': resolve(__dirname, '../src/core/components'),
             '@cy': __dirname,

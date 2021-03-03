@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "ng": "ng",
-    "start": "ionic serve",
+    "start": "ionic serve --no-open",
     "build": "ionic build",
     "build:prod": "ionic build --prod",
     "test": "NODE_ENV=testing gulp && jest --verbose",
@@ -32,7 +32,7 @@
     "ionic:build:before": "gulp",
     "cy:open": "cypress open",
     "cy:run": "NODE_ENV=testing gulp && cypress run",
-    "cy:test": "start-server-and-test start http://localhost:4200 cy:run"
+    "cy:test": "start-server-and-test start http://localhost:8100 cy:run"
   },
   "dependencies": {
     "@angular/animations": "^11.0.1",

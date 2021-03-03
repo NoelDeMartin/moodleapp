@@ -28,7 +28,7 @@ describe('Performance', () => {
      * @see https://web.dev/first-contentful-paint/
      */
     it('[FCP] First Contentful Paint in less than 2 seconds', () => {
-        cy.see('core.login.onboarding');
+        cy.see('Welcome to the Moodle App!');
 
         cy.get<number>('@start').then(start => {
             expect(Date.now() - start).to.be.lessThan(2000);
@@ -39,8 +39,8 @@ describe('Performance', () => {
      * @see https://web.dev/interactive/
      */
     it('[TTI] Time to Interactive is less than 3.8 seconds', () => {
-        cy.press('core.skip');
-        cy.see('core.login.connecttomoodle');
+        cy.press('Skip');
+        cy.see('Connect to Moodle');
 
         cy.get<number>('@start').then(start => {
             expect(Date.now() - start).to.be.lessThan(3800);
@@ -51,9 +51,9 @@ describe('Performance', () => {
      * @see https://web.dev/lighthouse-total-blocking-time/
      */
     it('[TBT] Total Blocking Time is less than 300 milliseconds', () => {
-        cy.see('core.login.onboarding').then(() => cy.wrap(Date.now()).as('FCP'));
-        cy.press('core.skip');
-        cy.see('core.login.connecttomoodle');
+        cy.see('Welcome to the Moodle App!').then(() => cy.wrap(Date.now()).as('FCP'));
+        cy.press('Skip');
+        cy.see('Connect to Moodle');
 
         cy.get<number>('@FCP').then(start => {
             expect(Date.now() - start).to.be.lessThan(300);
