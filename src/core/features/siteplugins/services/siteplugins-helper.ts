@@ -259,7 +259,7 @@ export class CoreSitePluginsHelperProvider {
             // eslint-disable-next-line @typescript-eslint/naming-convention
             HANDLER_DISABLED: HANDLER_DISABLED,
         };
-        CoreCompile.injectLibraries(instance);
+        CoreCompile.injectLibraries(instance, undefined, plugin);
 
         // Add some data of the WS call result.
         const jsData = CoreSitePlugins.createDataForJS(result);

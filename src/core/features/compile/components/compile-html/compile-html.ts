@@ -35,6 +35,7 @@ import {
 } from '@angular/core';
 
 import { CoreCompile } from '@features/compile/services/compile';
+import { CoreSitePluginsPlugin } from '@features/siteplugins/services/siteplugins';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 
@@ -64,6 +65,7 @@ export class CoreCompileHtmlComponent implements OnChanges, OnDestroy, DoCheck {
     @Input() text!: string; // The HTML text to display.
     @Input() javascript?: string; // The Javascript to execute in the component.
     @Input() jsData?: Record<string, unknown>; // Data to pass to the fake component.
+    @Input() plugin?: CoreSitePluginsPlugin; // Plugin rendering the component.
     @Input() extraImports: unknown[] = []; // Extra import modules.
     @Input() extraProviders: Type<unknown>[] = []; // Extra providers.
     @Input() forceCompile?: boolean; // Set it to true to force compile even if the text/javascript hasn't changed.
@@ -181,7 +183,7 @@ export class CoreCompileHtmlComponent implements OnChanges, OnDestroy, DoCheck {
                 this['dataArray'] = [];
 
                 // Inject the libraries.
-                CoreCompile.injectLibraries(this, compileInstance.extraProviders);
+                CoreCompile.injectLibraries(this, compileInstance.extraProviders, compileInstance.plugin);
 
                 // Always add these elements, they could be needed on component init (componentObservable).
                 this['ChangeDetectorRef'] = compileInstance.changeDetector;

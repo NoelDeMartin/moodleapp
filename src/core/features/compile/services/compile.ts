@@ -66,7 +66,7 @@ import { CORE_TAG_SERVICES } from '@features/tag/tag.module';
 import { CORE_STYLE_SERVICES } from '@features/styles/styles.module';
 import { CORE_USER_SERVICES } from '@features/user/user.module';
 import { CORE_XAPI_SERVICES } from '@features/xapi/xapi.module';
-import { CoreSitePluginsProvider } from '@features/siteplugins/services/siteplugins';
+import { CoreSitePluginsPlugin, CoreSitePluginsProvider } from '@features/siteplugins/services/siteplugins';
 
 // Import other libraries and providers.
 import { DomSanitizer } from '@angular/platform-browser';
@@ -75,6 +75,9 @@ import { HttpClient } from '@angular/common/http';
 import { CoreConstants } from '@/core/constants';
 import moment from 'moment';
 import { Md5 } from 'ts-md5/dist/md5';
+
+// Import public API.
+import { getPublicAPI } from '@features/siteplugins/public-api';
 
 // Import core classes that can be useful for site plugins.
 import { CoreSyncBaseProvider } from '@classes/base-sync';
@@ -227,8 +230,7 @@ export class CoreCompileProvider {
      * @return Result of the eval.
      */
     protected evalInContext(javascript: string): unknown {
-        // eslint-disable-next-line no-eval
-        return eval(javascript);
+        return new Function(javascript).call(this);
     }
 
     /**
@@ -253,7 +255,7 @@ export class CoreCompileProvider {
      * @param extraProviders Extra imported providers if needed and not imported by this class.
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    injectLibraries(instance: any, extraProviders: Type<unknown>[] = []): void {
+    injectLibraries(instance: any, extraProviders: Type<unknown>[] = [], plugin?: CoreSitePluginsPlugin): void {
         const providers = [
             ...CORE_SERVICES,
             ...CORE_BLOCK_SERVICES,
@@ -329,6 +331,11 @@ export class CoreCompileProvider {
 
         // Inject current service.
         instance['CoreCompileProvider'] = this;
+
+        // Inject public API.
+        if (plugin) {
+            Object.assign(instance, getPublicAPI(plugin));
+        }
 
         // Add some final classes.
         instance['injector'] = this.injector;

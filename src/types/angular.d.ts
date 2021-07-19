@@ -25,3 +25,12 @@ declare module '@ionic/angular' {
     }
 
 }
+
+declare module '@angular/router' {
+
+    interface Route {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        _loadedConfig?: { routes: Routes };
+    }
+
+}

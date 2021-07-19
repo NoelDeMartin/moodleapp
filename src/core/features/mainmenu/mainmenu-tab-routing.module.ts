@@ -17,6 +17,7 @@ import { Route, Routes } from '@angular/router';
 
 import { ModuleRoutesConfig, resolveModuleRoutes } from '@/app/app-routing.module';
 
+export const dynamicMainMenuTabRoutes: Routes = [];
 export const MAIN_MENU_TAB_ROUTES = new InjectionToken('MAIN_MENU_TAB_ROUTES');
 
 export function buildTabMainRoutes(injector: Injector, mainRoute: Route): Routes {
@@ -29,6 +30,7 @@ export function buildTabMainRoutes(injector: Injector, mainRoute: Route): Routes
     return [
         mainRoute,
         ...routes.siblings,
+        ...dynamicMainMenuTabRoutes,
     ];
 }
 
