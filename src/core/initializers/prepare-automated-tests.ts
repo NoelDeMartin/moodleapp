@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ApplicationRef } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { CorePushNotifications, CorePushNotificationsProvider } from '@features/pushnotifications/services/pushnotifications';
 import { CoreApp, CoreAppProvider } from '@services/app';
 import { CoreCronDelegate, CoreCronDelegateService } from '@services/cron';
 import { CoreCustomURLSchemes, CoreCustomURLSchemesProvider } from '@services/urlschemes';
-import { Application } from '@singletons';
+import { Application, ChangeDetector } from '@singletons';
+import { CoreEvents } from '@singletons/events';
 
 type AutomatedTestsWindow = Window & {
     appRef?: ApplicationRef;
     appProvider?: CoreAppProvider;
+    changeDetector?: ChangeDetectorRef;
     cronProvider?: CoreCronDelegateService;
     pushNotifications?: CorePushNotificationsProvider;
     urlSchemes?: CoreCustomURLSchemesProvider;
@@ -33,6 +35,10 @@ function initializeAutomatedTestsWindow(window: AutomatedTestsWindow) {
     window.cronProvider = CoreCronDelegate.instance;
     window.pushNotifications = CorePushNotifications.instance;
     window.urlSchemes = CoreCustomURLSchemes.instance;
+
+    CoreEvents.on(CoreEvents.APP_READY, () => {
+        window.changeDetector = ChangeDetector.instance;
+    });
 }
 
 export default function(): void {

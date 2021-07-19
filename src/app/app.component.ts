@@ -19,8 +19,8 @@ import { BackButtonEvent } from '@ionic/core';
 import { CoreLang } from '@services/lang';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
 import { CoreEvents } from '@singletons/events';
-import { Network, NgZone, Platform, SplashScreen } from '@singletons';
-import { CoreApp, CoreAppProvider } from '@services/app';
+import { ChangeDetector, Network, NgZone, Platform, SplashScreen } from '@singletons';
+import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSubscriptions } from '@singletons/subscriptions';
@@ -33,10 +33,6 @@ import { CoreSitePlugins } from '@features/siteplugins/services/siteplugins';
 
 const MOODLE_VERSION_PREFIX = 'version-';
 const MOODLEAPP_VERSION_PREFIX = 'moodleapp-';
-
-type AutomatedTestsWindow = Window & {
-    changeDetector?: ChangeDetectorRef;
-};
 
 @Component({
     selector: 'app-root',
@@ -51,9 +47,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     protected lastInAppUrl?: string;
 
     constructor(changeDetector: ChangeDetectorRef) {
-        if (CoreAppProvider.isAutomated()) {
-            (window as AutomatedTestsWindow).changeDetector = changeDetector;
-        }
+        ChangeDetector.setInstance(changeDetector);
     }
 
     /**
@@ -257,6 +251,9 @@ export class AppComponent implements OnInit, AfterViewInit {
                 CoreApp.closeApp();
             });
         });
+
+        // Application is ready.
+        CoreEvents.trigger(CoreEvents.APP_READY);
     }
 
     /**

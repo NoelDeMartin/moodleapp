@@ -55,6 +55,7 @@ export interface CoreEventsData {
     [CoreEvents.COMPONENT_FILE_ACTION]: CoreFilepoolComponentFileEventData;
     [CoreEvents.FILE_SHARED]: CoreEventFileSharedData;
     [CoreEvents.APP_LAUNCHED_URL]: CoreEventAppLaunchedData;
+    [CoreEvents.APP_READY]: void;
 }
 
 /*
@@ -87,6 +88,7 @@ export class CoreEvents {
     static readonly IAB_LOAD_START = 'inappbrowser_load_start';
     static readonly IAB_EXIT = 'inappbrowser_exit';
     static readonly APP_LAUNCHED_URL = 'app_launched_url'; // App opened with a certain URL (custom URL scheme).
+    static readonly APP_READY = 'app_ready';
     static readonly FILE_SHARED = 'file_shared';
     static readonly KEYBOARD_CHANGE = 'keyboard_change';
     static readonly CORE_LOADING_CHANGED = 'core_loading_changed';

@@ -12,7 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AbstractType, ApplicationInitStatus, ApplicationRef, Injector, NgZone as NgZoneService, Type } from '@angular/core';
+import {
+    AbstractType,
+    ApplicationInitStatus,
+    ApplicationRef,
+    ChangeDetectorRef,
+    Injector,
+    NgZone as NgZoneService,
+    Type,
+} from '@angular/core';
 import { Router as RouterService } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer as DomSanitizerService } from '@angular/platform-browser';
@@ -180,9 +188,7 @@ export const SQLite = makeSingleton(SQLiteService);
 export const WebIntent = makeSingleton(WebIntentService);
 export const WebView = makeSingleton(WebViewService);
 export const Zip = makeSingleton(ZipService);
-
 export const Camera = makeSingleton(CameraService);
-
 export const Device = makeSingleton(DeviceService);
 
 // Convert some Angular and Ionic injectables to singletons.
@@ -201,6 +207,7 @@ export const Application = makeSingleton(ApplicationRef);
 export const NavController = makeSingleton(NavControllerService);
 export const Router = makeSingleton(RouterService);
 export const DomSanitizer = makeSingleton(DomSanitizerService);
+export const ChangeDetector = makeSingleton(ChangeDetectorRef);
 
 // Convert external libraries injectables.
 export const Translate = makeSingleton(TranslateService);
