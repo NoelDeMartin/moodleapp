@@ -18,6 +18,7 @@ import { CoreSharedModule } from '@/core/shared.module';
 import { CoreCoursesCourseListItemComponent } from './course-list-item/course-list-item';
 import { CoreCoursesCourseProgressComponent } from './course-progress/course-progress';
 import { CoreCoursesCourseOptionsMenuComponent } from './course-options-menu/course-options-menu';
+import { CoreCoursesNativeSandboxComponent } from './native-sandbox/native-sandbox';
 import { CoreCoursesSelfEnrolPasswordComponent } from './self-enrol-password/self-enrol-password';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { CoreCoursesSelfEnrolPasswordComponent } from './self-enrol-password/sel
         CoreCoursesCourseListItemComponent,
         CoreCoursesCourseProgressComponent,
         CoreCoursesCourseOptionsMenuComponent,
+        CoreCoursesNativeSandboxComponent,
         CoreCoursesSelfEnrolPasswordComponent,
     ],
     imports: [
@@ -34,6 +36,7 @@ import { CoreCoursesSelfEnrolPasswordComponent } from './self-enrol-password/sel
         CoreCoursesCourseListItemComponent,
         CoreCoursesCourseProgressComponent,
         CoreCoursesCourseOptionsMenuComponent,
+        CoreCoursesNativeSandboxComponent,
         CoreCoursesSelfEnrolPasswordComponent,
     ],
 })

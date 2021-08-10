@@ -12,8 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// TODO these types should not be global
+type WebServiceRequestStatusValue = 'ONGOING' | 'COMPLETED';
+
+interface IWebServiceResponse<T = unknown> {
+    status: number;
+    data: T;
+}
+
+interface IWebServiceRequest<T = unknown> {
+    id: string;
+    url: string;
+    status: WebServiceRequestStatusValue;
+    // status: Observable<WebServiceRequestStatus>;
+    response?: IWebServiceResponse<T>;
+
+    consume(): void;
+}
+
 interface MoodleApp {
-    hello(name: string): Promise<string>;
+    startWebServiceRequest<T=unknown>(url: string, title?: string): Promise<IWebServiceRequest<T>>;
+    getOngoingWebServiceRequests(): IWebServiceRequest[];
 }
 
 interface Cordova {
@@ -21,4 +40,11 @@ interface Cordova {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     MoodleApp: MoodleApp;
 
+}
+
+// TODO workaround for esbuild obfuscating `module` keyword from index.js
+// (this is replaced in build.js script)
+interface Window {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    CORDOVA_MODULE: any;
 }

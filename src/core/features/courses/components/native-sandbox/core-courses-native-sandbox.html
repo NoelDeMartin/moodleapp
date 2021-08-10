@@ -1,0 +1,35 @@
+<ion-list>
+    <ion-item-divider>
+        <ion-label>
+            <h2>Native Sandbox</h2>
+        </ion-label>
+    </ion-item-divider>
+    <ion-item *ngFor="let todo of todos">
+        <ion-label>
+            TODO {{ todo.id }}
+
+            <span *ngIf="todo.isDownloaded()">
+                : {{ todo.data.title }}
+            </span>
+        </ion-label>
+        <ng-container *ngIf="!todo.isDownloading()">
+            <ion-button
+                *ngIf="!todo.isDownloaded()"
+                fill="clear" color="dark" slot="end" aria-label="Download"
+                (click)="download(todo)"
+            >
+                <ion-icon slot="icon-only" name="cloud-download" aria-hidden="true"></ion-icon>
+            </ion-button>
+
+            <ion-button
+                *ngIf="todo.isDownloaded()"
+                fill="clear" color="dark" slot="end" aria-label="Refresh"
+                (click)="download(todo)"
+            >
+                <ion-icon slot="icon-only" name="fas-redo-alt" aria-hidden="true"></ion-icon>
+            </ion-button>
+        </ng-container>
+
+        <ion-spinner *ngIf="todo.isDownloading()" [attr.aria-label]="'core.loading' | translate" slot="end"></ion-spinner>
+    </ion-item>
+</ion-list>

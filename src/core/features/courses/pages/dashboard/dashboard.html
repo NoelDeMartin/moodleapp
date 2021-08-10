@@ -16,6 +16,8 @@
         <ion-refresher-content pullingText="{{ 'core.pulltorefresh' | translate }}"></ion-refresher-content>
     </ion-refresher>
 
+    <core-courses-native-sandbox></core-courses-native-sandbox>
+
     <core-loading [hideUntil]="loaded">
         <ion-list>
             <ng-container *ngFor="let block of blocks">

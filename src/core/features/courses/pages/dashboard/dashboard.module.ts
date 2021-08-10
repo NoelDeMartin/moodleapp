@@ -17,6 +17,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CoreSharedModule } from '@/core/shared.module';
 import { CoreBlockComponentsModule } from '@features/block/components/components.module';
+import { CoreCoursesComponentsModule } from '@features/courses/components/components.module';
 
 import { CoreCoursesDashboardPage } from './dashboard';
 
@@ -32,6 +33,7 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         CoreSharedModule,
         CoreBlockComponentsModule,
+        CoreCoursesComponentsModule,
     ],
     declarations: [
         CoreCoursesDashboardPage,

@@ -65,18 +65,6 @@ export class CoreCoursesDashboardPage implements OnInit, OnDestroy {
         }, CoreSites.getCurrentSiteId());
 
         this.loadContent();
-
-        setTimeout(async () => {
-            try {
-                const result = await window.cordova.MoodleApp.hello('ok');
-
-                // eslint-disable-next-line no-console
-                console.log('DEBUG: Output from local plugin', result);
-            } catch (error) {
-                // eslint-disable-next-line no-console
-                console.log('DEBUG: Local plugin failed', error);
-            }
-        }, 2000);
     }
 
     /**

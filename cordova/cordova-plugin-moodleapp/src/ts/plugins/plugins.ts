@@ -12,14 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import plugins, { WebServicesQueue } from './plugins/plugins';
+import EventBusPlugin from './EventBusPlugin';
+import WebServicesQueuePlugin from './WebServicesQueuePlugin';
 
-document.addEventListener('deviceready', () => plugins.map(plugin => plugin.initialize()));
-// TODO register destroy to unregister listeners?
+export const EventBus = new EventBusPlugin();
+export const WebServicesQueue = new WebServicesQueuePlugin();
 
-const api: MoodleApp = {
-    startWebServiceRequest: <T=unknown>(url: string, title?: string) => WebServicesQueue.startRequest<T>(url, title),
-    getOngoingWebServiceRequests: () => Object.values(WebServicesQueue.requests),
-};
-
-window.CORDOVA_MODULE.exports = api;
+export default [EventBus, WebServicesQueue];
