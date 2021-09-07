@@ -276,6 +276,7 @@ unitTestsConfig['extends'].push('plugin:jest/recommended');
 
 var integrationTestsConfig = Object.assign({}, unitTestsConfig);
 integrationTestsConfig['rules']['jest/expect-expect'] = 'off';
+integrationTestsConfig['rules']['jest/no-standalone-expect'] = 'off';
 integrationTestsConfig['rules']['jest/valid-expect-in-promise'] = 'off';
 integrationTestsConfig['rules']['jest/valid-expect'] = 'off';
 integrationTestsConfig['rules']['promise/always-return'] = 'off';

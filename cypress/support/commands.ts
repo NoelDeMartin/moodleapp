@@ -14,6 +14,8 @@
 
 import { DbTransaction, SQLiteObject } from '@ionic-native/sqlite/ngx';
 
+import performanceCommands from './commands/performance';
+
 async function dropTables(transaction: DbTransaction, tables: string[]): Promise<void> {
     await Promise.all(tables.map(table => {
         table = JSON.stringify(table);
@@ -46,6 +48,8 @@ const customCommands = {
     press: (text: string, options?: Partial<Cypress.ClickOptions>): Cypress.Chainable<void> => cy.contains(text).click(options),
     resetBrowser: (): Cypress.Chainable<void> => cy.window().then(emptyDatabase),
     see: (text: string): Cypress.Chainable<void> => cy.contains(text).should('be.visible'),
+
+    ...performanceCommands,
 };
 
 for (const command in customCommands) {

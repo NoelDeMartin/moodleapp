@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { PerformanceTestOptions } from '@cy/support/commands/performance';
+
 // eslint-disable-next-line jest/no-export
 export {};
 
@@ -21,7 +23,7 @@ export {};
 describe('Performance', () => {
 
     beforeEach(() => {
-        cy.wrap(Date.now()).as('start');
+        cy.measureBootOverhead();
         cy.visit('/');
     });
 
@@ -29,10 +31,15 @@ describe('Performance', () => {
      * @see https://web.dev/first-contentful-paint/
      */
     it('[FCP] First Contentful Paint in less than 2 seconds', () => {
-        cy.see('Welcome to the Moodle App!');
+        const options: PerformanceTestOptions = {
+            runs: 3,
+            maxTime: 2000,
+            includesBoot: true,
+        };
 
-        cy.get<number>('@start').then(start => {
-            expect(Date.now() - start).to.be.lessThan(2000);
+        cy.measurePerformance(options, () => {
+            cy.visit('/');
+            cy.see('Connect to Moodle');
         });
     });
 
@@ -40,11 +47,17 @@ describe('Performance', () => {
      * @see https://web.dev/interactive/
      */
     it('[TTI] Time to Interactive is less than 3.8 seconds', () => {
-        cy.press('Skip');
-        cy.see('Connect to Moodle');
+        const options: PerformanceTestOptions = {
+            runs: 3,
+            maxTime: 3800,
+            includesBoot: true,
+            tearDown: () => cy.resetBrowser(),
+        };
 
-        cy.get<number>('@start').then(start => {
-            expect(Date.now() - start).to.be.lessThan(3800);
+        cy.measurePerformance(options, () => {
+            cy.visit('/');
+            cy.press('Skip');
+            cy.see('Connect to Moodle');
         });
     });
 
@@ -52,11 +65,23 @@ describe('Performance', () => {
      * @see https://web.dev/lighthouse-total-blocking-time/
      */
     it('[TBT] Total Blocking Time is less than 300 milliseconds', () => {
-        cy.see('Welcome to the Moodle App!').then(() => cy.wrap(Date.now()).as('TBT'));
-        cy.press('Skip');
-        cy.see('Connect to Moodle');
-        cy.get<number>('@TBT').then(start => {
-            expect(Date.now() - start).to.be.lessThan(300);
+        const options: PerformanceTestOptions = {
+            runs: 3,
+            maxTime: 300,
+
+            setUp() {
+                cy.visit('/');
+                cy.see('Welcome to the Moodle App!');
+            },
+
+            tearDown() {
+                cy.resetBrowser();
+            },
+        };
+
+        cy.measurePerformance(options, () => {
+            cy.press('Skip');
+            cy.see('Connect to Moodle');
         });
     });
 
