@@ -29,6 +29,7 @@ npm-debug.log*
 /plugins
 /www
 /src/assets/lib
+/cypress/screenshots
 
 /moodle.config.*.json
 !/moodle.config.example.json
