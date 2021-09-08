@@ -2,17 +2,23 @@ name: Testing
 
 on: [push, pull_request]
 
+run: nvmrc=$(cat .nvmrc)
+
 jobs:
   test:
 
     runs-on: ubuntu-latest
 
     steps:
+    - run: nvmrc=$(cat .nvmrc)
     - uses: actions/checkout@v2
+    - name: Read .nvmrc
+      run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+      id: nvm
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: '14'
+        node-version: "${{ steps.nvm.outputs.NVMRC }}"
     - name: Install npm packages
       run: |
         npm install -g npm@7
