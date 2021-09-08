@@ -35,7 +35,7 @@
     "cy:serve": "cp cypress/serve.json www/serve.json && serve www/",
     "cy:run": "NODE_ENV=testing gulp && cypress run",
     "cy:test": "start-server-and-test cy:serve http://localhost:5000 cy:run",
-    "lint": "NODE_OPTIONS=--max-old-space-size=4096 ng lint",
+    "lint": "NODE_OPTIONS=--max-old-space-size=4096 ng lint && eslint cypress",
     "ionic:serve:before": "gulp",
     "ionic:serve": "./scripts/serve.sh",
     "ionic:build:before": "gulp"
