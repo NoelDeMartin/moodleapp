@@ -72,6 +72,32 @@ class behat_performance extends behat_base {
     }
 
     /**
+     * Store performance results.
+     *
+     * @Then /^I store performance logs$/
+     */
+    public function i_store_performance_logs() {
+        global $CFG;
+
+        $dumpsfolderpath = $CFG->dirroot . '/behatperformancedumps/';
+
+        if (!file_exists($dumpsfolderpath)) {
+            mkdir($dumpsfolderpath);
+        }
+
+        $performancelogs = [];
+        foreach ($this->timings as $measure => $timings) {
+            $performancelogs[$measure] = [
+                'total' => $timings['end'] - $timings['start'],
+            ];
+
+            $performancelogs[$measure] = array_merge($performancelogs[$measure], $timings);
+        }
+
+        file_put_contents($dumpsfolderpath . time() . '.json', json_encode($performancelogs));
+    }
+
+    /**
      * Parse time.
      *
      * @Transform /^\d+(?:\.\d+)? (?:seconds|milliseconds)$/
