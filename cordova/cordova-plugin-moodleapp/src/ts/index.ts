@@ -12,18 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreFilepool } from '@services/filepool';
-import { CoreLang } from '@services/lang';
-import { CoreLocalNotifications } from '@services/local-notifications';
-import { CoreNative } from '@features/native/services/native';
-import { CoreUpdateManager } from '@services/update-manager';
+import { WebServiceRequestsQueue } from './plugins/web-service-requests-queue';
 
-export default async function(): Promise<void> {
-    await Promise.all([
-        CoreFilepool.initialize(),
-        CoreLang.initialize(),
-        CoreLocalNotifications.initialize(),
-        CoreNative.initialize(),
-        CoreUpdateManager.initialize(),
-    ]);
-}
+const api: MoodleAppPlugins = {
+    webServiceRequestsQueue: new WebServiceRequestsQueue(),
+};
+
+// This is necessary to work around the default transpilation behaviour,
+// which would wrap exported modules into UMD methods. Check out the
+// fixBundle method in the /scripts/build.js file for more details.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(window as any).cordovaModule = api;

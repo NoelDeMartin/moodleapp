@@ -3,8 +3,16 @@ FROM node:14 as build-stage
 
 WORKDIR /app
 
-# Prepare node dependencies
+# Update platform dependencies
 RUN apt-get update && apt-get install libsecret-1-0 -y
+
+# Prepare native plugin
+COPY ./cordova/cordova-plugin-moodleapp/package*.json /app/cordova/cordova-plugin-moodleapp/
+RUN npm ci --prefix cordova/cordova-plugin-moodleapp
+COPY ./cordova/cordova-plugin-moodleapp/ /app/cordova/cordova-plugin-moodleapp/
+RUN npm run prod --prefix cordova/cordova-plugin-moodleapp
+
+# Prepare node dependencies
 COPY package*.json ./
 RUN npm ci
 

@@ -12,18 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreFilepool } from '@services/filepool';
-import { CoreLang } from '@services/lang';
-import { CoreLocalNotifications } from '@services/local-notifications';
-import { CoreNative } from '@features/native/services/native';
-import { CoreUpdateManager } from '@services/update-manager';
+import {
+    WebServiceRequestsQueue,
+    WebServiceRequest,
+} from 'cordova-plugin-moodleapp/src/ts/plugins/web-service-requests-queue';
 
-export default async function(): Promise<void> {
-    await Promise.all([
-        CoreFilepool.initialize(),
-        CoreLang.initialize(),
-        CoreLocalNotifications.initialize(),
-        CoreNative.initialize(),
-        CoreUpdateManager.initialize(),
-    ]);
+import { PublicAPI } from '../services/native';
+
+/**
+ * Stub for platforms where the native plugin is not supported.
+ */
+export class WebServiceRequestsQueueStub implements PublicAPI<WebServiceRequestsQueue> {
+
+    /**
+     * @inheritdoc
+     */
+    async getRequests(): Promise<WebServiceRequest[]> {
+        return [];
+    }
+
 }

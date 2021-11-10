@@ -12,18 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreFilepool } from '@services/filepool';
-import { CoreLang } from '@services/lang';
-import { CoreLocalNotifications } from '@services/local-notifications';
-import { CoreNative } from '@features/native/services/native';
-import { CoreUpdateManager } from '@services/update-manager';
+/**
+ * Web service request.
+ */
+export interface WebServiceRequest {
+    id: string;
+}
 
-export default async function(): Promise<void> {
-    await Promise.all([
-        CoreFilepool.initialize(),
-        CoreLang.initialize(),
-        CoreLocalNotifications.initialize(),
-        CoreNative.initialize(),
-        CoreUpdateManager.initialize(),
-    ]);
+/**
+ * Manages a queue of web service requests.
+ */
+export class WebServiceRequestsQueue {
+
+    /**
+     * Get requests.
+     *
+     * @returns Requests.
+     */
+    async getRequests(): Promise<WebServiceRequest[]> {
+        return new Promise((resolve, reject) => {
+            cordova.exec(resolve, reject, 'WebServiceRequestsQueue', 'getRequests', []);
+        });
+    }
+
 }

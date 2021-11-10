@@ -1,0 +1,20 @@
+{
+  "name": "cordova-plugin-moodleapp",
+  "private": true,
+  "types": "./types/index.d.ts",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:ts\" \"npm run dev:cordova\"",
+    "dev:ts": "scripts/build.js --watch",
+    "dev:cordova": "chokidar www/index.js -c scripts/copy-javascript.js",
+    "prod": "NODE_ENV=production scripts/build.js",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^6.3.0",
+    "esbuild": "^0.13.13",
+    "typescript": "^4.4.4"
+  }
+}
