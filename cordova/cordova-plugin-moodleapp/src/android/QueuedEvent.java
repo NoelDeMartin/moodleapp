@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { EventBus } from './plugins/event-bus';
-import { WebServiceRequestsQueue } from './plugins/web-service-requests-queue';
+package com.moodle.moodlemobile;
 
-const api: MoodleAppPlugins = {
-    eventBus: new EventBus(),
-    webServiceRequestsQueue: new WebServiceRequestsQueue(),
-};
+public class QueuedEvent {
 
-// This is necessary to work around the default transpilation behaviour,
-// which would wrap exported modules into UMD methods. Check out the
-// fixBundle method in the /scripts/build.js file for more details.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(window as any).cordovaModule = api;
+    public String name;
+    public Object data;
+
+    public QueuedEvent(String name, Object data) {
+        this.name = name;
+        this.data = data;
+    }
+
+}

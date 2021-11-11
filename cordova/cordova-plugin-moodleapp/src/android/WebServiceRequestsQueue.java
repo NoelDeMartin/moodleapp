@@ -14,12 +14,15 @@
 
 package com.moodle.moodlemobile;
 
+import android.os.Handler;
 import android.util.Log;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.UUID;
 
@@ -31,6 +34,12 @@ public class WebServiceRequestsQueue extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         try {
             switch (action) {
+                case "startRequest":
+                    String url = args.getString(0);
+
+                    callbackContext.success(this.startRequest(url));
+
+                    return true;
                 case "getRequests":
                     callbackContext.success(this.getRequests());
 
@@ -41,6 +50,32 @@ public class WebServiceRequestsQueue extends CordovaPlugin {
         }
 
         return false;
+    }
+
+    private JSONObject startRequest(String url) throws JSONException {
+        JSONObject request = new JSONObject();
+        String id = UUID.randomUUID().toString();
+
+        request.put("id", id);
+        request.put("status", "ongoing");
+
+        // TODO move to worker and process real request
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                try {
+                    JSONObject payload = new JSONObject();
+
+                    payload.put("id", id);
+
+                    EventBus.emit("request-completed", payload);
+                } catch (JSONException e) {
+                    Log.e(TAG, "Failed processing request: " + url, e);
+                }
+            }
+        }, 3000);
+
+        return request;
     }
 
     private JSONArray getRequests() {

@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { EventBus } from '../src/ts/plugins/event-bus';
 import { WebServiceRequestsQueue } from '../src/ts/plugins/web-service-requests-queue';
 
 declare global {
 
     interface MoodleAppPlugins {
+        eventBus: EventBus;
         webServiceRequestsQueue: WebServiceRequestsQueue;
     }
 

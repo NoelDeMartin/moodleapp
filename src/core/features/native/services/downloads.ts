@@ -12,17 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { WebServiceRequest } from 'cordova-plugin-moodleapp/src/ts/plugins/web-service-requests-queue';
+import { WebServiceRequest, WebServiceRequestStatus } from 'cordova-plugin-moodleapp/src/ts/plugins/web-service-requests-queue';
 import { Injectable } from '@angular/core';
 import { makeSingleton } from '@singletons';
 
 import { CoreNative } from './native';
+import { CoreNativeEventBus } from './event-bus';
 
 /**
  * Native download.
  */
 export interface CoreNativeDownload {
     id: string;
+    status: WebServiceRequestStatus;
 }
 
 /**
@@ -38,6 +40,8 @@ export class CoreNativeDownloadsService {
      */
     async initialize(): Promise<void> {
         const queue = await CoreNative.plugin('webServiceRequestsQueue');
+
+        // Get existing downloads.
         const requests = await queue.getRequests();
 
         this.downloads = requests.reduce((downloads, request) => {
@@ -47,11 +51,25 @@ export class CoreNativeDownloadsService {
 
             return downloads;
         }, {});
+
+        // Subscribe to updates.
+        CoreNativeEventBus.on('request-completed', ({ id }) => {
+            this.downloads[id].status = WebServiceRequestStatus.Completed;
+        });
+    }
+
+    async startDownload(url: string): Promise<void> {
+        const queue = await CoreNative.plugin('webServiceRequestsQueue');
+        const request = await queue.startRequest(url);
+        const download = this.parseRequest(request);
+
+        this.downloads[download.id] = download;
     }
 
     private parseRequest(request: WebServiceRequest): CoreNativeDownload {
         return {
             id: request.id,
+            status: request.status,
         };
     }
 

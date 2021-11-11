@@ -12,17 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// Augment events interface with events specific to this plugin.
+declare module './event-bus' {
+    export interface EventData {
+        'request-completed': { id: string };
+    }
+}
+
 /**
  * Web service request.
  */
 export interface WebServiceRequest {
     id: string;
+    status: WebServiceRequestStatus;
+}
+
+/**
+ * Web service request status.
+ */
+export const enum WebServiceRequestStatus {
+    Ongoing = 'ongoing',
+    Completed = 'completed',
+    Failed = 'failed',
 }
 
 /**
  * Manages a queue of web service requests.
  */
 export class WebServiceRequestsQueue {
+
+    /**
+     * Start a new network request.
+     *
+     * @param url Url.
+     * @returns Request.
+     */
+    async startRequest(url: string): Promise<WebServiceRequest> {
+        return new Promise((resolve, reject) => {
+            cordova.exec(resolve, reject, 'WebServiceRequestsQueue', 'startRequest', [url]);
+        });
+    }
 
     /**
      * Get requests.

@@ -12,34 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
-    WebServiceRequestsQueue,
-    WebServiceRequest,
-    WebServiceRequestStatus,
-} from 'cordova-plugin-moodleapp/src/ts/plugins/web-service-requests-queue';
+import { EventBus } from 'cordova-plugin-moodleapp/src/ts/plugins/event-bus';
 
 import { PublicAPI } from '../services/native';
 
 /**
  * Stub for platforms where the native plugin is not supported.
  */
-export class WebServiceRequestsQueueStub implements PublicAPI<WebServiceRequestsQueue> {
+export class EventBusStub implements PublicAPI<EventBus> {
 
     /**
      * @inheritdoc
      */
-    async startRequest(): Promise<WebServiceRequest> {
-        return {
-            id: Date.now().toString(),
-            status: WebServiceRequestStatus.Ongoing,
-        };
-    }
-
-    /**
-     * @inheritdoc
-     */
-    async getRequests(): Promise<WebServiceRequest[]> {
-        return [];
+    async initialize(): Promise<void> {
+        // Stub.
     }
 
 }

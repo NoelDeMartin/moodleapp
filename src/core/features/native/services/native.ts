@@ -16,6 +16,8 @@ import { Injectable } from '@angular/core';
 import { makeSingleton, Platform } from '@singletons';
 
 import { CoreNativeDownloads } from './downloads';
+import { CoreNativeEventBus } from './event-bus';
+import { EventBusStub } from '../classes/event-bus-stub';
 import { WebServiceRequestsQueueStub } from '../classes/web-service-requests-queue-stub';
 
 type PluginStubConstructor<Plugin extends keyof MoodleAppPlugins> = { new(): PublicAPI<MoodleAppPlugins[Plugin]> };
@@ -43,6 +45,7 @@ export class CoreNativeService {
         });
         this.stubs = {};
         this.stubConstructors = {
+            eventBus: EventBusStub,
             webServiceRequestsQueue: WebServiceRequestsQueueStub,
         };
     }
@@ -51,6 +54,7 @@ export class CoreNativeService {
      * Initialize native services.
      */
     async initialize(): Promise<void> {
+        await CoreNativeEventBus.initialize();
         await CoreNativeDownloads.initialize();
 
         this.resolveReady();

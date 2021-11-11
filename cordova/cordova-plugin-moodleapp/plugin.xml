@@ -7,10 +7,15 @@
     </js-module>
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="EventBus">
+                <param name="android-package" value="com.moodle.moodlemobile.EventBus"/>
+            </feature>
             <feature name="WebServiceRequestsQueue">
                 <param name="android-package" value="com.moodle.moodlemobile.WebServiceRequestsQueue"/>
             </feature>
         </config-file>
+        <source-file src="src/android/EventBus.java" target-dir="src/com/moodle/moodlemobile" />
+        <source-file src="src/android/QueuedEvent.java" target-dir="src/com/moodle/moodlemobile" />
         <source-file src="src/android/WebServiceRequestsQueue.java" target-dir="src/com/moodle/moodlemobile" />
     </platform>
 </plugin>
