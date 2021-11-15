@@ -12,20 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { WebServiceRequest, WebServiceRequestStatus } from 'cordova-plugin-moodleapp/src/ts/plugins/web-service-requests-queue';
+import { WebServiceRequest } from 'cordova-plugin-moodleapp/src/ts/plugins/web-service-requests-queue';
 import { Injectable } from '@angular/core';
 import { makeSingleton } from '@singletons';
 
 import { CoreNative } from './native';
 import { CoreNativeEventBus } from './event-bus';
-
-/**
- * Native download.
- */
-export interface CoreNativeDownload {
-    id: string;
-    status: WebServiceRequestStatus;
-}
+import { CoreNativeDownload } from '../classes/download';
 
 /**
  * Manage background downloads.
@@ -53,24 +46,28 @@ export class CoreNativeDownloadsService {
         }, {});
 
         // Subscribe to updates.
-        CoreNativeEventBus.on('request-completed', ({ id }) => {
-            this.downloads[id].status = WebServiceRequestStatus.Completed;
-        });
+        CoreNativeEventBus.on('request-completed', ({ id, response }) => this.downloads[id].complete(response));
+        CoreNativeEventBus.on('request-failed', ({ id }) => this.downloads[id].fail());
     }
 
-    async startDownload(url: string): Promise<void> {
+    async startDownload(method: string, url: string, body: string | null = null): Promise<CoreNativeDownload> {
         const queue = await CoreNative.plugin('webServiceRequestsQueue');
-        const request = await queue.startRequest(url);
+        const request = await queue.startRequest(method.toUpperCase(), url, body);
         const download = this.parseRequest(request);
 
         this.downloads[download.id] = download;
+
+        return download;
     }
 
     private parseRequest(request: WebServiceRequest): CoreNativeDownload {
-        return {
-            id: request.id,
-            status: request.status,
-        };
+        const download = new CoreNativeDownload(request.id, request.status);
+
+        if (request.response) {
+            download.response = request.response;
+        }
+
+        return download;
     }
 
 }

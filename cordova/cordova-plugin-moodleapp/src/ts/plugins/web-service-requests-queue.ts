@@ -15,7 +15,13 @@
 // Augment events interface with events specific to this plugin.
 declare module './event-bus' {
     export interface EventData {
-        'request-completed': { id: string };
+        'request-completed': {
+            id: string;
+            response: WebServiceResponse;
+        };
+        'request-failed': {
+            id: string;
+        };
     }
 }
 
@@ -25,6 +31,15 @@ declare module './event-bus' {
 export interface WebServiceRequest {
     id: string;
     status: WebServiceRequestStatus;
+    response?: WebServiceResponse;
+}
+
+/**
+ * Web service response.
+ */
+export interface WebServiceResponse {
+    statusCode: number;
+    body: string;
 }
 
 /**
@@ -47,9 +62,9 @@ export class WebServiceRequestsQueue {
      * @param url Url.
      * @returns Request.
      */
-    async startRequest(url: string): Promise<WebServiceRequest> {
+    async startRequest(method: string, url: string, body: string | null = null): Promise<WebServiceRequest> {
         return new Promise((resolve, reject) => {
-            cordova.exec(resolve, reject, 'WebServiceRequestsQueue', 'startRequest', [url]);
+            cordova.exec(resolve, reject, 'WebServiceRequestsQueue', 'startRequest', [method, url, body]);
         });
     }
 

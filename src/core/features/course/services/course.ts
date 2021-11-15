@@ -407,6 +407,7 @@ export class CoreCourseProvider {
 
             const preSets: CoreSiteWSPreSets = {
                 omitExpires: preferCache,
+                useNative: true,
                 updateFrequency: CoreSite.FREQUENCY_RARELY,
             };
 

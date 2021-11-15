@@ -17,6 +17,8 @@ package com.moodle.moodlemobile;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
@@ -24,6 +26,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.UUID;
 
 public class WebServiceRequestsQueue extends CordovaPlugin {
@@ -35,9 +43,11 @@ public class WebServiceRequestsQueue extends CordovaPlugin {
         try {
             switch (action) {
                 case "startRequest":
-                    String url = args.getString(0);
+                    String method = args.getString(0);
+                    String url = args.getString(1);
+                    String body = args.isNull(2) ? null : args.getString(2);
 
-                    callbackContext.success(this.startRequest(url));
+                    callbackContext.success(this.startRequest(method, url, body));
 
                     return true;
                 case "getRequests":
@@ -52,28 +62,32 @@ public class WebServiceRequestsQueue extends CordovaPlugin {
         return false;
     }
 
-    private JSONObject startRequest(String url) throws JSONException {
+    private JSONObject startRequest(String method, String url, @Nullable String body) throws JSONException {
         JSONObject request = new JSONObject();
         String id = UUID.randomUUID().toString();
 
         request.put("id", id);
         request.put("status", "ongoing");
 
-        // TODO move to worker and process real request
+        // TODO move to worker
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
                 try {
-                    JSONObject payload = new JSONObject();
+                    WebServiceRequestsQueue.this.processRequest(id, method, url, body);
+                } catch (Throwable e) {
+                    try {
+                        JSONObject payload = new JSONObject();
 
-                    payload.put("id", id);
+                        payload.put("id", id);
 
-                    EventBus.emit("request-completed", payload);
-                } catch (JSONException e) {
-                    Log.e(TAG, "Failed processing request: " + url, e);
+                        EventBus.emit("request-failed", payload);
+                    } catch (JSONException jsonException) {
+                        Log.e(TAG, "Failed sending failure payload: " + url, e);
+                    }
                 }
             }
-        }, 3000);
+        }, 100);
 
         return request;
     }
@@ -84,6 +98,40 @@ public class WebServiceRequestsQueue extends CordovaPlugin {
         // TODO
 
         return requests;
+    }
+
+    // TODO move to worker
+    private void processRequest(String id, String method, String url, @Nullable String body) throws IOException, JSONException {
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.setRequestMethod(method.toUpperCase());
+
+        if (body != null) {
+            connection.setDoOutput(true);
+
+            new PrintWriter(connection.getOutputStream()).write(body);
+        }
+
+        try {
+            String line;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            reader.close();
+
+            JSONObject response = new JSONObject();
+            JSONObject payload = new JSONObject();
+
+            response.put("statusCode", connection.getResponseCode());
+            response.put("data", stringBuilder.toString());
+            payload.put("id", id);
+            payload.put("response", response);
+
+            EventBus.emit("request-completed", payload);
+        } finally {
+            connection.disconnect();
+        }
     }
 
 }

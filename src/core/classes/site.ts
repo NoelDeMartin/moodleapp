@@ -41,6 +41,8 @@ import { CoreLogger } from '@singletons/logger';
 import { Translate } from '@singletons';
 import { CoreIonLoadingElement } from './ion-loading';
 import { CoreLang } from '@services/lang';
+import { CoreNativeDownloads } from '@features/native/services/downloads';
+import { CoreUrl } from '@singletons/url';
 
 /**
  * QR Code type enumeration.
@@ -577,7 +579,9 @@ export class CoreSite {
                 data.moodlewssettinglang = preSets.lang ?? await CoreLang.getCurrentLanguage();
                 data.moodlewssettinglang = data.moodlewssettinglang.replace('-', '_'); // Moodle uses underscore instead of dash.
 
-                const response = await this.callOrEnqueueRequest<T>(method, data, preSets, wsPreSets);
+                const response = preSets.useNative
+                    ? await this.callNativeRequest<T>(method, data, wsPreSets)
+                    : await this.callOrEnqueueRequest<T>(method, data, preSets, wsPreSets);
 
                 if (preSets.saveToCache) {
                     delete data.moodlewssettinglang;
@@ -700,6 +704,43 @@ export class CoreSite {
                 delete this.ongoingRequests[cacheId];
             }
         }
+    }
+
+    /**
+     * Process a request using native downloads.
+     *
+     * @param method The WebService method to be called.
+     * @param data Arguments to pass to the method.
+     * @param wsPreSets Extra options related to the WS call.
+     * @return Promise resolved with the response when the WS is called.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected async callNativeRequest<T = unknown>(method: string, data: any, wsPreSets: CoreWSPreSets): Promise<T> {
+        const dataToSend = Object.assign({}, data); // Create a new object so the changes don't affect the original data.
+        const siteUrl = wsPreSets.siteUrl + '/webservice/rest/server.php?moodlewsrestformat=json';
+
+        // We add the method name to the URL purely to help with debugging.
+        // This duplicates what is in the ajaxData, but that does no harm.
+        // POST variables take precedence over GET.
+        const requestUrl = siteUrl + '&wsfunction=' + method;
+
+        dataToSend['wsfunction'] = method;
+        dataToSend['wstoken'] = wsPreSets.wsToken;
+
+        const download = await CoreNativeDownloads.startDownload('post', requestUrl, CoreUrl.encodeObject(dataToSend));
+
+        return new Promise((resolve, reject) => {
+            download.onCompleted(() => {
+                if (!download.response) {
+                    reject('No response');
+
+                    return;
+                }
+
+                resolve(JSON.parse(download.response.body));
+            });
+            download.onFailed(() => reject());
+        });
     }
 
     /**
@@ -1932,6 +1973,11 @@ export type CoreSiteWSPreSets = {
      * Get the value from the cache if it's still valid.
      */
     getFromCache?: boolean;
+
+    /**
+     * Use native plugin if available.
+     */
+    useNative?: boolean;
 
     /**
      * Save the result to the cache.
