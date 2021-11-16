@@ -6,6 +6,8 @@
         <clobbers target="cordova.MoodleApp" />
     </js-module>
     <platform name="android">
+        <preference name="ANDROID_WORK_RUNTIME_VERSION" default="2.5.0" />
+        <framework src="androidx.work:work-runtime:$ANDROID_WORK_RUNTIME_VERSION" />
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="EventBus">
                 <param name="android-package" value="com.moodle.moodlemobile.EventBus"/>
@@ -16,6 +18,8 @@
         </config-file>
         <source-file src="src/android/EventBus.java" target-dir="src/com/moodle/moodlemobile" />
         <source-file src="src/android/QueuedEvent.java" target-dir="src/com/moodle/moodlemobile" />
+        <source-file src="src/android/WebServiceRequest.java" target-dir="src/com/moodle/moodlemobile" />
         <source-file src="src/android/WebServiceRequestsQueue.java" target-dir="src/com/moodle/moodlemobile" />
+        <source-file src="src/android/WebServiceRequestsWorker.java" target-dir="src/com/moodle/moodlemobile" />
     </platform>
 </plugin>

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { EventBus } from 'cordova-plugin-moodleapp/src/ts/plugins/event-bus';
+import { EventBus, EventBusListener, EventData } from 'cordova-plugin-moodleapp/src/ts/plugins/event-bus';
 
 import { PublicAPI } from '../services/native';
 
@@ -21,11 +21,23 @@ import { PublicAPI } from '../services/native';
  */
 export class EventBusStub implements PublicAPI<EventBus> {
 
+    private listener?: EventBusListener;
+
     /**
      * @inheritdoc
      */
-    async initialize(): Promise<void> {
-        // Stub.
+    async initialize(listener: EventBusListener): Promise<void> {
+        this.listener = listener;
+    }
+
+    /**
+     * Emit a stub event.
+     *
+     * @param event Event name.
+     * @param data Event payload.
+     */
+    emit<Event extends keyof EventData>(event: Event, data: EventData[Event]): void {
+        this.listener?.call(null, event, data);
     }
 
 }

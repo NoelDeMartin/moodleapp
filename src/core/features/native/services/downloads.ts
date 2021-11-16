@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { WebServiceRequest } from 'cordova-plugin-moodleapp/src/ts/plugins/web-service-requests-queue';
+import { WebServiceRequest, WebServiceRequestOptions } from 'cordova-plugin-moodleapp/src/ts/plugins/web-service-requests-queue';
 import { Injectable } from '@angular/core';
 import { makeSingleton } from '@singletons';
 
@@ -50,9 +50,15 @@ export class CoreNativeDownloadsService {
         CoreNativeEventBus.on('request-failed', ({ id }) => this.downloads[id].fail());
     }
 
-    async startDownload(method: string, url: string, body: string | null = null): Promise<CoreNativeDownload> {
+    getDownloads(): CoreNativeDownload[] {
+        return Object.values(this.downloads);
+    }
+
+    async startDownload(url: string, options: WebServiceRequestOptions = {}): Promise<CoreNativeDownload> {
+        options.method = options.method?.toUpperCase() ?? undefined;
+
         const queue = await CoreNative.plugin('webServiceRequestsQueue');
-        const request = await queue.startRequest(method.toUpperCase(), url, body);
+        const request = await queue.startRequest(url, options);
         const download = this.parseRequest(request);
 
         this.downloads[download.id] = download;
@@ -61,7 +67,7 @@ export class CoreNativeDownloadsService {
     }
 
     private parseRequest(request: WebServiceRequest): CoreNativeDownload {
-        const download = new CoreNativeDownload(request.id, request.status);
+        const download = new CoreNativeDownload(request.id, request.status, request.metadata);
 
         if (request.response) {
             download.response = request.response;

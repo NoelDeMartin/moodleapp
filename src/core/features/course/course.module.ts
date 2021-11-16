@@ -90,14 +90,15 @@ const courseIndexRoutes: Routes = [
         {
             provide: APP_INITIALIZER,
             multi: true,
-            useValue: () => {
+            useValue: async () => {
                 CoreCronDelegate.register(CoreCourseSyncCronHandler.instance);
                 CoreCronDelegate.register(CoreCourseLogCronHandler.instance);
                 CoreTagAreaDelegate.registerHandler(CoreCourseTagAreaHandler.instance);
                 CoreTagAreaDelegate.registerHandler(CoreCourseModulesTagAreaHandler.instance);
 
-                CoreCourse.initialize();
                 CoreCourseModulePrefetchDelegate.initialize();
+
+                await CoreCourse.initialize();
             },
         },
     ],

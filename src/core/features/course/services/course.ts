@@ -98,7 +98,7 @@ export class CoreCourseProvider {
     /**
      * Initialize.
      */
-    initialize(): void {
+    async initialize(): Promise<void> {
         Platform.resume.subscribe(() => {
             // Run the handler the app is open to keep user in online status.
             setTimeout(() => {
@@ -114,6 +114,8 @@ export class CoreCourseProvider {
                 );
             }, 1000);
         });
+
+        await CoreCourseHelper.restoreNativeDownloads();
     }
 
     /**
@@ -408,6 +410,7 @@ export class CoreCourseProvider {
             const preSets: CoreSiteWSPreSets = {
                 omitExpires: preferCache,
                 useNative: true,
+                nativeMetadata: { siteId, courseId },
                 updateFrequency: CoreSite.FREQUENCY_RARELY,
             };
 

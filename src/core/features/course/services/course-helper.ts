@@ -15,6 +15,7 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import moment from 'moment';
+import { WebServiceRequestStatus } from 'cordova-plugin-moodleapp/src/ts/plugins/web-service-requests-queue';
 
 import { CoreSites } from '@services/sites';
 import {
@@ -69,6 +70,9 @@ import { CoreSiteHome } from '@features/sitehome/services/sitehome';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSiteHomeHomeHandlerService } from '@features/sitehome/services/handlers/sitehome-home';
 import { CoreStatusWithWarningsWSResponse } from '@services/ws';
+import { CoreNativeDownloads } from '@features/native/services/downloads';
+import { CoreNative } from '@features/native/services/native';
+import { CoreNativeDownload } from '@features/native/classes/download';
 
 /**
  * Prefetch info of a module.
@@ -153,6 +157,45 @@ export class CoreCourseHelperProvider {
 
     constructor() {
         this.logger = CoreLogger.getInstance('CoreCourseHelperProvider');
+    }
+
+    /**
+     * Restore native downloads.
+     */
+    async restoreNativeDownloads(): Promise<void> {
+        await CoreNative.ready();
+
+        const downloads = CoreNativeDownloads.getDownloads();
+
+        for (const download of downloads) {
+            if (!this.isCourseDownload(download)) {
+                continue;
+            }
+
+            switch (download.status) {
+                case WebServiceRequestStatus.Ongoing:
+                    // TODO restore promise.
+                    break;
+                case WebServiceRequestStatus.Completed:
+                    // TODO download and clear from native.
+                    break;
+                case WebServiceRequestStatus.Failed:
+                    // TODO clear from native.
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Check whether a given native download is a course download.
+     *
+     * @param download Native download.
+     * @returns Whether the given download is a course download.
+     */
+    private isCourseDownload(download: CoreNativeDownload): download is CoreNativeDownload & {
+        metadata: { siteId: string; courseId: string };
+    } {
+        return 'courseId' in download.metadata;
     }
 
     /**

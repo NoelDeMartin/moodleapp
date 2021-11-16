@@ -31,7 +31,18 @@ declare module './event-bus' {
 export interface WebServiceRequest {
     id: string;
     status: WebServiceRequestStatus;
+    metadata: Record<string, unknown>;
     response?: WebServiceResponse;
+}
+
+/**
+ * Web service request options.
+ */
+export interface WebServiceRequestOptions {
+    method?: string;
+    body?: string;
+    headers?: Record<string, string>;
+    metadata?: Record<string, unknown>;
 }
 
 /**
@@ -62,9 +73,9 @@ export class WebServiceRequestsQueue {
      * @param url Url.
      * @returns Request.
      */
-    async startRequest(method: string, url: string, body: string | null = null): Promise<WebServiceRequest> {
+    async startRequest(url: string, options: WebServiceRequestOptions): Promise<WebServiceRequest> {
         return new Promise((resolve, reject) => {
-            cordova.exec(resolve, reject, 'WebServiceRequestsQueue', 'startRequest', [method, url, body]);
+            cordova.exec(resolve, reject, 'WebServiceRequestsQueue', 'startRequest', [url, options]);
         });
     }
 

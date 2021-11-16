@@ -241,7 +241,9 @@
       "@moodlehq/cordova-plugin-file-transfer": {},
       "cordova-plugin-prevent-override": {},
       "cordova-plugin-androidx-adapter": {},
-      "cordova-plugin-moodleapp": {}
+      "cordova-plugin-moodleapp": {
+        "ANDROID_WORK_RUNTIME_VERSION": "2.5.0"
+      }
     }
   },
   "optionalDependencies": {

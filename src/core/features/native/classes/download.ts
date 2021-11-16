@@ -23,13 +23,15 @@ export class CoreNativeDownload {
 
     id: string;
     status: WebServiceRequestStatus;
+    metadata: Record<string, unknown>;
     response?: WebServiceResponse;
 
     private listeners: Record<'completed' | 'failed', Listener[]>;
 
-    constructor(id: string, status: WebServiceRequestStatus) {
+    constructor(id: string, status: WebServiceRequestStatus, metadata: Record<string, unknown>) {
         this.id = id;
         this.status = status;
+        this.metadata = metadata;
         this.listeners = {
             completed: [],
             failed: [],

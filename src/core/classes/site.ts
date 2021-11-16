@@ -580,7 +580,7 @@ export class CoreSite {
                 data.moodlewssettinglang = data.moodlewssettinglang.replace('-', '_'); // Moodle uses underscore instead of dash.
 
                 const response = preSets.useNative
-                    ? await this.callNativeRequest<T>(method, data, wsPreSets)
+                    ? await this.callNativeRequest<T>(method, data, wsPreSets, preSets.nativeMetadata ?? {})
                     : await this.callOrEnqueueRequest<T>(method, data, preSets, wsPreSets);
 
                 if (preSets.saveToCache) {
@@ -714,8 +714,12 @@ export class CoreSite {
      * @param wsPreSets Extra options related to the WS call.
      * @return Promise resolved with the response when the WS is called.
      */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected async callNativeRequest<T = unknown>(method: string, data: any, wsPreSets: CoreWSPreSets): Promise<T> {
+    protected async callNativeRequest<T = unknown>(
+        method: string,
+        data: unknown,
+        wsPreSets: CoreWSPreSets,
+        metadata: Record<string, unknown>,
+    ): Promise<T> {
         const dataToSend = Object.assign({}, data); // Create a new object so the changes don't affect the original data.
         const siteUrl = wsPreSets.siteUrl + '/webservice/rest/server.php?moodlewsrestformat=json';
 
@@ -727,7 +731,15 @@ export class CoreSite {
         dataToSend['wsfunction'] = method;
         dataToSend['wstoken'] = wsPreSets.wsToken;
 
-        const download = await CoreNativeDownloads.startDownload('post', requestUrl, CoreUrl.encodeObject(dataToSend));
+        const metadataJson = JSON.stringify(metadata);
+        const download = CoreNativeDownloads.getDownloads().find(download => metadataJson === JSON.stringify(download.metadata))
+            ?? await CoreNativeDownloads.startDownload(requestUrl, {
+                method: 'post',
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: CoreUrl.encodeObject(dataToSend),
+                metadata,
+            });
 
         return new Promise((resolve, reject) => {
             download.onCompleted(() => {
@@ -1978,6 +1990,11 @@ export type CoreSiteWSPreSets = {
      * Use native plugin if available.
      */
     useNative?: boolean;
+
+    /**
+     * Metadata to associate with the native request.
+     */
+    nativeMetadata?: Record<string, unknown>;
 
     /**
      * Save the result to the cache.

@@ -14,10 +14,7 @@
 
 package com.moodle.moodlemobile;
 
-import android.os.Handler;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
@@ -26,13 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.UUID;
+import java.util.ArrayList;
 
 public class WebServiceRequestsQueue extends CordovaPlugin {
 
@@ -43,11 +34,10 @@ public class WebServiceRequestsQueue extends CordovaPlugin {
         try {
             switch (action) {
                 case "startRequest":
-                    String method = args.getString(0);
-                    String url = args.getString(1);
-                    String body = args.isNull(2) ? null : args.getString(2);
+                    String url = args.getString(0);
+                    JSONObject options = (JSONObject) args.get(1);
 
-                    callbackContext.success(this.startRequest(method, url, body));
+                    callbackContext.success(this.startRequest(url, options));
 
                     return true;
                 case "getRequests":
@@ -62,76 +52,25 @@ public class WebServiceRequestsQueue extends CordovaPlugin {
         return false;
     }
 
-    private JSONObject startRequest(String method, String url, @Nullable String body) throws JSONException {
-        JSONObject request = new JSONObject();
-        String id = UUID.randomUUID().toString();
+    private JSONObject startRequest(String url, JSONObject options) throws JSONException {
+        WebServiceRequest request = WebServiceRequestsWorker.startRequest(
+            this.cordova.getContext(),
+            url,
+            options
+        );
 
-        request.put("id", id);
-        request.put("status", "ongoing");
-
-        // TODO move to worker
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                try {
-                    WebServiceRequestsQueue.this.processRequest(id, method, url, body);
-                } catch (Throwable e) {
-                    try {
-                        JSONObject payload = new JSONObject();
-
-                        payload.put("id", id);
-
-                        EventBus.emit("request-failed", payload);
-                    } catch (JSONException jsonException) {
-                        Log.e(TAG, "Failed sending failure payload: " + url, e);
-                    }
-                }
-            }
-        }, 100);
-
-        return request;
+        return request.toJSON();
     }
 
-    private JSONArray getRequests() {
-        JSONArray requests = new JSONArray();
+    private JSONArray getRequests() throws JSONException {
+        JSONArray requestsJson = new JSONArray();
+        ArrayList<WebServiceRequest> requests = WebServiceRequestsWorker.getStoredRequests(this.cordova.getContext());
 
-        // TODO
-
-        return requests;
-    }
-
-    // TODO move to worker
-    private void processRequest(String id, String method, String url, @Nullable String body) throws IOException, JSONException {
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.setRequestMethod(method.toUpperCase());
-
-        if (body != null) {
-            connection.setDoOutput(true);
-
-            new PrintWriter(connection.getOutputStream()).write(body);
+        for (WebServiceRequest request: requests) {
+            requestsJson.put(request.toJSON());
         }
 
-        try {
-            String line;
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder stringBuilder = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-            reader.close();
-
-            JSONObject response = new JSONObject();
-            JSONObject payload = new JSONObject();
-
-            response.put("statusCode", connection.getResponseCode());
-            response.put("data", stringBuilder.toString());
-            payload.put("id", id);
-            payload.put("response", response);
-
-            EventBus.emit("request-completed", payload);
-        } finally {
-            connection.disconnect();
-        }
+        return requestsJson;
     }
 
 }
