@@ -77,6 +77,53 @@ export class CoreUrl {
     }
 
     /**
+     * Convert a JSON object into a url-encoded string.
+     *
+     * @param data Object to encode.
+     * @param addNull Whether to add null values to the encoded string as empty parameters.
+     * @return Encoded object.
+     */
+    static encodeObject(data: Record<string, unknown>, addNull: boolean = false): string {
+        let query = '';
+
+        for (const name in data) {
+            const value = data[name];
+
+            if (value instanceof Array) {
+                for (let i = 0; i < value.length; ++i) {
+                    const subValue = value[i];
+                    const fullSubName = `${name}[${i}]`;
+                    const innerObj = {};
+                    innerObj[fullSubName] = subValue;
+                    query += this.encodeObject(innerObj, addNull) + '&';
+                }
+
+                continue;
+            }
+
+            if (value instanceof Object) {
+                for (const subName in value) {
+                    const subValue = value[subName];
+                    const fullSubName = `${name}[${subName}]`;
+                    const innerObj = {};
+                    innerObj[fullSubName] = subValue;
+                    query += this.encodeObject(innerObj, addNull) + '&';
+                }
+
+                continue;
+            }
+
+            if (addNull || (typeof value != 'undefined' && value !== null)) {
+                query += encodeURIComponent(name) + '=' + encodeURIComponent(String(value)) + '&';
+
+                continue;
+            }
+        }
+
+        return query.length ? query.substr(0, query.length - 1) : query;
+    }
+
+    /**
      * Parse parts of a url, using an implicit protocol if it is missing from the url.
      *
      * @param url Url.

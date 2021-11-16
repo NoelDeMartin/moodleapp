@@ -15,6 +15,7 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CoreUrl } from '@singletons/url';
 
 /**
  * Interceptor for Http calls. Adds the header 'Content-Type'='application/x-www-form-urlencoded'
@@ -23,51 +24,13 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class CoreInterceptor implements HttpInterceptor {
 
-    /**
-     * Serialize an object to be used in a request.
-     *
-     * @param obj Object to serialize.
-     * @param addNull Add null values to the serialized as empty parameters.
-     * @return Serialization of the object.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static serialize(obj: any, addNull?: boolean): string {
-        let query = '';
-
-        for (const name in obj) {
-            const value = obj[name];
-
-            if (value instanceof Array) {
-                for (let i = 0; i < value.length; ++i) {
-                    const subValue = value[i];
-                    const fullSubName = name + '[' + i + ']';
-                    const innerObj = {};
-                    innerObj[fullSubName] = subValue;
-                    query += this.serialize(innerObj) + '&';
-                }
-            } else if (value instanceof Object) {
-                for (const subName in value) {
-                    const subValue = value[subName];
-                    const fullSubName = name + '[' + subName + ']';
-                    const innerObj = {};
-                    innerObj[fullSubName] = subValue;
-                    query += this.serialize(innerObj) + '&';
-                }
-            } else if (addNull || (typeof value != 'undefined' && value !== null)) {
-                query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
-            }
-        }
-
-        return query.length ? query.substr(0, query.length - 1) : query;
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
         // Add the header and serialize the body if needed.
         const newReq = req.clone({
             headers: req.headers.set('Content-Type', 'application/x-www-form-urlencoded'),
             body: typeof req.body == 'object' && String(req.body) != '[object File]' ?
-                CoreInterceptor.serialize(req.body) : req.body,
+                CoreUrl.encodeObject(req.body) : req.body,
         });
 
         // Pass on the cloned request instead of the original request.

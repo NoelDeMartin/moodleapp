@@ -15,7 +15,6 @@
 import { Injectable } from '@angular/core';
 import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreInterceptor } from '@classes/interceptor';
 import { CoreWSExternalWarning, CoreWSExternalFile, CoreWSFile } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
@@ -34,6 +33,7 @@ import { CoreWSError } from '@classes/errors/wserror';
 import { AddonModAssignAutoSyncData, AddonModAssignManualSyncData, AddonModAssignSyncProvider } from './assign-sync';
 import { CoreFormFields } from '@singletons/form';
 import { CoreFileHelper } from '@services/file-helper';
+import { CoreUrl } from '@singletons/url';
 
 const ROOT_CACHE_KEY = 'mmaModAssign:';
 
@@ -1295,7 +1295,7 @@ export class AddonModAssignProvider {
             jsonData[index] = pluginData[index];
         }
 
-        const serialized = CoreInterceptor.serialize(jsonData, true);
+        const serialized = CoreUrl.encodeObject(jsonData, true);
         const params: AddonModAssignSubmitGradingFormWSParams = {
             assignmentid: assignId,
             userid: userId,

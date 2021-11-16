@@ -29,7 +29,6 @@ import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils, PromiseDefer } from '@services/utils/utils';
 import { CoreConstants } from '@/core/constants';
 import { CoreError } from '@classes/errors/error';
-import { CoreInterceptor } from '@classes/interceptor';
 import { makeSingleton, Translate, FileTransfer, Http, NativeHttp } from '@singletons';
 import { CoreArray } from '@singletons/array';
 import { CoreLogger } from '@singletons/logger';
@@ -38,6 +37,7 @@ import { CoreAjaxError } from '@classes/errors/ajaxerror';
 import { CoreAjaxWSError } from '@classes/errors/ajaxwserror';
 import { CoreNetworkError } from '@classes/errors/network-error';
 import { CoreSite } from '@classes/site';
+import { CoreUrl } from '@singletons/url';
 
 /**
  * This service allows performing WS calls and download/upload files.
@@ -396,7 +396,7 @@ export class CoreWSProvider {
      */
     protected getQueueItemId(method: string, url: string, params?: Record<string, unknown>): string {
         if (params) {
-            url += '###' + CoreInterceptor.serialize(params);
+            url += '###' + CoreUrl.encodeObject(params);
         }
 
         return method + '#' + Md5.hashAsciiStr(url);
@@ -802,7 +802,7 @@ export class CoreWSProvider {
         const siteUrl = preSets.siteUrl + '/webservice/rest/server.php?moodlewsrestformat=json';
 
         // Serialize data.
-        data = CoreInterceptor.serialize(data);
+        data = CoreUrl.encodeObject(data);
 
         // Perform sync request using XMLHttpRequest.
         const xhr = new XMLHttpRequest();

@@ -16,6 +16,10 @@ import { CoreUrl } from '@singletons/url';
 
 describe('CoreUrl singleton', () => {
 
+    it('encodes JSON objects', () => {
+        expect(CoreUrl.encodeObject({ foo: 'bar' })).toEqual('foo=bar');
+    });
+
     it('parses standard urls', () => {
         expect(CoreUrl.parse('https://my.subdomain.com/path/?query=search#hash')).toEqual({
             protocol: 'https',
