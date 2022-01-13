@@ -299,14 +299,16 @@ export class CoreQuestionHelperProvider {
             // Search init_question functions for this type.
             const initMatches = match.match(new RegExp('M.qtype_' + question.type + '.init_question\\(.*?}\\);', 'mg'));
             if (initMatches) {
-                let initMatch = initMatches.pop()!;
+                let initMatch = initMatches.pop();
 
                 // Remove start and end of the match, we only want the object.
-                initMatch = initMatch.replace('M.qtype_' + question.type + '.init_question(', '');
-                initMatch = initMatch.substr(0, initMatch.length - 2);
+                initMatch = initMatch?.replace('M.qtype_' + question.type + '.init_question(', '');
+                initMatch = initMatch?.substr(0, initMatch.length - 2);
 
                 // Try to convert it to an object and add it to the question.
-                question.initObjects = CoreTextUtils.parseJSON(initMatch, null);
+                if (initMatch) {
+                    question.initObjects = CoreTextUtils.parseJSON(initMatch, null);
+                }
             }
 
             const amdRegExp = new RegExp('require\\(\\[["\']qtype_' + question.type + '/question["\']\\],[^f]*' +
@@ -335,7 +337,11 @@ export class CoreQuestionHelperProvider {
         const answers: Record<string, boolean> = {};
 
         // Search all input elements.
-        Array.from(form.elements).forEach((element: HTMLInputElement) => {
+        Array.from(form.elements).forEach((element: Element) => {
+            if (!(element instanceof HTMLInputElement)) {
+                return;
+            }
+
             const name = element.name || '';
 
             // Ignore flag and submit inputs.
@@ -364,7 +370,11 @@ export class CoreQuestionHelperProvider {
         const answers: CoreQuestionsAnswers = {};
         const elements = Array.from(form.elements);
 
-        elements.forEach((element: HTMLInputElement) => {
+        elements.forEach((element: Element) => {
+            if (!(element instanceof HTMLInputElement)) {
+                return;
+            }
+
             const name = element.name || element.getAttribute('ng-reflect-name') || '';
 
             // Ignore flag and submit inputs.
@@ -559,7 +569,11 @@ export class CoreQuestionHelperProvider {
         const form = <HTMLFormElement> element.children[0];
 
         // Search all input elements.
-        Array.from(form.elements).forEach((element: HTMLInputElement | HTMLButtonElement) => {
+        Array.from(form.elements).forEach((element: Element) => {
+            if (!(element instanceof HTMLInputElement) && !(element instanceof HTMLButtonElement)) {
+                return;
+            }
+
             let name = element.name || '';
             // Ignore flag and submit inputs.
             if (!name || name.match(/_:flagged$/) || element.type == 'submit' || element.tagName == 'BUTTON' ||

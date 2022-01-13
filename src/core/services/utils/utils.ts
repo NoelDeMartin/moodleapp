@@ -559,7 +559,8 @@ export class CoreUtilsProvider {
         const mapDepth = {};
         const tree: TreeNode<T>[] = [];
 
-        list.forEach((node: TreeNode<T>, index): void => {
+        list.forEach((n, index): void => {
+            const node = n as TreeNode<T>;
             const id = node[idFieldName];
             const parent = node[parentFieldName];
             node.children = [];

@@ -942,7 +942,11 @@ export class CoreDomUtilsProvider {
 
         // Treat elements with src (img, audio, video, ...).
         const media = Array.from(element.querySelectorAll('img, video, audio, source, track'));
-        media.forEach((media: HTMLElement) => {
+        media.forEach((media: Element) => {
+            if (!(media instanceof HTMLElement)) {
+                return;
+            }
+
             const currentSrc = media.getAttribute('src');
             const newSrc = currentSrc ?
                 paths[CoreUrlUtils.removeUrlParams(CoreTextUtils.decodeURIComponent(currentSrc))] :

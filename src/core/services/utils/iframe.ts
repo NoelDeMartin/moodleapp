@@ -314,8 +314,8 @@ export class CoreIframeUtilsProvider {
             // Search sub frames.
             CoreIframeUtilsProvider.FRAME_TAGS.forEach((tag) => {
                 const elements = Array.from(contentDocument.querySelectorAll(tag));
-                elements.forEach((subElement: CoreFrameElement) => {
-                    this.treatFrame(subElement, true);
+                elements.forEach((subElement: Element) => {
+                    this.treatFrame((subElement as CoreFrameElement), true);
                 });
             });
         }
