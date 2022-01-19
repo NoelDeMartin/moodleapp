@@ -16,6 +16,7 @@ import { SQLiteObject } from '@ionic-native/sqlite/ngx';
 
 import { SQLite, Platform } from '@singletons';
 import { CoreError } from '@classes/errors/error';
+import { CoreDB } from '@services/db';
 
 type SQLiteDBColumnType = 'INTEGER' | 'REAL' | 'TEXT' | 'BLOB';
 
@@ -819,7 +820,48 @@ export class SQLiteDB {
                 location: 'default',
             }))
             .then((db: SQLiteObject) => {
-                this.db = db;
+                if (CoreDB.loggingEnabled()) {
+                    this.db = new Proxy(db, {
+                        get(getTarget, property) {
+                            switch(property) {
+                                case 'executeSql':
+                                    return (statement, params) => {
+                                        const start = performance.now();
+
+                                        // eslint-disable-next-line promise/no-nesting
+                                        return db.executeSql(statement, params).then(result => {
+                                            CoreDB.logQuery(statement, performance.now() - start, params);
+
+                                            return result;
+                                        });
+                                    };
+                                case 'sqlBatch':
+                                    return (statements) => {
+                                        const start = performance.now();
+
+                                        // eslint-disable-next-line promise/no-nesting
+                                        return db.sqlBatch(statements).then(result => {
+                                            const sql = Array.isArray(statements)
+                                                ? statements.join(' | ')
+                                                : String(statements);
+
+                                            CoreDB.logQuery(sql, performance.now() - start);
+
+                                            return result;
+                                        });
+                                    };
+                            }
+
+                            return new Proxy(Reflect.get(getTarget, property), {
+                                apply(applyTarget, _, argArray) {
+                                    Reflect.apply(applyTarget, getTarget, argArray);
+                                },
+                            });
+                        },
+                    });
+                } else {
+                    this.db = db;
+                }
 
                 return;
             });

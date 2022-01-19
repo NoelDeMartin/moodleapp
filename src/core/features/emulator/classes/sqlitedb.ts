@@ -15,6 +15,8 @@
 /* tslint:disable:no-console */
 
 import { SQLiteDB } from '@classes/sqlitedb';
+import { DbTransaction } from '@ionic-native/sqlite/ngx';
+import { CoreDB } from '@services/db';
 
 /**
  * Class to mock the interaction with the SQLite database.
@@ -165,6 +167,40 @@ export class SQLiteDBMock extends SQLiteDB {
         // This DB is for desktop apps, so use a big size to be sure it isn't filled.
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this.db = (<any> window).openDatabase(this.name, '1.0', this.name, 500 * 1024 * 1024);
+
+        if (CoreDB.loggingEnabled() && this.db) {
+            const originalDB = this.db;
+
+            this.db = new Proxy(originalDB, {
+                get: (getTarget, property) => {
+                    if (property === 'transaction') {
+                        return (callback) => originalDB.transaction((transaction) => {
+                            const myTransaction: DbTransaction = {
+                                executeSql(sql, params, success, error) {
+                                    const start = performance.now();
+                                    const resolve = callback => (...args) => {
+                                        CoreDB.logQuery(sql, performance.now() - start, params);
+
+                                        return callback(...args);
+                                    };
+
+                                    return transaction.executeSql(sql, params, resolve(success), resolve(error));
+                                },
+                            };
+
+                            return callback(myTransaction);
+                        });
+                    }
+
+                    return new Proxy(Reflect.get(getTarget, property), {
+                        apply(applyTarget, _, argArray) {
+                            Reflect.apply(applyTarget, getTarget, argArray);
+                        },
+                    });
+                },
+            });
+        }
+
         this.promise = Promise.resolve();
     }
 
