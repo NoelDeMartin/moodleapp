@@ -8,9 +8,47 @@ Feature: Measure performance.
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
+      | Course 2 | C2        | 0        |
+      | Course 3 | C3        | 0        |
+      | Course 4 | C4        | 0        |
+      | Course 5 | C5        | 0        |
+      | Course 6 | C6        | 0        |
+      | Course 7 | C7        | 0        |
+      | Course 8 | C8        | 0        |
+      | Course 9 | C9        | 0        |
+      | Course 10 | C10        | 0        |
+      | Course 11 | C11        | 0        |
+      | Course 12 | C12        | 0        |
+      | Course 13 | C13        | 0        |
+      | Course 14 | C14        | 0        |
+      | Course 15 | C15        | 0        |
+      | Course 16 | C16        | 0        |
+      | Course 17 | C17        | 0        |
+      | Course 18 | C18        | 0        |
+      | Course 19 | C19        | 0        |
+      | Course 20 | C20        | 0        |
     And the following "course enrolments" exist:
       | user     | course | role    |
       | student1 | C1     | student |
+      | student1 | C2     | student |
+      | student1 | C3     | student |
+      | student1 | C4     | student |
+      | student1 | C5     | student |
+      | student1 | C6     | student |
+      | student1 | C7     | student |
+      | student1 | C8     | student |
+      | student1 | C9     | student |
+      | student1 | C10     | student |
+      | student1 | C11     | student |
+      | student1 | C12     | student |
+      | student1 | C13     | student |
+      | student1 | C14     | student |
+      | student1 | C15     | student |
+      | student1 | C16     | student |
+      | student1 | C17     | student |
+      | student1 | C18     | student |
+      | student1 | C19     | student |
+      | student1 | C20     | student |
     And the following "activities" exist:
       | activity | name            | intro                   | course | idnumber | option                       | section |
       | choice   | Choice course 1 | Test choice description | C1     | choice1  | Option 1, Option 2, Option 3 | 1       |
