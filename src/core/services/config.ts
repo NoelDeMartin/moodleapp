@@ -28,6 +28,7 @@ export class CoreConfigProvider {
 
     protected appDB: Promise<SQLiteDB>;
     protected resolveAppDB!: (appDB: SQLiteDB) => void;
+    protected data: Record<string, unknown> = {};
 
     constructor() {
         this.appDB = new Promise(resolve => this.resolveAppDB = resolve);
@@ -43,7 +44,16 @@ export class CoreConfigProvider {
             // Ignore errors.
         }
 
-        this.resolveAppDB(CoreApp.getDB());
+        const db = CoreApp.getDB();
+        const records = await db.getAllRecords(CONFIG_TABLE_NAME);
+
+        this.data = records.reduce((data: Record<string, unknown>, { name, value }: ConfigDBEntry) => {
+            data[name] = value;
+
+            return data;
+        }, {} as Record<string, unknown>) as Record<string, unknown>;
+
+        this.resolveAppDB(db);
     }
 
     /**
@@ -56,6 +66,8 @@ export class CoreConfigProvider {
         const db = await this.appDB;
 
         await db.deleteRecords(CONFIG_TABLE_NAME, { name });
+
+        delete this.data[name];
     }
 
     /**
@@ -66,19 +78,17 @@ export class CoreConfigProvider {
      * @return Resolves upon success along with the config data. Reject on failure.
      */
     async get<T>(name: string, defaultValue?: T): Promise<T> {
-        const db = await this.appDB;
+        await this.appDB;
 
-        try {
-            const entry = await db.getRecord<ConfigDBEntry>(CONFIG_TABLE_NAME, { name });
-
-            return entry.value;
-        } catch (error) {
-            if (defaultValue !== undefined) {
-                return defaultValue;
-            }
-
-            throw error;
+        if (name in this.data) {
+            return this.data[name] as T;
         }
+
+        if (defaultValue !== undefined) {
+            return defaultValue;
+        }
+
+        throw new Error(`Config '${name}' not found`);
     }
 
     /**
@@ -92,6 +102,8 @@ export class CoreConfigProvider {
         const db = await this.appDB;
 
         await db.insertRecord(CONFIG_TABLE_NAME, { name, value });
+
+        this.data[name] = value;
     }
 
 }

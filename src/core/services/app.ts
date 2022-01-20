@@ -81,22 +81,23 @@ export class CoreAppProvider {
      * Initialize database.
      */
     async initializeDatabase(): Promise<void> {
-        await this.getDB().createTableFromSchema(SCHEMA_VERSIONS_TABLE_SCHEMA);
+        const db = await this.getDB();
+
+        await db.createTableFromSchema(SCHEMA_VERSIONS_TABLE_SCHEMA);
+
+        const records = await db.getAllRecords(SCHEMA_VERSIONS_TABLE_NAME);
+        const data = records.reduce((data: Record<string, number>, { name, version }: SchemaVersionsDBEntry) => {
+            data[name] = version;
+
+            return data;
+        }, {}) as Record<string, number>;
 
         this.resolveSchemaVersionsManager({
-            get: async name => {
-                try {
-                    // Fetch installed version of the schema.
-                    const entry = await this.getDB().getRecord<SchemaVersionsDBEntry>(SCHEMA_VERSIONS_TABLE_NAME, { name });
-
-                    return entry.version;
-                } catch (error) {
-                    // No installed version yet.
-                    return 0;
-                }
-            },
+            get: async name => data[name] ?? 0,
             set: async (name, version) => {
                 await this.getDB().insertRecord(SCHEMA_VERSIONS_TABLE_NAME, { name, version });
+
+                data[name] = version;
             },
         });
     }

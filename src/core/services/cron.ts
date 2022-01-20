@@ -43,6 +43,7 @@ export class CoreCronDelegateService {
     // Variables for DB.
     protected appDB: Promise<SQLiteDB>;
     protected resolveAppDB!: (appDB: SQLiteDB) => void;
+    protected data: Record<string, number> = {};
 
     constructor() {
         this.appDB = new Promise(resolve => this.resolveAppDB = resolve);
@@ -59,7 +60,16 @@ export class CoreCronDelegateService {
             // Ignore errors.
         }
 
-        this.resolveAppDB(CoreApp.getDB());
+        const db = CoreApp.getDB();
+        const records = await db.getAllRecords(CRON_TABLE_NAME);
+
+        this.data = records.reduce((data: Record<string, number>, { id, value }: CronDBEntry) => {
+            data[id] = value;
+
+            return data;
+        }, {} as Record<string, number>) as Record<string, number>;
+
+        this.resolveAppDB(db);
     }
 
     /**
@@ -238,13 +248,12 @@ export class CoreCronDelegateService {
      * @return Promise resolved with the handler's last execution time.
      */
     protected async getHandlerLastExecutionTime(name: string): Promise<number> {
-        const db = await this.appDB;
+        await this.appDB;
+
         const id = this.getHandlerLastExecutionId(name);
 
         try {
-            const entry = await db.getRecord<CronDBEntry>(CRON_TABLE_NAME, { id });
-
-            const time = Number(entry.value);
+            const time = Number(this.data[id]);
 
             return isNaN(time) ? 0 : time;
         } catch (err) {
@@ -405,6 +414,8 @@ export class CoreCronDelegateService {
         };
 
         await db.insertRecord(CRON_TABLE_NAME, entry);
+
+        this.data[id] = time;
     }
 
     /**

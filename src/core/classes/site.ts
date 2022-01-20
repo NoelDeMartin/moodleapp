@@ -41,6 +41,9 @@ import { CoreLogger } from '@singletons/logger';
 import { Translate } from '@singletons';
 import { CoreIonLoadingElement } from './ion-loading';
 import { CoreLang } from '@services/lang';
+import { CoreFilepoolFileEntry, FILES_TABLE_NAME } from '@services/database/filepool';
+import { CorePromisedValue } from './promised-value';
+import { CoreCourseStatusDBRecord, COURSE_STATUS_TABLE } from '@features/course/services/database/course';
 
 /**
  * QR Code type enumeration.
@@ -149,6 +152,105 @@ export class CoreSite {
      */
     initDB(): void {
         this.db = CoreDB.getDB('Site-' + this.id);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    static _configCaches: Record<string, CorePromisedValue<Record<string, unknown>>> = {};
+
+    async getConfigCache(): Promise<Record<string, unknown>> {
+        if (!(this.id as string in CoreSite._configCaches)) {
+            const promised = new CorePromisedValue<Record<string, string>>();
+            CoreSite._configCaches[this.id as string] = promised;
+
+            // eslint-disable-next-line promise/catch-or-return
+            this.getDb().getAllRecords(CoreSite.CONFIG_TABLE).then(records => {
+                promised.resolve(records.reduce((data: Record<string, string>, { name, value }) => {
+                    data[name] = value;
+
+                    return data;
+                }, {}) as Record<string, string>);
+
+                return;
+            });
+        }
+
+        return CoreSite._configCaches[this.id as string];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    static _fileCaches: Record<string, CorePromisedValue<Record<string, CoreFilepoolFileEntry>>> = {};
+
+    async getFilesCache(): Promise<Record<string, CoreFilepoolFileEntry>> {
+        if (!(this.id as string in CoreSite._fileCaches)) {
+            const promised = new CorePromisedValue<Record<string, CoreFilepoolFileEntry>>();
+            CoreSite._fileCaches[this.id as string] = promised;
+
+            // eslint-disable-next-line promise/catch-or-return
+            this.getDb().getAllRecords(FILES_TABLE_NAME).then(records => {
+                promised.resolve(records.reduce((data: Record<string, CoreFilepoolFileEntry>, entry: CoreFilepoolFileEntry) => {
+                    data[entry.fileId] = entry;
+
+                    return data;
+                }, {}) as Record<string, CoreFilepoolFileEntry>);
+
+                return;
+            });
+        }
+
+        return CoreSite._fileCaches[this.id as string];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    static _courseStatusCaches: Record<string, CorePromisedValue<Record<string, CoreCourseStatusDBRecord>>> = {};
+
+    async getCoursesStatusCache(): Promise<Record<string, CoreCourseStatusDBRecord>> {
+        if (!(this.id as string in CoreSite._courseStatusCaches)) {
+            const promised = new CorePromisedValue<Record<string, CoreCourseStatusDBRecord>>();
+            CoreSite._courseStatusCaches[this.id as string] = promised;
+
+            // eslint-disable-next-line promise/catch-or-return
+            this.getDb().getAllRecords(COURSE_STATUS_TABLE).then(records => {
+                promised.resolve(records.reduce((
+                    data: Record<string, CoreCourseStatusDBRecord>,
+                    entry: CoreCourseStatusDBRecord,
+                ) => {
+                    data[entry.id] = entry;
+
+                    return data;
+                }, {}) as Record<string, CoreCourseStatusDBRecord>);
+
+                return;
+            });
+        }
+
+        return CoreSite._courseStatusCaches[this.id as string];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    static _wsCaches: Record<string, CorePromisedValue<Record<string, CoreSiteWSCacheRecord>>> = {};
+
+    get wsCache(): Promise<Record<string, CoreSiteWSCacheRecord>> {
+        return this.getWSCache();
+    }
+
+    async getWSCache(): Promise<Record<string, CoreSiteWSCacheRecord>> {
+        if (!(this.id as string in CoreSite._wsCaches)) {
+            const promised = new CorePromisedValue<Record<string, CoreSiteWSCacheRecord>>();
+            CoreSite._wsCaches[this.id as string] = promised;
+
+            // eslint-disable-next-line promise/catch-or-return
+            this.getDb().getAllRecords(CoreSite.WS_CACHE_TABLE).then(records => {
+                promised.resolve(records.reduce((data: Record<string, CoreSiteWSCacheRecord>, entry: CoreSiteWSCacheRecord) => {
+                    data[entry.id] = entry;
+
+                    return data;
+                }, {}) as Record<string, CoreSiteWSCacheRecord>);
+
+                return;
+            });
+        }
+
+        return CoreSite._wsCaches[this.id as string];
     }
 
     /**
@@ -916,14 +1018,15 @@ export class CoreSite {
         }
 
         const id = this.getCacheId(method, data);
+        const wsCache = await this.wsCache;
         let entry: CoreSiteWSCacheRecord | undefined;
 
         if (preSets.getCacheUsingCacheKey || (emergency && preSets.getEmergencyCacheUsingCacheKey)) {
-            const entries = await db.getRecords<CoreSiteWSCacheRecord>(CoreSite.WS_CACHE_TABLE, { key: preSets.cacheKey });
+            const entries = Object.values(wsCache).filter(record => record.key === preSets.cacheKey);
 
             if (!entries.length) {
                 // Cache key not found, get by params sent.
-                entry = await db.getRecord(CoreSite.WS_CACHE_TABLE, { id });
+                entry = wsCache[id];
             } else {
                 if (entries.length > 1) {
                     // More than one entry found. Search the one with same ID as this call.
@@ -935,7 +1038,7 @@ export class CoreSite {
                 }
             }
         } else {
-            entry = await db.getRecord(CoreSite.WS_CACHE_TABLE, { id });
+            entry = wsCache[id];
         }
 
         if (entry === undefined) {
@@ -1035,6 +1138,8 @@ export class CoreSite {
         }
 
         await this.db.insertRecord(CoreSite.WS_CACHE_TABLE, entry);
+
+        (await this.wsCache)[entry.id] = entry;
     }
 
     /**
@@ -1053,11 +1158,22 @@ export class CoreSite {
         }
 
         const id = this.getCacheId(method, data);
+        const wsCache = await this.wsCache;
 
         if (allCacheKey) {
             await this.db.deleteRecords(CoreSite.WS_CACHE_TABLE, { key: preSets.cacheKey });
+
+            Object.keys(wsCache).forEach(id => {
+                if (wsCache[id].key !== preSets.cacheKey) {
+                    return;
+                }
+
+                delete wsCache[id];
+            });
         } else {
             await this.db.deleteRecords(CoreSite.WS_CACHE_TABLE, { id });
+
+            delete wsCache[id];
         }
     }
 
@@ -1086,6 +1202,14 @@ export class CoreSite {
         }
 
         await this.db.deleteRecords(CoreSite.WS_CACHE_TABLE, params);
+
+        const wsCache = await this.wsCache;
+
+        Object.keys(wsCache).forEach(id => {
+            if (wsCache[id].component === component && (!componentId || wsCache[id].componentId === componentId)) {
+                delete wsCache[id];
+            }
+        });
     }
 
     /*
@@ -1125,6 +1249,8 @@ export class CoreSite {
 
         try {
             await this.db.updateRecords(CoreSite.WS_CACHE_TABLE, { expirationTime: 0 });
+
+            Object.values(await this.wsCache).forEach(record => record.expirationTime = 0);
         } finally {
             CoreEvents.trigger(CoreEvents.WS_CACHE_INVALIDATED, {}, this.getId());
         }
@@ -1147,6 +1273,8 @@ export class CoreSite {
         this.logger.debug('Invalidate cache for key: ' + key);
 
         await this.db.updateRecords(CoreSite.WS_CACHE_TABLE, { expirationTime: 0 }, { key });
+
+        Object.values(await this.wsCache).filter(record => record.key === key).forEach(record => record.expirationTime = 0);
     }
 
     /**
@@ -1186,6 +1314,11 @@ export class CoreSite {
         const sql = 'UPDATE ' + CoreSite.WS_CACHE_TABLE + ' SET expirationTime=0 WHERE key LIKE ?';
 
         await this.db.execute(sql, [key + '%']);
+
+        Object
+            .values(await this.wsCache)
+            .filter(record => record.key?.startsWith(key))
+            .forEach(record => record.expirationTime = 0);
     }
 
     /**
@@ -1813,7 +1946,11 @@ export class CoreSite {
      * @return Promise resolved when done.
      */
     async deleteSiteConfig(name: string): Promise<void> {
+        const config = await this.getConfigCache();
+
         await this.getDb().deleteRecords(CoreSite.CONFIG_TABLE, { name });
+
+        Object.keys(config).forEach(key => delete config[key]);
     }
 
     /**
@@ -1824,17 +1961,17 @@ export class CoreSite {
      * @return Resolves upon success along with the config data. Reject on failure.
      */
     async getLocalSiteConfig<T extends number | string>(name: string, defaultValue?: T): Promise<T> {
-        try {
-            const entry = await this.getDb().getRecord<CoreSiteConfigDBRecord>(CoreSite.CONFIG_TABLE, { name });
+        const config = await this.getConfigCache();
 
-            return <T> entry.value;
-        } catch (error) {
-            if (defaultValue !== undefined) {
-                return defaultValue;
-            }
-
-            throw error;
+        if (name in config) {
+            return config[name] as T;
         }
+
+        if (defaultValue !== undefined) {
+            return defaultValue;
+        }
+
+        throw new Error(`Couldn't find '${name}' config`);
     }
 
     /**
@@ -1845,7 +1982,11 @@ export class CoreSite {
      * @return Promise resolved when done.
      */
     async setLocalSiteConfig(name: string, value: number | string): Promise<void> {
+        const config = await this.getConfigCache();
+
         await this.getDb().insertRecord(CoreSite.CONFIG_TABLE, { name, value });
+
+        config[name] = value;
     }
 
     /**

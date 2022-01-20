@@ -53,6 +53,7 @@ export class AddonMessagesMainMenuHandlerService implements CoreMainMenuHandler,
 
     protected unreadCount = 0;
     protected contactRequestsCount = 0;
+    protected totalCount = 0;
     protected orMore = false;
 
     constructor() {
@@ -155,6 +156,13 @@ export class AddonMessagesMainMenuHandlerService implements CoreMainMenuHandler,
      */
     updateBadge(siteId: string): void {
         const totalCount = this.unreadCount + (this.contactRequestsCount || 0);
+
+        if (totalCount === this.totalCount) {
+            return;
+        }
+
+        this.totalCount = totalCount;
+
         if (totalCount > 0) {
             this.handler.badge = totalCount + (this.orMore ? '+' : '');
         } else {

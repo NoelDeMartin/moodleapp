@@ -57,6 +57,7 @@ export class CorePushNotificationsProvider {
     // Variables for DB.
     protected appDB: Promise<SQLiteDB>;
     protected resolveAppDB!: (appDB: SQLiteDB) => void;
+    protected data: Record<string, CorePushNotificationsBadgeDBRecord> = {};
 
     constructor() {
         this.appDB = new Promise(resolve => this.resolveAppDB = resolve);
@@ -157,7 +158,19 @@ export class CorePushNotificationsProvider {
             // Ignore errors.
         }
 
-        this.resolveAppDB(CoreApp.getDB());
+        const db = CoreApp.getDB();
+        const records = await db.getAllRecords(BADGE_TABLE_NAME);
+
+        this.data = records.reduce((
+            data: Record<string, CorePushNotificationsBadgeDBRecord>,
+            record: CorePushNotificationsBadgeDBRecord,
+        ) => {
+            data[`${record.addon}-${record.siteid}`] = record;
+
+            return data;
+        }, {}) as Record<string, CorePushNotificationsBadgeDBRecord>;
+
+        this.resolveAppDB(db);
     }
 
     /**
@@ -179,6 +192,12 @@ export class CorePushNotificationsProvider {
         try {
             const db = await this.appDB;
             await db.deleteRecords(BADGE_TABLE_NAME, { siteid: siteId } );
+
+            Object.keys(this.data).forEach(key => {
+                if (this.data[key].siteid === siteId) {
+                    delete this.data[key];
+                }
+            });
         } finally {
             this.updateAppCounter();
         }
@@ -735,8 +754,9 @@ export class CorePushNotificationsProvider {
      */
     protected async getAddonBadge(siteId?: string, addon: string = 'site'): Promise<number> {
         try {
-            const db = await this.appDB;
-            const entry = await db.getRecord<CorePushNotificationsBadgeDBRecord>(BADGE_TABLE_NAME, { siteid: siteId, addon });
+            await this.appDB;
+
+            const entry = this.data[`${addon}-${siteId}`];
 
             return entry?.number || 0;
         } catch (err) {
@@ -796,7 +816,15 @@ export class CorePushNotificationsProvider {
         };
 
         const db = await this.appDB;
+        const key = `${entry.addon}-${entry.siteid}`;
+
+        if (this.data[key]?.number === value) {
+            return value;
+        }
+
         await db.insertRecord(BADGE_TABLE_NAME, entry);
+
+        this.data[key] = entry;
 
         return value;
     }

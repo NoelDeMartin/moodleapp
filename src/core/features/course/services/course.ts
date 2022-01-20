@@ -210,9 +210,14 @@ export class CoreCourseProvider {
      */
     async clearAllCoursesStatus(siteId?: string): Promise<void> {
         const site = await CoreSites.getSite(siteId);
+        const courseStatus = await site.getCoursesStatusCache();
+
         this.logger.debug('Clear all course status for site ' + site.id);
 
         await site.getDb().deleteRecords(COURSE_STATUS_TABLE);
+
+        Object.keys(courseStatus).forEach(key => delete courseStatus[key]);
+
         this.triggerCourseStatusChanged(CoreCourseProvider.ALL_COURSES_CLEARED, CoreConstants.NOT_DOWNLOADED, site.id);
     }
 
@@ -364,7 +369,9 @@ export class CoreCourseProvider {
      */
     async getCourseStatusData(courseId: number, siteId?: string): Promise<CoreCourseStatusDBRecord> {
         const site = await CoreSites.getSite(siteId);
-        const entry: CoreCourseStatusDBRecord = await site.getDb().getRecord(COURSE_STATUS_TABLE, { id: courseId });
+        const courseStatus = await site.getCoursesStatusCache();
+        const entry = courseStatus[courseId];
+
         if (!entry) {
             throw Error('No entry found on course status table');
         }
@@ -397,17 +404,13 @@ export class CoreCourseProvider {
      */
     async getDownloadedCourseIds(siteId?: string): Promise<number[]> {
         const site = await CoreSites.getSite(siteId);
-        const entries: CoreCourseStatusDBRecord[] = await site.getDb().getRecordsList(
-            COURSE_STATUS_TABLE,
-            'status',
-            [
-                CoreConstants.DOWNLOADED,
-                CoreConstants.DOWNLOADING,
-                CoreConstants.OUTDATED,
-            ],
-        );
+        const courseStatus = await site.getCoursesStatusCache();
 
-        return entries.map((entry) => entry.id);
+        return Object.values(courseStatus).filter(
+            entry => entry.status === CoreConstants.DOWNLOADED ||
+                        entry.status === CoreConstants.DOWNLOADING ||
+                        entry.status === CoreConstants.OUTDATED,
+        ).map(entry => entry.id);
     }
 
     /**
@@ -1263,8 +1266,12 @@ export class CoreCourseProvider {
             // Going back from downloading to previous status, restore previous download time.
             downloadTime: entry.status == CoreConstants.DOWNLOADING ? entry.previousDownloadTime : entry.downloadTime,
         };
+        const courseStatus = await site.getCoursesStatusCache();
 
         await db.updateRecords(COURSE_STATUS_TABLE, newData, { id: courseId });
+
+        courseStatus[courseId] = { ...courseStatus[courseId], ...newData };
+
         // Success updating, trigger event.
         this.triggerCourseStatusChanged(courseId, newData.status, siteId);
 
@@ -1319,8 +1326,11 @@ export class CoreCourseProvider {
                 downloadTime: downloadTime,
                 previousDownloadTime: previousDownloadTime,
             };
+            const courseStatus = await site.getCoursesStatusCache();
 
             await site.getDb().insertRecord(COURSE_STATUS_TABLE, data);
+
+            courseStatus[data.id] = data;
         }
 
         // Success inserting, trigger event.
