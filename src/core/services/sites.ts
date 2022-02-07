@@ -154,6 +154,8 @@ export class CoreSitesProvider {
             primaryKeyColumns: PrimaryKeyColumn[];
         }> = {},
     ): Promise<CoreDatabaseTable<DBRecord, PrimaryKeyColumn>> {
+        // TODO call this on init?
+
         const siteId = options.siteId ?? this.getCurrentSiteId();
 
         if (!(siteId in this.siteTables)) {

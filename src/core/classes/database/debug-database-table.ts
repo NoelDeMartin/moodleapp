@@ -67,6 +67,15 @@ export class CoreDebugDatabaseTable<
     /**
      * @inheritdoc
      */
+    getManyWhere(conditions: CoreDatabaseConditions<DBRecord>): Promise<DBRecord[]> {
+        this.logger.log('getManyWhere', conditions);
+
+        return this.target.getManyWhere(conditions);
+    }
+
+    /**
+     * @inheritdoc
+     */
     getOne(conditions: Partial<DBRecord>): Promise<DBRecord> {
         this.logger.log('getOne', conditions);
 

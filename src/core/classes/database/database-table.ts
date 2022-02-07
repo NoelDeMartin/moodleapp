@@ -87,6 +87,18 @@ export class CoreDatabaseTable<
     }
 
     /**
+     * Get records matching the given conditions.
+     *
+     * This method should be used when it's necessary to apply complex conditions; the simple `getMany`
+     * method should be favored otherwise for better performance.
+     *
+     * @param conditions Matching conditions in SQL and JavaScript.
+     */
+    getManyWhere(conditions: CoreDatabaseConditions<DBRecord>): Promise<DBRecord[]>  {
+        return this.database.getRecordsSelect(this.tableName, conditions.sql, conditions.sqlParams);
+    }
+
+    /**
      * Find one record matching the given conditions.
      *
      * @param conditions Matching conditions.

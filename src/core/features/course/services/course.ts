@@ -45,6 +45,10 @@ import { CoreCourseAutoSyncData, CoreCourseSyncProvider } from './sync';
 import { CoreTagItem } from '@features/tag/services/tag';
 import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
 import { CoreCourseModuleDelegate } from './module-delegate';
+import { lazyMap, LazyMap } from '@/core/utils/lazy-map';
+import { asyncInstance, AsyncInstance } from '@/core/utils/async-instance';
+import { CoreDatabaseTable } from '@classes/database/database-table';
+import { CoreDatabaseCachingStrategy } from '@classes/database/database-table-proxy';
 
 const ROOT_CACHE_KEY = 'mmCourse:';
 
@@ -135,9 +139,18 @@ export class CoreCourseProvider {
     ];
 
     protected logger: CoreLogger;
+    protected statusTables: LazyMap<AsyncInstance<CoreDatabaseTable<CoreCourseStatusDBRecord>>>;
 
     constructor() {
         this.logger = CoreLogger.getInstance('CoreCourseProvider');
+        this.statusTables = lazyMap(
+            siteId => asyncInstance(
+                () => CoreSites.getSiteTable(COURSE_STATUS_TABLE, {
+                    siteId,
+                    config: { cachingStrategy: CoreDatabaseCachingStrategy.Eager },
+                }),
+            ),
+        );
     }
 
     /**
@@ -216,7 +229,7 @@ export class CoreCourseProvider {
         const site = await CoreSites.getSite(siteId);
         this.logger.debug('Clear all course status for site ' + site.id);
 
-        await site.getDb().deleteRecords(COURSE_STATUS_TABLE);
+        await this.statusTables[site.getId()].delete();
         this.triggerCourseStatusChanged(CoreCourseProvider.ALL_COURSES_CLEARED, CoreConstants.NOT_DOWNLOADED, site.id);
     }
 
@@ -368,7 +381,7 @@ export class CoreCourseProvider {
      */
     async getCourseStatusData(courseId: number, siteId?: string): Promise<CoreCourseStatusDBRecord> {
         const site = await CoreSites.getSite(siteId);
-        const entry: CoreCourseStatusDBRecord = await site.getDb().getRecord(COURSE_STATUS_TABLE, { id: courseId });
+        const entry = await this.statusTables[site.getId()].getOneByPrimaryKey({ id: courseId });
         if (!entry) {
             throw Error('No entry found on course status table');
         }
@@ -400,16 +413,13 @@ export class CoreCourseProvider {
      * @return Resolves with an array containing downloaded course ids.
      */
     async getDownloadedCourseIds(siteId?: string): Promise<number[]> {
+        const downloadedStatuses = [CoreConstants.DOWNLOADED, CoreConstants.DOWNLOADING, CoreConstants.OUTDATED];
         const site = await CoreSites.getSite(siteId);
-        const entries: CoreCourseStatusDBRecord[] = await site.getDb().getRecordsList(
-            COURSE_STATUS_TABLE,
-            'status',
-            [
-                CoreConstants.DOWNLOADED,
-                CoreConstants.DOWNLOADING,
-                CoreConstants.OUTDATED,
-            ],
-        );
+        const entries = await this.statusTables[site.getId()].getManyWhere({
+            sql: 'status IN (?,?,?)',
+            sqlParams: downloadedStatuses,
+            js: ({ status }) => downloadedStatuses.includes(status),
+        });
 
         return entries.map((entry) => entry.id);
     }
@@ -1264,7 +1274,6 @@ export class CoreCourseProvider {
         this.logger.debug(`Set previous status for course ${courseId} in site ${siteId}`);
 
         const site = await CoreSites.getSite(siteId);
-        const db = site.getDb();
         const entry = await this.getCourseStatusData(courseId, siteId);
 
         this.logger.debug(`Set previous status '${entry.status}' for course ${courseId}`);
@@ -1277,7 +1286,7 @@ export class CoreCourseProvider {
             downloadTime: entry.status == CoreConstants.DOWNLOADING ? entry.previousDownloadTime : entry.downloadTime,
         };
 
-        await db.updateRecords(COURSE_STATUS_TABLE, newData, { id: courseId });
+        await this.statusTables[site.getId()].update(newData, { id: courseId });
         // Success updating, trigger event.
         this.triggerCourseStatusChanged(courseId, newData.status, siteId);
 
@@ -1324,16 +1333,14 @@ export class CoreCourseProvider {
 
         if (previousStatus != status) {
             // Status has changed, update it.
-            const data: CoreCourseStatusDBRecord = {
+            await this.statusTables[site.getId()].insert({
                 id: courseId,
                 status: status,
                 previous: previousStatus,
                 updated: new Date().getTime(),
                 downloadTime: downloadTime,
                 previousDownloadTime: previousDownloadTime,
-            };
-
-            await site.getDb().insertRecord(COURSE_STATUS_TABLE, data);
+            });
         }
 
         // Success inserting, trigger event.

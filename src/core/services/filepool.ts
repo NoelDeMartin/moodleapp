@@ -49,7 +49,7 @@ import {
 import { CoreFileHelper } from './file-helper';
 import { CoreUrl } from '@singletons/url';
 import { CoreDatabaseTable } from '@classes/database/database-table';
-import { CoreDatabaseCachingStrategy } from '@classes/database/database-table-proxy';
+import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
 import { lazyMap, LazyMap } from '../utils/lazy-map';
 import { asyncInstance, AsyncInstance } from '../utils/async-instance';
 
@@ -98,14 +98,14 @@ export class CoreFilepoolProvider {
     // Variables to prevent downloading packages/files twice at the same time.
     protected packagesPromises: { [s: string]: { [s: string]: Promise<void> } } = {};
     protected filePromises: { [s: string]: { [s: string]: Promise<string> } } = {};
-
-    // Variables for DB.
-    protected appDB: Promise<SQLiteDB>;
-    protected resolveAppDB!: (appDB: SQLiteDB) => void;
     protected filesTables: LazyMap<AsyncInstance<CoreDatabaseTable<CoreFilepoolFileEntry, 'fileId'>>>;
+    protected linksTables:
+        LazyMap<AsyncInstance<CoreDatabaseTable<CoreFilepoolLinksRecord, 'fileId' | 'component' | 'componentId'>>>;
+
+    protected packagesTables: LazyMap<AsyncInstance<CoreDatabaseTable<CoreFilepoolPackageEntry>>>;
+    protected queueTable = asyncInstance<CoreDatabaseTable<CoreFilepoolQueueDBEntry, 'siteId' | 'fileId'>>();
 
     constructor() {
-        this.appDB = new Promise(resolve => this.resolveAppDB = resolve);
         this.logger = CoreLogger.getInstance('CoreFilepoolProvider');
         this.filesTables = lazyMap(
             siteId => asyncInstance(
@@ -113,6 +113,23 @@ export class CoreFilepoolProvider {
                     siteId,
                     config: { cachingStrategy: CoreDatabaseCachingStrategy.Lazy },
                     primaryKeyColumns: ['fileId'],
+                }),
+            ),
+        );
+        this.linksTables = lazyMap(
+            siteId => asyncInstance(
+                () => CoreSites.getSiteTable<CoreFilepoolLinksRecord, 'fileId' | 'component' | 'componentId'>(LINKS_TABLE_NAME, {
+                    siteId,
+                    config: { cachingStrategy: CoreDatabaseCachingStrategy.Lazy },
+                    primaryKeyColumns: ['fileId', 'component', 'componentId'],
+                }),
+            ),
+        );
+        this.packagesTables = lazyMap(
+            siteId => asyncInstance(
+                () => CoreSites.getSiteTable<CoreFilepoolPackageEntry, 'id'>(PACKAGES_TABLE_NAME, {
+                    siteId,
+                    config: { cachingStrategy: CoreDatabaseCachingStrategy.Lazy },
                 }),
             ),
         );
@@ -154,7 +171,16 @@ export class CoreFilepoolProvider {
             // Ignore errors.
         }
 
-        this.resolveAppDB(CoreApp.getDB());
+        const queueTable = new CoreDatabaseTableProxy<CoreFilepoolQueueDBEntry, 'siteId' | 'fileId'>(
+            { cachingStrategy: CoreDatabaseCachingStrategy.Lazy },
+            CoreApp.getDB(),
+            QUEUE_TABLE_NAME,
+            ['siteId','fileId'],
+        );
+
+        await queueTable.initialize();
+
+        this.queueTable.setInstance(queueTable);
     }
 
     /**
@@ -171,16 +197,11 @@ export class CoreFilepoolProvider {
             throw new CoreError('Cannot add link because component is invalid.');
         }
 
-        componentId = this.fixComponentId(componentId);
-
-        const db = await CoreSites.getSiteDb(siteId);
-        const newEntry: CoreFilepoolLinksRecord = {
+        await this.linksTables[siteId].insert({
             fileId,
             component,
-            componentId: componentId || '',
-        };
-
-        await db.insertRecord(LINKS_TABLE_NAME, newEntry);
+            componentId: this.fixComponentId(componentId) || '',
+        });
     }
 
     /**
@@ -301,9 +322,7 @@ export class CoreFilepoolProvider {
     ): Promise<void> {
         this.logger.debug(`Adding ${fileId} to the queue`);
 
-        const db = await this.appDB;
-
-        await db.insertRecord(QUEUE_TABLE_NAME, {
+        await this.queueTable.insert({
             siteId,
             fileId,
             url,
@@ -431,10 +450,7 @@ export class CoreFilepoolProvider {
             // Update only when required.
             this.logger.debug(`Updating file ${fileId} which is already in queue`);
 
-            const db = await this.appDB;
-
-            return db.updateRecords(QUEUE_TABLE_NAME, newData, primaryKey).then(() =>
-                this.getQueuePromise(siteId, fileId, true, onProgress));
+            return this.queueTable.update(newData, primaryKey).then(() => this.getQueuePromise(siteId, fileId, true, onProgress));
         }
 
         this.logger.debug(`File ${fileId} already in queue and does not require update`);
@@ -560,11 +576,10 @@ export class CoreFilepoolProvider {
     async clearAllPackagesStatus(siteId: string): Promise<void> {
         this.logger.debug('Clear all packages status for site ' + siteId);
 
-        const site = await CoreSites.getSite(siteId);
         // Get all the packages to be able to "notify" the change in the status.
-        const entries: CoreFilepoolPackageEntry[] = await site.getDb().getAllRecords(PACKAGES_TABLE_NAME);
+        const entries = await this.packagesTables[siteId].getMany();
         // Delete all the entries.
-        await site.getDb().deleteRecords(PACKAGES_TABLE_NAME);
+        await this.packagesTables[siteId].delete();
 
         entries.forEach((entry) => {
             if (!entry.component) {
@@ -1706,10 +1721,9 @@ export class CoreFilepoolProvider {
     async getPackageData(siteId: string, component: string, componentId?: string | number): Promise<CoreFilepoolPackageEntry> {
         componentId = this.fixComponentId(componentId);
 
-        const site = await CoreSites.getSite(siteId);
         const packageId = this.getPackageId(component, componentId);
 
-        return site.getDb().getRecord(PACKAGES_TABLE_NAME, { id: packageId });
+        return this.packagesTables[siteId].getOneByPrimaryKey({ id: packageId });
     }
 
     /**
@@ -2171,16 +2185,16 @@ export class CoreFilepoolProvider {
      * @return Resolved with file object from DB on success, rejected otherwise.
      */
     protected async hasFileInQueue(siteId: string, fileId: string): Promise<CoreFilepoolQueueEntry> {
-        const db = await this.appDB;
-        const entry = await db.getRecord<CoreFilepoolQueueEntry>(QUEUE_TABLE_NAME, { siteId, fileId });
+        const entry = await this.queueTable.getOneByPrimaryKey({ siteId, fileId });
 
         if (entry === undefined) {
             throw new CoreError('File not found in queue.');
         }
-        // Convert the links to an object.
-        entry.linksUnserialized = <CoreFilepoolComponentLink[]> CoreTextUtils.parseJSON(entry.links || '[]', []);
 
-        return entry;
+        return {
+            ...entry,
+            linksUnserialized: <CoreFilepoolComponentLink[]> CoreTextUtils.parseJSON(entry.links || '[]', []),
+        };
     }
 
     /**
@@ -2523,30 +2537,26 @@ export class CoreFilepoolProvider {
      * @return Resolved on success. Rejected on failure.
      */
     protected async processImportantQueueItem(): Promise<void> {
-        let items: CoreFilepoolQueueEntry[];
-        const db = await this.appDB;
+        // TODO
+        // let items: CoreFilepoolQueueEntry[];
+        // try {
+        //     items = await db.getRecords<CoreFilepoolQueueEntry>(
+        //         'priority DESC, added ASC', // sort
+        //         0, // offset
+        //         1, // limit
+        //     );
+        // } catch (err) {
+        //     throw CoreFilepoolProvider.ERR_QUEUE_IS_EMPTY;
+        // }
 
-        try {
-            items = await db.getRecords<CoreFilepoolQueueEntry>(
-                QUEUE_TABLE_NAME,
-                undefined,
-                'priority DESC, added ASC',
-                undefined,
-                0,
-                1,
-            );
-        } catch (err) {
-            throw CoreFilepoolProvider.ERR_QUEUE_IS_EMPTY;
-        }
+        // const item = items.pop();
+        // if (!item) {
+        //     throw CoreFilepoolProvider.ERR_QUEUE_IS_EMPTY;
+        // }
+        // // Convert the links to an object.
+        // item.linksUnserialized = <CoreFilepoolComponentLink[]> CoreTextUtils.parseJSON(item.links, []);
 
-        const item = items.pop();
-        if (!item) {
-            throw CoreFilepoolProvider.ERR_QUEUE_IS_EMPTY;
-        }
-        // Convert the links to an object.
-        item.linksUnserialized = <CoreFilepoolComponentLink[]> CoreTextUtils.parseJSON(item.links, []);
-
-        return this.processQueueItem(item);
+        // return this.processQueueItem(item);
     }
 
     /**
@@ -2671,9 +2681,7 @@ export class CoreFilepoolProvider {
      * @return Resolved on success. Rejected on failure. It is advised to silently ignore failures.
      */
     protected async removeFromQueue(siteId: string, fileId: string): Promise<void> {
-        const db = await this.appDB;
-
-        await db.deleteRecords(QUEUE_TABLE_NAME, { siteId, fileId });
+        await this.queueTable.deleteByPrimaryKey({ siteId, fileId });
     }
 
     /**
@@ -2795,11 +2803,10 @@ export class CoreFilepoolProvider {
         componentId = this.fixComponentId(componentId);
         this.logger.debug(`Set previous status for package ${component} ${componentId}`);
 
-        const site = await CoreSites.getSite(siteId);
         const packageId = this.getPackageId(component, componentId);
 
         // Get current stored data, we'll only update 'status' and 'updated' fields.
-        const entry = <CoreFilepoolPackageEntry> site.getDb().getRecord(PACKAGES_TABLE_NAME, { id: packageId });
+        const entry = await this.packagesTables[siteId].getOneByPrimaryKey({ id: packageId });
         const newData: CoreFilepoolPackageEntry = {};
         if (entry.status == CoreConstants.DOWNLOADING) {
             // Going back from downloading to previous status, restore previous download time.
@@ -2809,9 +2816,9 @@ export class CoreFilepoolProvider {
         newData.updated = Date.now();
         this.logger.debug(`Set previous status '${entry.status}' for package ${component} ${componentId}`);
 
-        await site.getDb().updateRecords(PACKAGES_TABLE_NAME, newData, { id: packageId });
+        await this.packagesTables[siteId].update(newData, { id: packageId });
         // Success updating, trigger event.
-        this.triggerPackageStatusChanged(site.getId(), newData.status, component, componentId);
+        this.triggerPackageStatusChanged(siteId, newData.status, component, componentId);
 
         return newData.status;
     }
@@ -2900,7 +2907,6 @@ export class CoreFilepoolProvider {
         this.logger.debug(`Set status '${status}' for package ${component} ${componentId}`);
         componentId = this.fixComponentId(componentId);
 
-        const site = await CoreSites.getSite(siteId);
         const packageId = this.getPackageId(component, componentId);
         let downloadTime: number | undefined;
         let previousDownloadTime: number | undefined;
@@ -2913,7 +2919,7 @@ export class CoreFilepoolProvider {
         let previousStatus: string | undefined;
         // Search current status to set it as previous status.
         try {
-            const entry = await site.getDb().getRecord<CoreFilepoolPackageEntry>(PACKAGES_TABLE_NAME, { id: packageId });
+            const entry = await this.packagesTables[siteId].getOneByPrimaryKey({ id: packageId });
 
             extra = extra ?? entry.extra;
             if (downloadTime === undefined) {
@@ -2930,7 +2936,12 @@ export class CoreFilepoolProvider {
             // No previous status.
         }
 
-        const packageEntry: CoreFilepoolPackageEntry = {
+        if (previousStatus === status) {
+            // The package already has this status, no need to change it.
+            return;
+        }
+
+        await this.packagesTables[siteId].insert({
             id: packageId,
             component,
             componentId,
@@ -2940,14 +2951,7 @@ export class CoreFilepoolProvider {
             downloadTime,
             previousDownloadTime,
             extra,
-        };
-
-        if (previousStatus === status) {
-            // The package already has this status, no need to change it.
-            return;
-        }
-
-        await site.getDb().insertRecord(PACKAGES_TABLE_NAME, packageEntry);
+        });
 
         // Success inserting, trigger event.
         this.triggerPackageStatusChanged(siteId, status, component, componentId);
@@ -3067,11 +3071,9 @@ export class CoreFilepoolProvider {
     async updatePackageDownloadTime(siteId: string, component: string, componentId?: string | number): Promise<void> {
         componentId = this.fixComponentId(componentId);
 
-        const site = await CoreSites.getSite(siteId);
         const packageId = this.getPackageId(component, componentId);
 
-        await site.getDb().updateRecords(
-            PACKAGES_TABLE_NAME,
+        await this.packagesTables[siteId].update(
             { downloadTime: CoreTimeUtils.timestamp() },
             { id: packageId },
         );

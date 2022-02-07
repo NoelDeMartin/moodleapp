@@ -74,6 +74,13 @@ export class CoreDatabaseTableProxy<
     /**
      * @inheritdoc
      */
+    getManyWhere(conditions: CoreDatabaseConditions<DBRecord>): Promise<DBRecord[]>  {
+        return this.target.getManyWhere(conditions);
+    }
+
+    /**
+     * @inheritdoc
+     */
     async getOne(conditions: Partial<DBRecord>): Promise<DBRecord> {
         return this.target.getOne(conditions);
     }

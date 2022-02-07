@@ -59,6 +59,13 @@ export class CoreEagerDatabaseTable<
     /**
      * @inheritdoc
      */
+    async getManyWhere(conditions: CoreDatabaseConditions<DBRecord>): Promise<DBRecord[]> {
+        return Object.values(this.records).filter(record => conditions.js(record));
+    }
+
+    /**
+     * @inheritdoc
+     */
     async getOne(conditions: Partial<DBRecord>): Promise<DBRecord> {
         const record = Object.values(this.records).find(record => this.recordMatches(record, conditions)) ?? null;
 
