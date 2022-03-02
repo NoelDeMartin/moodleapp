@@ -1,0 +1,10 @@
+<svg height="100%" width="100%" class="user-tour-overlay">
+    <defs>
+        <mask *ngIf="overlayFocus" [id]="overlayMaskId">
+            <rect width="100%" height="100%" fill="white" />
+            <circle [attr.cx]="overlayFocus.centerX" [attr.cy]="overlayFocus.centerY" [attr.r]="overlayFocus.radius" fill="black" />
+        </mask>
+    </defs>
+    <rect width="100%" height="100%" [mask]="overlayMask" />
+</svg>
+<div class="user-tour-wrapper" [attr.style]="wrapperStyles"></div>

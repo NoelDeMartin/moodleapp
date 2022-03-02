@@ -44,6 +44,23 @@ export class CoreComponentsRegistry {
             : null;
     }
 
+    /**
+     * Get a component instances and fail if it cannot be resolved.
+     *
+     * @param element Root element.
+     * @param componentClass Component class.
+     * @returns Component instance.
+     */
+    static require<T>(element: Element, componentClass?: ComponentConstructor<T>): T {
+        const instance = this.resolve(element, componentClass);
+
+        if (!instance) {
+            throw new Error('Couldn\'t resolve component instance');
+        }
+
+        return instance;
+    }
+
 }
 
 /**
