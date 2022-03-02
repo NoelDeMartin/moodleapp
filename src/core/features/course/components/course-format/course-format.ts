@@ -23,6 +23,7 @@ import {
     QueryList,
     Type,
     ElementRef,
+    ViewChild,
 } from '@angular/core';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreDynamicComponent } from '@components/dynamic-component/dynamic-component';
@@ -42,6 +43,8 @@ import { CoreCourseCourseIndexComponent, CoreCourseIndexSectionWithModule } from
 import { CoreBlockHelper } from '@features/block/services/block-helper';
 import { CoreNavigator } from '@services/navigator';
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
+import { CoreUserTours } from '@features/user-tours/services/user-tours';
+import { CoreCourseCourseIndexTourComponent } from '../course-index-tour/course-index-tour';
 
 /**
  * Component to display course contents using a certain format. If the format isn't found, use default one.
@@ -69,6 +72,7 @@ export class CoreCourseFormatComponent implements OnInit, OnChanges, OnDestroy {
     @Input() moduleId?: number; // The module ID to scroll to. Must be inside the initial selected section.
 
     @ViewChildren(CoreDynamicComponent) dynamicComponents?: QueryList<CoreDynamicComponent>;
+    @ViewChild('courseIndexFab', { read: ElementRef }) courseIndexFab?: ElementRef;
 
     // All the possible component classes.
     courseFormatComponent?: Type<unknown>;
@@ -132,7 +136,18 @@ export class CoreCourseFormatComponent implements OnInit, OnChanges, OnDestroy {
                 this.sectionChanged(section);
             }
         });
+    }
 
+    async showCourseIndexTour(): Promise<void> {
+        if (!(await CoreUserTours.shouldShow('course-index'))) {
+            return;
+        }
+
+        await CoreUserTours.show({
+            id: 'course-index',
+            component: CoreCourseCourseIndexTourComponent,
+            focusedElement: this.courseIndexFab?.nativeElement,
+        });
     }
 
     /**
