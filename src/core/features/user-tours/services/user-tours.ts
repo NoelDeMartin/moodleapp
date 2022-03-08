@@ -12,33 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { CoreConstants } from '@/core/constants';
 import { asyncInstance } from '@/core/utils/async-instance';
 import { Injectable } from '@angular/core';
 import { CoreDatabaseTable } from '@classes/database/database-table';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
+import { CoreSemaphore } from '@classes/semaphore';
 import { CoreApp } from '@services/app';
+import { CoreUtils } from '@services/utils/utils';
 import { AngularFrameworkDelegate, makeSingleton } from '@singletons';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
+import { CoreSubscriptions } from '@singletons/subscriptions';
 import { CoreUserToursUserTourComponent } from '../components/user-tour/user-tour';
 import { APP_SCHEMA, CoreUserToursDBEntry, USER_TOURS_TABLE_NAME } from './database/user-tours';
 
 /**
- * Service to manage user tours.
+ * Service to manage User Tours.
  */
 @Injectable({ providedIn: 'root' })
 export class CoreUserToursService {
 
     protected table = asyncInstance<CoreDatabaseTable<CoreUserToursDBEntry>>();
+    protected activeTour?: CoreUserToursUserTourComponent;
+    protected asyncLock = new CoreSemaphore();
 
     /**
      * Initialize database.
      */
     async initializeDatabase(): Promise<void> {
-        try {
-            await CoreApp.createTablesFromSchema(APP_SCHEMA);
-        } catch (e) {
-            // Ignore errors.
-        }
+        await CoreUtils.ignoreErrors(CoreApp.createTablesFromSchema(APP_SCHEMA));
 
         this.table.setLazyConstructor(async () => {
             const table = new CoreDatabaseTableProxy<CoreUserToursDBEntry>(
@@ -54,21 +56,62 @@ export class CoreUserToursService {
         });
     }
 
-    async shouldShow(id: string): Promise<boolean> {
-        if (this.getUserTours().length > 0) {
+    /**
+     * Check whether a User Tour is pending or not.
+     *
+     * @param id User Tour id.
+     * @returns Whether the User Tour is pending or not.
+     */
+    async isPending(id: string): Promise<boolean> {
+        if (CoreConstants.CONFIG.disabledUserTours?.includes(id)) {
             return false;
         }
 
-        // TODO allow to disable by config
+        const isAcknowledged = await this.table.hasAnyByPrimaryKey({ id });
 
-        return this.table.hasAnyByPrimaryKey({ id });
+        return !isAcknowledged;
     }
 
+    /**
+     * Confirm that a User Tour has been seen by the user.
+     *
+     * @param id User Tour id.
+     */
     async acknowledge(id: string): Promise<void> {
         await this.table.insert({ id, acknowledgedTime: Date.now() });
     }
 
-    async show(options: CoreUserToursCreateOptions): Promise<CoreUserToursUserTour> {
+    /**
+     * Show a User Tour if it's pending.
+     *
+     * @param options User Tour options.
+     * @returns User Tour instance if it was shown.
+     */
+    async showIfPending(options: CoreUserToursBasicOptions): Promise<CoreUserToursUserTour | void>;
+    async showIfPending(options: CoreUserToursPopoverFocusedOptions): Promise<CoreUserToursUserTour | void>;
+    async showIfPending(options: CoreUserToursOverlayFocusedOptions): Promise<CoreUserToursUserTour | void>;
+    async showIfPending(options: CoreUserToursOptions): Promise<CoreUserToursUserTour | void> {
+        const isPending = await CoreUserTours.isPending(options.id);
+
+        if (!isPending) {
+            return;
+        }
+
+        return this.show(options);
+    }
+
+    /**
+     * Show a User Tour.
+     *
+     * @param options User Tour options.
+     * @returns User Tour instance.
+     */
+    protected async show(options: CoreUserToursBasicOptions): Promise<CoreUserToursUserTour>;
+    protected async show(options: CoreUserToursPopoverFocusedOptions): Promise<CoreUserToursUserTour>;
+    protected async show(options: CoreUserToursOverlayFocusedOptions): Promise<CoreUserToursUserTour>;
+    protected async show(options: CoreUserToursOptions): Promise<CoreUserToursUserTour> {
+        await this.asyncLock.acquire();
+
         const container = document.querySelector('ion-app') ?? document.body;
         const element = await AngularFrameworkDelegate.attachViewToDom(
             container,
@@ -78,41 +121,148 @@ export class CoreUserToursService {
                 container,
             },
         );
-        const userTour = CoreComponentsRegistry.require(element, CoreUserToursUserTourComponent);
 
-        await userTour.present();
+        this.activeTour = CoreComponentsRegistry.require(element, CoreUserToursUserTourComponent);
 
-        return userTour;
+        CoreSubscriptions.once(this.activeTour.onDismissed, () => this.asyncLock.release());
+
+        await this.activeTour.present();
+
+        return this.activeTour;
     }
 
-    async dismiss(): Promise<void> {
-        const userTours = this.getUserTours();
-
-        if (userTours.length === 0) {
+    /**
+     * Dismiss the active User Tour, if any.
+     *
+     * @param acknowledge Whether to acknowledge that the user has seen this User Tour or not.
+     */
+    async dismiss(acknowledge: boolean = true): Promise<void> {
+        if (!this.activeTour) {
             return;
         }
 
-        await userTours[userTours.length - 1].dismiss();
-    }
+        await this.activeTour.dismiss(acknowledge);
 
-    protected getUserTours(): CoreUserToursUserTourComponent[] {
-        return Array
-            .from(document.querySelectorAll('core-user-tours-user-tour'))
-            .map(element => CoreComponentsRegistry.resolve(element, CoreUserToursUserTourComponent))
-            .filter((userTour: unknown): userTour is CoreUserToursUserTourComponent => !!userTour);
+        delete this.activeTour;
     }
 
 }
 
 export const CoreUserTours = makeSingleton(CoreUserToursService);
 
-export interface CoreUserToursCreateOptions {
-    id: string;
-    component: unknown;
-    componentProps?: Record<string, unknown>;
-    focusedElement?: HTMLElement;
+/**
+ * User Tour.
+ */
+export interface CoreUserToursUserTour {
+    dismiss(acknowledge?: boolean): Promise<void>;
 }
 
-export interface CoreUserToursUserTour {
-    dismiss(): Promise<void>;
+/**
+ * User Tour style.
+ */
+export const enum CoreUserToursStyle {
+    Overlay = 'overlay',
+    Popover = 'popover',
 }
+
+/**
+ * User Tour side.
+ */
+export const enum CoreUserToursSide {
+    Top = 'top',
+    Bottom = 'bottom',
+    Right = 'right',
+    Left = 'left',
+    Start = 'start',
+    End = 'end',
+}
+
+/**
+ * User Tour alignment.
+ */
+export const enum CoreUserToursAlignment {
+    Start = 'start',
+    Center = 'center',
+    End = 'end',
+}
+
+/**
+ * Basic options to create a User Tour.
+ */
+export interface CoreUserToursBasicOptions {
+
+    /**
+     * Unique identifier.
+     */
+    id: string;
+
+    /**
+     * User tour component.
+     */
+    component: unknown;
+
+    /**
+     * Properties to pass to the user tour component.
+     */
+    componentProps?: Record<string, unknown>;
+
+}
+
+/**
+ * Options to create a focused User Tour.
+ */
+export interface CoreUserToursFocusedOptions extends CoreUserToursBasicOptions {
+
+    /**
+     * Element to focus.
+     */
+    focus: HTMLElement;
+
+    /**
+     * Whether to show a shadow around the focused element or not.
+     */
+    focusShadow?: boolean;
+
+}
+
+/**
+ * Options to create a focused User Tour using the Popover style.
+ */
+export interface CoreUserToursPopoverFocusedOptions extends CoreUserToursFocusedOptions {
+
+    /**
+     * User Tour style.
+     */
+    style?: CoreUserToursStyle.Popover;
+
+    /**
+     * Position relative to the focused element.
+     */
+    side: CoreUserToursSide;
+
+    /**
+     * Alignment relative to the focused element.
+     */
+    alignment: CoreUserToursAlignment;
+
+}
+
+/**
+ * Options to create a focused User Tour using the Overlay style.
+ */
+export interface CoreUserToursOverlayFocusedOptions extends CoreUserToursFocusedOptions {
+
+    /**
+     * User Tour style.
+     */
+    style: CoreUserToursStyle.Overlay;
+
+}
+
+/**
+ * Options to create a User Tour.
+ */
+export type CoreUserToursOptions =
+    CoreUserToursBasicOptions |
+    CoreUserToursPopoverFocusedOptions |
+    CoreUserToursOverlayFocusedOptions;

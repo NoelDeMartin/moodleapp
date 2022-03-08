@@ -267,6 +267,10 @@ export class CoreCollapsibleHeaderDirective implements OnInit, OnDestroy {
      * @param content Content element.
      */
     protected updateContent(content?: HTMLIonContentElement | null): void {
+        if (content === this.content ?? null) {
+            return;
+        }
+
         if (this.content && this.contentScrollListener) {
             this.content.removeEventListener('ionScroll', this.contentScrollListener);
 

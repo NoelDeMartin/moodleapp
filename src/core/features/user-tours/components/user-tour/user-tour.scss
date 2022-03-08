@@ -5,32 +5,79 @@
     display: none;
     color: white;
 
+    .user-tour-focus, .user-tour-focus-shadow {
+        position: absolute;
+    }
+
+    .user-tour-focus-shadow {
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.18);
+    }
+
     .user-tour-overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        fill: rgba(0, 0, 0, .5);
+    }
+
+    .user-tour-wrapper {
+        position: absolute;
     }
 
     &.is-active {
         display: block;
     }
 
-    &:not(.is-focused) .user-tour-wrapper {
-        position: relative;
-        width: 100%;
-        height: 100%;
+    &.is-popover {
+
+        .user-tour-focus {
+            box-shadow: 0 0 0 9999px #222428;
+            opacity: .25;
+        }
+
+        .user-tour-overlay {
+            background: #222428;
+            opacity: .25;
+        }
+
+        .user-tour-wrapper {
+            color: black;
+            background: white;
+            width: 70vw;
+            padding: 16px;
+            border-radius: 8px;
+
+            .user-tour-wrapper-arrow {
+                position: absolute;
+                border-style: solid;
+                border-color: transparent;
+            }
+
+        }
+
     }
 
-    &.is-focused .user-tour-wrapper {
-        position: absolute;
-        background: white;
-        color: black;
-        padding: 16px;
-        right: 16px;
-        max-width: calc(100% - 32px);
+    &:not(.is-popover) {
+
+        .user-tour-focus {
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.75);
+        }
+
+        .user-tour-overlay {
+            background: rgba(0, 0, 0, 0.75);
+        }
+
+        .user-tour-wrapper {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
     }
 
 }

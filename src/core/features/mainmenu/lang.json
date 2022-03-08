@@ -1,5 +1,7 @@
 {
     "home": "Home",
     "logout": "Log out",
-    "switchaccount": "Switch account"
+    "switchaccount": "Switch account",
+    "usermenutourdescription": "Dui id convallis pellentesque vestibulum nulla viverra massa id consequat suspendisse velit eros, purus nibh",
+    "usermenutourtitle": "New Account menu"
 }

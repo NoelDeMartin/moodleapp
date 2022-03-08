@@ -15,12 +15,15 @@
 import { Component } from '@angular/core';
 import { CoreUserTours } from '@features/user-tours/services/user-tours';
 
+/**
+ * Component showing a tours for the User Menu feature.
+ */
 @Component({
-    selector: 'core-course-course-index-tour',
-    templateUrl: 'course-index-tour.html',
-    styleUrls: ['course-index-tour.scss'],
+    selector: 'core-mainmenu-user-menu-tour',
+    templateUrl: 'user-menu-tour.html',
+    styleUrls: ['user-menu-tour.scss'],
 })
-export class CoreCourseCourseIndexTourComponent {
+export class CoreMainMenuUserMenuTourComponent {
 
     async dismiss(): Promise<void> {
         await CoreUserTours.dismiss();

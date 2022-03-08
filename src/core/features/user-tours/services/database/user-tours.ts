@@ -18,7 +18,6 @@ import { CoreAppSchema } from '@services/app';
  * Database variables for CoreUserTours service.
  */
 export const USER_TOURS_TABLE_NAME = 'user_tours';
-
 export const APP_SCHEMA: CoreAppSchema = {
     name: 'CoreUserTours',
     version: 1,
@@ -41,6 +40,9 @@ export const APP_SCHEMA: CoreAppSchema = {
     ],
 };
 
+/**
+ * User Tours database entry.
+ */
 export type CoreUserToursDBEntry = {
     id: string;
     acknowledgedTime: number;

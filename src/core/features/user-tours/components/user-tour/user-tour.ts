@@ -12,12 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AfterViewInit, Component, ElementRef, HostBinding, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CorePromisedValue } from '@classes/promised-value';
-import { CoreUserTours, CoreUserToursUserTour } from '@features/user-tours/services/user-tours';
+import { CoreUserToursFocusLayout } from '@features/user-tours/classes/focus-layout';
+import { CoreUserToursPopoverLayout } from '@features/user-tours/classes/popover-layout';
+import {
+    CoreUserTours,
+    CoreUserToursAlignment,
+    CoreUserToursSide,
+    CoreUserToursStyle,
+    CoreUserToursUserTour,
+} from '@features/user-tours/services/user-tours';
 import { AngularFrameworkDelegate } from '@singletons';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 
+const ANIMATION_DURATION = 200;
+
+/**
+ * User Tour wrapper component.
+ *
+ * Specific User Tours will be rendered within this component according to the configured style.
+ */
 @Component({
     selector: 'core-user-tours-user-tour',
     templateUrl: 'core-user-tours-user-tour.html',
@@ -29,14 +44,21 @@ export class CoreUserToursUserTourComponent implements AfterViewInit, OnInit, Co
     @Input() id!: string;
     @Input() component!: unknown;
     @Input() componentProps?: Record<string, unknown>;
-    @Input() focusedElement?: HTMLElement;
+    @Input() focus?: HTMLElement;
+    @Input() focusShadow?: boolean;
+    @Input() style?: CoreUserToursStyle;
+    @Input() side?: CoreUserToursSide;
+    @Input() alignment?: CoreUserToursAlignment;
+    @Output() onDismissed = new EventEmitter();
     @HostBinding('class.is-active') active = false;
-    @HostBinding('class.is-focused') focused = false;
+    @HostBinding('class.is-popover') popover = false;
+    @ViewChild('wrapper') wrapper?: ElementRef<HTMLElement>;
 
-    overlayFocus?: { centerX: number; centerY: number; radius: number };
-    wrapperStyles?: string;
-
+    focusStyles?: string;
+    popoverWrapperStyles?: string;
+    popoverWrapperArrowStyles?: string;
     private element: HTMLElement;
+    private wrapperTransform = '';
     private wrapperElement = new CorePromisedValue<HTMLElement>();
 
     constructor({ nativeElement: element }: ElementRef<HTMLElement>) {
@@ -45,47 +67,101 @@ export class CoreUserToursUserTourComponent implements AfterViewInit, OnInit, Co
         CoreComponentsRegistry.register(element, this);
     }
 
-    get overlayMaskId(): string {
-        return `${this.id}-mask`;
-    }
-
-    get overlayMask(): string {
-        return `url(#${this.id}-mask)`;
-    }
-
+    /**
+     * @inheritdoc
+     */
     ngOnInit(): void {
-        if (!this.focusedElement) {
+        if (!this.focus) {
             return;
         }
 
-        const boundingBox = this.focusedElement.getBoundingClientRect();
-        const radius = boundingBox.width / 2;
+        // Calculate focus styles.
+        const focusLayout = new CoreUserToursFocusLayout(this.focus);
 
-        this.overlayFocus = {
-            centerX: boundingBox.x + radius,
-            centerY: boundingBox.y + radius,
-            radius,
-        };
-        this.wrapperStyles = `bottom:${window.innerHeight - boundingBox.top}px`;
-        this.focused = true;
+        this.focusStyles = focusLayout.inlineStyles;
+
+        // Calculate popup styles.
+        if (this.style ?? CoreUserToursStyle.Popover === CoreUserToursStyle.Popover) {
+            if (!this.side || !this.alignment) {
+                throw new Error('Cannot create a popover user tour without side and alignment');
+            }
+
+            const popoverLayout = new CoreUserToursPopoverLayout(this.focus, this.side, this.alignment);
+
+            this.popover = true;
+            this.popoverWrapperStyles = popoverLayout.wrapperInlineStyles;
+            this.popoverWrapperArrowStyles = popoverLayout.wrapperArrowInlineStyles;
+            this.wrapperTransform = `${popoverLayout.wrapperStyles.transform ?? ''}`;
+        }
     }
 
+    /**
+     * @inheritdoc
+     */
     ngAfterViewInit(): void {
-        this.wrapperElement.resolve(this.element.querySelector('.user-tour-wrapper') as HTMLElement);
+        if (!this.wrapper) {
+            return;
+        }
+
+        this.wrapperElement.resolve(this.wrapper.nativeElement);
     }
 
+    /**
+     * Present User Tour.
+     */
     async present(): Promise<void> {
         const wrapper = await this.wrapperElement;
 
         await AngularFrameworkDelegate.attachViewToDom(wrapper, this.component, this.componentProps ?? {});
 
         this.active = true;
+
+        await this.playEnterAnimation();
     }
 
+    /**
+     * Dismiss User Tour.
+     *
+     * @param acknowledge Whether to confirm that the user has seen the User Tour.
+     */
     async dismiss(acknowledge: boolean = true): Promise<void> {
+        await this.playLeaveAnimation();
+
         AngularFrameworkDelegate.removeViewFromDom(this.container, this.element);
 
         acknowledge && CoreUserTours.acknowledge(this.id);
+
+        this.onDismissed.emit();
+    }
+
+    /**
+     * Play animation to show that the User Tour has started.
+     */
+    private async playEnterAnimation(): Promise<void> {
+        const animations = [
+            this.element.animate({ opacity: ['0', '1'] }, { duration: ANIMATION_DURATION }),
+            this.wrapperElement.value?.animate(
+                { transform: [`scale(1.2) ${this.wrapperTransform}`, `scale(1) ${this.wrapperTransform}`] },
+                { duration: ANIMATION_DURATION },
+            ),
+        ];
+
+        await Promise.all(animations.map(animation => animation?.finished));
+    }
+
+    /**
+     * Play animation to show that the User Tour has endd.
+     */
+    private async playLeaveAnimation(): Promise<void> {
+        const animations = [
+            this.element.animate({ opacity: ['1', '0'] }, { duration: ANIMATION_DURATION }),
+            this.wrapperElement.value?.animate(
+                { transform: [`scale(1) ${this.wrapperTransform}`, `scale(1.2) ${this.wrapperTransform}`] },
+                { duration: ANIMATION_DURATION },
+            ),
+        ];
+
+        await Promise.all(animations.map(animation => animation?.finished));
     }
 
 }

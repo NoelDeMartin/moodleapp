@@ -43,7 +43,7 @@ import { CoreCourseCourseIndexComponent, CoreCourseIndexSectionWithModule } from
 import { CoreBlockHelper } from '@features/block/services/block-helper';
 import { CoreNavigator } from '@services/navigator';
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
-import { CoreUserTours } from '@features/user-tours/services/user-tours';
+import { CoreUserTours, CoreUserToursAlignment, CoreUserToursSide } from '@features/user-tours/services/user-tours';
 import { CoreCourseCourseIndexTourComponent } from '../course-index-tour/course-index-tour';
 
 /**
@@ -72,7 +72,7 @@ export class CoreCourseFormatComponent implements OnInit, OnChanges, OnDestroy {
     @Input() moduleId?: number; // The module ID to scroll to. Must be inside the initial selected section.
 
     @ViewChildren(CoreDynamicComponent) dynamicComponents?: QueryList<CoreDynamicComponent>;
-    @ViewChild('courseIndexFab', { read: ElementRef }) courseIndexFab?: ElementRef;
+    @ViewChild('courseIndexFab', { read: ElementRef }) courseIndexFab?: ElementRef<HTMLElement>;
 
     // All the possible component classes.
     courseFormatComponent?: Type<unknown>;
@@ -139,14 +139,20 @@ export class CoreCourseFormatComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     async showCourseIndexTour(): Promise<void> {
-        if (!(await CoreUserTours.shouldShow('course-index'))) {
+        const nativeButton = this.courseIndexFab?.nativeElement.shadowRoot?.children[0] as HTMLElement;
+
+        if (!nativeButton) {
             return;
         }
 
-        await CoreUserTours.show({
+        // TODO wait until footer is hidden
+
+        await CoreUserTours.showIfPending({
             id: 'course-index',
+            side: CoreUserToursSide.Top,
+            alignment: CoreUserToursAlignment.End,
             component: CoreCourseCourseIndexTourComponent,
-            focusedElement: this.courseIndexFab?.nativeElement,
+            focus: nativeButton,
         });
     }
 

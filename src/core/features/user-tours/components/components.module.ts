@@ -17,6 +17,9 @@ import { NgModule } from '@angular/core';
 import { CoreSharedModule } from '@/core/shared.module';
 import { CoreUserToursUserTourComponent } from './user-tour/user-tour';
 
+/**
+ * User Tours components module.
+ */
 @NgModule({
     declarations: [
         CoreUserToursUserTourComponent,

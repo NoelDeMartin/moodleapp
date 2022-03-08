@@ -15,12 +15,15 @@
 import { Component } from '@angular/core';
 import { CoreUserTours } from '@features/user-tours/services/user-tours';
 
+/**
+ * Component showing a tours for the Side Blocks feature.
+ */
 @Component({
-    selector: 'core-course-course-index-tour',
-    templateUrl: 'course-index-tour.html',
-    styleUrls: ['course-index-tour.scss'],
+    selector: 'core-block-side-blocks-tour',
+    templateUrl: 'side-blocks-tour.html',
+    styleUrls: ['side-blocks-tour.scss'],
 })
-export class CoreCourseCourseIndexTourComponent {
+export class CoreBlockSideBlocksTourComponent {
 
     async dismiss(): Promise<void> {
         await CoreUserTours.dismiss();

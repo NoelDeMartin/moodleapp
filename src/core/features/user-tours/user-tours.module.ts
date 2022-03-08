@@ -17,6 +17,9 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CoreUserToursComponentsModule } from './components/components.module';
 import { CoreUserTours } from './services/user-tours';
 
+/**
+ * User Tours module.
+ */
 @NgModule({
     imports: [
         CoreUserToursComponentsModule,
