@@ -23,6 +23,13 @@ const routes: Routes = [
     {
         path: '',
         component: AddonNotificationsListPage,
+        children: [
+            {
+                path: ':id',
+                loadChildren: () => import('../../pages/notification/notification.module')
+                    .then(m => m.AddonNotificationsNotificationPageModule),
+            },
+        ],
     },
 ];
 

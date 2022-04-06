@@ -11,13 +11,37 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content class="limited-width">
-    <ion-refresher slot="fixed" [disabled]="!notificationsLoaded" (ionRefresh)="refreshNotifications($event.target)">
-        <ion-refresher-content pullingText="{{ 'core.pulltorefresh' | translate }}"></ion-refresher-content>
-    </ion-refresher>
-    <core-loading [hideUntil]="notificationsLoaded">
+<ion-content>
+    <core-split-view>
+        <ion-refresher slot="fixed" [disabled]="!notificationsLoaded" (ionRefresh)="refreshNotifications($event.target)">
+            <ion-refresher-content pullingText="{{ 'core.pulltorefresh' | translate }}"></ion-refresher-content>
+        </ion-refresher>
+        <core-loading [hideUntil]="notificationsLoaded">
 
-        <ion-item *ngFor="let notification of notifications" class="ion-text-wrap" [attr.aria-label]="
+            <ion-item *ngFor="let notification of notificationss.items" class="ion-text-wrap" (click)="notificationss.select(notification)">
+                {{notification.name}}
+            </ion-item>
+
+            <core-empty-box *ngIf="!notifications || notifications.length <= 0" icon="far-bell"
+                [message]="'addon.notifications.therearentnotificationsyet' | translate">
+            </core-empty-box>
+            <core-infinite-loading [enabled]="canLoadMore" (action)="loadMoreNotifications($event)" [error]="loadMoreError">
+            </core-infinite-loading>
+        </core-loading>
+
+
+        <div class="mark-all-as-read" slot="fixed" collapsible-footer appearOnBottom>
+            <ion-chip *ngIf="notificationsLoaded && canMarkAllNotificationsAsRead" [disabled]="loadingMarkAllNotificationsAsRead"
+                color="primary" (click)="markAllNotificationsAsRead()">
+                <ion-icon name="fas-eye" aria-hidden="true" *ngIf="!loadingMarkAllNotificationsAsRead"></ion-icon>
+                <ion-spinner [attr.aria-label]="'core.loading' | translate" *ngIf="loadingMarkAllNotificationsAsRead">
+                </ion-spinner>
+                {{ 'addon.notifications.markallread' | translate }}
+            </ion-chip>
+        </div>
+
+    </core-split-view>
+    <!-- <ion-item *ngFor="let notification of notifications" class="ion-text-wrap" [attr.aria-label]="
                     notification.timeread
                     ? notification.subject
                     : 'addon.notifications.unreadnotification' | translate: {$a: notification.subject}"
@@ -54,23 +78,5 @@
             <ion-note slot="end" *ngIf="!notification.timeread">
                 <ion-icon name="fas-circle" color="primary" aria-hidden="true"></ion-icon>
             </ion-note>
-        </ion-item>
-
-        <core-empty-box *ngIf="!notifications || notifications.length <= 0" icon="far-bell"
-            [message]="'addon.notifications.therearentnotificationsyet' | translate">
-        </core-empty-box>
-        <core-infinite-loading [enabled]="canLoadMore" (action)="loadMoreNotifications($event)" [error]="loadMoreError">
-        </core-infinite-loading>
-    </core-loading>
-
-
-    <div class="mark-all-as-read" slot="fixed" collapsible-footer appearOnBottom>
-        <ion-chip *ngIf="notificationsLoaded && canMarkAllNotificationsAsRead" [disabled]="loadingMarkAllNotificationsAsRead"
-            color="primary" (click)="markAllNotificationsAsRead()">
-            <ion-icon name="fas-eye" aria-hidden="true" *ngIf="!loadingMarkAllNotificationsAsRead"></ion-icon>
-            <ion-spinner [attr.aria-label]="'core.loading' | translate" *ngIf="loadingMarkAllNotificationsAsRead">
-            </ion-spinner>
-            {{ 'addon.notifications.markallread' | translate }}
-        </ion-chip>
-    </div>
+        </ion-item> -->
 </ion-content>

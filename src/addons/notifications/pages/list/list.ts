@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IonRefresher } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
@@ -32,6 +32,9 @@ import {
 import { CoreMainMenuDeepLinkManager } from '@features/mainmenu/classes/deep-link-manager';
 import { CoreNavigator } from '@services/navigator';
 import { CoreTimeUtils } from '@services/utils/time';
+import { CoreSplitViewComponent } from '@components/split-view/split-view';
+import { CoreListItemsManager } from '@classes/items-management/list-items-manager';
+import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
 
 /**
  * Page that displays the list of notifications.
@@ -43,18 +46,32 @@ import { CoreTimeUtils } from '@services/utils/time';
 })
 export class AddonNotificationsListPage implements OnInit, OnDestroy {
 
+    @ViewChild(CoreSplitViewComponent) splitView!: CoreSplitViewComponent;
     notifications: AddonNotificationsNotificationToRender[] = [];
     notificationsLoaded = false;
     canLoadMore = false;
     loadMoreError = false;
     canMarkAllNotificationsAsRead = false;
     loadingMarkAllNotificationsAsRead = false;
+    notificationss!: AddonsNotificationsNotificationsManager;
 
     protected isCurrentView?: boolean;
     protected cronObserver?: CoreEventObserver;
     protected readObserver?: CoreEventObserver;
     protected pushObserver?: Subscription;
     protected pendingRefresh = false;
+
+    constructor() {
+        try {
+            this.notificationss = new AddonsNotificationsNotificationsManager(
+                new AddonsNotificationsNotificationsSource(),
+                AddonNotificationsListPage,
+            );
+        } catch(error) {
+            CoreDomUtils.showErrorModal(error);
+            CoreNavigator.back();
+        }
+    }
 
     /**
      * @inheritdoc
@@ -113,6 +130,9 @@ export class AddonNotificationsListPage implements OnInit, OnDestroy {
      * @return Resolved when done.
      */
     protected async fetchNotifications(refresh?: boolean): Promise<void> {
+        await (refresh ? this.notificationss.reload() : this.notificationss.load());
+
+        // Codigo anterior
         this.loadMoreError = false;
 
         try {
@@ -246,3 +266,36 @@ export class AddonNotificationsListPage implements OnInit, OnDestroy {
     }
 
 }
+
+/**
+ * Helper to manage the list of participants.
+ */
+class AddonsNotificationsNotificationsManager extends CoreListItemsManager<
+NotificationItem,
+AddonsNotificationsNotificationsSource> {
+
+}
+
+class AddonsNotificationsNotificationsSource extends CoreRoutedItemsManagerSource<NotificationItem>{
+
+    nameList: NotificationItem[] = [
+        { id: '1', name: 'Alfonso' },
+        { id: '2', name: 'Ana' },
+        { id: '3', name: 'Pepe' },
+        { id: '4', name: 'José' },
+    ];
+
+    protected async loadPageItems(): Promise<{ items: NotificationItem[]}> {
+        return { items: this.nameList };
+    }
+
+    getItemPath(notification: NotificationItem): string {
+        return notification.id;
+    }
+
+}
+
+type NotificationItem = {
+    name: string;
+    id: string;
+};
