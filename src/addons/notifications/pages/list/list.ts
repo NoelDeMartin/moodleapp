@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { IonRefresher } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
@@ -35,6 +35,7 @@ import { CoreTimeUtils } from '@services/utils/time';
 import { CoreSplitViewComponent } from '@components/split-view/split-view';
 import { CoreListItemsManager } from '@classes/items-management/list-items-manager';
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
+import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 
 /**
  * Page that displays the list of notifications.
@@ -44,7 +45,7 @@ import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-i
     templateUrl: 'list.html',
     styleUrls: ['list.scss', '../../notifications.scss'],
 })
-export class AddonNotificationsListPage implements OnInit, OnDestroy {
+export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
 
     @ViewChild(CoreSplitViewComponent) splitView!: CoreSplitViewComponent;
     notifications: AddonNotificationsNotificationToRender[] = [];
@@ -63,8 +64,13 @@ export class AddonNotificationsListPage implements OnInit, OnDestroy {
 
     constructor() {
         try {
+            const source = CoreRoutedItemsManagerSourcesTracker.getOrCreateSource(
+                AddonsNotificationsNotificationsSource,
+                [],
+            );
+
             this.notificationss = new AddonsNotificationsNotificationsManager(
-                new AddonsNotificationsNotificationsSource(),
+                source,
                 AddonNotificationsListPage,
             );
         } catch(error) {
@@ -76,8 +82,10 @@ export class AddonNotificationsListPage implements OnInit, OnDestroy {
     /**
      * @inheritdoc
      */
-    ngOnInit(): void {
-        this.fetchNotifications();
+    async ngAfterViewInit(): Promise<void> {
+        await this.fetchNotifications();
+
+        this.notificationss.start(this.splitView);
 
         this.cronObserver = CoreEvents.on(AddonNotificationsProvider.READ_CRON_EVENT, () => {
             if (!this.isCurrentView) {
@@ -276,7 +284,7 @@ AddonsNotificationsNotificationsSource> {
 
 }
 
-class AddonsNotificationsNotificationsSource extends CoreRoutedItemsManagerSource<NotificationItem>{
+export class AddonsNotificationsNotificationsSource extends CoreRoutedItemsManagerSource<NotificationItem>{
 
     nameList: NotificationItem[] = [
         { id: '1', name: 'Alfonso' },
@@ -295,7 +303,7 @@ class AddonsNotificationsNotificationsSource extends CoreRoutedItemsManagerSourc
 
 }
 
-type NotificationItem = {
+export type NotificationItem = {
     name: string;
     id: string;
 };

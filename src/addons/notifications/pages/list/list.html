@@ -19,6 +19,8 @@
         <core-loading [hideUntil]="notificationsLoaded">
 
             <ion-item *ngFor="let notification of notificationss.items" class="ion-text-wrap" (click)="notificationss.select(notification)">
+                <span *ngIf="notificationss.isSelected(notification)">[S]</span>
+
                 {{notification.name}}
             </ion-item>
 

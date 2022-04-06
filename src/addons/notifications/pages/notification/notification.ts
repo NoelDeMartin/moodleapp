@@ -12,7 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import { NotificationItem, AddonsNotificationsNotificationsSource } from '@addons/notifications/pages/list/list';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 
 /**
  * Page to render a notification.
@@ -22,10 +25,21 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: 'notification.html',
     styleUrls: ['../../notifications.scss', 'notification.scss'],
 })
-export class AddonNotificationsNotificationPage implements OnInit {
+export class AddonNotificationsNotificationPage {
 
-    ngOnInit(): void {
-        '';
+    notification?: NotificationItem;
+
+    constructor(route: ActivatedRoute) {
+        this.initNotification(route);
+    }
+
+    async initNotification(route: ActivatedRoute): Promise<void> {
+        const source = CoreRoutedItemsManagerSourcesTracker.getOrCreateSource(
+            AddonsNotificationsNotificationsSource,
+            [],
+        );
+
+        this.notification = source.getItems()?.find(({ id }) => id === route.snapshot.params.id);
     }
 
     // subject = ''; // Notification subject.
