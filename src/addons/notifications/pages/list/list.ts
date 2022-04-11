@@ -16,22 +16,17 @@ import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { IonRefresher } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
-import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEvents, CoreEventObserver } from '@singletons/events';
+import { CoreEventObserver } from '@singletons/events';
 import {
     AddonNotifications,
-    AddonNotificationsProvider,
 } from '../../services/notifications';
-import { CorePushNotificationsDelegate } from '@features/pushnotifications/services/push-delegate';
 import {
     AddonNotificationsHelper,
     AddonNotificationsNotificationToRender,
 } from '@addons/notifications/services/notifications-helper';
-import { CoreMainMenuDeepLinkManager } from '@features/mainmenu/classes/deep-link-manager';
 import { CoreNavigator } from '@services/navigator';
-import { CoreTimeUtils } from '@services/utils/time';
 import { CoreSplitViewComponent } from '@components/split-view/split-view';
 import { CoreListItemsManager } from '@classes/items-management/list-items-manager';
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
@@ -49,9 +44,7 @@ export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
 
     @ViewChild(CoreSplitViewComponent) splitView!: CoreSplitViewComponent;
     notifications!: AddonsNotificationsNotificationsManager;
-    notificationsLoaded = false;
-    canLoadMore = false;
-    loadMoreError = false;
+    fetchMoreNotificationsFailed = false;
     canMarkAllNotificationsAsRead = false;
     loadingMarkAllNotificationsAsRead = false;
 
@@ -82,77 +75,108 @@ export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
      * @inheritdoc
      */
     async ngAfterViewInit(): Promise<void> {
+        await this.fetchInitialNotifications();
 
-        await this.fetchNotifications();
         this.notifications.start(this.splitView);
 
-        this.cronObserver = CoreEvents.on(AddonNotificationsProvider.READ_CRON_EVENT, () => {
-            if (!this.isCurrentView) {
-                return;
-            }
+        // TODO
+        // this.cronObserver = CoreEvents.on(AddonNotificationsProvider.READ_CRON_EVENT, () => {
+        //     if (!this.isCurrentView) {
+        //         return;
+        //     }
 
-            this.notificationsLoaded = false;
-            this.refreshNotifications();
-        }, CoreSites.getCurrentSiteId());
+        //     this.notificationsLoaded = false;
+        //     this.refreshNotifications();
+        // }, CoreSites.getCurrentSiteId());
 
-        this.pushObserver = CorePushNotificationsDelegate.on('receive').subscribe((notification) => {
-            // New notification received. If it's from current site, refresh the data.
-            if (!this.isCurrentView) {
-                this.pendingRefresh = true;
+        // this.pushObserver = CorePushNotificationsDelegate.on('receive').subscribe((notification) => {
+        //     // New notification received. If it's from current site, refresh the data.
+        //     if (!this.isCurrentView) {
+        //         this.pendingRefresh = true;
 
-                return;
-            }
+        //         return;
+        //     }
 
-            if (!CoreUtils.isTrueOrOne(notification.notif) || !CoreSites.isCurrentSite(notification.site)) {
-                return;
-            }
+        //     if (!CoreUtils.isTrueOrOne(notification.notif) || !CoreSites.isCurrentSite(notification.site)) {
+        //         return;
+        //     }
 
-            this.notificationsLoaded = false;
-            this.refreshNotifications();
-        });
+        //     this.notificationsLoaded = false;
+        //     this.refreshNotifications();
+        // });
 
-        this.readObserver = CoreEvents.on(AddonNotificationsProvider.READ_CHANGED_EVENT, (data) => {
-            if (!data.id) {
-                return;
-            }
+        // this.readObserver = CoreEvents.on(AddonNotificationsProvider.READ_CHANGED_EVENT, (data) => {
+        //     if (!data.id) {
+        //         return;
+        //     }
 
-            const notification = this.notifications.items.find((notification) => notification.id === data.id);
-            if (!notification) {
-                return;
-            }
+        //     const notification = this.notifications.items.find((notification) => notification.id === data.id);
+        //     if (!notification) {
+        //         return;
+        //     }
 
-            notification.read = true;
-            notification.timeread = data.time;
-            this.loadMarkAllAsReadButton();
-        });
+        //     notification.read = true;
+        //     notification.timeread = data.time;
+        //     this.loadMarkAllAsReadButton();
+        // });
 
-        const deepLinkManager = new CoreMainMenuDeepLinkManager();
-        deepLinkManager.treatLink();
+        // const deepLinkManager = new CoreMainMenuDeepLinkManager();
+        // deepLinkManager.treatLink();
     }
 
     /**
      * Convenience function to get notifications. Gets unread notifications first.
      *
-     * @param refresh Whether we're refreshing data.
-     * @return Resolved when done.
+     * @param reload Whether to reload the list or load the next page.
      */
-    protected async fetchNotifications(refresh?: boolean): Promise<void> {
+    protected async fetchNotifications(reload: boolean): Promise<void> {
+        reload
+            ? await this.notifications.reload()
+            : await this.notifications.load();
 
-        await (refresh ? this.notifications.reload() : this.notifications.load());
+        this.fetchMoreNotificationsFailed = false;
+    }
 
-        // Codigo anterior
-        this.loadMoreError = false;
-
+    /**
+     * Obtain the initial batch of notifications.
+     */
+    private async fetchInitialNotifications(): Promise<void> {
         try {
-            const result = await AddonNotifications.getNotifications(refresh ? [] : this.notifications.items);
-            this.canLoadMore = result.canLoadMore;
-            await this.loadMarkAllAsReadButton();
+            await this.fetchNotifications(true);
         } catch (error) {
-            CoreDomUtils.showErrorModalDefault(error, 'addon.notifications.errorgetnotifications', true);
-            this.loadMoreError = true; // Set to prevent infinite calls with infinite-loading.
-        } finally {
-            this.notificationsLoaded = true;
+            CoreDomUtils.showErrorModalDefault(error, 'Error loading notifications');
+
+            this.notifications.reset();
         }
+    }
+
+    /**
+     * Refresh Notifications.
+     *
+     * @param refresher Refresher.
+     */
+    async refreshNotifications(refresher: IonRefresher): Promise<void> {
+        await CoreUtils.ignoreErrors(AddonNotifications.invalidateNotificationsList());
+        await CoreUtils.ignoreErrors(this.fetchNotifications(true));
+
+        refresher?.complete();
+    }
+
+    /**
+     * Load a new batch of Notifications.
+     *
+     * @param complete Completion callback.
+     */
+    async fetchMoreNotifications(complete: () => void): Promise<void> {
+        try {
+            await this.fetchNotifications(false);
+        } catch (error) {
+            CoreDomUtils.showErrorModalDefault(error, 'Error loading more notifications');
+
+            this.fetchMoreNotificationsFailed = true;
+        }
+
+        complete();
     }
 
     /**
@@ -161,18 +185,19 @@ export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
      * @return Promise resolved when done.
      */
     async markAllNotificationsAsRead(): Promise<void> {
-        this.loadingMarkAllNotificationsAsRead = true;
+        // TODO
+        // this.loadingMarkAllNotificationsAsRead = true;
 
-        await CoreUtils.ignoreErrors(AddonNotifications.markAllNotificationsAsRead());
+        // await CoreUtils.ignoreErrors(AddonNotifications.markAllNotificationsAsRead());
 
-        CoreEvents.trigger(AddonNotificationsProvider.READ_CHANGED_EVENT, {
-            time: CoreTimeUtils.timestamp(),
-        }, CoreSites.getCurrentSiteId());
+        // CoreEvents.trigger(AddonNotificationsProvider.READ_CHANGED_EVENT, {
+        //     time: CoreTimeUtils.timestamp(),
+        // }, CoreSites.getCurrentSiteId());
 
-        // All marked as read, refresh the list.
-        this.notificationsLoaded = false;
+        // // All marked as read, refresh the list.
+        // this.notificationsLoaded = false;
 
-        await this.refreshNotifications();
+        // await this.refreshNotifications();
     }
 
     /**
@@ -194,35 +219,6 @@ export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Refresh notifications.
-     *
-     * @param refresher Refresher.
-     * @return Promise<any> Promise resolved when done.
-     */
-    async refreshNotifications(refresher?: IonRefresher): Promise<void> {
-        await CoreUtils.ignoreErrors(AddonNotifications.invalidateNotificationsList());
-
-        try {
-            await this.fetchNotifications(true);
-        } finally {
-            refresher?.complete();
-        }
-    }
-
-    /**
-     * Load more results.
-     *
-     * @param infiniteComplete Infinite scroll complete function. Only used from core-infinite-loading.
-     */
-    async loadMoreNotifications(infiniteComplete?: () => void): Promise<void> {
-        try {
-            await this.fetchNotifications();
-        } finally {
-            infiniteComplete?.();
-        }
-    }
-
-    /**
      * User entered the page.
      */
     ionViewDidEnter(): void {
@@ -233,9 +229,11 @@ export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
         }
 
         this.pendingRefresh = false;
-        this.notificationsLoaded = false;
 
-        this.refreshNotifications();
+        // TODO
+        // this.notificationsLoaded = false;
+
+        // this.refreshNotifications();
     }
 
     /**
@@ -267,10 +265,17 @@ AddonsNotificationsNotificationsSource> {
 
 export class AddonsNotificationsNotificationsSource extends CoreRoutedItemsManagerSource<AddonNotificationsNotificationToRender> {
 
-    protected async loadPageItems(): Promise<{ items: AddonNotificationsNotificationToRender[] }> {
-        const { notifications } = await AddonNotifications.getNotifications([]);
+    protected async loadPageItems(): Promise<{
+        items: AddonNotificationsNotificationToRender[];
+        hasMoreItems: boolean;
+    }> {
+        // TODO this should be refactored
+        const { notifications, canLoadMore } = await AddonNotifications.getNotifications(this.getItems() ?? []);
 
-        return { items: notifications.map(notification => AddonNotificationsHelper.formatNotificationText(notification)) };
+        return {
+            items: notifications.map(notification => AddonNotificationsHelper.formatNotificationText(notification)),
+            hasMoreItems: canLoadMore,
+        };
     }
 
     getItemPath(notification: AddonNotificationsNotificationToRender): string {

@@ -13,10 +13,10 @@
 </ion-header>
 <ion-content>
     <core-split-view>
-        <ion-refresher slot="fixed" [disabled]="!notificationsLoaded" (ionRefresh)="refreshNotifications($event.target)">
+        <ion-refresher slot="fixed" [disabled]="!notifications.loaded" (ionRefresh)="refreshNotifications($event.target)">
             <ion-refresher-content pullingText="{{ 'core.pulltorefresh' | translate }}"></ion-refresher-content>
         </ion-refresher>
-        <core-loading [hideUntil]="notificationsLoaded">
+        <core-loading [hideUntil]="notifications.loaded">
 
             <ion-item *ngFor="let notification of notifications.items" class="ion-text-wrap" (click)="notifications.select(notification)"
                 [attr.aria-current]="notifications.getItemAriaCurrent(notification)">
@@ -59,13 +59,14 @@
             <core-empty-box *ngIf="!notifications || notifications.items.length <= 0" icon="far-bell"
                 [message]="'addon.notifications.therearentnotificationsyet' | translate">
             </core-empty-box>
-            <core-infinite-loading [enabled]="canLoadMore" (action)="loadMoreNotifications($event)" [error]="loadMoreError">
+            <core-infinite-loading [enabled]="notifications.loaded && !notifications.completed" (action)="fetchMoreNotifications($event)"
+                [error]="fetchMoreNotificationsFailed">
             </core-infinite-loading>
         </core-loading>
 
 
         <div class="mark-all-as-read" slot="fixed" collapsible-footer appearOnBottom>
-            <ion-chip *ngIf="notificationsLoaded && canMarkAllNotificationsAsRead" [disabled]="loadingMarkAllNotificationsAsRead"
+            <ion-chip *ngIf="notifications.loaded && canMarkAllNotificationsAsRead" [disabled]="loadingMarkAllNotificationsAsRead"
                 color="primary" (click)="markAllNotificationsAsRead()">
                 <ion-icon name="fas-eye" aria-hidden="true" *ngIf="!loadingMarkAllNotificationsAsRead"></ion-icon>
                 <ion-spinner [attr.aria-label]="'core.loading' | translate" *ngIf="loadingMarkAllNotificationsAsRead">
