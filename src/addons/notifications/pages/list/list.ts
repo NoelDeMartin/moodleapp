@@ -48,13 +48,12 @@ import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/
 export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
 
     @ViewChild(CoreSplitViewComponent) splitView!: CoreSplitViewComponent;
-    notifications: AddonNotificationsNotificationToRender[] = [];
+    notifications!: AddonsNotificationsNotificationsManager;
     notificationsLoaded = false;
     canLoadMore = false;
     loadMoreError = false;
     canMarkAllNotificationsAsRead = false;
     loadingMarkAllNotificationsAsRead = false;
-    notificationss!: AddonsNotificationsNotificationsManager;
 
     protected isCurrentView?: boolean;
     protected cronObserver?: CoreEventObserver;
@@ -69,7 +68,7 @@ export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
                 [],
             );
 
-            this.notificationss = new AddonsNotificationsNotificationsManager(
+            this.notifications = new AddonsNotificationsNotificationsManager(
                 source,
                 AddonNotificationsListPage,
             );
@@ -83,9 +82,9 @@ export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
      * @inheritdoc
      */
     async ngAfterViewInit(): Promise<void> {
-        await this.fetchNotifications();
 
-        this.notificationss.start(this.splitView);
+        await this.fetchNotifications();
+        this.notifications.start(this.splitView);
 
         this.cronObserver = CoreEvents.on(AddonNotificationsProvider.READ_CRON_EVENT, () => {
             if (!this.isCurrentView) {
@@ -117,7 +116,7 @@ export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
                 return;
             }
 
-            const notification = this.notifications.find((notification) => notification.id === data.id);
+            const notification = this.notifications.items.find((notification) => notification.id === data.id);
             if (!notification) {
                 return;
             }
@@ -138,24 +137,15 @@ export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
      * @return Resolved when done.
      */
     protected async fetchNotifications(refresh?: boolean): Promise<void> {
-        await (refresh ? this.notificationss.reload() : this.notificationss.load());
+
+        await (refresh ? this.notifications.reload() : this.notifications.load());
 
         // Codigo anterior
         this.loadMoreError = false;
 
         try {
-            const result = await AddonNotifications.getNotifications(refresh ? [] : this.notifications);
-
-            const notifications = result.notifications
-                .map((notification) => AddonNotificationsHelper.formatNotificationText(notification));
-
-            if (refresh) {
-                this.notifications = notifications;
-            } else {
-                this.notifications = this.notifications.concat(notifications);
-            }
+            const result = await AddonNotifications.getNotifications(refresh ? [] : this.notifications.items);
             this.canLoadMore = result.canLoadMore;
-
             await this.loadMarkAllAsReadButton();
         } catch (error) {
             CoreDomUtils.showErrorModalDefault(error, 'addon.notifications.errorgetnotifications', true);
@@ -233,15 +223,6 @@ export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Open Notification page.
-     *
-     * @param notification Notification to open.
-     */
-    openNotification(notification: AddonNotificationsNotificationToRender): void {
-        CoreNavigator.navigate('../notification', { params: { notification } });
-    }
-
-    /**
      * User entered the page.
      */
     ionViewDidEnter(): void {
@@ -279,31 +260,21 @@ export class AddonNotificationsListPage implements AfterViewInit, OnDestroy {
  * Helper to manage the list of participants.
  */
 class AddonsNotificationsNotificationsManager extends CoreListItemsManager<
-NotificationItem,
+AddonNotificationsNotificationToRender,
 AddonsNotificationsNotificationsSource> {
 
 }
 
-export class AddonsNotificationsNotificationsSource extends CoreRoutedItemsManagerSource<NotificationItem>{
+export class AddonsNotificationsNotificationsSource extends CoreRoutedItemsManagerSource<AddonNotificationsNotificationToRender> {
 
-    nameList: NotificationItem[] = [
-        { id: '1', name: 'Alfonso' },
-        { id: '2', name: 'Ana' },
-        { id: '3', name: 'Pepe' },
-        { id: '4', name: 'José' },
-    ];
+    protected async loadPageItems(): Promise<{ items: AddonNotificationsNotificationToRender[] }> {
+        const { notifications } = await AddonNotifications.getNotifications([]);
 
-    protected async loadPageItems(): Promise<{ items: NotificationItem[]}> {
-        return { items: this.nameList };
+        return { items: notifications.map(notification => AddonNotificationsHelper.formatNotificationText(notification)) };
     }
 
-    getItemPath(notification: NotificationItem): string {
-        return notification.id;
+    getItemPath(notification: AddonNotificationsNotificationToRender): string {
+        return notification.id.toString();
     }
 
 }
-
-export type NotificationItem = {
-    name: string;
-    id: string;
-};

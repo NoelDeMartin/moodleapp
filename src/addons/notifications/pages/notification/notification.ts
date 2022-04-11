@@ -12,10 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { NotificationItem, AddonsNotificationsNotificationsSource } from '@addons/notifications/pages/list/list';
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+    AddonNotificationsHelper,
+    AddonNotificationsNotificationToRender,
+} from '@addons/notifications/services/notifications-helper';
+import { Component, OnInit } from '@angular/core';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
+import { CoreContentLinksAction, CoreContentLinksDelegate } from '@features/contentlinks/services/contentlinks-delegate';
+import { CoreNavigator } from '@services/navigator';
+import { CoreSites } from '@services/sites';
+import { CoreDomUtils } from '@services/utils/dom';
+import { AddonsNotificationsNotificationsSource } from '../list/list';
 
 /**
  * Page to render a notification.
@@ -25,158 +32,173 @@ import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/
     templateUrl: 'notification.html',
     styleUrls: ['../../notifications.scss', 'notification.scss'],
 })
-export class AddonNotificationsNotificationPage {
+export class AddonNotificationsNotificationPage implements OnInit {
 
-    notification?: NotificationItem;
+    notification?: AddonNotificationsNotificationToRender;
 
-    constructor(route: ActivatedRoute) {
-        this.initNotification(route);
-    }
+    // constructor(route: ActivatedRoute) {
 
-    async initNotification(route: ActivatedRoute): Promise<void> {
+    // }
+
+    // async initNotification(route: ActivatedRoute): Promise<void> {
+    //     const source = CoreRoutedItemsManagerSourcesTracker.getOrCreateSource(
+    //         AddonsNotificationsNotificationsSource,
+    //         [],
+    //     );
+
+    //     this.notification = source.getItems()?.find(({ id }) => id === parseInt(route.snapshot.params.id));
+    //     console.log('NOTIFICATION', this.notification);
+    // }
+
+    subject = ''; // Notification subject.
+    content = ''; // Notification content.
+    userIdFrom = -1; // User ID who sent the notification.
+    profileImageUrlFrom?: string; // Avatar of the user who sent the notification.
+    userFromFullName?: string; // Name of the user who sent the notification.
+    iconUrl?: string; // Icon URL.
+    modname?: string; // Module name.
+    loaded = false;
+    timecreated = 0;
+
+    // Actions data.
+    actions: CoreContentLinksAction[] = [];
+    contextUrl?: string;
+    courseId?: number;
+    actionsData?: Record<string, unknown>; // Extra data to handle the URL.
+
+    /**
+     * @inheritdoc
+     */
+    async ngOnInit(): Promise<void> {
         const source = CoreRoutedItemsManagerSourcesTracker.getOrCreateSource(
             AddonsNotificationsNotificationsSource,
             [],
         );
 
-        this.notification = source.getItems()?.find(({ id }) => id === route.snapshot.params.id);
+        let notification: AddonNotificationsNotificationToRender | undefined;
+
+        try {
+            notification =  source.getItems()?.find(
+                ({ id }) => id === CoreNavigator.getRequiredRouteNumberParam('id'),
+            );
+        } catch (error) {
+            CoreDomUtils.showErrorModal(error);
+
+            CoreNavigator.back();
+
+            return;
+        }
+
+        // if (!('subject' in notification)) {
+        //     // Try to find the notification using the WebService, it contains a better message.
+        //     const notifId = Number(notification.savedmessageid);
+        //     const result = await CoreUtils.ignoreErrors(
+        //         AddonNotifications.getNotifications([], { siteId: notification.site }),
+        //     );
+
+        //     const foundNotification = result?.notifications.find(notif => notif.id === notifId);
+        //     if (foundNotification) {
+        //         notification = AddonNotificationsHelper.formatNotificationText(foundNotification);
+        //     }
+        // }
+
+        if(!notification) {
+            CoreNavigator.back();
+
+            return;
+        }
+
+        if ('subject' in notification) {
+            this.subject = notification.subject;
+            this.content = notification.mobiletext || notification.fullmessagehtml;
+            this.userIdFrom = notification.useridfrom;
+            this.profileImageUrlFrom = notification.profileimageurlfrom;
+            this.userFromFullName = notification.userfromfullname;
+            this.iconUrl = notification.iconurl;
+            if (notification.moodlecomponent?.startsWith('mod_') && notification.iconurl) {
+                const modname = notification.moodlecomponent.substring(4);
+                if (notification.iconurl.match('/theme/image.php/[^/]+/' + modname + '/[-0-9]*/') ||
+                        notification.iconurl.match('/theme/image.php/[^/]+/' + notification.moodlecomponent + '/[-0-9]*/')) {
+                    this.modname = modname;
+                }
+            }
+            this.timecreated = notification.timecreated;
+
+        }
+        // else {
+        //     this.subject = notification.title || '';
+        //     this.content = notification.message || '';
+        //     this.userIdFrom = notification.userfromid ? Number(notification.userfromid) : -1;
+        //     this.profileImageUrlFrom = notification.senderImage;
+        //     this.userFromFullName = notification.userfromfullname;
+        // }
+
+        await this.loadActions(notification);
+        AddonNotificationsHelper.markNotificationAsRead(notification);
+
+        this.loaded = true;
     }
 
-    // subject = ''; // Notification subject.
-    // content = ''; // Notification content.
-    // userIdFrom = -1; // User ID who sent the notification.
-    // profileImageUrlFrom?: string; // Avatar of the user who sent the notification.
-    // userFromFullName?: string; // Name of the user who sent the notification.
-    // iconUrl?: string; // Icon URL.
-    // modname?: string; // Module name.
-    // loaded = false;
-    // timecreated = 0;
+    /**
+     * Load notification actions
+     *
+     * @param notification Notification.
+     * @return Promise resolved when done.
+     */
+    async loadActions(notification: AddonNotificationsNotificationToRender): Promise<void> {
+        if (!notification.contexturl && (!notification.customdata || !notification.customdata.appurl)) {
+            // No URL, nothing to do.
+            return;
+        }
 
-    // // Actions data.
-    // actions: CoreContentLinksAction[] = [];
-    // contextUrl?: string;
-    // courseId?: number;
-    // actionsData?: Record<string, unknown>; // Extra data to handle the URL.
+        let actions: CoreContentLinksAction[] = [];
+        this.actionsData = notification.customdata;
+        this.contextUrl = notification.contexturl;
+        this.courseId = 'courseid' in notification ? notification.courseid : undefined;
 
-    // /**
-    //  * @inheritdoc
-    //  */
-    // async ngOnInit(): Promise<void> {
-    //     let notification: AddonNotificationsNotification;
+        // Treat appurl first if any.
+        if (this.actionsData?.appurl) {
+            actions = await CoreContentLinksDelegate.getActionsFor(
+                <string> this.actionsData.appurl,
+                this.courseId,
+                undefined,
+                this.actionsData,
+            );
+        }
 
-    //     try {
-    //         notification = CoreNavigator.getRequiredRouteParam('notification');
-    //     } catch (error) {
-    //         CoreDomUtils.showErrorModal(error);
+        if (!actions.length && this.contextUrl) {
+            // No appurl or cannot handle it. Try with contextUrl.
+            actions = await CoreContentLinksDelegate.getActionsFor(this.contextUrl, this.courseId, undefined, this.actionsData);
+        }
 
-    //         CoreNavigator.back();
+        if (!actions.length) {
+            // URL is not supported. Add an action to open it in browser.
+            actions.push({
+                message: 'core.view',
+                icon: 'fas-eye',
+                action: this.openInBrowser.bind(this),
+            });
+        }
 
-    //         return;
-    //     }
+        this.actions = actions;
+    }
 
-    //     if (!('subject' in notification)) {
-    //         // Try to find the notification using the WebService, it contains a better message.
-    //         const notifId = Number(notification.savedmessageid);
-    //         const result = await CoreUtils.ignoreErrors(
-    //             AddonNotifications.getNotifications([], { siteId: notification.site }),
-    //         );
+    /**
+     * Default action. Open in browser.
+     *
+     * @param siteId Site ID to use.
+     */
+    protected async openInBrowser(siteId?: string): Promise<void> {
+        const url = <string> this.actionsData?.appurl || this.contextUrl;
 
-    //         const foundNotification = result?.notifications.find(notif => notif.id === notifId);
-    //         if (foundNotification) {
-    //             notification = AddonNotificationsHelper.formatNotificationText(foundNotification);
-    //         }
-    //     }
+        if (!url) {
+            return;
+        }
 
-    //     if ('subject' in notification) {
-    //         this.subject = notification.subject;
-    //         this.content = notification.mobiletext || notification.fullmessagehtml;
-    //         this.userIdFrom = notification.useridfrom;
-    //         this.profileImageUrlFrom = notification.profileimageurlfrom;
-    //         this.userFromFullName = notification.userfromfullname;
-    //         this.iconUrl = notification.iconurl;
-    //         if (notification.moodlecomponent?.startsWith('mod_') && notification.iconurl) {
-    //             const modname = notification.moodlecomponent.substring(4);
-    //             if (notification.iconurl.match('/theme/image.php/[^/]+/' + modname + '/[-0-9]*/') ||
-    //                     notification.iconurl.match('/theme/image.php/[^/]+/' + notification.moodlecomponent + '/[-0-9]*/')) {
-    //                 this.modname = modname;
-    //             }
-    //         }
-    //         this.timecreated = notification.timecreated;
+        const site = await CoreSites.getSite(siteId);
 
-    //     } else {
-    //         this.subject = notification.title || '';
-    //         this.content = notification.message || '';
-    //         this.userIdFrom = notification.userfromid ? Number(notification.userfromid) : -1;
-    //         this.profileImageUrlFrom = notification.senderImage;
-    //         this.userFromFullName = notification.userfromfullname;
-    //     }
-
-    //     await this.loadActions(notification);
-    //     AddonNotificationsHelper.markNotificationAsRead(notification);
-
-    //     this.loaded = true;
-    // }
-
-    // /**
-    //  * Load notification actions
-    //  *
-    //  * @param notification Notification.
-    //  * @return Promise resolved when done.
-    //  */
-    // async loadActions(notification: AddonNotificationsNotification): Promise<void> {
-    //     if (!notification.contexturl && (!notification.customdata || !notification.customdata.appurl)) {
-    //         // No URL, nothing to do.
-    //         return;
-    //     }
-
-    //     let actions: CoreContentLinksAction[] = [];
-    //     this.actionsData = notification.customdata;
-    //     this.contextUrl = notification.contexturl;
-    //     this.courseId = 'courseid' in notification ? notification.courseid : undefined;
-
-    //     // Treat appurl first if any.
-    //     if (this.actionsData?.appurl) {
-    //         actions = await CoreContentLinksDelegate.getActionsFor(
-    //             <string> this.actionsData.appurl,
-    //             this.courseId,
-    //             undefined,
-    //             this.actionsData,
-    //         );
-    //     }
-
-    //     if (!actions.length && this.contextUrl) {
-    //         // No appurl or cannot handle it. Try with contextUrl.
-    //         actions = await CoreContentLinksDelegate.getActionsFor(this.contextUrl, this.courseId, undefined, this.actionsData);
-    //     }
-
-    //     if (!actions.length) {
-    //         // URL is not supported. Add an action to open it in browser.
-    //         actions.push({
-    //             message: 'core.view',
-    //             icon: 'fas-eye',
-    //             action: this.openInBrowser.bind(this),
-    //         });
-    //     }
-
-    //     this.actions = actions;
-    // }
-
-    // /**
-    //  * Default action. Open in browser.
-    //  *
-    //  * @param siteId Site ID to use.
-    //  */
-    // protected async openInBrowser(siteId?: string): Promise<void> {
-    //     const url = <string> this.actionsData?.appurl || this.contextUrl;
-
-    //     if (!url) {
-    //         return;
-    //     }
-
-    //     const site = await CoreSites.getSite(siteId);
-
-    //     site.openInBrowserWithAutoLogin(url);
-    // }
+        site.openInBrowserWithAutoLogin(url);
+    }
 
 }
 
