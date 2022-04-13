@@ -75,7 +75,7 @@ export class CoreModuleHandlerBase implements Partial<CoreCourseModuleHandler> {
 
         const routeParams = '/' + courseId + '/' + module.id;
 
-        await CoreNavigator.navigateToSitePath(this.pageName + routeParams, options);
+        await CoreNavigator.navigateToSitePath(Math.random().toString() + '/' + this.pageName + routeParams, options);
     }
 
 }

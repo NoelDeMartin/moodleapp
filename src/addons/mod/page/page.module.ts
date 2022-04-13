@@ -38,6 +38,10 @@ const routes: Routes = [
         path: AddonModPageModuleHandlerService.PAGE_NAME,
         loadChildren: () => import('./page-lazy.module').then(m => m.AddonModPageLazyModule),
     },
+    {
+        path: `:uuid/${AddonModPageModuleHandlerService.PAGE_NAME}`,
+        loadChildren: () => import('./page-lazy.module').then(m => m.AddonModPageLazyModule),
+    },
 ];
 
 @NgModule({
