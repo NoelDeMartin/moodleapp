@@ -231,7 +231,7 @@ export class AddonNotificationsProvider {
      * @param options Other options.
      * @return Promise resolved with notifications.
      */
-    protected async getNotificationsWithStatus(
+    async getNotificationsWithStatus(
         read: AddonNotificationsGetReadType,
         options: AddonNotificationsGetNotificationsOptions = {},
     ): Promise<AddonNotificationsNotificationMessageFormatted[]> {
