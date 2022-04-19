@@ -61,6 +61,7 @@ export class AddonModDataShowLinkHandlerService extends CoreContentLinksHandlerB
                         pageParams.group = group;
                     }
 
+                    // TODO refactor this!
                     if (params.mode && params.mode == 'single') {
                         pageParams.offset = page || 0;
                     }

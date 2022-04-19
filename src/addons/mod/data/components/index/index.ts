@@ -15,29 +15,26 @@
 import { ContextLevel } from '@/core/constants';
 import { Component, OnDestroy, OnInit, Optional, Type } from '@angular/core';
 import { Params } from '@angular/router';
-import { CoreCommentsProvider } from '@features/comments/services/comments';
+import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
 import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreRatingProvider } from '@features/rating/services/rating';
 import { CoreRatingSyncProvider } from '@features/rating/services/rating-sync';
 import { IonContent } from '@ionic/angular';
-import { CoreGroupInfo, CoreGroups } from '@services/groups';
+import { CoreGroupInfo } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
-import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreEventObserver, CoreEvents } from '@singletons/events';
 import {
-    AddonModDataProvider,
     AddonModData,
+    AddonModDataData,
     AddonModDataEntry,
-    AddonModDataTemplateType,
-    AddonModDataTemplateMode,
     AddonModDataField,
     AddonModDataGetDataAccessInformationWSResponse,
-    AddonModDataData,
-    AddonModDataSearchEntriesAdvancedField,
+    AddonModDataProvider,
+    AddonModDataTemplateMode,
+    AddonModDataTemplateType,
 } from '../../services/data';
 import { AddonModDataHelper } from '../../services/data-helper';
 import { AddonModDataAutoSyncData, AddonModDataSyncProvider, AddonModDataSyncResult } from '../../services/data-sync';
@@ -45,8 +42,8 @@ import { AddonModDataModuleHandlerService } from '../../services/handlers/module
 import { AddonModDataPrefetchHandler } from '../../services/handlers/prefetch';
 import { AddonModDataComponentsCompileModule } from '../components-compile.module';
 import { AddonModDataSearchComponent } from '../search/search';
-
-const contentToken = '<!-- CORE-DATABASE-CONTENT-GOES-HERE -->';
+import { AddonModDataDatabaseEntriesSource, AddonModDataDatabaseEntriesSearch } from '../../classes/database-entries-source';
+import { CoreTimeUtils } from '@services/utils/time';
 
 /**
  * Component that displays a data index page.
@@ -61,34 +58,9 @@ export class AddonModDataIndexComponent extends CoreCourseModuleMainActivityComp
     component = AddonModDataProvider.COMPONENT;
     moduleName = 'data';
 
-    access?: AddonModDataGetDataAccessInformationWSResponse;
-    database?: AddonModDataData;
-    fields: Record<number, AddonModDataField> = {};
-    selectedGroup = 0;
-    timeAvailableFrom?: number;
-    timeAvailableFromReadable?: string;
-    timeAvailableTo?: number;
-    timeAvailableToReadable?: string;
-    isEmpty = true;
-    groupInfo?: CoreGroupInfo;
-    entries: AddonModDataEntry[] = [];
-    firstEntry?: number;
-    canAdd = false;
-    canSearch = false;
-    search: AddonModDataSearchDataParams = {
-        sortBy: '0',
-        sortDirection: 'DESC',
-        page: 0,
-        text: '',
-        searching: false,
-        searchingAdvanced: false,
-        advanced: [],
-    };
-
-    hasNextPage = false;
+    entries?: AddonModDataDatabaseEntriesSource;
     entriesRendered = '';
     extraImports: Type<unknown>[] = [AddonModDataComponentsCompileModule];
-
     jsData?: {
         fields: Record<number, AddonModDataField>;
         entries: Record<number, AddonModDataEntry>;
@@ -98,21 +70,14 @@ export class AddonModDataIndexComponent extends CoreCourseModuleMainActivityComp
         gotoEntry: (a: number) => void;
     };
 
-    // Data for found records translation.
-    foundRecordsTranslationData?: {
-        num: number;
-        max: number;
-        reseturl: string;
-    };;
-
+    fetchFailed = false;
     hasOfflineRatings = false;
 
     protected syncEventName = AddonModDataSyncProvider.AUTO_SYNCED;
-    protected hasComments = false;
-    protected fieldsArray: AddonModDataField[] = [];
     protected entryChangedObserver?: CoreEventObserver;
     protected ratingOfflineObserver?: CoreEventObserver;
     protected ratingSyncObserver?: CoreEventObserver;
+    protected entriesUnsubscribe?: () => void;
 
     constructor(
         protected content?: IonContent,
@@ -121,13 +86,119 @@ export class AddonModDataIndexComponent extends CoreCourseModuleMainActivityComp
         super('AddonModDataIndexComponent', content, courseContentsPage);
     }
 
+    get isEmpty(): boolean {
+        return this.entries?.getItems()?.length === 0 ?? true;
+    }
+
+    get isSearching(): boolean {
+        return !!this.entries?.SEARCH.searching;
+    }
+
+    get access(): AddonModDataGetDataAccessInformationWSResponse | undefined {
+        return this.entries?.access;
+    }
+
+    get database(): AddonModDataData | undefined {
+        return this.entries?.database;
+    }
+
+    get foundRecordsTranslationData(): { num: number; max: number; reseturl: string } | null {
+        return this.entries?.totalCount && this.entries?.maxCount
+            ? {
+                num: this.entries?.totalCount,
+                max: this.entries?.maxCount,
+                reseturl: '#',
+            }
+            : null;
+    }
+
+    get timeAvailable(): AddonModDataTimeAvailable {
+        if (!this.access?.timeavailable) {
+            return {};
+        }
+
+        const { timeavailablefrom, timeavailableto } = this.database ?? {};
+        const now = CoreTimeUtils.timestamp();
+        const timeAvailable = {
+            from: now < (timeavailablefrom ?? 0) && timeavailablefrom,
+            to: now > (timeavailableto ?? now) && timeavailableto,
+        };
+
+        return Object.entries(timeAvailable).reduce(
+            (times, [name, value]) => {
+                if (value) {
+                    times[name] = CoreTimeUtils.userDate(value * 1000);
+                }
+
+                return times;
+            },
+            {},
+        );
+    }
+
+    get canSearch(): boolean {
+        return !!this.access?.timeavailable
+            && (this.entries?.fieldsArray?.length ?? 0) > 0;
+    }
+
+    get canAdd(): boolean {
+        return !!this.access?.timeavailable
+            && !!this.access.canaddentry
+            && (this.entries?.fieldsArray?.length ?? 0) > 0;;
+    }
+
+    get firstEntry(): number | undefined {
+        return this.entries?.getItems()?.[0]?.id;
+    }
+
+    get hasComments(): boolean {
+        return !!this.database?.comments;
+    }
+
+    // TODO similar to src/addons/mod/feedback/pages/attempts/attempts.ts
+    get groupInfo(): CoreGroupInfo | undefined {
+        return this.entries?.groupInfo;
+    }
+
+    get selectedGroup(): number | undefined {
+        return this.entries?.selectedGroup;
+    }
+
+    set selectedGroup(group: number | undefined) {
+        if (!this.entries) {
+            return;
+        }
+
+        this.entries.selectedGroup = group;
+        this.entries.setDirty(true);
+    }
+
     /**
      * @inheritdoc
      */
     async ngOnInit(): Promise<void> {
         await super.ngOnInit();
 
-        this.selectedGroup = this.group || 0;
+        const entries = this.entries = CoreRoutedItemsManagerSourcesTracker.getOrCreateSource(
+            AddonModDataDatabaseEntriesSource,
+            [
+                this.courseId,
+                this.module.id,
+                this.group ?? 0,
+                this.getDefaultSearch(),
+            ],
+        );
+
+        CoreRoutedItemsManagerSourcesTracker.addReference(entries, this);
+
+        this.entriesUnsubscribe = entries.addListener({
+            onItemsUpdated: () => {
+                this.hasOffline = entries.hasOffline;
+                this.hasOfflineRatings = entries.hasOfflineRatings;
+
+                this.renderEntries();
+            },
+        });
 
         // Refresh entries on change.
         this.entryChangedObserver = CoreEvents.on(AddonModDataProvider.ENTRY_CHANGED, (eventData) => {
@@ -161,24 +232,7 @@ export class AddonModDataIndexComponent extends CoreCourseModuleMainActivityComp
      * @return Resolved when done.
      */
     protected async invalidateContent(): Promise<void> {
-        const promises: Promise<void>[] = [];
-
-        promises.push(AddonModData.invalidateDatabaseData(this.courseId));
-        if (this.database) {
-            promises.push(AddonModData.invalidateDatabaseAccessInformationData(this.database.id));
-            promises.push(CoreGroups.invalidateActivityGroupInfo(this.database.coursemodule));
-            promises.push(AddonModData.invalidateEntriesData(this.database.id));
-            promises.push(AddonModData.invalidateFieldsData(this.database.id));
-
-            if (this.hasComments) {
-                CoreEvents.trigger(CoreCommentsProvider.REFRESH_COMMENTS_EVENT, {
-                    contextLevel: ContextLevel.MODULE,
-                    instanceId: this.database.coursemodule,
-                }, CoreSites.getCurrentSiteId());
-            }
-        }
-
-        await Promise.all(promises);
+        await this.entries?.invalidateCache();
     }
 
     /**
@@ -188,7 +242,7 @@ export class AddonModDataIndexComponent extends CoreCourseModuleMainActivityComp
      * @return True if refresh is needed, false otherwise.
      */
     protected isRefreshSyncNeeded(syncEventData: AddonModDataAutoSyncData): boolean {
-        if (this.database && syncEventData.dataId == this.database.id && syncEventData.entryId === undefined) {
+        if (syncEventData.dataId == this.database?.id && syncEventData.entryId === undefined) {
             this.showLoading = true;
             // Refresh the data.
             this.content?.scrollToTop();
@@ -203,183 +257,43 @@ export class AddonModDataIndexComponent extends CoreCourseModuleMainActivityComp
      * @inheritdoc
      */
     protected async fetchContent(refresh?: boolean, sync = false, showErrors = false): Promise<void> {
-        let canAdd = false;
-        let canSearch = false;
+        const entries = this.entries;
 
-        this.database = await AddonModData.getDatabase(this.courseId, this.module.id);
-        this.hasComments = this.database.comments;
+        if (!entries) {
+            throw new Error('can\'t load without entries source!');
+        }
 
-        this.description = this.database.intro;
-        this.dataRetrieved.emit(this.database);
+        refresh
+            ? await entries.reload()
+            : await entries.load();
 
+        // TODO subscribe to database updated
+        // this.description = this.database.intro;
+        // this.dataRetrieved.emit(this.database);
+
+        // TODO this was in the middle before, now it happens after load...
         if (sync) {
             // Try to synchronize the data.
             await CoreUtils.ignoreErrors(this.syncActivity(showErrors));
         }
-
-        this.groupInfo = await CoreGroups.getActivityGroupInfo(this.database.coursemodule);
-        if (this.groupInfo.visibleGroups && this.groupInfo.groups?.length) {
-            // There is a bug in Moodle with All participants and visible groups (MOBILE-3597). Remove it.
-            this.groupInfo.groups = this.groupInfo.groups.filter(group => group.id !== 0);
-            this.groupInfo.defaultGroupId = this.groupInfo.groups[0].id;
-        }
-
-        this.selectedGroup = CoreGroups.validateGroupId(this.selectedGroup, this.groupInfo);
-
-        this.access = await AddonModData.getDatabaseAccessInformation(this.database.id, {
-            cmId: this.module.id,
-            groupId: this.selectedGroup,
-        });
-
-        if (!this.access.timeavailable) {
-            const time = CoreTimeUtils.timestamp();
-
-            this.timeAvailableFrom = this.database.timeavailablefrom && time < this.database.timeavailablefrom
-                ? this.database.timeavailablefrom * 1000
-                : undefined;
-            this.timeAvailableFromReadable = this.timeAvailableFrom
-                ? CoreTimeUtils.userDate(this.timeAvailableFrom)
-                : undefined;
-            this.timeAvailableTo = this.database.timeavailableto && time > this.database.timeavailableto
-                ? this.database.timeavailableto * 1000
-                : undefined;
-            this.timeAvailableToReadable = this.timeAvailableTo
-                ? CoreTimeUtils.userDate(this.timeAvailableTo)
-                : undefined;
-
-            this.isEmpty = true;
-            this.groupInfo = undefined;
-
-            return;
-        } else {
-            canSearch = true;
-            canAdd = this.access.canaddentry;
-        }
-
-        const fields = await AddonModData.getFields(this.database.id, { cmId: this.module.id });
-        this.search.advanced = [];
-
-        this.fields = CoreUtils.arrayToObject(fields, 'id');
-        this.fieldsArray = CoreUtils.objectToArray(this.fields);
-        if (this.fieldsArray.length == 0) {
-            canSearch = false;
-            canAdd = false;
-        }
-
-        try {
-            await this.fetchEntriesData();
-        } finally {
-            this.canAdd = canAdd;
-            this.canSearch = canSearch;
-        }
     }
 
     /**
-     * Fetch current database entries.
+     * Fetch more entries, if any.
      *
-     * @return Resolved then done.
+     * @param infiniteComplete Complete callback for infinite loader.
      */
-    protected async fetchEntriesData(): Promise<void> {
+    async fetchMoreEntries(infiniteComplete?: () => void): Promise<void> {
+        try {
+            this.fetchFailed = false;
 
-        const search = this.search.searching && !this.search.searchingAdvanced ? this.search.text : undefined;
-        const advSearch = this.search.searching && this.search.searchingAdvanced ? this.search.advanced : undefined;
+            await this.entries?.load();
+        } catch (error) {
+            this.fetchFailed = true;
 
-        const entries = await AddonModDataHelper.fetchEntries(this.database!, this.fieldsArray, {
-            groupId: this.selectedGroup,
-            search,
-            advSearch,
-            sort: Number(this.search.sortBy),
-            order: this.search.sortDirection,
-            page: this.search.page,
-            cmId: this.module.id,
-        });
-
-        const numEntries = entries.entries.length;
-        const numOfflineEntries = entries.offlineEntries?.length || 0;
-
-        this.isEmpty = !numEntries && !numOfflineEntries;
-
-        this.hasNextPage = numEntries >= AddonModDataProvider.PER_PAGE && ((this.search.page + 1) *
-            AddonModDataProvider.PER_PAGE) < entries.totalcount;
-
-        this.hasOffline = !!entries.hasOfflineActions;
-
-        this.hasOfflineRatings = !!entries.hasOfflineRatings;
-
-        this.entriesRendered = '';
-
-        this.foundRecordsTranslationData = entries.maxcount !== undefined
-            ? {
-                num: entries.totalcount,
-                max: entries.maxcount,
-                reseturl: '#',
-            }
-            : undefined;
-
-        if (!this.isEmpty) {
-            this.entries = (entries.offlineEntries || []).concat(entries.entries);
-
-            let headerAndFooter = AddonModDataHelper.getTemplate(
-                this.database!,
-                AddonModDataTemplateType.LIST_HEADER,
-                this.fieldsArray,
-            );
-
-            headerAndFooter += contentToken;
-
-            headerAndFooter += AddonModDataHelper.getTemplate(
-                this.database!,
-                AddonModDataTemplateType.LIST_FOOTER,
-                this.fieldsArray,
-            );
-
-            headerAndFooter = CoreDomUtils.fixHtml(headerAndFooter);
-
-            // Get first entry from the whole list.
-            if (!this.search.searching || !this.firstEntry) {
-                this.firstEntry = this.entries[0].id;
-            }
-
-            const template = AddonModDataHelper.getTemplate(this.database!, AddonModDataTemplateType.LIST, this.fieldsArray);
-
-            let entriesHTML = '';
-
-            const entriesById: Record<number, AddonModDataEntry> = {};
-            this.entries.forEach((entry, index) => {
-                entriesById[entry.id] = entry;
-
-                const actions = AddonModDataHelper.getActions(this.database!, this.access!, entry);
-                const offset = this.search.searching
-                    ? 0
-                    : this.search.page * AddonModDataProvider.PER_PAGE + index - numOfflineEntries;
-
-                entriesHTML += AddonModDataHelper.displayShowFields(
-                    template,
-                    this.fieldsArray,
-                    entry,
-                    offset,
-                    AddonModDataTemplateMode.LIST,
-                    actions,
-                );
-            });
-
-            this.entriesRendered = headerAndFooter.replace(contentToken, entriesHTML);
-
-            // Pass the input data to the component.
-            this.jsData = {
-                fields: this.fields,
-                entries: entriesById,
-                database: this.database!,
-                title: this.module.name,
-                group: this.selectedGroup,
-                gotoEntry: this.gotoEntry.bind(this),
-            };
-        } else if (!this.search.searching) {
-            // Empty and no searching.
-            this.canSearch = false;
-            this.firstEntry = undefined;
-        } else {
-            this.firstEntry = undefined;
+            CoreDomUtils.showErrorModalDefault(error, 'core.course.errorgetmodule', true);
+        } finally {
+            infiniteComplete?.();
         }
     }
 
@@ -387,86 +301,73 @@ export class AddonModDataIndexComponent extends CoreCourseModuleMainActivityComp
      * Display the chat users modal.
      */
     async showSearch(): Promise<void> {
-        const modalData = await CoreDomUtils.openModal<AddonModDataSearchDataParams>({
+        const database = this.database;
+        const search = this.entries?.SEARCH;
+        const fields = this.entries?.fields;
+
+        if (!database || !search || !fields) {
+            return;
+        }
+
+        const newSearch = await CoreDomUtils.openModal<AddonModDataDatabaseEntriesSearch>({
             component: AddonModDataSearchComponent,
-            componentProps: {
-                search: this.search,
-                fields: this.fields,
-                database: this.database,
-            },
+            componentProps: { database, search, fields },
         });
 
-        // Add data to search object.
-        if (modalData) {
-            this.search = modalData;
-            this.searchEntries(0);
-        }
+        await this.searchReset(newSearch);
     }
 
     /**
-     * Performs the search and closes the modal.
-     *
-     * @param page Page number.
-     * @return Resolved when done.
+     * Reset all search filters.
      */
-    async searchEntries(page: number): Promise<void> {
-        this.showLoading = true;
-        this.search.page = page;
+    async searchReset(search?: AddonModDataDatabaseEntriesSearch): Promise<void> {
+        // TODO clean up previous source
+        // TODO update this.entriesUnsubscribe (and maybe others)
 
-        try {
-            await this.fetchEntriesData();
-            // Log activity view for coherence with Moodle web.
-            await this.logActivity();
-        } catch (error) {
-            CoreDomUtils.showErrorModalDefault(error, 'core.course.errorgetmodule', true);
-        } finally {
-            this.showLoading = false;
-        }
+        this.entries = CoreRoutedItemsManagerSourcesTracker.getOrCreateSource(
+            AddonModDataDatabaseEntriesSource,
+            [
+                this.courseId,
+                this.module.id,
+                this.group ?? 0,
+                search ?? this.getDefaultSearch(),
+            ],
+        );
+
+        await this.entries.load();
     }
 
-    /**
-     * Reset all search filters and closes the modal.
-     */
-    searchReset(): void {
-        this.search.sortBy = '0';
-        this.search.sortDirection = 'DESC';
-        this.search.text = '';
-        this.search.advanced = [];
-        this.search.searchingAdvanced = false;
-        this.search.searching = false;
-        this.searchEntries(0);
-    }
+    // TODO make sure that all of this happens on reload (logActivity, search reset, canAdd reset, etc.)
+    // /**
+    //  * Set group to see the database.
+    //  *
+    //  * @param groupId Group ID.
+    //  * @return Resolved when new group is selected or rejected if not.
+    //  */
+    // async setGroup(groupId: number): Promise<void> {
+    //     this.selectedGroup = groupId;
+    //     this.search.page = 0;
 
-    /**
-     * Set group to see the database.
-     *
-     * @param groupId Group ID.
-     * @return Resolved when new group is selected or rejected if not.
-     */
-    async setGroup(groupId: number): Promise<void> {
-        this.selectedGroup = groupId;
-        this.search.page = 0;
+    //     // Only update canAdd if there's any field, otheerwise, canAdd will remain false.
+    //     if (this.fieldsArray.length > 0) {
+    //         // Update values for current group.
+    //         this.access = await AddonModData.getDatabaseAccessInformation(this.database!.id, {
+    //             groupId: this.selectedGroup,
+    //             cmId: this.module.id,
+    //         });
 
-        // Only update canAdd if there's any field, otheerwise, canAdd will remain false.
-        if (this.fieldsArray.length > 0) {
-            // Update values for current group.
-            this.access = await AddonModData.getDatabaseAccessInformation(this.database!.id, {
-                groupId: this.selectedGroup,
-                cmId: this.module.id,
-            });
+    //         this.canAdd = this.access.canaddentry;
+    //     }
 
-            this.canAdd = this.access.canaddentry;
-        }
+    //     try {
+    //         await this.fetchEntriesData();
 
-        try {
-            await this.fetchEntriesData();
-
-            // Log activity view for coherence with Moodle web.
-            return this.logActivity();
-        } catch (error) {
-            CoreDomUtils.showErrorModalDefault(error, 'core.course.errorgetmodule', true);
-        }
-    }
+    //         // Log activity view for coherence with Moodle web.
+    //         return this.logActivity();
+    //     } catch (error) {
+    //         CoreDomUtils.showErrorModalDefault(error, 'core.course.errorgetmodule', true);
+    //     }
+    // }
 
     /**
      * Opens add entries form.
@@ -494,13 +395,14 @@ export class AddonModDataIndexComponent extends CoreCourseModuleMainActivityComp
             group: this.selectedGroup,
         };
 
+        // TODO remove offsets?
         // Try to find page number and offset of the entry.
-        if (!this.search.searching) {
-            const pageXOffset = this.entries.findIndex((entry) => entry.id == entryId);
-            if (pageXOffset >= 0) {
-                params.offset = this.search.page * AddonModDataProvider.PER_PAGE + pageXOffset;
-            }
-        }
+        // if (!this.search.searching) {
+        //     const pageXOffset = this.entries.findIndex((entry) => entry.id == entryId);
+        //     if (pageXOffset >= 0) {
+        //         params.offset = this.search.page * AddonModDataProvider.PER_PAGE + pageXOffset;
+        //     }
+        // }
 
         CoreNavigator.navigateToSitePath(
             `${AddonModDataModuleHandlerService.PAGE_NAME}/${this.courseId}/${this.module.id}/${entryId}`,
@@ -531,7 +433,7 @@ export class AddonModDataIndexComponent extends CoreCourseModuleMainActivityComp
      * @inheritdoc
      */
     protected async logActivity(): Promise<void> {
-        if (!this.database || !this.database.id) {
+        if (!this.database?.id) {
             return;
         }
 
@@ -546,16 +448,84 @@ export class AddonModDataIndexComponent extends CoreCourseModuleMainActivityComp
         this.entryChangedObserver?.off();
         this.ratingOfflineObserver?.off();
         this.ratingSyncObserver?.off();
+        this.entriesUnsubscribe?.();
+
+        // TODO use manager instead?
+        this.entries && CoreRoutedItemsManagerSourcesTracker.removeReference(this.entries, this);
+    }
+
+    private getDefaultSearch(): AddonModDataDatabaseEntriesSearch {
+        return {
+            sortBy: '0',
+            sortDirection: 'DESC',
+            text: '',
+            searching: false,
+            searchingAdvanced: false,
+            advanced: [],
+        };
+    }
+
+    private renderEntries(): void {
+        this.entriesRendered = '';
+
+        const access = this.access;
+        const database = this.database;
+        const fields = this.entries?.fields;
+        const fieldsArray = this.entries?.fieldsArray;
+        const group = this.selectedGroup;
+        const items = this.entries?.getItems();
+
+        if (!access || !database || !fields || !fieldsArray || group === undefined || !items) {
+            return;
+        }
+
+        const singleEntryTemplate = AddonModDataHelper.getTemplate(database, AddonModDataTemplateType.LIST, fieldsArray);
+        const entriesById: Record<number, AddonModDataEntry> = {};
+        const entriesHTML = items.reduce(
+            (html, entry) => {
+                entriesById[entry.id] = entry;
+
+                const actions = AddonModDataHelper.getActions(database, access, entry);
+                const offset = 0; // TODO calculate
+                // const offset = this.entries?.SEARCH.searching
+                //     ? 0
+                //     : this.search.page * AddonModDataProvider.PER_PAGE + index - numOfflineEntries;
+
+                return html + AddonModDataHelper.displayShowFields(
+                    singleEntryTemplate,
+                    fieldsArray,
+                    entry,
+                    offset,
+                    AddonModDataTemplateMode.LIST,
+                    actions,
+                );
+            },
+            '',
+        );
+
+        this.entriesRendered = CoreDomUtils.fixHtml(
+            AddonModDataHelper.getTemplate(database, AddonModDataTemplateType.LIST_HEADER, fieldsArray) +
+            entriesHTML +
+            AddonModDataHelper.getTemplate(database, AddonModDataTemplateType.LIST_FOOTER, fieldsArray),
+        );
+
+        // Pass the input data to the component.
+        this.jsData = {
+            database,
+            fields,
+            group,
+            entries: entriesById,
+            title: this.module.name,
+            gotoEntry: this.gotoEntry.bind(this),
+        };
     }
 
 }
 
-export type AddonModDataSearchDataParams = {
-    sortBy: string;
-    sortDirection: string;
-    page: number;
-    text: string;
-    searching: boolean;
-    searchingAdvanced: boolean;
-    advanced?: AddonModDataSearchEntriesAdvancedField[];
-};
+/**
+ * Database time available info.
+ */
+export type AddonModDataTimeAvailable = Partial<{
+    from: string;
+    to: string;
+}>;

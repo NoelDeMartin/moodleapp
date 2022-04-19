@@ -12,7 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { AddonModDataDatabaseEntriesSource } from '@addons/mod/data/classes/database-entries-source';
 import { Component, OnDestroy, ViewChild, ChangeDetectorRef, OnInit, Type } from '@angular/core';
+import { ActivatedRouteSnapshot } from '@angular/router';
+import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
+import { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
 import { CoreCommentsCommentsComponent } from '@features/comments/components/comments/comments';
 import { CoreComments } from '@features/comments/services/comments';
 import { CoreCourse } from '@features/course/services/course';
@@ -68,9 +72,9 @@ export class AddonModDataEntryPage implements OnInit, OnDestroy {
     loadingComments = false;
     loadingRating = false;
     selectedGroup = 0;
+    // TODO it shouldn't be necessary to type this as asserted...
+    entries!: AddonModDataEntriesSwipeManager;
     entry?: AddonModDataEntry;
-    hasPrevious = false;
-    hasNext = false;
     access?: AddonModDataGetDataAccessInformationWSResponse;
     database?: AddonModDataData;
     groupInfo?: CoreGroupInfo;
@@ -126,12 +130,7 @@ export class AddonModDataEntryPage implements OnInit, OnDestroy {
                 }
             }
         }, this.siteId);
-    }
 
-    /**
-     * @inheritdoc
-     */
-    async ngOnInit(): Promise<void> {
         try {
             this.moduleId = CoreNavigator.getRequiredRouteNumberParam('cmId');
             this.courseId = CoreNavigator.getRequiredRouteNumberParam('courseId');
@@ -147,6 +146,30 @@ export class AddonModDataEntryPage implements OnInit, OnDestroy {
             return;
         }
 
+        const source = CoreRoutedItemsManagerSourcesTracker.getOrCreateSource(
+            AddonModDataDatabaseEntriesSource,
+            [
+                this.courseId,
+                this.moduleId,
+                0, // TODO get from query params?
+                {
+                    sortBy: '0',
+                    sortDirection: 'DESC',
+                    text: '',
+                    searching: false,
+                    searchingAdvanced: false,
+                    advanced: [],
+                }, // TODO get from query params?
+            ],
+        );
+
+        this.entries = new AddonModDataEntriesSwipeManager(source);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    async ngOnInit(): Promise<void> {
         this.commentsEnabled = !CoreComments.areCommentsDisabledInSite();
 
         await this.fetchEntryData();
@@ -169,8 +192,11 @@ export class AddonModDataEntryPage implements OnInit, OnDestroy {
             this.fieldsArray = await AddonModData.getFields(this.database.id, { cmId: this.moduleId });
             this.fields = CoreUtils.arrayToObject(this.fieldsArray, 'id');
 
-            await this.setEntryFromOffset();
+            await this.entries.start();
 
+            this.entry = this.entries.getSelectedItem() ?? undefined;
+
+            // TODO all of this can probably be removed...
             this.access = await AddonModData.getDatabaseAccessInformation(this.database.id, { cmId: this.moduleId });
 
             this.groupInfo = await CoreGroups.getActivityGroupInfo(this.database.coursemodule);
@@ -226,22 +252,6 @@ export class AddonModDataEntryPage implements OnInit, OnDestroy {
             this.content?.scrollToTop();
             this.entryLoaded = true;
         }
-    }
-
-    /**
-     * Go to selected entry without changing state.
-     *
-     * @param offset Entry offset.
-     * @return Resolved when done.
-     */
-    async gotoEntry(offset: number): Promise<void> {
-        this.offset = offset;
-        this.entryId = undefined;
-        this.entry = undefined;
-        this.entryLoaded = false;
-        this.logAfterFetch = true;
-
-        await this.fetchEntryData();
     }
 
     /**
@@ -306,81 +316,6 @@ export class AddonModDataEntryPage implements OnInit, OnDestroy {
     }
 
     /**
-     * Convenience function to fetch the entry and set next/previous entries.
-     *
-     * @return Resolved when done.
-     */
-    protected async setEntryFromOffset(): Promise<void> {
-        if (this.offset === undefined && this.entryId !== undefined) {
-            // Entry id passed as navigation parameter instead of the offset.
-            // We don't display next/previous buttons in this case.
-            this.hasNext = false;
-            this.hasPrevious = false;
-
-            const entry = await AddonModDataHelper.fetchEntry(this.database!, this.fieldsArray, this.entryId);
-            this.entry = entry.entry;
-            this.ratingInfo = entry.ratinginfo;
-
-            return;
-        }
-
-        const perPage = AddonModDataProvider.PER_PAGE;
-        const page = this.offset !== undefined && this.offset >= 0
-            ? Math.floor(this.offset / perPage)
-            : 0;
-
-        const entries = await AddonModDataHelper.fetchEntries(this.database!, this.fieldsArray, {
-            groupId: this.selectedGroup,
-            sort: 0,
-            order: 'DESC',
-            page,
-            perPage,
-        });
-
-        const pageEntries = (entries.offlineEntries || []).concat(entries.entries);
-
-        // Index of the entry when concatenating offline and online page entries.
-        let pageIndex = 0;
-        if (this.offset === undefined) {
-            // No offset passed, display the first entry.
-            pageIndex = 0;
-        } else if (this.offset > 0) {
-            // Online entry.
-            pageIndex = this.offset % perPage + (entries.offlineEntries?.length || 0);
-        } else {
-            // Offline entry.
-            pageIndex = this.offset + (entries.offlineEntries?.length || 0);
-        }
-
-        this.entry = pageEntries[pageIndex];
-        this.entryId = this.entry.id;
-
-        this.hasPrevious = page > 0 || pageIndex > 0;
-
-        if (pageIndex + 1 < pageEntries.length) {
-            // Not the last entry on the page;
-            this.hasNext = true;
-        } else if (pageEntries.length < perPage) {
-            // Last entry of the last page.
-            this.hasNext = false;
-        } else {
-            // Last entry of the page, check if there are more pages.
-            const entries = await AddonModData.getEntries(this.database!.id, {
-                groupId: this.selectedGroup,
-                page: page + 1,
-                perPage: perPage,
-            });
-            this.hasNext = entries?.entries?.length > 0;
-        }
-
-        if (this.entryId > 0) {
-            // Online entry, we need to fetch the the rating info.
-            const entry = await AddonModData.getEntry(this.database!.id, this.entryId, { cmId: this.moduleId });
-            this.ratingInfo = entry.ratinginfo;
-        }
-    }
-
-    /**
      * Function called when entry is being rendered.
      */
     setRenderingEntry(rendering: boolean): void {
@@ -417,6 +352,15 @@ export class AddonModDataEntryPage implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.syncObserver?.off();
         this.entryChangedObserver?.off();
+        this.entries?.destroy();
+    }
+
+}
+
+class AddonModDataEntriesSwipeManager extends CoreSwipeNavigationItemsManager<AddonModDataEntry> {
+
+    protected getSelectedItemPathFromRoute(route: ActivatedRouteSnapshot): string | null {
+        return route.params.entryId;
     }
 
 }

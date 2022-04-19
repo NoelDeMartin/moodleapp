@@ -266,6 +266,7 @@ export class AddonModDataHelperProvider {
         };
         options.siteId = site.id;
 
+        // TODO do we need offline entries beyond the first page??
         const offlinePromise = AddonModDataOffline.getDatabaseEntries(database.id, site.id).then((actions) => {
             result.hasOfflineActions = !!actions.length;
 

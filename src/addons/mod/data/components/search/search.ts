@@ -29,7 +29,7 @@ import {
 import { AddonModDataFieldsDelegate } from '../../services/data-fields-delegate';
 import { AddonModDataHelper } from '../../services/data-helper';
 import { AddonModDataComponentsCompileModule } from '../components-compile.module';
-import { AddonModDataSearchDataParams } from '../index';
+import { AddonModDataDatabaseEntriesSearch } from '../../classes/database-entries-source';
 
 /**
  * Page that displays the search modal.
@@ -43,7 +43,7 @@ export class AddonModDataSearchComponent implements OnInit {
 
     @ViewChild('searchFormEl') formElement!: ElementRef;
 
-    @Input() search!: AddonModDataSearchDataParams;
+    @Input() search!: AddonModDataDatabaseEntriesSearch;
     @Input() fields!: Record<number, AddonModDataField>;
     @Input() database!: AddonModDataData;
 

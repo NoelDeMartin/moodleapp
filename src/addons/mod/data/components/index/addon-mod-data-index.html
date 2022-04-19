@@ -30,7 +30,7 @@
             <ng-container *ngIf="groupInfo.separateGroups">{{'core.groupsseparate' | translate }}</ng-container>
             <ng-container *ngIf="groupInfo.visibleGroups">{{'core.groupsvisible' | translate }}</ng-container>
         </ion-label>
-        <ion-select [(ngModel)]="selectedGroup" (ionChange)="setGroup(selectedGroup)" aria-labelledby="addon-data-groupslabel"
+        <ion-select [(ngModel)]="selectedGroup" (ionChange)="entries?.reload()" aria-labelledby="addon-data-groupslabel"
             interface="action-sheet" [interfaceOptions]="{header: 'core.group' | translate}">
             <ion-select-option *ngFor="let groupOpt of groupInfo.groups" [value]="groupOpt.id">
                 {{groupOpt.name}}
@@ -38,17 +38,17 @@
         </ion-select>
     </ion-item>
 
-    <ion-card class="core-info-card" *ngIf="!access?.timeavailable && timeAvailableFrom">
+    <ion-card class="core-info-card" *ngIf="timeAvailable.from">
         <ion-item>
             <ion-icon name="fas-info-circle" slot="start" aria-hidden="true"></ion-icon>
-            <ion-label>{{ 'addon.mod_data.notopenyet' | translate:{$a: timeAvailableFromReadable} }}</ion-label>
+            <ion-label>{{ 'addon.mod_data.notopenyet' | translate: { $a: timeAvailable.from } }}</ion-label>
         </ion-item>
     </ion-card>
 
-    <ion-card class="core-info-card" *ngIf="!access?.timeavailable && timeAvailableTo">
+    <ion-card class="core-info-card" *ngIf="timeAvailable.to">
         <ion-item>
             <ion-icon name="fas-info-circle" slot="start" aria-hidden="true"></ion-icon>
-            <ion-label>{{ 'addon.mod_data.expired' | translate:{$a: timeAvailableToReadable} }}</ion-label>
+            <ion-label>{{ 'addon.mod_data.expired' | translate: { $a: timeAvailable.to } }}</ion-label>
         </ion-item>
     </ion-card>
 
@@ -71,7 +71,7 @@
     </ion-card>
 
     <!-- Reset search. -->
-    <ng-container *ngIf="search.searching && !isEmpty">
+    <ng-container *ngIf="isSearching && !isEmpty">
         <ion-item (click)="searchReset()" button detail="false" *ngIf="!foundRecordsTranslationData">
             <ion-label color="info">
                 {{ 'addon.mod_data.resetsettings' | translate}}
@@ -93,31 +93,17 @@
         <core-compile-html [text]="entriesRendered" [jsData]="jsData" [extraImports]="extraImports"></core-compile-html>
     </div>
 
-    <ion-grid *ngIf="search.page > 0 || hasNextPage">
-        <ion-row class="ion-align-items-center">
-            <ion-col *ngIf="search.page > 0">
-                <ion-button expand="block" fill="outline" (click)="searchEntries(search.page - 1)">
-                    <ion-icon name="fas-chevron-left" slot="start" aria-hidden="true"></ion-icon>
-                    {{ 'core.previous' | translate }}
-                </ion-button>
-            </ion-col>
-            <ion-col *ngIf="hasNextPage">
-                <ion-button expand="block" (click)="searchEntries(search.page + 1)">
-                    {{ 'core.next' | translate }}
-                    <ion-icon name="fas-chevron-right" slot="end" aria-hidden="true"></ion-icon>
-                </ion-button>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-
-    <core-empty-box *ngIf="isEmpty && !search.searching" icon="fas-database" [message]="'addon.mod_data.norecords' | translate">
+    <core-empty-box *ngIf="isEmpty && !isSearching" icon="fas-database" [message]="'addon.mod_data.norecords' | translate">
     </core-empty-box>
 
-    <core-empty-box *ngIf="isEmpty && search.searching" icon="fas-database" [message]="'addon.mod_data.nomatch' | translate"
+    <core-empty-box *ngIf="isEmpty && isSearching" icon="fas-database" [message]="'addon.mod_data.nomatch' | translate"
         class="core-empty-box-clickable">
         <button class="as-link" (click)="searchReset()">{{ 'addon.mod_data.resetsettings' | translate}}</button>
     </core-empty-box>
 
+    <core-infinite-loading [enabled]="entries?.isLoaded() && !entries?.isCompleted()" [error]="fetchFailed"
+        (action)="fetchMoreEntries($event)">
+    </core-infinite-loading>
 </core-loading>
 
 <core-course-module-navigation collapsible-footer [hidden]="showLoading" [courseId]="courseId" [currentModuleId]="module.id">
