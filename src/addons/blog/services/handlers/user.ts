@@ -13,9 +13,10 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import {
+import type {
     CoreUserProfileHandler,
-    CoreUserProfileHandlerData,
+    CoreUserProfileHandlerData } from '@features/user/services/user-delegate';
+import {
     CoreUserDelegateService,
     CoreUserDelegateContext,
 } from '@features/user/services/user-delegate';

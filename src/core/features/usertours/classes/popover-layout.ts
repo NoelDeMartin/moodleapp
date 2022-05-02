@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreStyles, renderInlineStyles } from '@/core/utils/style-helpers';
+import type { CoreStyles } from '@/core/utils/style-helpers';
+import { renderInlineStyles } from '@/core/utils/style-helpers';
 import { Platform } from '@singletons';
 import { CoreUserToursAlignment, CoreUserToursSide } from '../services/user-tours';
 

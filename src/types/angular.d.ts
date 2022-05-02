@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { UrlTree } from '@angular/router';
-import { NavigationOptions } from '@ionic/angular/providers/nav-controller';
+import type { UrlTree } from '@angular/router';
+import type { NavigationOptions } from '@ionic/angular/providers/nav-controller';
 
 declare module '@ionic/angular' {
 

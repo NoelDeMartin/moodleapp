@@ -16,7 +16,8 @@ import { NgModule } from '@angular/core';
 import { AddonModGlossaryEditPage } from './edit';
 import { CoreSharedModule } from '@/core/shared.module';
 import { CoreEditorComponentsModule } from '@features/editor/components/components.module';
-import { RouterModule, Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CanLeaveGuard } from '@guards/can-leave';
 
 const routes: Routes = [{

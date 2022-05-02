@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, ViewChild, ElementRef, Type } from '@angular/core';
+import type { OnInit, ElementRef, Type } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CoreError } from '@classes/errors/error';
 import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
 import { CoreTag } from '@features/tag/services/tag';
 import { IonContent } from '@ionic/angular';
-import { CoreGroupInfo, CoreGroups } from '@services/groups';
+import type { CoreGroupInfo } from '@services/groups';
+import { CoreGroups } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
@@ -27,21 +29,22 @@ import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { AddonModDataComponentsCompileModule } from '../../components/components-compile.module';
-import {
+import type {
     AddonModDataData,
     AddonModDataField,
-    AddonModDataProvider,
-    AddonModData,
-    AddonModDataTemplateType,
     AddonModDataEntry,
     AddonModDataEntryFields,
     AddonModDataEditEntryResult,
     AddonModDataAddEntryResult,
-    AddonModDataEntryWSField,
+    AddonModDataEntryWSField } from '../../services/data';
+import {
+    AddonModDataProvider,
+    AddonModData,
+    AddonModDataTemplateType,
 } from '../../services/data';
 import { AddonModDataHelper } from '../../services/data-helper';
 import { CoreDom } from '@singletons/dom';
-import { AddonModDataEntryFieldInitialized } from '../../classes/field-plugin-component';
+import type { AddonModDataEntryFieldInitialized } from '../../classes/field-plugin-component';
 
 /**
  * Page that displays the view edit page.

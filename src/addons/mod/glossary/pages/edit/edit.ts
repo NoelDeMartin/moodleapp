@@ -12,32 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, ViewChild, ElementRef, Optional, OnDestroy } from '@angular/core';
+import type { OnInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, ViewChild, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import type { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { CoreError } from '@classes/errors/error';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
-import { CoreSplitViewComponent } from '@components/split-view/split-view';
-import { CoreFileUploader, CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
-import { CanLeave } from '@guards/can-leave';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { CoreSplitViewComponent } from '@components/split-view/split-view';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
+import type { CanLeave } from '@guards/can-leave';
+import type { FileEntry } from '@ionic-native/file/ngx';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreForms } from '@singletons/form';
 import { AddonModGlossaryEntriesSource } from '../../classes/glossary-entries-source';
 import { AddonModGlossaryEntriesSwipeManager } from '../../classes/glossary-entries-swipe-manager';
-import {
-    AddonModGlossary,
+import type {
     AddonModGlossaryCategory,
     AddonModGlossaryEntryOption,
     AddonModGlossaryGlossary,
     AddonModGlossaryNewEntry,
-    AddonModGlossaryNewEntryWithFiles,
+    AddonModGlossaryNewEntryWithFiles } from '../../services/glossary';
+import {
+    AddonModGlossary,
     AddonModGlossaryProvider,
 } from '../../services/glossary';
 import { AddonModGlossaryHelper } from '../../services/glossary-helper';

@@ -13,43 +13,51 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 
 import { CoreApp } from '@services/app';
 import { CoreEvents } from '@singletons/events';
 import { CoreLogger } from '@singletons/logger';
-import { CoreSitesCommonWSOptions, CoreSites, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreSiteWSPreSets, CoreSite } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
 import { CoreConstants } from '@/core/constants';
 import { makeSingleton, Platform, Translate } from '@singletons';
-import { CoreStatusWithWarningsWSResponse, CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import type { CoreStatusWithWarningsWSResponse, CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
 
-import {
-    CoreCourseStatusDBRecord, CoreCourseViewedModulesDBRecord, COURSE_STATUS_TABLE, COURSE_VIEWED_MODULES_TABLE ,
+import type {
+    CoreCourseStatusDBRecord, CoreCourseViewedModulesDBRecord } from './database/course';
+import { COURSE_STATUS_TABLE, COURSE_VIEWED_MODULES_TABLE ,
 } from './database/course';
 import { CoreCourseOffline } from './course-offline';
 import { CoreError } from '@classes/errors/error';
+import type {
+    CoreCourseAnyCourseData } from '../../courses/services/courses';
 import {
-    CoreCourseAnyCourseData,
     CoreCoursesProvider,
 } from '../../courses/services/courses';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreWSError } from '@classes/errors/wserror';
 import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
-import { CoreCourseHelper, CoreCourseModuleData, CoreCourseModuleCompletionData } from './course-helper';
+import type { CoreCourseModuleData, CoreCourseModuleCompletionData } from './course-helper';
+import { CoreCourseHelper } from './course-helper';
 import { CoreCourseFormatDelegate } from './format-delegate';
 import { CoreCronDelegate } from '@services/cron';
 import { CoreCourseLogCronHandler } from './handlers/log-cron';
 import { CoreSitePlugins } from '@features/siteplugins/services/siteplugins';
-import { CoreCourseAutoSyncData, CoreCourseSyncProvider } from './sync';
-import { CoreTagItem } from '@features/tag/services/tag';
-import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
+import type { CoreCourseAutoSyncData, CoreCourseSyncProvider } from './sync';
+import type { CoreTagItem } from '@features/tag/services/tag';
+import type { CoreNavigationOptions } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 import { CoreCourseModuleDelegate } from './module-delegate';
-import { lazyMap, LazyMap } from '@/core/utils/lazy-map';
-import { asyncInstance, AsyncInstance } from '@/core/utils/async-instance';
-import { CoreDatabaseTable } from '@classes/database/database-table';
+import type { LazyMap } from '@/core/utils/lazy-map';
+import { lazyMap } from '@/core/utils/lazy-map';
+import type { AsyncInstance } from '@/core/utils/async-instance';
+import { asyncInstance } from '@/core/utils/async-instance';
+import type { CoreDatabaseTable } from '@classes/database/database-table';
 import { CoreDatabaseCachingStrategy } from '@classes/database/database-table-proxy';
 import { SQLiteDB } from '@classes/sqlitedb';
 

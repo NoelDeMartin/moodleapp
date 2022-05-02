@@ -17,24 +17,28 @@ import { CoreCanceledError } from '@classes/errors/cancelederror';
 import { CoreError } from '@classes/errors/error';
 
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourse, CoreCourseCommonModWSOptions, CoreCourseAnyModuleData } from '@features/course/services/course';
+import type { CoreCourseCommonModWSOptions, CoreCourseAnyModuleData } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreFilepool } from '@services/filepool';
 import { CoreGroups } from '@services/groups';
-import { CoreFileSizeSum, CorePluginFileDelegate } from '@services/plugin-file-delegate';
+import type { CoreFileSizeSum } from '@services/plugin-file-delegate';
+import { CorePluginFileDelegate } from '@services/plugin-file-delegate';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { AddonModLessonPasswordModalComponent } from '../../components/password-modal/password-modal';
-import {
-    AddonModLesson,
+import type {
     AddonModLessonGetAccessInformationWSResponse,
     AddonModLessonLessonWSData,
-    AddonModLessonPasswordOptions,
+    AddonModLessonPasswordOptions } from '../lesson';
+import {
+    AddonModLesson,
     AddonModLessonProvider,
 } from '../lesson';
-import { AddonModLessonSync, AddonModLessonSyncResult } from '../lesson-sync';
+import type { AddonModLessonSyncResult } from '../lesson-sync';
+import { AddonModLessonSync } from '../lesson-sync';
 
 /**
  * Handler to prefetch lessons.

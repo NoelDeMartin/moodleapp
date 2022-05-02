@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { NgModule, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CORE_SITE_SCHEMAS } from '@services/sites';
 import { RATINGS_SITE_SCHEMA } from './services/database/rating';
 import { CoreRatingProvider } from './services/rating';

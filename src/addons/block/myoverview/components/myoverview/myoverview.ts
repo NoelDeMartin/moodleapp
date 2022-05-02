@@ -12,21 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
-import { CoreCoursesProvider, CoreCourses, CoreCoursesMyCoursesUpdatedEventData } from '@features/courses/services/courses';
-import { CoreCoursesHelper, CoreEnrolledCourseDataWithOptions } from '@features/courses/services/courses-helper';
-import { CoreCourseHelper, CorePrefetchStatusInfo } from '@features/course/services/course-helper';
+import type { CoreCoursesMyCoursesUpdatedEventData } from '@features/courses/services/courses';
+import { CoreCoursesProvider, CoreCourses } from '@features/courses/services/courses';
+import type { CoreEnrolledCourseDataWithOptions } from '@features/courses/services/courses-helper';
+import { CoreCoursesHelper } from '@features/courses/services/courses-helper';
+import type { CorePrefetchStatusInfo } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { CoreCourseOptionsDelegate } from '@features/course/services/course-options-delegate';
 import { CoreBlockBaseComponent } from '@features/block/classes/base-block-component';
-import { CoreSite } from '@classes/site';
+import type { CoreSite } from '@classes/site';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { AddonCourseCompletion } from '@addons/coursecompletion/services/coursecompletion';
-import { IonSearchbar } from '@ionic/angular';
+import type { IonSearchbar } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 
 const FILTER_PRIORITY: AddonBlockMyOverviewTimeFilters[] =

@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Optional } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { CoreCourseModuleMainResourceComponent } from '@features/course/classes/main-resource-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreNavigator } from '@services/navigator';
-import { AddonModImscpProvider, AddonModImscp, AddonModImscpTocItem } from '../../services/imscp';
+import type { AddonModImscpTocItem } from '../../services/imscp';
+import { AddonModImscpProvider, AddonModImscp } from '../../services/imscp';
 
 /**
  * Component that displays a IMSCP.

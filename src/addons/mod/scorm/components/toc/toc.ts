@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@singletons';
-import { AddonModScormGetScormAccessInformationWSResponse, AddonModScormProvider } from '../../services/scorm';
-import { AddonModScormTOCScoWithIcon } from '../../services/scorm-helper';
+import type { AddonModScormGetScormAccessInformationWSResponse } from '../../services/scorm';
+import { AddonModScormProvider } from '../../services/scorm';
+import type { AddonModScormTOCScoWithIcon } from '../../services/scorm-helper';
 
 /**
  * Modal to display the TOC of a SCORM.

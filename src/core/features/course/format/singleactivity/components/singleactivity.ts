@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnChanges, SimpleChange, ViewChild, Output, EventEmitter, Type } from '@angular/core';
+import type { OnChanges, SimpleChange, Type } from '@angular/core';
+import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
 import { CoreCourseUnsupportedModuleComponent } from '@features/course/components/unsupported-module/unsupported-module';
 import { CoreDynamicComponent } from '@components/dynamic-component/dynamic-component';
-import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
-import { IonRefresher } from '@ionic/angular';
-import { CoreCourseModuleCompletionData, CoreCourseSection } from '@features/course/services/course-helper';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { IonRefresher } from '@ionic/angular';
+import type { CoreCourseModuleCompletionData, CoreCourseSection } from '@features/course/services/course-helper';
 import { CoreCourse } from '@features/course/services/course';
 
 /**

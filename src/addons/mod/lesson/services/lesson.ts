@@ -14,20 +14,24 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
 import { CoreGradesProvider } from '@features/grades/services/grades';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import type { CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { AddonModLessonPasswordDBRecord, PASSWORD_TABLE_NAME } from './database/lesson';
-import { AddonModLessonOffline, AddonModLessonPageAttemptRecord } from './lesson-offline';
-import { AddonModLessonAutoSyncData, AddonModLessonSyncProvider } from './lesson-sync';
+import type { AddonModLessonPasswordDBRecord } from './database/lesson';
+import { PASSWORD_TABLE_NAME } from './database/lesson';
+import type { AddonModLessonPageAttemptRecord } from './lesson-offline';
+import { AddonModLessonOffline } from './lesson-offline';
+import type { AddonModLessonAutoSyncData, AddonModLessonSyncProvider } from './lesson-sync';
 
 const ROOT_CACHE_KEY = 'mmaModLesson:';
 

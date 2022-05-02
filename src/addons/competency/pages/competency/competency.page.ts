@@ -13,30 +13,32 @@
 // limitations under the License.
 
 import { AddonCompetencyHelper } from '@addons/competency/services/competency-helper';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CoreCourseModuleSummary } from '@features/course/services/course';
-import { CoreUserSummary } from '@features/user/services/user';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreCourseModuleSummary } from '@features/course/services/course';
+import type { CoreUserSummary } from '@features/user/services/user';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { Translate } from '@singletons';
-import {
+import type {
     AddonCompetencyDataForUserCompetencySummaryWSResponse,
     AddonCompetencyUserCompetencyPlan,
     AddonCompetencyUserCompetency,
     AddonCompetencyUserCompetencyCourse,
-    AddonCompetency,
     AddonCompetencyDataForPlanPageCompetency,
-    AddonCompetencyDataForCourseCompetenciesPageCompetency,
+    AddonCompetencyDataForCourseCompetenciesPageCompetency } from '@addons/competency/services/competency';
+import {
+    AddonCompetency,
 } from '@addons/competency/services/competency';
 import { CoreNavigator } from '@services/navigator';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 import { ContextLevel } from '@/core/constants';
 import { CoreUtils } from '@services/utils/utils';
 import { ADDON_COMPETENCY_SUMMARY_PAGE } from '@addons/competency/competency.module';
 import { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 import { AddonCompetencyPlanCompetenciesSource } from '@addons/competency/classes/competency-plan-competencies-source';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import type { ActivatedRouteSnapshot } from '@angular/router';
 import { AddonCompetencyCourseCompetenciesSource } from '@addons/competency/classes/competency-course-competencies-source';
 
 /**

@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { AddonModForumComponentsModule } from '@addons/mod/forum/components/components.module';
 import { CanLeaveGuard } from '@guards/can-leave';

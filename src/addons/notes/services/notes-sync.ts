@@ -21,8 +21,9 @@ import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate, makeSingleton } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { AddonNotesDBRecord, AddonNotesDeletedDBRecord } from './database/notes';
-import { AddonNotes, AddonNotesCreateNoteData } from './notes';
+import type { AddonNotesDBRecord, AddonNotesDeletedDBRecord } from './database/notes';
+import type { AddonNotesCreateNoteData } from './notes';
+import { AddonNotes } from './notes';
 import { AddonNotesOffline } from './notes-offline';
 
 /**

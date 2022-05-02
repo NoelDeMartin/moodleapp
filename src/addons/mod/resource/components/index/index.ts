@@ -13,10 +13,11 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
 import { CoreCourseModuleMainResourceComponent } from '@features/course/classes/main-resource-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
 import { CoreApp } from '@services/app';
@@ -27,10 +28,11 @@ import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils, OpenFileAction } from '@services/utils/utils';
 import { Network, NgZone, Translate } from '@singletons';
-import { Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
+import type {
+    AddonModResourceCustomData } from '../../services/resource';
 import {
     AddonModResource,
-    AddonModResourceCustomData,
     AddonModResourceProvider,
 } from '../../services/resource';
 import { AddonModResourceHelper } from '../../services/resource-helper';

@@ -14,12 +14,14 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreSites, CoreSitesCommonWSOptions } from '@services/sites';
-import { CoreWSExternalWarning } from '@services/ws';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites } from '@services/sites';
+import type { CoreWSExternalWarning } from '@services/ws';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUser } from '@features/user/services/user';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
 import { CoreLogger } from '@singletons/logger';
 import { makeSingleton } from '@singletons';
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';

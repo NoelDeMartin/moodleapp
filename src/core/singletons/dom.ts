@@ -15,7 +15,7 @@
 import { CoreCancellablePromise } from '@classes/cancellable-promise';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEventObserver } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
 
 /**
  * Singleton with helper functions for dom.

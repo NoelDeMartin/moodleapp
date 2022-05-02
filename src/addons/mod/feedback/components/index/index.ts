@@ -12,30 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Optional, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Optional, ViewChild } from '@angular/core';
 import { CoreTabsComponent } from '@components/tabs/tabs';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
-import { IonContent } from '@ionic/angular';
-import { CoreGroupInfo, CoreGroups } from '@services/groups';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { IonContent } from '@ionic/angular';
+import type { CoreGroupInfo } from '@services/groups';
+import { CoreGroups } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type {
+    AddonModFeedbackGetFeedbackAccessInformationWSResponse,
+    AddonModFeedbackWSFeedback,
+    AddonModFeedbackWSItem } from '../../services/feedback';
 import {
     AddonModFeedback,
-    AddonModFeedbackGetFeedbackAccessInformationWSResponse,
     AddonModFeedbackProvider,
-    AddonModFeedbackWSFeedback,
-    AddonModFeedbackWSItem,
 } from '../../services/feedback';
 import { AddonModFeedbackOffline } from '../../services/feedback-offline';
-import {
+import type {
     AddonModFeedbackAutoSyncData,
+    AddonModFeedbackSyncResult } from '../../services/feedback-sync';
+import {
     AddonModFeedbackSync,
     AddonModFeedbackSyncProvider,
-    AddonModFeedbackSyncResult,
 } from '../../services/feedback-sync';
 import { AddonModFeedbackModuleHandlerService } from '../../services/handlers/module';
 import { AddonModFeedbackPrefetchHandler } from '../../services/handlers/prefetch';

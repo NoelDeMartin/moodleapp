@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import type { OnInit, OnDestroy, ChangeDetectorRef, QueryList, ElementRef } from '@angular/core';
+import { Component, ViewChild, ViewChildren } from '@angular/core';
 import { IonContent } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
 
-import { CoreIonLoadingElement } from '@classes/ion-loading';
+import type { CoreIonLoadingElement } from '@classes/ion-loading';
 import { CoreQuestionComponent } from '@features/question/components/question/question';
-import { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
-import { CoreQuestionBehaviourButton, CoreQuestionHelper } from '@features/question/services/question-helper';
+import type { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
+import type { CoreQuestionBehaviourButton } from '@features/question/services/question-helper';
+import { CoreQuestionHelper } from '@features/question/services/question-helper';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreSync } from '@services/sync';
@@ -28,22 +30,25 @@ import { CoreUtils } from '@services/utils/utils';
 import { ModalController, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { AddonModQuizAutoSave } from '../../classes/auto-save';
+import type {
+    AddonModQuizNavigationModalReturn,
+    AddonModQuizNavigationQuestion } from '../../components/navigation-modal/navigation-modal';
 import {
     AddonModQuizNavigationModalComponent,
-    AddonModQuizNavigationModalReturn,
-    AddonModQuizNavigationQuestion,
 } from '../../components/navigation-modal/navigation-modal';
-import {
-    AddonModQuiz,
+import type {
     AddonModQuizAttemptWSData,
     AddonModQuizGetAttemptAccessInformationWSResponse,
     AddonModQuizGetQuizAccessInformationWSResponse,
+    AddonModQuizQuizWSData } from '../../services/quiz';
+import {
+    AddonModQuiz,
     AddonModQuizProvider,
-    AddonModQuizQuizWSData,
 } from '../../services/quiz';
-import { AddonModQuizAttempt, AddonModQuizHelper } from '../../services/quiz-helper';
+import type { AddonModQuizAttempt } from '../../services/quiz-helper';
+import { AddonModQuizHelper } from '../../services/quiz-helper';
 import { AddonModQuizSync } from '../../services/quiz-sync';
-import { CanLeave } from '@guards/can-leave';
+import type { CanLeave } from '@guards/can-leave';
 import { CoreForms } from '@singletons/form';
 import { CoreDom } from '@singletons/dom';
 import { CoreTime } from '@singletons/time';

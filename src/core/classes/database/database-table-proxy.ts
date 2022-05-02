@@ -14,17 +14,19 @@
 
 import { CoreConstants } from '@/core/constants';
 import { asyncInstance } from '@/core/utils/async-instance';
-import { SQLiteDBRecordValues } from '@classes/sqlitedb';
+import type { SQLiteDBRecordValues } from '@classes/sqlitedb';
 import { CoreConfig, CoreConfigProvider } from '@services/config';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import {
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type {
     CoreDatabaseConfiguration,
     CoreDatabaseReducer,
-    CoreDatabaseTable,
     CoreDatabaseConditions,
     GetDBRecordPrimaryKey,
     CoreDatabaseQueryOptions,
-    CoreDatabaseTableConstructor,
+    CoreDatabaseTableConstructor } from './database-table';
+import {
+    CoreDatabaseTable,
 } from './database-table';
 import { CoreDebugDatabaseTable } from './debug-database-table';
 import { CoreEagerDatabaseTable } from './eager-database-table';

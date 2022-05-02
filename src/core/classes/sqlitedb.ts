@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { SQLiteObject } from '@ionic-native/sqlite/ngx';
+import type { SQLiteObject } from '@ionic-native/sqlite/ngx';
 
 import { SQLite, Platform } from '@singletons';
 import { CoreError } from '@classes/errors/error';

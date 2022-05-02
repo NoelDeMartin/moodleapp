@@ -12,20 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ContextLevel } from '@/core/constants';
-import { Component, EventEmitter, Input, OnChanges, Output, OnDestroy } from '@angular/core';
-import {
-    CoreRatingProvider,
+import type { ContextLevel } from '@/core/constants';
+import type { OnChanges, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import type {
     CoreRatingInfo,
     CoreRatingInfoItem,
-    CoreRatingScale,
+    CoreRatingScale } from '@features/rating/services/rating';
+import {
+    CoreRatingProvider,
     CoreRating,
 } from '@features/rating/services/rating';
 import { CoreRatingOffline } from '@features/rating/services/rating-offline';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 
 /**
  * Component that displays the user rating select.

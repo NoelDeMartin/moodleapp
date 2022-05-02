@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Provider } from '@angular/core';
+import type { Provider } from '@angular/core';
 import { CORE_SITE_SCHEMAS } from '@services/sites';
 
 import { SITE_SCHEMA as FILEPOOL_SITE_SCHEMA } from './filepool';

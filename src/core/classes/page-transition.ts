@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { createAnimation } from '@ionic/angular';
-import { Animation, NavOptions } from '@ionic/core';
+import type { Animation, NavOptions } from '@ionic/core';
 
 /**
  * Adaptation from Ionic 5 iOs transition.

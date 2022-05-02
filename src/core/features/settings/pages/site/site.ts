@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 
-import { CoreSettingsHandlerToDisplay } from '../../services/settings-delegate';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreSettingsHandlerToDisplay } from '../../services/settings-delegate';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSplitViewComponent } from '@components/split-view/split-view';

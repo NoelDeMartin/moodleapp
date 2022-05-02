@@ -12,17 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
-import {
-    AddonModGlossary,
+import type {
     AddonModGlossaryEntry,
     AddonModGlossaryGetEntriesOptions,
     AddonModGlossaryGetEntriesWSResponse,
-    AddonModGlossaryGlossary,
+    AddonModGlossaryGlossary } from '../services/glossary';
+import {
+    AddonModGlossary,
     AddonModGlossaryProvider,
 } from '../services/glossary';
-import { AddonModGlossaryOffline, AddonModGlossaryOfflineEntry } from '../services/glossary-offline';
+import type { AddonModGlossaryOfflineEntry } from '../services/glossary-offline';
+import { AddonModGlossaryOffline } from '../services/glossary-offline';
 
 /**
  * Provides a collection of glossary entries.

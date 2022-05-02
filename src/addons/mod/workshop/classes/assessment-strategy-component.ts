@@ -13,8 +13,8 @@
 // limitations under the License.
 
 import { Component, Input } from '@angular/core';
-import { AddonModWorkshopGetAssessmentFormFieldsParsedData } from '../services/workshop';
-import { AddonModWorkshopSubmissionAssessmentWithFormData } from '../services/workshop-helper';
+import type { AddonModWorkshopGetAssessmentFormFieldsParsedData } from '../services/workshop';
+import type { AddonModWorkshopSubmissionAssessmentWithFormData } from '../services/workshop-helper';
 
 /**
  * Base class for component to render an assessment strategy.

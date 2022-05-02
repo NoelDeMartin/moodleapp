@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChange, OnInit } from '@angular/core';
+import type { OnChanges, OnDestroy, SimpleChange, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
     CoreComments,
     CoreCommentsProvider,
 } from '../../services/comments';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreNavigator } from '@services/navigator';
 import { CoreUtils } from '@services/utils/utils';
-import { ContextLevel } from '@/core/constants';
+import type { ContextLevel } from '@/core/constants';
 
 /**
  * Component that displays the count of comments.

@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, ElementRef } from '@angular/core';
+import type { OnInit, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { AddonModQuizTextQuestion, CoreQuestionBaseComponent } from '@features/question/classes/base-question-component';
+import type { AddonModQuizTextQuestion } from '@features/question/classes/base-question-component';
+import { CoreQuestionBaseComponent } from '@features/question/classes/base-question-component';
 
 /**
  * Component to render a short answer question.

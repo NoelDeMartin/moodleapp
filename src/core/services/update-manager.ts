@@ -21,7 +21,8 @@ import { makeSingleton } from '@singletons';
 import { CoreH5P } from '@features/h5p/services/h5p';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
 import { CoreSites } from './sites';
-import { CoreUtils, PromiseDefer } from './utils/utils';
+import type { PromiseDefer } from './utils/utils';
+import { CoreUtils } from './utils/utils';
 import { CoreApp } from './app';
 
 const VERSION_APPLIED = 'version_applied';

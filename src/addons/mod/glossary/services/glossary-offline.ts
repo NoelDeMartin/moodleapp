@@ -13,15 +13,16 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
 import { CoreFile } from '@services/file';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
 import { CoreText } from '@singletons/text';
-import { AddonModGlossaryOfflineEntryDBRecord, OFFLINE_ENTRIES_TABLE_NAME } from './database/glossary';
-import { AddonModGlossaryDiscardedEntry, AddonModGlossaryEntryOption } from './glossary';
+import type { AddonModGlossaryOfflineEntryDBRecord } from './database/glossary';
+import { OFFLINE_ENTRIES_TABLE_NAME } from './database/glossary';
+import type { AddonModGlossaryDiscardedEntry, AddonModGlossaryEntryOption } from './glossary';
 
 /**
  * Service to handle offline glossary.

@@ -15,19 +15,23 @@
 import { Injectable } from '@angular/core';
 
 import { CoreError } from '@classes/errors/error';
-import { CoreWSError } from '@classes/errors/wserror';
+import type { CoreWSError } from '@classes/errors/wserror';
 import { CoreContentLinksDelegate } from '@features/contentlinks/services/contentlinks-delegate';
 import { CoreContentLinksHelper } from '@features/contentlinks/services/contentlinks-helper';
-import { CoreLoginHelper, CoreLoginSSOData } from '@features/login/services/login-helper';
+import type { CoreLoginSSOData } from '@features/login/services/login-helper';
+import { CoreLoginHelper } from '@features/login/services/login-helper';
 import { ApplicationInit, makeSingleton, Translate } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreText } from '@singletons/text';
 import { CoreConstants } from '../constants';
 import { CoreApp } from './app';
-import { CoreNavigator, CoreRedirectPayload } from './navigator';
-import { CoreSiteCheckResponse, CoreSites } from './sites';
+import type { CoreRedirectPayload } from './navigator';
+import { CoreNavigator } from './navigator';
+import type { CoreSiteCheckResponse } from './sites';
+import { CoreSites } from './sites';
 import { CoreDomUtils } from './utils/dom';
-import { CoreTextErrorObject, CoreTextUtils } from './utils/text';
+import type { CoreTextErrorObject } from './utils/text';
+import { CoreTextUtils } from './utils/text';
 import { CoreUrlUtils } from './utils/url';
 import { CoreUtils } from './utils/utils';
 

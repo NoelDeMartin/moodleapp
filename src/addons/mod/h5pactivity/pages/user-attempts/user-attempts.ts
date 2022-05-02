@@ -12,19 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 
-import { CoreUser, CoreUserProfile } from '@features/user/services/user';
+import type { CoreUserProfile } from '@features/user/services/user';
+import { CoreUser } from '@features/user/services/user';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
-import {
-    AddonModH5PActivity,
+import type {
     AddonModH5PActivityAttempt,
     AddonModH5PActivityData,
-    AddonModH5PActivityUserAttempts,
+    AddonModH5PActivityUserAttempts } from '../../services/h5pactivity';
+import {
+    AddonModH5PActivity,
 } from '../../services/h5pactivity';
 
 /**

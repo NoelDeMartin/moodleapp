@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import { Component } from '@angular/core';
-import { AddonModDataEntryField, AddonModDataProvider } from '@addons/mod/data/services/data';
+import type { AddonModDataEntryField } from '@addons/mod/data/services/data';
+import { AddonModDataProvider } from '@addons/mod/data/services/data';
 import { AddonModDataFieldPluginComponent } from '@addons/mod/data/classes/field-plugin-component';
 import { CoreFileSession } from '@services/file-session';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 
 /**
  * Component to render data file field.

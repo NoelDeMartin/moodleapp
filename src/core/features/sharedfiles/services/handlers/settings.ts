@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreSettingsHandler, CoreSettingsHandlerData } from '@features/settings/services/settings-delegate';
+import type { CoreSettingsHandler, CoreSettingsHandlerData } from '@features/settings/services/settings-delegate';
 import { SHAREDFILES_PAGE_NAME } from '@features/sharedfiles/sharedfiles.module';
 import { CoreApp } from '@services/app';
 import { makeSingleton } from '@singletons';

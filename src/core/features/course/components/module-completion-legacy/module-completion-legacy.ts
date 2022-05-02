@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { CoreUser } from '@features/user/services/user';
 import {
@@ -23,7 +24,8 @@ import { CoreFilterHelper } from '@features/filter/services/filter-helper';
 import { Translate } from '@singletons';
 import { CoreCourseModuleCompletionBaseComponent } from '@features/course/classes/module-completion';
 import { CoreCourseHelper } from '@features/course/services/course-helper';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 
 /**
  * Component to handle activity completion in sites previous to 3.11.

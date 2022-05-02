@@ -15,7 +15,7 @@
 import { ADDON_COMPETENCY_LEARNING_PLANS_PAGE } from '@addons/competency/competency.module';
 import { Injectable } from '@angular/core';
 import { CoreContentLinksHandlerBase } from '@features/contentlinks/classes/base-handler';
-import { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
+import type { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
 import { CoreNavigator } from '@services/navigator';
 import { makeSingleton } from '@singletons';
 import { AddonCompetency } from '../competency';

@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
 
 /**

@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { File, Entry, DirectoryEntry, FileEntry, IWriteOptions, RemoveResult } from '@ionic-native/file/ngx';
+import type { Entry, DirectoryEntry, FileEntry, IWriteOptions, RemoveResult } from '@ionic-native/file/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 import { CoreText } from '@singletons/text';
 

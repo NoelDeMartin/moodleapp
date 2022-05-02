@@ -19,7 +19,8 @@ import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
-import { CoreEditorDraft, CoreEditorDraftPrimaryData, DRAFT_TABLE } from './database/editor';
+import type { CoreEditorDraft, CoreEditorDraftPrimaryData } from './database/editor';
+import { DRAFT_TABLE } from './database/editor';
 
 /**
  * Service with features regarding rich text editor in offline.

@@ -18,8 +18,8 @@ import { CoreSites } from '@services/sites';
 import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
 import { makeSingleton } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
-import { CoreWSExternalWarning } from '@services/ws';
-import { CoreSiteWSPreSets } from '@classes/site';
+import type { CoreWSExternalWarning } from '@services/ws';
+import type { CoreSiteWSPreSets } from '@classes/site';
 import { CoreError } from '@classes/errors/error';
 
 /**

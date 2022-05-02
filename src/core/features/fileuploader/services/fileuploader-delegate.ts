@@ -13,11 +13,12 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { FileEntry } from '@ionic-native/file/ngx';
 
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
 import { CoreEvents } from '@singletons/events';
-import { CoreWSUploadFileResult } from '@services/ws';
+import type { CoreWSUploadFileResult } from '@services/ws';
 import { makeSingleton } from '@singletons';
 
 /**

@@ -14,7 +14,7 @@
 
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Translate } from '@singletons';
-import { ModalOptions } from '@ionic/core';
+import type { ModalOptions } from '@ionic/core';
 import { CoreDomUtils } from '@services/utils/dom';
 import { IonSelect } from '@ionic/angular';
 

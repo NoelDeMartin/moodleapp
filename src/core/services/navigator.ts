@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
+import type { ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
 
-import { NavigationOptions } from '@ionic/angular/providers/nav-controller';
+import type { NavigationOptions } from '@ionic/angular/providers/nav-controller';
 
 import { CoreConstants } from '@/core/constants';
 import { CoreDomUtils } from '@services/utils/dom';

@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Type } from '@angular/core';
+import type { Type } from '@angular/core';
 
 import { AddonModAssignDefaultFeedbackHandler } from '@addons/mod/assign/services/handlers/default-feedback';
-import { AddonModAssignPlugin } from '@addons/mod/assign/services/assign';
+import type { AddonModAssignPlugin } from '@addons/mod/assign/services/assign';
 import { CoreSitePluginsAssignFeedbackComponent } from '@features/siteplugins/components/assign-feedback/assign-feedback';
 import { Translate } from '@singletons';
 

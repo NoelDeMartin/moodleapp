@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import type { AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CoreListItemsManager } from '@classes/items-management/list-items-manager';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 
 import { CoreSplitViewComponent } from '@components/split-view/split-view';
 import { CoreGradesCoursesSource } from '@features/grades/classes/grades-courses-source';
 import { CoreGrades } from '@features/grades/services/grades';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 

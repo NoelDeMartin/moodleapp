@@ -16,10 +16,12 @@ import { Injectable } from '@angular/core';
 
 import { CoreError } from '@classes/errors/error';
 import { CoreCourseActivitySyncBaseProvider } from '@features/course/classes/activity-sync';
-import { CoreCourse, CoreCourseModuleBasicInfo } from '@features/course/services/course';
+import type { CoreCourseModuleBasicInfo } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
 import { CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
-import { CoreQuestion, CoreQuestionQuestionParsed } from '@features/question/services/question';
+import type { CoreQuestionQuestionParsed } from '@features/question/services/question';
+import { CoreQuestion } from '@features/question/services/question';
 import { CoreQuestionDelegate } from '@features/question/services/question-delegate';
 import { CoreApp } from '@services/app';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
@@ -27,10 +29,12 @@ import { CoreSync } from '@services/sync';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { AddonModQuizAttemptDBRecord } from './database/quiz';
+import type { AddonModQuizAttemptDBRecord } from './database/quiz';
 import { AddonModQuizPrefetchHandler } from './handlers/prefetch';
-import { AddonModQuiz, AddonModQuizAttemptWSData, AddonModQuizProvider, AddonModQuizQuizWSData } from './quiz';
-import { AddonModQuizOffline, AddonModQuizQuestionsWithAnswers } from './quiz-offline';
+import type { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from './quiz';
+import { AddonModQuiz, AddonModQuizProvider } from './quiz';
+import type { AddonModQuizQuestionsWithAnswers } from './quiz-offline';
+import { AddonModQuizOffline } from './quiz-offline';
 
 /**
  * Service to sync quizzes.

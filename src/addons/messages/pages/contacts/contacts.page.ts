@@ -12,18 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
+import type {
+    AddonMessagesConversationMember } from '../../services/messages';
 import {
     AddonMessages,
-    AddonMessagesConversationMember,
     AddonMessagesProvider,
 } from '../../services/messages';
 import { CoreNavigator } from '@services/navigator';
 import { CoreScreen } from '@services/screen';
 import { CoreDomUtils } from '@services/utils/dom';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 
 /**
  * Page that displays contacts and contact requests.

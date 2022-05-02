@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import type { ElementRef } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreFormFields, CoreForms } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
+import { CoreForms } from '@singletons/form';
 import { CoreUtils } from '@services/utils/utils';
 import { ModalController, Translate } from '@singletons';
-import { AddonModAssignAssign, AddonModAssignPlugin, AddonModAssignSubmission } from '../../services/assign';
+import type { AddonModAssignAssign, AddonModAssignPlugin, AddonModAssignSubmission } from '../../services/assign';
 import { AddonModAssignFeedbackDelegate } from '../../services/feedback-delegate';
 
 /**

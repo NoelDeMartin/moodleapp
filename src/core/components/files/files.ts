@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit, DoCheck, KeyValueDiffers } from '@angular/core';
-import { CoreFileEntry } from '@services/file-helper';
+import type { OnInit, DoCheck, KeyValueDiffers } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { CoreFileEntry } from '@services/file-helper';
 
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreUtils } from '@services/utils/utils';

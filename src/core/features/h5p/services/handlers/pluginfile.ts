@@ -13,15 +13,15 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { FileEntry } from '@ionic-native/file/ngx';
 
-import { CoreFilepoolOnProgressCallback } from '@services/filepool';
-import { CorePluginFileDownloadableResult, CorePluginFileHandler } from '@services/plugin-file-delegate';
+import type { CoreFilepoolOnProgressCallback } from '@services/filepool';
+import type { CorePluginFileDownloadableResult, CorePluginFileHandler } from '@services/plugin-file-delegate';
 import { CoreSites } from '@services/sites';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { CoreH5P } from '../h5p';
 import { Translate, makeSingleton } from '@singletons';
 import { CoreH5PHelper } from '../../classes/helper';

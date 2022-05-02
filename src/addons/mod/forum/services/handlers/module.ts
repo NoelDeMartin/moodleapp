@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AddonModForum, AddonModForumProvider } from '../forum';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '@features/course/services/module-delegate';
+import type { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '@features/course/services/module-delegate';
 import { CoreConstants, ModPurpose } from '@/core/constants';
 import { AddonModForumIndexComponent } from '../../components/index';
 import { CoreModuleHandlerBase } from '@features/course/classes/module-base-handler';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
 import { CoreIonicColorNames } from '@singletons/colors';
 
 /**

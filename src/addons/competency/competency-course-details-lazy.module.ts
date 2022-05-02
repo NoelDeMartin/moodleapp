@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { AddonCompetencyCompetencyPage } from './pages/competency/competency.page';
 import { AddonCompetencyCompetencySummaryPage } from './pages/competencysummary/competencysummary.page';

@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Type } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit, Type } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTag } from '@features/tag/services/tag';
-import { ActivatedRoute } from '@angular/router';
+import type { ActivatedRoute } from '@angular/router';
 import { CoreTagAreaDelegate } from '../../services/tag-area-delegate';
 import { Translate } from '@singletons';
 import { CoreNavigator } from '@services/navigator';

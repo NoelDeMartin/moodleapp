@@ -12,20 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
-import {
-    AddonMessagesProvider,
+import type {
     AddonMessagesGetContactsWSResponse,
     AddonMessagesSearchContactsContact,
-    AddonMessagesGetContactsContact,
+    AddonMessagesGetContactsContact } from '../../services/messages';
+import {
+    AddonMessagesProvider,
     AddonMessages,
 } from '../../services/messages';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreApp } from '@services/app';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { ActivatedRoute, Params } from '@angular/router';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { ActivatedRoute, Params } from '@angular/router';
 import { Translate } from '@singletons';
 import { CoreScreen } from '@services/screen';
 import { CoreNavigator } from '@services/navigator';

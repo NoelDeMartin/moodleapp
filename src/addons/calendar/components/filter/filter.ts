@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
-import { CoreEnrolledCourseData } from '@features/courses/services/courses';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { CoreEnrolledCourseData } from '@features/courses/services/courses';
 import { CoreUtils } from '@services/utils/utils';
 import { ModalController } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { AddonCalendarEventType, AddonCalendarProvider } from '../../services/calendar';
-import { AddonCalendarFilter, AddonCalendarEventIcons } from '../../services/calendar-helper';
+import type { AddonCalendarFilter } from '../../services/calendar-helper';
+import { AddonCalendarEventIcons } from '../../services/calendar-helper';
 
 /**
  * Component to display the events filter that includes events types and a list of courses.

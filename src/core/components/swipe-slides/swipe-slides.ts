@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import type { ElementRef, OnChanges, OnDestroy } from '@angular/core';
 import {
-    Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, TemplateRef, ViewChild,
+    Component, ContentChild, EventEmitter, Input, Output, TemplateRef, ViewChild,
 } from '@angular/core';
-import { CoreSwipeSlidesItemsManager } from '@classes/items-management/swipe-slides-items-manager';
-import { IonContent, IonSlides } from '@ionic/angular';
+import type { CoreSwipeSlidesItemsManager } from '@classes/items-management/swipe-slides-items-manager';
+import type { IonContent } from '@ionic/angular';
+import { IonSlides } from '@ionic/angular';
 import { CoreDomUtils, VerticalPoint } from '@services/utils/dom';
 import { CoreDom } from '@singletons/dom';
-import { CoreEventObserver } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
 import { CoreMath } from '@singletons/math';
 
 /**

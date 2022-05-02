@@ -27,10 +27,14 @@ import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { AddonModLessonRetakeFinishedInSyncDBRecord, RETAKES_FINISHED_SYNC_TABLE_NAME } from './database/lesson';
-import { AddonModLessonGetPasswordResult, AddonModLessonPrefetchHandler } from './handlers/prefetch';
-import { AddonModLesson, AddonModLessonLessonWSData, AddonModLessonProvider } from './lesson';
-import { AddonModLessonOffline, AddonModLessonPageAttemptRecord } from './lesson-offline';
+import type { AddonModLessonRetakeFinishedInSyncDBRecord } from './database/lesson';
+import { RETAKES_FINISHED_SYNC_TABLE_NAME } from './database/lesson';
+import type { AddonModLessonGetPasswordResult } from './handlers/prefetch';
+import { AddonModLessonPrefetchHandler } from './handlers/prefetch';
+import type { AddonModLessonLessonWSData } from './lesson';
+import { AddonModLesson, AddonModLessonProvider } from './lesson';
+import type { AddonModLessonPageAttemptRecord } from './lesson-offline';
+import { AddonModLessonOffline } from './lesson-offline';
 
 /**
  * Service to sync lesson.

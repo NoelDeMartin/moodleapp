@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreRoutedItemsManagerSource } from './routed-items-manager-source';
+import type { CoreRoutedItemsManagerSource } from './routed-items-manager-source';
 
 type SourceConstructor<T extends CoreRoutedItemsManagerSource = CoreRoutedItemsManagerSource> = {
     getSourceId(...args: unknown[]): string;

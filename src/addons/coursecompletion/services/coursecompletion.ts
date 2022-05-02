@@ -17,8 +17,9 @@ import { CoreLogger } from '@singletons/logger';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreCourses } from '@features/courses/services/courses';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreStatusWithWarningsWSResponse, CoreWSExternalWarning } from '@services/ws';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreStatusWithWarningsWSResponse, CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { CoreError } from '@classes/errors/error';
 

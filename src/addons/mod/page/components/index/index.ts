@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Optional } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { CoreCourseModuleMainResourceComponent } from '@features/course/classes/main-resource-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { AddonModPageProvider, AddonModPagePage, AddonModPage } from '../../services/page';
+import type { AddonModPagePage } from '../../services/page';
+import { AddonModPageProvider, AddonModPage } from '../../services/page';
 import { AddonModPageHelper } from '../../services/page-helper';
 
 /**

@@ -14,7 +14,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreCourseFormatHandler } from '@features/course/services/format-delegate';
+import type { CoreCourseFormatHandler } from '@features/course/services/format-delegate';
 import { makeSingleton } from '@singletons';
 
 /**

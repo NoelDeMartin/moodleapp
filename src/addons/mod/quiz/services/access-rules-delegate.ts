@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
-import { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from './quiz';
+import type { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from './quiz';
 
 /**
  * Interface that all access rules handlers must implement.

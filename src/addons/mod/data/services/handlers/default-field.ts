@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreFileEntry } from '@services/file-helper';
-import { AddonModDataEntryField, AddonModDataSearchEntriesAdvancedFieldFormatted, AddonModDataSubfieldData } from '../data';
-import { AddonModDataFieldHandler } from '../data-fields-delegate';
+import type { CoreFileEntry } from '@services/file-helper';
+import type { AddonModDataEntryField, AddonModDataSearchEntriesAdvancedFieldFormatted, AddonModDataSubfieldData } from '../data';
+import type { AddonModDataFieldHandler } from '../data-fields-delegate';
 
 /**
  * Default handler used when a field plugin doesn't have a specific implementation.

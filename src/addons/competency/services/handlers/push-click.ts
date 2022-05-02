@@ -15,8 +15,8 @@
 import { ADDON_COMPETENCY_COMPETENCIES_PAGE, ADDON_COMPETENCY_LEARNING_PLANS_PAGE } from '@addons/competency/competency.module';
 import { Injectable } from '@angular/core';
 import { COURSE_PAGE_NAME } from '@features/course/course.module';
-import { CorePushNotificationsClickHandler } from '@features/pushnotifications/services/push-delegate';
-import { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
+import type { CorePushNotificationsClickHandler } from '@features/pushnotifications/services/push-delegate';
+import type { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
 import { CoreNavigator } from '@services/navigator';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';

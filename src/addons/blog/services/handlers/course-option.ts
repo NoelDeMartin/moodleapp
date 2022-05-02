@@ -15,16 +15,16 @@
 import { Injectable } from '@angular/core';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreCourseHelper } from '@features/course/services/course-helper';
-import {
+import type {
     CoreCourseAccess,
     CoreCourseOptionsHandler,
     CoreCourseOptionsHandlerData,
 } from '@features/course/services/course-options-delegate';
-import { CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
-import { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '@features/courses/services/courses-helper';
+import type { CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
+import type { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '@features/courses/services/courses-helper';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSites } from '@services/sites';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { AddonBlog } from '../blog';
 import { AddonBlogMainMenuHandlerService } from './mainmenu';

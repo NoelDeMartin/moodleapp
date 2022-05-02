@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { Injector, NgModule } from '@angular/core';
-import { ROUTES, Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { ROUTES } from '@angular/router';
 import { CoreSharedModule } from '@/core/shared.module';
 
 import { resolveModuleRoutes } from '@/app/app-routing.module';

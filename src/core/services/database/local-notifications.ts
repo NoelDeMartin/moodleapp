@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreAppSchema } from '@services/app';
-import { PromiseDefer } from '@services/utils/utils';
+import type { CoreAppSchema } from '@services/app';
+import type { PromiseDefer } from '@services/utils/utils';
 
 /**
  * Database variables for CoreLocalNotifications service.

@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ApplicationInitStatus, APP_INITIALIZER, Injectable, Injector } from '@angular/core';
+import type { Injector } from '@angular/core';
+import { ApplicationInitStatus, APP_INITIALIZER, Injectable } from '@angular/core';
 import { setSingletonsInjector } from '@singletons';
 
 @Injectable()

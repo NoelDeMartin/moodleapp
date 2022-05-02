@@ -14,17 +14,19 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
 import { CoreApp } from '@services/app';
 import { CoreFilepool } from '@services/filepool';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalFile, CoreWSExternalWarning, CoreWSStoredFile } from '@services/ws';
+import type { CoreWSExternalFile, CoreWSExternalWarning, CoreWSStoredFile } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { AddonModFeedbackOffline } from './feedback-offline';
-import { AddonModFeedbackAutoSyncData, AddonModFeedbackSyncProvider } from './feedback-sync';
+import type { AddonModFeedbackAutoSyncData, AddonModFeedbackSyncProvider } from './feedback-sync';
 
 const ROOT_CACHE_KEY = 'AddonModFeedback:';
 

@@ -13,53 +13,59 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import moment from 'moment';
 
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
-import {
-    CoreCourse,
+import type {
     CoreCourseCompletionActivityStatus,
     CoreCourseModuleWSCompletionData,
     CoreCourseModuleContentFile,
-    CoreCourseProvider,
     CoreCourseWSSection,
+    CoreCourseGetContentsWSModule } from './course';
+import {
+    CoreCourse,
+    CoreCourseProvider,
     CoreCourseModuleCompletionTracking,
     CoreCourseModuleCompletionStatus,
-    CoreCourseGetContentsWSModule,
 } from './course';
 import { CoreConstants } from '@/core/constants';
 import { CoreLogger } from '@singletons/logger';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreFilepool } from '@services/filepool';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreUtils, CoreUtilsOpenFileOptions } from '@services/utils/utils';
-import {
+import type { CoreUtilsOpenFileOptions } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
+import type {
     CoreCourseAnyCourseData,
     CoreCourseBasicData,
-    CoreCourses,
     CoreCourseSearchedData,
-    CoreEnrolledCourseData,
+    CoreEnrolledCourseData } from '@features/courses/services/courses';
+import {
+    CoreCourses,
 } from '@features/courses/services/courses';
 import { CoreArray } from '@singletons/array';
-import { CoreIonLoadingElement } from '@classes/ion-loading';
+import type { CoreIonLoadingElement } from '@classes/ion-loading';
 import { CoreCourseOffline } from './course-offline';
+import type {
+    CoreCourseOptionsHandlerToDisplay,
+    CoreCourseOptionsMenuHandlerToDisplay } from './course-options-delegate';
 import {
     CoreCourseOptionsDelegate,
-    CoreCourseOptionsHandlerToDisplay,
-    CoreCourseOptionsMenuHandlerToDisplay,
 } from './course-options-delegate';
-import { CoreCourseModuleDelegate, CoreCourseModuleHandlerData } from './module-delegate';
+import type { CoreCourseModuleHandlerData } from './module-delegate';
+import { CoreCourseModuleDelegate } from './module-delegate';
 import { CoreError } from '@classes/errors/error';
+import type {
+    CoreCourseModulePrefetchHandler,
+    CoreCourseModulesStatus } from './module-prefetch-delegate';
 import {
     CoreCourseModulePrefetchDelegate,
-    CoreCourseModulePrefetchHandler,
-    CoreCourseModulesStatus,
 } from './module-prefetch-delegate';
-import { CoreFileSizeSum } from '@services/plugin-file-delegate';
+import type { CoreFileSizeSum } from '@services/plugin-file-delegate';
 import { CoreFileHelper } from '@services/file-helper';
 import { CoreApp } from '@services/app';
-import { CoreSite } from '@classes/site';
+import type { CoreSite } from '@classes/site';
 import { CoreFile } from '@services/file';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreTextUtils } from '@services/utils/text';
@@ -67,9 +73,10 @@ import { CoreTimeUtils } from '@services/utils/time';
 import { CoreFilterHelper } from '@features/filter/services/filter-helper';
 import { CoreNetworkError } from '@classes/errors/network-error';
 import { CoreSiteHome } from '@features/sitehome/services/sitehome';
-import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
+import type { CoreNavigationOptions } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 import { CoreSiteHomeHomeHandlerService } from '@features/sitehome/services/handlers/sitehome-home';
-import { CoreStatusWithWarningsWSResponse } from '@services/ws';
+import type { CoreStatusWithWarningsWSResponse } from '@services/ws';
 
 /**
  * Prefetch info of a module.

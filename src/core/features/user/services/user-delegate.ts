@@ -13,14 +13,18 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
+import type { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreEvents } from '@singletons/events';
-import { CoreUserProfile, CoreUserProvider } from './user';
+import type { CoreUserProfile } from './user';
+import { CoreUserProvider } from './user';
 import { makeSingleton } from '@singletons';
-import { CoreCourses, CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
+import type { CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
+import { CoreCourses } from '@features/courses/services/courses';
 import { CoreSites } from '@services/sites';
 
 /**

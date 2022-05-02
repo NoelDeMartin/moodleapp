@@ -14,19 +14,21 @@
 
 import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
-import { CoreFormFields } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
-import {
+import type {
     AddonModLessonPageAttemptDBRecord,
-    AddonModLessonRetakeDBRecord,
+    AddonModLessonRetakeDBRecord } from './database/lesson';
+import {
     PAGE_ATTEMPTS_TABLE_NAME,
     RETAKES_TABLE_NAME,
 } from './database/lesson';
 
-import { AddonModLessonPageWSData, AddonModLessonProvider } from './lesson';
+import type { AddonModLessonPageWSData } from './lesson';
+import { AddonModLessonProvider } from './lesson';
 
 /**
  * Service to handle offline lesson.

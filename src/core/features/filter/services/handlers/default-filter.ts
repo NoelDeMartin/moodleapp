@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, ViewContainerRef } from '@angular/core';
+import type { ViewContainerRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { CoreFilterHandler } from '../filter-delegate';
-import { CoreFilterFilter, CoreFilterFormatTextOptions } from '../filter';
-import { CoreSite } from '@classes/site';
+import type { CoreFilterHandler } from '../filter-delegate';
+import type { CoreFilterFilter, CoreFilterFormatTextOptions } from '../filter';
+import type { CoreSite } from '@classes/site';
 
 /**
  * Default handler used when the module doesn't have a specific implementation.

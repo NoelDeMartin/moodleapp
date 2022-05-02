@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
 
-import { CoreUser, CoreUserData, CoreUserParticipant, CoreUserProvider } from '../services/user';
+import type { CoreUserData, CoreUserParticipant } from '../services/user';
+import { CoreUser, CoreUserProvider } from '../services/user';
 
 /**
  * Provides a collection of course participants.

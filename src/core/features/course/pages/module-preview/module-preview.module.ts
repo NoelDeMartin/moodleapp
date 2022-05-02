@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { CoreSharedModule } from '@/core/shared.module';
 import { CoreCourseModulePreviewPage } from './module-preview.page';

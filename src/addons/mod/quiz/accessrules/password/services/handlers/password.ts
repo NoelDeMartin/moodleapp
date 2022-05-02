@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { AddonModQuizAccessRuleHandler } from '@addons/mod/quiz/services/access-rules-delegate';
+import type { AddonModQuizAccessRuleHandler } from '@addons/mod/quiz/services/access-rules-delegate';
 import { makeSingleton } from '@singletons';
-import { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from '@addons/mod/quiz/services/quiz';
+import type { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from '@addons/mod/quiz/services/quiz';
 import { CoreSites } from '@services/sites';
-import { AddonModQuizAccessPasswordDBRecord, PASSWORD_TABLE_NAME } from '../database/password';
+import type { AddonModQuizAccessPasswordDBRecord } from '../database/password';
+import { PASSWORD_TABLE_NAME } from '../database/password';
 import { AddonModQuizAccessPasswordComponent } from '../../component/password';
 import { CoreUtils } from '@services/utils/utils';
 

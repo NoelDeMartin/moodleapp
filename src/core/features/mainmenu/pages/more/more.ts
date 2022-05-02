@@ -12,14 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
+import type { Subscription } from 'rxjs';
 
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreMainMenuDelegate, CoreMainMenuHandlerData } from '../../services/mainmenu-delegate';
-import { CoreMainMenu, CoreMainMenuCustomItem } from '../../services/mainmenu';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreMainMenuHandlerData } from '../../services/mainmenu-delegate';
+import { CoreMainMenuDelegate } from '../../services/mainmenu-delegate';
+import type { CoreMainMenuCustomItem } from '../../services/mainmenu';
+import { CoreMainMenu } from '../../services/mainmenu';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreNavigator } from '@services/navigator';
 import { CoreCustomURLSchemes } from '@services/urlschemes';
 import { CoreContentLinksHelper } from '@features/contentlinks/services/contentlinks-helper';

@@ -12,20 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
+import type {
     AddonModAssignPlugin,
     AddonModAssignAssign,
     AddonModAssignSubmission,
+    AddonModAssignSavePluginData } from '@addons/mod/assign/services/assign';
+import {
     AddonModAssign,
-    AddonModAssignSavePluginData,
 } from '@addons/mod/assign/services/assign';
 import { AddonModAssignOffline } from '@addons/mod/assign/services/assign-offline';
-import { AddonModAssignFeedbackHandler } from '@addons/mod/assign/services/feedback-delegate';
-import { Injectable, Type } from '@angular/core';
+import type { AddonModAssignFeedbackHandler } from '@addons/mod/assign/services/feedback-delegate';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { AddonModAssignFeedbackCommentsComponent } from '../component/comments';
 

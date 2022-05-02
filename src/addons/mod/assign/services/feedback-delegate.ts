@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
-import { AddonModAssignDefaultFeedbackHandler } from './handlers/default-feedback';
-import { AddonModAssignAssign, AddonModAssignSubmission, AddonModAssignPlugin, AddonModAssignSavePluginData } from './assign';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
+import type { AddonModAssignDefaultFeedbackHandler } from './handlers/default-feedback';
+import type { AddonModAssignAssign, AddonModAssignSubmission, AddonModAssignPlugin, AddonModAssignSavePluginData } from './assign';
 import { makeSingleton } from '@singletons';
-import { CoreWSFile } from '@services/ws';
-import { AddonModAssignSubmissionFormatted } from './assign-helper';
-import { CoreFormFields } from '@singletons/form';
+import type { CoreWSFile } from '@services/ws';
+import type { AddonModAssignSubmissionFormatted } from './assign-helper';
+import type { CoreFormFields } from '@singletons/form';
 
 /**
  * Interface that all feedback handlers must implement.

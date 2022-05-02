@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CoreScreen } from '@services/screen';
 import { conditionalRoutes } from '@/app/app-routing.module';
 import { AddonMessagesDiscussionRoute } from '@addons/messages/messages-lazy.module';

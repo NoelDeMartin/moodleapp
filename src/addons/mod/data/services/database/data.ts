@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreSiteSchema } from '@services/sites';
-import { AddonModDataAction } from '../data';
+import type { CoreSiteSchema } from '@services/sites';
+import type { AddonModDataAction } from '../data';
 
 /**
  * Database variables for AddonModDataOfflineProvider.

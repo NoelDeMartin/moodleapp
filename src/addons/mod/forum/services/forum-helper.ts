@@ -13,8 +13,9 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { FileEntry } from '@ionic-native/file/ngx';
-import { CoreFileUploader, CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { FileEntry } from '@ionic-native/file/ngx';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
 import { CoreUser } from '@features/user/services/user';
 import { CoreApp } from '@services/app';
 import { CoreFile } from '@services/file';
@@ -22,16 +23,18 @@ import { CoreSites } from '@services/sites';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate } from '@singletons';
-import {
-    AddonModForum,
+import type {
     AddonModForumAddDiscussionWSOptionsObject,
     AddonModForumData,
     AddonModForumDiscussion,
-    AddonModForumPost,
+    AddonModForumPost } from './forum';
+import {
+    AddonModForum,
     AddonModForumProvider,
 } from './forum';
-import { AddonModForumDiscussionOptions, AddonModForumOffline, AddonModForumOfflineReply } from './forum-offline';
-import { CoreFileEntry } from '@services/file-helper';
+import type { AddonModForumDiscussionOptions, AddonModForumOfflineReply } from './forum-offline';
+import { AddonModForumOffline } from './forum-offline';
+import type { CoreFileEntry } from '@services/file-helper';
 
 /**
  * Service that provides some features for forums.

@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, ElementRef, OnChanges, SimpleChange, EventEmitter, OnDestroy } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import type { ElementRef, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import type { Router } from '@angular/router';
+import { NavigationEnd } from '@angular/router';
+import type { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { CoreFile } from '@services/file';
@@ -25,9 +27,10 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreH5P } from '@features/h5p/services/h5p';
 import { CoreConstants } from '@/core/constants';
-import { CoreSite } from '@classes/site';
+import type { CoreSite } from '@classes/site';
 import { CoreLogger } from '@singletons/logger';
-import { CoreH5PCore, CoreH5PDisplayOptions } from '../../classes/core';
+import type { CoreH5PDisplayOptions } from '../../classes/core';
+import { CoreH5PCore } from '../../classes/core';
 import { CoreH5PHelper } from '../../classes/helper';
 
 /**

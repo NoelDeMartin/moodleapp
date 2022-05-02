@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import type {
+    AddonCourseCompletionCourseCompletionStatus } from '@addons/coursecompletion/services/coursecompletion';
 import {
     AddonCourseCompletion,
-    AddonCourseCompletionCourseCompletionStatus,
 } from '@addons/coursecompletion/services/coursecompletion';
-import { Component, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';

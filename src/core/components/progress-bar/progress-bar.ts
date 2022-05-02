@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnChanges, SimpleChange, ChangeDetectionStrategy, ElementRef, OnInit } from '@angular/core';
-import { SafeStyle } from '@angular/platform-browser';
+import type { OnChanges, SimpleChange, ElementRef, OnInit } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import type { SafeStyle } from '@angular/platform-browser';
 import { DomSanitizer, Translate } from '@singletons';
 
 /**

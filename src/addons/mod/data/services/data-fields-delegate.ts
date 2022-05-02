@@ -12,18 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
-import { AddonModDataDefaultFieldHandler } from './handlers/default-field';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
+import type { AddonModDataDefaultFieldHandler } from './handlers/default-field';
 import { makeSingleton } from '@singletons';
-import { AddonModDataEntryField,
+import type { AddonModDataEntryField,
     AddonModDataField,
     AddonModDataSearchEntriesAdvancedFieldFormatted,
     AddonModDataSubfieldData,
 } from './data';
-import { CoreFormFields } from '@singletons/form';
-import { FileEntry } from '@ionic-native/file/ngx';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFormFields } from '@singletons/form';
+import type { FileEntry } from '@ionic-native/file/ngx';
+import type { CoreFileEntry } from '@services/file-helper';
 
 /**
  * Interface that all fields handlers must implement.

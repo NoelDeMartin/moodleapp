@@ -13,18 +13,23 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import type { ElementRef, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CoreCourseProvider, CoreCourse } from '@features/course/services/course';
-import { CoreCourseHelper, CorePrefetchStatusInfo } from '@features/course/services/course-helper';
+import type { CorePrefetchStatusInfo } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { CoreUser } from '@features/user/services/user';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { Translate } from '@singletons';
 import { CoreColors } from '@singletons/colors';
-import { CoreEventCourseStatusChanged, CoreEventObserver, CoreEvents } from '@singletons/events';
-import { CoreCourseListItem, CoreCourses, CoreCoursesProvider } from '../../services/courses';
-import { CoreCoursesHelper, CoreEnrolledCourseDataWithExtraInfoAndOptions } from '../../services/courses-helper';
+import type { CoreEventCourseStatusChanged, CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { CoreCourseListItem } from '../../services/courses';
+import { CoreCourses, CoreCoursesProvider } from '../../services/courses';
+import type { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '../../services/courses-helper';
+import { CoreCoursesHelper } from '../../services/courses-helper';
 import { CoreCoursesCourseOptionsMenuComponent } from '../course-options-menu/course-options-menu';
 
 /**

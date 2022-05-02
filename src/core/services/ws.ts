@@ -13,20 +13,23 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { HttpResponse, HttpParams } from '@angular/common/http';
+import type { HttpParams } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 
-import { FileEntry } from '@ionic-native/file/ngx';
-import { FileUploadOptions, FileUploadResult } from '@ionic-native/file-transfer/ngx';
+import type { FileEntry } from '@ionic-native/file/ngx';
+import type { FileUploadOptions, FileUploadResult } from '@ionic-native/file-transfer/ngx';
 import { Md5 } from 'ts-md5/dist/md5';
-import { Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 
 import { CoreNativeToAngularHttpResponse } from '@classes/native-to-angular-http';
 import { CoreApp } from '@services/app';
 import { CoreFile, CoreFileFormat } from '@services/file';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
-import { CoreTextErrorObject, CoreTextUtils } from '@services/utils/text';
-import { CoreUtils, PromiseDefer } from '@services/utils/utils';
+import type { CoreTextErrorObject } from '@services/utils/text';
+import { CoreTextUtils } from '@services/utils/text';
+import type { PromiseDefer } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
 import { CoreConstants } from '@/core/constants';
 import { CoreError } from '@classes/errors/error';
 import { CoreInterceptor } from '@classes/interceptor';

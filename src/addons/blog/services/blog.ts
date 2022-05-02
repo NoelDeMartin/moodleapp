@@ -13,12 +13,13 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
 import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
-import { CoreTagItem } from '@features/tag/services/tag';
+import type { CoreTagItem } from '@features/tag/services/tag';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreStatusWithWarningsWSResponse, CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import type { CoreStatusWithWarningsWSResponse, CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton } from '@singletons';
 
 const ROOT_CACHE_KEY = 'addonBlog:';

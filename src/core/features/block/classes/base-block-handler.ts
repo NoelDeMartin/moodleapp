@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreCourseBlock } from '@features/course/services/course';
-import { CoreBlockHandler, CoreBlockHandlerData } from '../services/block-delegate';
+import type { CoreCourseBlock } from '@features/course/services/course';
+import type { CoreBlockHandler, CoreBlockHandlerData } from '../services/block-delegate';
 
 /**
  * Base handler for blocks.

@@ -14,7 +14,8 @@
 
 import { Injectable } from '@angular/core';
 
-import moment, { LongDateFormatKey } from 'moment';
+import type { LongDateFormatKey } from 'moment';
+import moment from 'moment';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreTime } from '@singletons/time';
 

@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { CoreSites } from '@services/sites';
-import { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '../module-delegate';
+import type { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '../module-delegate';
 import { CoreCourse } from '../course';
-import { CoreCourseModuleData } from '../course-helper';
+import type { CoreCourseModuleData } from '../course-helper';
 import { CoreCourseUnsupportedModuleComponent } from '@features/course/components/unsupported-module/unsupported-module';
-import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
+import type { CoreNavigationOptions } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 
 /**
  * Default handler used when the module doesn't have a specific implementation.

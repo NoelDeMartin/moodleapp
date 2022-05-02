@@ -17,12 +17,12 @@ import {
     AddonMessagesProvider,
     AddonMessages,
 } from '../messages';
-import { CoreMainMenuHandler, CoreMainMenuHandlerToDisplay } from '@features/mainmenu/services/mainmenu-delegate';
-import { CoreCronHandler } from '@services/cron';
+import type { CoreMainMenuHandler, CoreMainMenuHandlerToDisplay } from '@features/mainmenu/services/mainmenu-delegate';
+import type { CoreCronHandler } from '@services/cron';
 import { CoreSites } from '@services/sites';
 import { CoreEvents } from '@singletons/events';
 import { CoreUtils } from '@services/utils/utils';
-import {
+import type {
     CorePushNotificationsNotificationBasicData,
 } from '@features/pushnotifications/services/pushnotifications';
 import { CorePushNotificationsDelegate } from '@features/pushnotifications/services/push-delegate';

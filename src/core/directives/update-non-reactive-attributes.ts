@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import type { ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Directive } from '@angular/core';
 
 /**
  * Directive to observe mutations on some attributes and propagate them inside.

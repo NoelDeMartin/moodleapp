@@ -15,12 +15,12 @@
 import { Injectable } from '@angular/core';
 
 import { CoreTimeUtils } from '@services/utils/time';
-import { CoreCourseFormatCurrentSectionData, CoreCourseFormatHandler } from '@features/course/services/format-delegate';
+import type { CoreCourseFormatCurrentSectionData, CoreCourseFormatHandler } from '@features/course/services/format-delegate';
 import { makeSingleton, Translate } from '@singletons';
-import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
-import { CoreCourseWSSection } from '@features/course/services/course';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { CoreCourseWSSection } from '@features/course/services/course';
 import { CoreConstants } from '@/core/constants';
-import { CoreCourseSection } from '@features/course/services/course-helper';
+import type { CoreCourseSection } from '@features/course/services/course-helper';
 
 /**
  * Handler to support weeks course format.

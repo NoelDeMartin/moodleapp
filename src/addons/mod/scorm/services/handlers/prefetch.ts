@@ -15,16 +15,18 @@
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourse, CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreApp } from '@services/app';
 import { CoreFile } from '@services/file';
 import { CoreFilepool } from '@services/filepool';
-import { CoreFileSizeSum } from '@services/plugin-file-delegate';
+import type { CoreFileSizeSum } from '@services/plugin-file-delegate';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
-import { AddonModScorm, AddonModScormProvider, AddonModScormScorm } from '../scorm';
+import type { AddonModScormScorm } from '../scorm';
+import { AddonModScorm, AddonModScormProvider } from '../scorm';
 import { AddonModScormSync } from '../scorm-sync';
 
 /**

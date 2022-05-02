@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 
 import { makeSingleton, Translate } from '@singletons';
-import { CoreUserRole } from './user';
+import type { CoreUserRole } from './user';
 
 /**
  * Service that provides some features regarding users information.

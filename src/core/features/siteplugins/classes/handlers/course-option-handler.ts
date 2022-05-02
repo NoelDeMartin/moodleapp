@@ -14,20 +14,22 @@
 
 import { Md5 } from 'ts-md5';
 
-import {
+import type {
     CoreCourseOptionsHandler,
     CoreCourseOptionsHandlerData,
     CoreCourseOptionsMenuHandlerData,
 } from '@features/course/services/course-options-delegate';
-import { CoreCourseAnyCourseDataWithOptions } from '@features/courses/services/courses';
-import { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '@features/courses/services/courses-helper';
-import {
-    CoreSitePlugins,
+import type { CoreCourseAnyCourseDataWithOptions } from '@features/courses/services/courses';
+import type { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '@features/courses/services/courses-helper';
+import type {
     CoreSitePluginsContent,
     CoreSitePluginsCourseOptionHandlerData,
-    CoreSitePluginsPlugin,
+    CoreSitePluginsPlugin } from '@features/siteplugins/services/siteplugins';
+import {
+    CoreSitePlugins,
 } from '@features/siteplugins/services/siteplugins';
-import { CoreUtils, PromiseDefer } from '@services/utils/utils';
+import type { PromiseDefer } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
 import { CoreSitePluginsBaseHandler } from './base-handler';
 
 /**

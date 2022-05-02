@@ -16,8 +16,9 @@ import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreTimeUtils } from '@services/utils/time';
 import { makeSingleton } from '@singletons';
-import { AddonNotesDBRecord, AddonNotesDeletedDBRecord, NOTES_DELETED_TABLE, NOTES_TABLE } from './database/notes';
-import { AddonNotesPublishState } from './notes';
+import type { AddonNotesDBRecord, AddonNotesDeletedDBRecord } from './database/notes';
+import { NOTES_DELETED_TABLE, NOTES_TABLE } from './database/notes';
+import type { AddonNotesPublishState } from './notes';
 
 /**
  * Service to handle offline notes.

@@ -16,14 +16,15 @@ import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreApp } from '@services/app';
 import { CoreTextUtils } from '@services/utils/text';
-import {
+import type {
     AddonMessagesOfflineConversationMessagesDBRecord,
-    AddonMessagesOfflineMessagesDBRecord,
+    AddonMessagesOfflineMessagesDBRecord } from './database/messages';
+import {
     CONVERSATION_MESSAGES_TABLE,
     MESSAGES_TABLE,
 } from './database/messages';
 import { makeSingleton } from '@singletons';
-import { AddonMessagesConversation } from './messages';
+import type { AddonMessagesConversation } from './messages';
 
 /**
  * Service to handle Offline messages.

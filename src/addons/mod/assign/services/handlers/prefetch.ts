@@ -13,25 +13,30 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { makeSingleton } from '@singletons';
+import type {
+    AddonModAssignAssign,
+    AddonModAssignSubmission,
+    AddonModAssignSubmissionStatusOptions } from '../assign';
 import {
     AddonModAssign,
-    AddonModAssignAssign,
     AddonModAssignProvider,
-    AddonModAssignSubmission,
-    AddonModAssignSubmissionStatusOptions,
 } from '../assign';
 import { AddonModAssignSubmissionDelegate } from '../submission-delegate';
 import { AddonModAssignFeedbackDelegate } from '../feedback-delegate';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourse, CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
-import { CoreWSFile } from '@services/ws';
-import { AddonModAssignHelper, AddonModAssignSubmissionFormatted } from '../assign-helper';
+import type { CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
+import type { CoreWSFile } from '@services/ws';
+import type { AddonModAssignSubmissionFormatted } from '../assign-helper';
+import { AddonModAssignHelper } from '../assign-helper';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreFilepool } from '@services/filepool';
 import { CoreGroups } from '@services/groups';
-import { AddonModAssignSync, AddonModAssignSyncResult } from '../assign-sync';
+import type { AddonModAssignSyncResult } from '../assign-sync';
+import { AddonModAssignSync } from '../assign-sync';
 import { CoreUser } from '@features/user/services/user';
 import { CoreGradesHelper } from '@features/grades/services/grades-helper';
 import { CoreCourses } from '@features/courses/services/courses';

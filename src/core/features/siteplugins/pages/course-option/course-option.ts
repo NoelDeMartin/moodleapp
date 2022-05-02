@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 
 import { CoreSitePluginsPluginContentComponent } from '@features/siteplugins/components/plugin-content/plugin-content';
-import { CoreSitePlugins, CoreSitePluginsContent } from '@features/siteplugins/services/siteplugins';
+import type { CoreSitePluginsContent } from '@features/siteplugins/services/siteplugins';
+import { CoreSitePlugins } from '@features/siteplugins/services/siteplugins';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreNavigator } from '@services/navigator';
 

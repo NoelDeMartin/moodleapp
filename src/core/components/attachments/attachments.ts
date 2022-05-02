@@ -12,17 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { FileEntry } from '@ionic-native/file/ngx';
 
-import { CoreFileUploader, CoreFileUploaderTypeList } from '@features/fileuploader/services/fileuploader';
+import type { CoreFileUploaderTypeList } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { Translate } from '@singletons';
 import { CoreApp } from '@services/app';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreFileUploaderHelper } from '@features/fileuploader/services/fileuploader-helper';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 import { CoreCourses } from '@features/courses/services/courses';
 import { CoreUtils } from '@services/utils/utils';
 

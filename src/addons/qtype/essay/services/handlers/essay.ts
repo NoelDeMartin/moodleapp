@@ -12,20 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { FileEntry } from '@ionic-native/file/ngx';
 
-import { CoreFileUploader, CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
-import { AddonModQuizEssayQuestion } from '@features/question/classes/base-question-component';
-import { CoreQuestion, CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
-import { CoreQuestionHandler } from '@features/question/services/question-delegate';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
+import type { AddonModQuizEssayQuestion } from '@features/question/classes/base-question-component';
+import type { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
+import { CoreQuestion } from '@features/question/services/question';
+import type { CoreQuestionHandler } from '@features/question/services/question-delegate';
 import { CoreQuestionHelper } from '@features/question/services/question-helper';
 import { CoreFileSession } from '@services/file-session';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { AddonQtypeEssayComponent } from '../../component/essay';
 

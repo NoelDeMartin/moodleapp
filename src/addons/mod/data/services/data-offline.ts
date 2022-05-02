@@ -13,15 +13,17 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreFileUploader, CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
 import { CoreFile } from '@services/file';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
 import { CoreText } from '@singletons/text';
-import { AddonModDataAction, AddonModDataEntryWSField } from './data';
-import { AddonModDataEntryDBRecord, DATA_ENTRY_TABLE } from './database/data';
+import type { AddonModDataAction, AddonModDataEntryWSField } from './data';
+import type { AddonModDataEntryDBRecord } from './database/data';
+import { DATA_ENTRY_TABLE } from './database/data';
 
 /**
  * Service to handle Offline data.

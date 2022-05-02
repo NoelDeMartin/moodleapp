@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { CoreItemsManagerSource } from './items-manager-source';
 
 /**

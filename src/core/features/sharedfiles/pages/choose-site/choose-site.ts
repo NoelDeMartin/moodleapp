@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreSharedFilesHelper } from '@features/sharedfiles/services/sharedfiles-helper';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { FileEntry } from '@ionic-native/file/ngx';
 import { CoreFile } from '@services/file';
 import { CoreNavigator } from '@services/navigator';
-import { CoreSiteBasicInfo, CoreSites } from '@services/sites';
+import type { CoreSiteBasicInfo } from '@services/sites';
+import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 

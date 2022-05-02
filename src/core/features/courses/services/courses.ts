@@ -13,13 +13,20 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
+import { CoreSites } from '@services/sites';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
 import { makeSingleton } from '@singletons';
-import { CoreStatusWithWarningsWSResponse, CoreWarningsWSResponse, CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import type {
+    CoreStatusWithWarningsWSResponse,
+    CoreWarningsWSResponse,
+    CoreWSExternalFile,
+    CoreWSExternalWarning,
+} from '@services/ws';
 import { CoreEvents } from '@singletons/events';
 import { CoreWSError } from '@classes/errors/wserror';
-import { CoreCourseAnyCourseDataWithExtraInfoAndOptions, CoreCourseWithImageAndColor } from './courses-helper';
+import type { CoreCourseAnyCourseDataWithExtraInfoAndOptions, CoreCourseWithImageAndColor } from './courses-helper';
 import { CoreUtils } from '@services/utils/utils';
 
 const ROOT_CACHE_KEY = 'mmCourses:';

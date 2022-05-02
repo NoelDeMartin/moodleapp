@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { NgModule, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { CoreBlockDelegateService } from './services/block-delegate';
 import { CoreBlockHelperProvider } from './services/block-helper';

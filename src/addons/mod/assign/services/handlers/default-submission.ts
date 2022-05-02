@@ -13,10 +13,10 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { Translate } from '@singletons';
-import { AddonModAssignPlugin } from '../assign';
-import { AddonModAssignSubmissionHandler } from '../submission-delegate';
+import type { AddonModAssignPlugin } from '../assign';
+import type { AddonModAssignSubmissionHandler } from '../submission-delegate';
 
 /**
  * Default handler used when a submission plugin doesn't have a specific implementation.

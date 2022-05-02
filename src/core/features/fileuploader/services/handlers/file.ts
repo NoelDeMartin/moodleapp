@@ -16,7 +16,7 @@ import { Injectable } from '@angular/core';
 
 import { CoreApp } from '@services/app';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreFileUploaderHandler, CoreFileUploaderHandlerData, CoreFileUploaderHandlerResult } from '../fileuploader-delegate';
+import type { CoreFileUploaderHandler, CoreFileUploaderHandlerData, CoreFileUploaderHandlerResult } from '../fileuploader-delegate';
 import { CoreFileUploaderHelper } from '../fileuploader-helper';
 import { CoreFileUploader } from '../fileuploader';
 import { makeSingleton, Translate } from '@singletons';

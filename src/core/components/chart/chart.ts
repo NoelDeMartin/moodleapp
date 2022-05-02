@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnDestroy, OnInit, ElementRef, OnChanges, ViewChild, SimpleChange } from '@angular/core';
+import type { OnDestroy, OnInit, ElementRef, OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CoreFilter } from '@features/filter/services/filter';
 import { CoreFilterHelper } from '@features/filter/services/filter-helper';
 import { CoreUtils } from '@services/utils/utils';
-import { Chart, ChartLegendLabelItem, ChartLegendOptions } from 'chart.js';
+import type { ChartLegendLabelItem, ChartLegendOptions } from 'chart.js';
+import { Chart } from 'chart.js';
 
 /**
  * This component shows a chart using chart.js.

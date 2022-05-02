@@ -15,11 +15,12 @@
 import { Component, Input } from '@angular/core';
 
 import { CoreCourseModuleCompletionBaseComponent } from '@features/course/classes/module-completion';
+import type {
+    CoreCourseModuleWSRuleDetails } from '@features/course/services/course';
 import {
     CoreCourseCompletionMode,
     CoreCourseModuleCompletionStatus,
     CoreCourseModuleCompletionTracking,
-    CoreCourseModuleWSRuleDetails,
 } from '@features/course/services/course';
 import { CoreUser } from '@features/user/services/user';
 import { Translate } from '@singletons';

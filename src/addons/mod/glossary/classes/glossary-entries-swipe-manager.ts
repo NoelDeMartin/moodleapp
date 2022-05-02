@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
-import { AddonModGlossaryEntriesSource, AddonModGlossaryEntryItem } from './glossary-entries-source';
+import type { AddonModGlossaryEntriesSource, AddonModGlossaryEntryItem } from './glossary-entries-source';
 
 /**
  * Helper to manage swiping within a collection of glossary entries.

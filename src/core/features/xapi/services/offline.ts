@@ -16,7 +16,8 @@ import { Injectable } from '@angular/core';
 
 import { CoreSites } from '@services/sites';
 import { makeSingleton } from '@singletons';
-import { CoreXAPIStatementDBRecord, STATEMENTS_TABLE_NAME } from './database/xapi';
+import type { CoreXAPIStatementDBRecord } from './database/xapi';
+import { STATEMENTS_TABLE_NAME } from './database/xapi';
 
 /**
  * Service to handle offline xAPI.

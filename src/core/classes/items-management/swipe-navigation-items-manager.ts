@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ActivatedRoute, ActivatedRouteSnapshot, UrlSegment } from '@angular/router';
+import type { ActivatedRoute, ActivatedRouteSnapshot, UrlSegment } from '@angular/router';
 
 import { CoreNavigator } from '@services/navigator';
 
 import { CoreRoutedItemsManager } from './routed-items-manager';
-import { CoreRoutedItemsManagerSource } from './routed-items-manager-source';
+import type { CoreRoutedItemsManagerSource } from './routed-items-manager-source';
 
 /**
  * Helper class to manage the state and routing of a swipeable page.

@@ -15,7 +15,8 @@
 import { conditionalRoutes } from '@/app/app-routing.module';
 import { CoreSharedModule } from '@/core/shared.module';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CanLeaveGuard } from '@guards/can-leave';
 import { CoreScreen } from '@services/screen';
 import { AddonModAssignComponentsModule } from './components/components.module';

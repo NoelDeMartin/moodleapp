@@ -24,7 +24,8 @@ import { makeSingleton } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { AddonModSurveyPrefetchHandler } from './handlers/prefetch';
 import { AddonModSurvey, AddonModSurveyProvider } from './survey';
-import { AddonModSurveyAnswersDBRecordFormatted, AddonModSurveyOffline } from './survey-offline';
+import type { AddonModSurveyAnswersDBRecordFormatted } from './survey-offline';
+import { AddonModSurveyOffline } from './survey-offline';
 
 /**
  * Service to sync surveys.

@@ -12,21 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Type } from '@angular/core';
+import type { Type } from '@angular/core';
 
 import { CoreConstants } from '@/core/constants';
 import { CoreCourse } from '@features/course/services/course';
-import { CoreCourseHelper, CoreCourseModuleData } from '@features/course/services/course-helper';
-import { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '@features/course/services/module-delegate';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
+import type { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '@features/course/services/module-delegate';
 import { CoreSitePluginsModuleIndexComponent } from '@features/siteplugins/components/module-index/module-index';
-import {
-    CoreSitePlugins,
+import type {
     CoreSitePluginsContent,
     CoreSitePluginsCourseModuleHandlerData,
-    CoreSitePluginsPlugin,
+    CoreSitePluginsPlugin } from '@features/siteplugins/services/siteplugins';
+import {
+    CoreSitePlugins,
     CoreSitePluginsProvider,
 } from '@features/siteplugins/services/siteplugins';
-import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
+import type { CoreNavigationOptions } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 import { CoreLogger } from '@singletons/logger';
 import { CoreSitePluginsBaseHandler } from './base-handler';
 import { CoreEvents } from '@singletons/events';

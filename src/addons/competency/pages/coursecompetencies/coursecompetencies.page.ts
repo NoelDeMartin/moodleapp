@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type {
     AddonCompetencyDataForCourseCompetenciesPageWSResponse,
     AddonCompetencyDataForCourseCompetenciesPageCompetency,
 } from '@addons/competency/services/competency';
-import { CoreUserProfile } from '@features/user/services/user';
-import { IonRefresher } from '@ionic/angular';
+import type { CoreUserProfile } from '@features/user/services/user';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { ContextLevel } from '@/core/constants';

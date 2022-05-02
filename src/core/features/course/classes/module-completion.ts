@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
+import type { OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { CoreCourseModuleCompletionData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleCompletionData } from '@features/course/services/course-helper';
 
 /**
  * Base class for completion components.

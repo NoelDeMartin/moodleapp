@@ -13,15 +13,17 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, OnInit, Optional } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
 import { CoreCourseModuleMainResourceComponent } from '@features/course/classes/main-resource-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreSites } from '@services/sites';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreTextUtils } from '@services/utils/text';
-import { AddonModUrl, AddonModUrlDisplayOptions, AddonModUrlProvider, AddonModUrlUrl } from '../../services/url';
+import type { AddonModUrlDisplayOptions, AddonModUrlUrl } from '../../services/url';
+import { AddonModUrl, AddonModUrlProvider } from '../../services/url';
 import { AddonModUrlHelper } from '../../services/url-helper';
 
 /**

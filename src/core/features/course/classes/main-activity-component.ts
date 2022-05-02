@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Inject, Input, OnDestroy, OnInit, Optional } from '@angular/core';
-import { IonContent } from '@ionic/angular';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, Optional } from '@angular/core';
+import type { IonContent } from '@ionic/angular';
 
 import { CoreCourseModuleMainResourceComponent } from './main-resource-component';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreCourse } from '../services/course';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreWSExternalWarning } from '@services/ws';
-import { CoreCourseContentsPage } from '../pages/contents/contents';
+import type { CoreWSExternalWarning } from '@services/ws';
+import type { CoreCourseContentsPage } from '../pages/contents/contents';
 import { CoreSites } from '@services/sites';
 
 /**

@@ -13,14 +13,17 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CoreSite, CoreSiteInfo } from '@classes/site';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreSite, CoreSiteInfo } from '@classes/site';
 import { CoreFilter } from '@features/filter/services/filter';
 import { CoreLoginSitesComponent } from '@features/login/components/sites/sites';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
-import { CoreUser, CoreUserProfile } from '@features/user/services/user';
+import type { CoreUserProfile } from '@features/user/services/user';
+import { CoreUser } from '@features/user/services/user';
+import type {
+    CoreUserProfileHandlerData } from '@features/user/services/user-delegate';
 import {
-    CoreUserProfileHandlerData,
     CoreUserDelegate,
     CoreUserDelegateService,
     CoreUserDelegateContext,
@@ -29,7 +32,7 @@ import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { ModalController, Translate } from '@singletons';
-import { Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
 
 /**
  * Component to display a user menu.

@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { InjectionToken, ModuleWithProviders, NgModule } from '@angular/core';
+import type { ModuleWithProviders } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
 
-import { ModuleRoutesConfig } from '@/app/app-routing.module';
+import type { ModuleRoutesConfig } from '@/app/app-routing.module';
 
 export const COURSE_INDEX_ROUTES = new InjectionToken('COURSE_INDEX_ROUTES');
 

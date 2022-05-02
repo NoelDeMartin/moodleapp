@@ -14,12 +14,14 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
 import { CoreUser } from '@features/user/services/user';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
-import { CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 
 const ROOT_CACHE_KEY = 'AddonModChat:';

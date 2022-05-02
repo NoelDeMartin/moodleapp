@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, ViewChild, ElementRef, Input, Type } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import type { OnInit, ElementRef, Type } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
+import type { FormBuilder, FormGroup } from '@angular/forms';
 import { CoreSites } from '@services/sites';
 
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreForms } from '@singletons/form';
 import { ModalController, Translate } from '@singletons';
 import { AddonModQuizAccessRuleDelegate } from '../../services/access-rules-delegate';
-import { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from '../../services/quiz';
+import type { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from '../../services/quiz';
 import { CoreDom } from '@singletons/dom';
 
 /**

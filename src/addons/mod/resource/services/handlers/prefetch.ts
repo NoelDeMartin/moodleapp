@@ -15,8 +15,9 @@
 import { CoreConstants } from '@/core/constants';
 import { Injectable } from '@angular/core';
 import { CoreCourseResourcePrefetchHandlerBase } from '@features/course/classes/resource-prefetch-handler';
-import { CoreCourse, CoreCourseAnyModuleData } from '@features/course/services/course';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseAnyModuleData } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSites } from '@services/sites';
 import { makeSingleton } from '@singletons';

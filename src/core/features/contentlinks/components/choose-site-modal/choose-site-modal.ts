@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
-import { CoreSiteBasicInfo, CoreSites } from '@services/sites';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { CoreSiteBasicInfo } from '@services/sites';
+import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { ModalController, Translate } from '@singletons';
-import { CoreContentLinksAction } from '../../services/contentlinks-delegate';
+import type { CoreContentLinksAction } from '../../services/contentlinks-delegate';
 import { CoreContentLinksHelper } from '../../services/contentlinks-helper';
 import { CoreError } from '@classes/errors/error';
 import { CoreNavigator } from '@services/navigator';

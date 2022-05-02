@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Optional, OnInit, OnDestroy } from '@angular/core';
-import { IonContent } from '@ionic/angular';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, Optional } from '@angular/core';
+import type { IonContent } from '@ionic/angular';
 
 import { CoreConstants } from '@/core/constants';
-import { CoreSite } from '@classes/site';
+import type { CoreSite } from '@classes/site';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
-import { CoreH5PDisplayOptions } from '@features/h5p/classes/core';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreH5PDisplayOptions } from '@features/h5p/classes/core';
 import { CoreH5PHelper } from '@features/h5p/classes/helper';
 import { CoreH5P } from '@features/h5p/services/h5p';
 import { CoreXAPIOffline } from '@features/xapi/services/offline';
@@ -29,19 +30,22 @@ import { CoreFilepool } from '@services/filepool';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreWSFile } from '@services/ws';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import {
-    AddonModH5PActivity,
+import type { CoreWSFile } from '@services/ws';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type {
     AddonModH5PActivityAccessInfo,
     AddonModH5PActivityData,
+    AddonModH5PActivityXAPIData } from '../../services/h5pactivity';
+import {
+    AddonModH5PActivity,
     AddonModH5PActivityProvider,
-    AddonModH5PActivityXAPIData,
 } from '../../services/h5pactivity';
+import type {
+    AddonModH5PActivitySyncResult } from '../../services/h5pactivity-sync';
 import {
     AddonModH5PActivitySync,
     AddonModH5PActivitySyncProvider,
-    AddonModH5PActivitySyncResult,
 } from '../../services/h5pactivity-sync';
 import { CoreFileHelper } from '@services/file-helper';
 import { AddonModH5PActivityModuleHandlerService } from '../../services/handlers/module';

@@ -13,12 +13,13 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
+import type { CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
+import type {
+    CoreUserProfileHandler,
+    CoreUserProfileHandlerData } from '@features/user/services/user-delegate';
 import {
     CoreUserDelegateContext,
     CoreUserDelegateService,
-    CoreUserProfileHandler,
-    CoreUserProfileHandlerData,
 } from '@features/user/services/user-delegate';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';

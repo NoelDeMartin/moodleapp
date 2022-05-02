@@ -15,12 +15,13 @@
 import { Injectable } from '@angular/core';
 
 import { CoreCourse } from '@features/course/services/course';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { makeSingleton, Platform } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { AddonModLti, AddonModLtiLti } from './lti';
+import type { AddonModLtiLti } from './lti';
+import { AddonModLti } from './lti';
 
 /**
  * Service that provides some helper functions for LTI.

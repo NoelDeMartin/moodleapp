@@ -12,17 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
 import { CoreUser } from '@features/user/services/user';
-import {
-    AddonModForum,
+import type {
     AddonModForumData,
     AddonModForumDiscussion,
+    AddonModForumSortOrder } from '../services/forum';
+import {
+    AddonModForum,
     AddonModForumProvider,
-    AddonModForumSortOrder,
 } from '../services/forum';
-import { AddonModForumOffline, AddonModForumOfflineDiscussion } from '../services/forum-offline';
+import type { AddonModForumOfflineDiscussion } from '../services/forum-offline';
+import { AddonModForumOffline } from '../services/forum-offline';
 
 export class AddonModForumDiscussionsSource extends CoreRoutedItemsManagerSource<AddonModForumDiscussionItem> {
 

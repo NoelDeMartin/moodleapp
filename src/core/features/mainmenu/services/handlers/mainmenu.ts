@@ -17,7 +17,7 @@ import { CoreDashboardHomeHandler } from '@features/courses/services/handlers/da
 import { CoreSiteHomeHomeHandler } from '@features/sitehome/services/handlers/sitehome-home';
 import { CoreSites } from '@services/sites';
 import { makeSingleton } from '@singletons';
-import { CoreMainMenuHandler, CoreMainMenuHandlerData } from '../mainmenu-delegate';
+import type { CoreMainMenuHandler, CoreMainMenuHandlerData } from '../mainmenu-delegate';
 
 /**
  * Handler to add Home into main menu.

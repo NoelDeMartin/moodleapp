@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { CoreCancellablePromise } from '@classes/cancellable-promise';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Directive, Inject, Input, ElementRef } from '@angular/core';
+import type { CoreCancellablePromise } from '@classes/cancellable-promise';
 import { CoreLoadingComponent } from '@components/loading/loading';
 import { CoreSettingsHelper } from '@features/settings/services/settings-helper';
 import { CoreUtils } from '@services/utils/utils';
@@ -21,8 +22,8 @@ import { Translate } from '@singletons';
 import { CoreColors } from '@singletons/colors';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 import { CoreDom } from '@singletons/dom';
-import { CoreEventObserver } from '@singletons/events';
-import { Subscription } from 'rxjs';
+import type { CoreEventObserver } from '@singletons/events';
+import type { Subscription } from 'rxjs';
 import { CoreFormatTextDirective } from './format-text';
 
 const defaultMaxHeight = 80;
@@ -61,7 +62,7 @@ export class CoreCollapsibleItemDirective implements OnInit, OnDestroy {
     protected pageDidEnterListener?: EventListener;
     protected page?: HTMLElement;
 
-    constructor(el: ElementRef<HTMLElement>) {
+    constructor(@Inject(ElementRef) el: ElementRef<HTMLElement>) {
         this.element = el.nativeElement;
 
         this.element.addEventListener('click', this.elementClicked.bind(this));

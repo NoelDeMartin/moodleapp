@@ -15,15 +15,16 @@
 import { Injectable } from '@angular/core';
 
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourseAnyModuleData } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData } from '@features/course/services/course';
 import { CoreH5PHelper } from '@features/h5p/classes/helper';
 import { CoreH5P } from '@features/h5p/services/h5p';
 import { CoreUser } from '@features/user/services/user';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
-import { AddonModH5PActivity, AddonModH5PActivityData, AddonModH5PActivityProvider } from '../h5pactivity';
+import type { AddonModH5PActivityData } from '../h5pactivity';
+import { AddonModH5PActivity, AddonModH5PActivityProvider } from '../h5pactivity';
 
 /**
  * Handler to prefetch h5p activity.

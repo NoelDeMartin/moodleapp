@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Type } from '@angular/core';
+import type { Type } from '@angular/core';
 
-import { CoreCourseFormatHandler } from '@features/course/services/format-delegate';
-import { CoreSitePluginsCourseFormatHandlerData } from '@features/siteplugins/services/siteplugins';
+import type { CoreCourseFormatHandler } from '@features/course/services/format-delegate';
+import type { CoreSitePluginsCourseFormatHandlerData } from '@features/siteplugins/services/siteplugins';
 import { CoreSitePluginsBaseHandler } from './base-handler';
 import { CoreSitePluginsCourseFormatComponent } from '../../components/course-format/course-format';
 

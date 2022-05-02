@@ -16,7 +16,8 @@ import { Injectable } from '@angular/core';
 import { CoreSyncBlockedError } from '@classes/base-sync';
 import { CoreNetworkError } from '@classes/errors/network-error';
 import { CoreCourseActivitySyncBaseProvider } from '@features/course/classes/activity-sync';
-import { CoreCourse, CoreCourseAnyModuleData } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
 import { CoreApp } from '@services/app';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
@@ -24,9 +25,12 @@ import { CoreSync } from '@services/sync';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { AddonModFeedback, AddonModFeedbackProvider, AddonModFeedbackWSFeedback } from './feedback';
-import { AddonModFeedbackOffline, AddonModFeedbackOfflineResponse } from './feedback-offline';
-import { AddonModFeedbackPrefetchHandler, AddonModFeedbackPrefetchHandlerService } from './handlers/prefetch';
+import type { AddonModFeedbackWSFeedback } from './feedback';
+import { AddonModFeedback, AddonModFeedbackProvider } from './feedback';
+import type { AddonModFeedbackOfflineResponse } from './feedback-offline';
+import { AddonModFeedbackOffline } from './feedback-offline';
+import type { AddonModFeedbackPrefetchHandlerService } from './handlers/prefetch';
+import { AddonModFeedbackPrefetchHandler } from './handlers/prefetch';
 
 /**
  * Service to sync feedbacks.

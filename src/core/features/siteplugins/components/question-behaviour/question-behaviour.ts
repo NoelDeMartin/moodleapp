@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { CoreQuestionBehaviourDelegate } from '@features/question/services/behaviour-delegate';
-import { CoreQuestionBehaviourButton, CoreQuestionQuestion } from '@features/question/services/question-helper';
+import type { CoreQuestionBehaviourButton, CoreQuestionQuestion } from '@features/question/services/question-helper';
 import { CoreSitePluginsCompileInitComponent } from '@features/siteplugins/classes/compile-init-component';
 
 /**

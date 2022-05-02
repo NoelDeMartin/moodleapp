@@ -13,33 +13,38 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, OnInit, Optional } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
-import { IonContent } from '@ionic/angular';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { IonContent } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSync } from '@services/sync';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { AddonModScormModuleHandlerService } from '../../services/handlers/module';
 import { AddonModScormPrefetchHandler } from '../../services/handlers/prefetch';
-import {
-    AddonModScorm,
+import type {
     AddonModScormAttemptCountResult,
     AddonModScormGetScormAccessInformationWSResponse,
     AddonModScormAttemptGrade,
     AddonModScormOrganization,
-    AddonModScormProvider,
-    AddonModScormScorm,
-} from '../../services/scorm';
-import { AddonModScormHelper, AddonModScormTOCScoWithIcon } from '../../services/scorm-helper';
+    AddonModScormScorm } from '../../services/scorm';
 import {
+    AddonModScorm,
+    AddonModScormProvider,
+} from '../../services/scorm';
+import type { AddonModScormTOCScoWithIcon } from '../../services/scorm-helper';
+import { AddonModScormHelper } from '../../services/scorm-helper';
+import type {
     AddonModScormAutoSyncEventData,
+    AddonModScormSyncResult } from '../../services/scorm-sync';
+import {
     AddonModScormSync,
     AddonModScormSyncProvider,
-    AddonModScormSyncResult,
 } from '../../services/scorm-sync';
 
 /**

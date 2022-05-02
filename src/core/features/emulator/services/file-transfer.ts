@@ -14,7 +14,8 @@
 
 import { CoreTextUtils } from '@services/utils/text';
 import { Injectable } from '@angular/core';
-import { FileTransfer, FileTransferObject, FileUploadResult, FileTransferError } from '@ionic-native/file-transfer/ngx';
+import type { FileUploadResult, FileTransferError } from '@ionic-native/file-transfer/ngx';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 
 import { CoreFile } from '@services/file';
 

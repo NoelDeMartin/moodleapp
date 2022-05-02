@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AddonBlockMyOverviewComponent } from '@addons/block/myoverview/components/myoverview/myoverview';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import type { AddonBlockMyOverviewComponent } from '@addons/block/myoverview/components/myoverview/myoverview';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CoreBlockComponent } from '@features/block/components/block/block';
-import { CoreCourseBlock } from '@features/course/services/course';
+import type { CoreCourseBlock } from '@features/course/services/course';
 import { CoreCoursesDashboard, CoreCoursesDashboardProvider } from '@features/courses/services/dashboard';
 import { CoreMainMenuDeepLinkManager } from '@features/mainmenu/classes/deep-link-manager';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreCourses } from '../../services/courses';
 
 /**

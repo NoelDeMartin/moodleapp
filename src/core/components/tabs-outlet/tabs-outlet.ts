@@ -12,25 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
-    Component,
-    Input,
+import type {
     OnInit,
     OnChanges,
     OnDestroy,
     AfterViewInit,
+    SimpleChange } from '@angular/core';
+import {
+    Component,
+    Input,
     ViewChild,
-    SimpleChange,
 } from '@angular/core';
-import { IonRouterOutlet, IonTabs, ViewDidEnter, ViewDidLeave } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import type { IonRouterOutlet, ViewDidEnter, ViewDidLeave } from '@ionic/angular';
+import { IonTabs } from '@ionic/angular';
+import type { Subscription } from 'rxjs';
 
 import { CoreUtils } from '@services/utils/utils';
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { CoreNavBarButtonsComponent } from '../navbar-buttons/navbar-buttons';
-import { StackEvent } from '@ionic/angular/directives/navigation/stack-utils';
+import type { StackEvent } from '@ionic/angular/directives/navigation/stack-utils';
 import { CoreNavigator } from '@services/navigator';
-import { CoreTabBase, CoreTabsBaseComponent } from '@classes/tabs';
+import type { CoreTabBase } from '@classes/tabs';
+import { CoreTabsBaseComponent } from '@classes/tabs';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 
 /**

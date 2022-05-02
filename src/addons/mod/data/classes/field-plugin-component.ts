@@ -12,10 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Input, Output, OnInit, OnChanges, SimpleChange, EventEmitter, Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CoreFormFields } from '@singletons/form';
-import { AddonModDataData, AddonModDataEntryField, AddonModDataField, AddonModDataTemplateMode } from '../services/data';
+import type { OnInit, OnChanges, SimpleChange } from '@angular/core';
+import { Input, Output, EventEmitter, Component } from '@angular/core';
+import type { FormGroup, FormBuilder } from '@angular/forms';
+import { Validators } from '@angular/forms';
+import type { CoreFormFields } from '@singletons/form';
+import type { AddonModDataData, AddonModDataEntryField, AddonModDataField } from '../services/data';
+import { AddonModDataTemplateMode } from '../services/data';
 
 /**
  * Base class for component to render a field.

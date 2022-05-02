@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
-import { AddonModForumDiscussionItem, AddonModForumDiscussionsSource } from './forum-discussions-source';
+import type { AddonModForumDiscussionItem, AddonModForumDiscussionsSource } from './forum-discussions-source';
 
 /**
  * Helper to manage swiping within a collection of discussions.

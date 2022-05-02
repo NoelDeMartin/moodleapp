@@ -12,19 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 import { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
 import { CoreCourse } from '@features/course/services/course';
-import { CanLeave } from '@guards/can-leave';
-import { IonRefresher } from '@ionic/angular';
+import type { CanLeave } from '@guards/can-leave';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreScreen } from '@services/screen';
 import { CoreDomUtils } from '@services/utils/dom';
-import { AddonModAssignListFilterName, AddonModAssignSubmissionsSource } from '../../classes/submissions-source';
+import type { AddonModAssignListFilterName } from '../../classes/submissions-source';
+import { AddonModAssignSubmissionsSource } from '../../classes/submissions-source';
 import { AddonModAssignSubmissionComponent } from '../../components/submission/submission';
-import { AddonModAssign, AddonModAssignAssign } from '../../services/assign';
+import type { AddonModAssignAssign } from '../../services/assign';
+import { AddonModAssign } from '../../services/assign';
 
 /**
  * Page that displays a submission.

@@ -13,10 +13,13 @@
 // limitations under the License.
 
 import { CoreDomUtils } from '@services/utils/dom';
-import { Component, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { CoreSiteBasicInfo, CoreSites } from '@services/sites';
-import { CoreAccountsList, CoreLoginHelper } from '@features/login/services/login-helper';
+import type { CoreSiteBasicInfo } from '@services/sites';
+import { CoreSites } from '@services/sites';
+import type { CoreAccountsList } from '@features/login/services/login-helper';
+import { CoreLoginHelper } from '@features/login/services/login-helper';
 import { CoreNavigator } from '@services/navigator';
 import { CoreFilter } from '@features/filter/services/filter';
 import { CoreAnimations } from '@components/animations';

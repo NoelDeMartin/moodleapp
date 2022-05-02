@@ -17,21 +17,23 @@ import { Injectable } from '@angular/core';
 import { CoreSyncBlockedError } from '@classes/base-sync';
 import { CoreNetworkError } from '@classes/errors/network-error';
 import { CoreCourseActivitySyncBaseProvider } from '@features/course/classes/activity-sync';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
-import { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
 import { CoreRatingSync } from '@features/rating/services/rating-sync';
 import { CoreApp } from '@services/app';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreSync } from '@services/sync';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate, makeSingleton } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { AddonModDataProvider, AddonModData, AddonModDataData, AddonModDataAction } from './data';
+import type { AddonModDataData } from './data';
+import { AddonModDataProvider, AddonModData, AddonModDataAction } from './data';
 import { AddonModDataHelper } from './data-helper';
-import { AddonModDataOffline, AddonModDataOfflineAction } from './data-offline';
+import type { AddonModDataOfflineAction } from './data-offline';
+import { AddonModDataOffline } from './data-offline';
 
 /**
  * Service to sync databases.

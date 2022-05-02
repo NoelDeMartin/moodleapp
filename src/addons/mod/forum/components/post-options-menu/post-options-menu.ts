@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreApp } from '@services/app';
-import { AddonModForum, AddonModForumPost } from '@addons/mod/forum/services/forum';
+import type { AddonModForumPost } from '@addons/mod/forum/services/forum';
+import { AddonModForum } from '@addons/mod/forum/services/forum';
 import { PopoverController } from '@singletons';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreNetworkError } from '@classes/errors/network-error';

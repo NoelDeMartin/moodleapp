@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
 import { makeSingleton } from '@singletons';
 
 /**

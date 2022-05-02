@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CanActivate, CanLoad, UrlTree } from '@angular/router';
+import type { CanActivate, CanLoad, UrlTree } from '@angular/router';
 
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';

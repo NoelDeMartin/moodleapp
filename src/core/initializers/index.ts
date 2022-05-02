@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { APP_INITIALIZER, Provider } from '@angular/core';
+import type { Provider } from '@angular/core';
+import { APP_INITIALIZER } from '@angular/core';
 
 export function getInitializerProviders(): Provider[] {
     const context = require.context('./', false, /\.ts$/);

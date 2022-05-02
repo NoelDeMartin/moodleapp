@@ -13,14 +13,15 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { FileEntry } from '@ionic-native/file/ngx';
-import { CoreFileUploader, CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { FileEntry } from '@ionic-native/file/ngx';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
 import { CoreFile } from '@services/file';
 import { CoreUtils } from '@services/utils/utils';
 import { AddonModGlossaryOffline } from './glossary-offline';
-import { AddonModGlossaryNewEntry, AddonModGlossaryNewEntryWithFiles } from './glossary';
+import type { AddonModGlossaryNewEntry, AddonModGlossaryNewEntryWithFiles } from './glossary';
 import { makeSingleton } from '@singletons';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 
 /**
  * Helper to gather some common functions for glossary.

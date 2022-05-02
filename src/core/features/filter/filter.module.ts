@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { NgModule, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CoreFilterProvider } from './services/filter';
 import { CoreFilterDelegateService } from './services/filter-delegate';
 import { CoreFilterHelperProvider } from './services/filter-helper';

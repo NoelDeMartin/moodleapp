@@ -14,7 +14,7 @@
 
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { CoreQuestionBehaviourButton, CoreQuestionQuestion } from '@features/question/services/question-helper';
+import type { CoreQuestionBehaviourButton, CoreQuestionQuestion } from '@features/question/services/question-helper';
 
 /**
  * Component to render the deferred CBM in a question.

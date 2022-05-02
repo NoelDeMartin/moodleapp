@@ -13,15 +13,16 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
 import { CoreFile } from '@services/file';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { makeSingleton } from '@singletons';
 import { AddonModForumProvider } from './forum';
-import {
+import type {
     AddonModForumOfflineDiscussionDBRecord,
-    AddonModForumOfflineReplyDBRecord,
+    AddonModForumOfflineReplyDBRecord } from './database/offline';
+import {
     DISCUSSIONS_TABLE,
     REPLIES_TABLE,
 } from './database/offline';

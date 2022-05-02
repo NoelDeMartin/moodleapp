@@ -12,28 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CoreNavigationBarItem } from '@components/navigation-bar/navigation-bar';
-import { CoreMainMenuPage } from '@features/mainmenu/pages/menu/menu';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreNavigationBarItem } from '@components/navigation-bar/navigation-bar';
+import type { CoreMainMenuPage } from '@features/mainmenu/pages/menu/menu';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreSync } from '@services/sync';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { AddonModScormDataModel12 } from '../../classes/data-model-12';
 import { AddonModScormTocComponent } from '../../components/toc/toc';
-import {
-    AddonModScorm,
+import type {
     AddonModScormAttemptCountResult,
     AddonModScormGetScormAccessInformationWSResponse,
-    AddonModScormProvider,
     AddonModScormScorm,
     AddonModScormScoWithData,
-    AddonModScormUserDataMap,
+    AddonModScormUserDataMap } from '../../services/scorm';
+import {
+    AddonModScorm,
+    AddonModScormProvider,
 } from '../../services/scorm';
-import { AddonModScormHelper, AddonModScormTOCScoWithIcon } from '../../services/scorm-helper';
+import type { AddonModScormTOCScoWithIcon } from '../../services/scorm-helper';
+import { AddonModScormHelper } from '../../services/scorm-helper';
 import { AddonModScormSync } from '../../services/scorm-sync';
 
 /**

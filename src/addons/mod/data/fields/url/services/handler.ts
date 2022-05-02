@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AddonModDataEntryField, AddonModDataField, AddonModDataSubfieldData } from '@addons/mod/data/services/data';
-import { Injectable, Type } from '@angular/core';
-import { CoreFormFields } from '@singletons/form';
+import type { AddonModDataEntryField, AddonModDataField, AddonModDataSubfieldData } from '@addons/mod/data/services/data';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { CoreFormFields } from '@singletons/form';
 import { Translate, makeSingleton } from '@singletons';
 import { AddonModDataFieldTextHandlerService } from '../../text/services/handler';
 import { AddonModDataFieldUrlComponent } from '../component/url';

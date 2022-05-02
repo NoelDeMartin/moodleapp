@@ -14,7 +14,8 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreSite, CoreSiteConfig, CoreSiteInfo } from '@classes/site';
+import type { CoreSiteConfig, CoreSiteInfo } from '@classes/site';
+import { CoreSite } from '@classes/site';
 import { makeSingleton } from '@singletons';
 
 /*

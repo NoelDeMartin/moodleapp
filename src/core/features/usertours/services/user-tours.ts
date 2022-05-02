@@ -15,8 +15,8 @@
 import { CoreConstants } from '@/core/constants';
 import { asyncInstance } from '@/core/utils/async-instance';
 import { Injectable } from '@angular/core';
-import { CoreCancellablePromise } from '@classes/cancellable-promise';
-import { CoreDatabaseTable } from '@classes/database/database-table';
+import type { CoreCancellablePromise } from '@classes/cancellable-promise';
+import type { CoreDatabaseTable } from '@classes/database/database-table';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
 import { CoreApp } from '@services/app';
 import { CoreUtils } from '@services/utils/utils';
@@ -25,7 +25,8 @@ import { CoreComponentsRegistry } from '@singletons/components-registry';
 import { CoreDom } from '@singletons/dom';
 import { CoreSubscriptions } from '@singletons/subscriptions';
 import { CoreUserToursUserTourComponent } from '../components/user-tour/user-tour';
-import { APP_SCHEMA, CoreUserToursDBEntry, USER_TOURS_TABLE_NAME } from './database/user-tours';
+import type { CoreUserToursDBEntry } from './database/user-tours';
+import { APP_SCHEMA, USER_TOURS_TABLE_NAME } from './database/user-tours';
 
 /**
  * Service to manage User Tours.

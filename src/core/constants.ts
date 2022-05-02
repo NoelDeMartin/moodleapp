@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import envJson from '@/assets/env.json';
-import { EnvironmentConfig } from '@/types/config';
+import type { EnvironmentConfig } from '@/types/config';
 
 /**
  * Context levels enumeration.

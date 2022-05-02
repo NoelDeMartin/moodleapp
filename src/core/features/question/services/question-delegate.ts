@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
-import { CoreWSFile } from '@services/ws';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
-import { CoreQuestionDefaultHandler } from './handlers/default-question';
-import { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from './question';
+import type { CoreQuestionDefaultHandler } from './handlers/default-question';
+import type { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from './question';
 
 /**
  * Interface that all question type handlers must implement.

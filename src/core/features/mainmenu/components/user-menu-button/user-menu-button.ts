@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
-import { CoreSiteInfo } from '@classes/site';
-import { CoreUserTourDirectiveOptions } from '@directives/user-tour';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreSiteInfo } from '@classes/site';
+import type { CoreUserTourDirectiveOptions } from '@directives/user-tour';
 import { CoreUserToursAlignment, CoreUserToursSide } from '@features/usertours/services/user-tours';
-import { IonRouterOutlet } from '@ionic/angular';
+import type { IonRouterOutlet } from '@ionic/angular';
 import { CoreScreen } from '@services/screen';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';

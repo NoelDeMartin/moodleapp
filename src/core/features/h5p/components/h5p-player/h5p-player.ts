@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, ElementRef, OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
+import type { ElementRef, OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { CoreApp } from '@services/app';
 import { CoreFilepool } from '@services/filepool';
@@ -21,11 +22,12 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CorePluginFileDelegate } from '@services/plugin-file-delegate';
 import { CoreConstants } from '@/core/constants';
-import { CoreSite } from '@classes/site';
-import { CoreEvents, CoreEventObserver } from '@singletons/events';
+import type { CoreSite } from '@classes/site';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreLogger } from '@singletons/logger';
 import { CoreH5P } from '@features/h5p/services/h5p';
-import { CoreH5PDisplayOptions } from '../../classes/core';
+import type { CoreH5PDisplayOptions } from '../../classes/core';
 
 /**
  * Component to render an H5P package.

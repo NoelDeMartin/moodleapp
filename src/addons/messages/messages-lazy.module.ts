@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { Injector, NgModule } from '@angular/core';
-import { Route, RouterModule, ROUTES, Routes } from '@angular/router';
+import type { Route, Routes } from '@angular/router';
+import { RouterModule, ROUTES } from '@angular/router';
 
 import { buildTabMainRoutes } from '@features/mainmenu/mainmenu-tab-routing.module';
 import { AddonMessagesIndexGuard } from './guards';

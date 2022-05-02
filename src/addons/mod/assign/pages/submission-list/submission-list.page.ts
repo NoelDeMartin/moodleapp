@@ -12,27 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
+import type { OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CoreListItemsManager } from '@classes/items-management/list-items-manager';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 import { CoreSplitViewComponent } from '@components/split-view/split-view';
-import { IonRefresher } from '@ionic/angular';
-import { CoreGroupInfo } from '@services/groups';
+import type { IonRefresher } from '@ionic/angular';
+import type { CoreGroupInfo } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type {
+    AddonModAssignSubmissionForList } from '../../classes/submissions-source';
 import {
     AddonModAssignListFilterName,
-    AddonModAssignSubmissionForList,
     AddonModAssignSubmissionsSource,
 } from '../../classes/submissions-source';
-import { AddonModAssignAssign, AddonModAssignProvider } from '../../services/assign';
+import type { AddonModAssignAssign } from '../../services/assign';
+import { AddonModAssignProvider } from '../../services/assign';
+import type {
+    AddonModAssignManualSyncData,
+    AddonModAssignAutoSyncData } from '../../services/assign-sync';
 import {
     AddonModAssignSyncProvider,
-    AddonModAssignManualSyncData,
-    AddonModAssignAutoSyncData,
 } from '../../services/assign-sync';
 
 /**

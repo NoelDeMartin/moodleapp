@@ -17,8 +17,9 @@ import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { makeSingleton } from '@singletons';
-import { AddonModFeedbackResponseDBRecord, FEEDBACK_TABLE_NAME } from './database/feedback';
-import { AddonModFeedbackResponseValue } from './feedback';
+import type { AddonModFeedbackResponseDBRecord } from './database/feedback';
+import { FEEDBACK_TABLE_NAME } from './database/feedback';
+import type { AddonModFeedbackResponseValue } from './feedback';
 
 /**
  * Service to handle offline feedback.

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { SQLiteDB } from '@classes/sqlitedb';
-import { CoreSiteSchema } from '@services/sites';
+import type { SQLiteDB } from '@classes/sqlitedb';
+import type { CoreSiteSchema } from '@services/sites';
 
 /**
  * Database variables for CoreH5PProvider service.

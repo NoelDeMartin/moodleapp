@@ -14,21 +14,24 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
-import { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
-import { CoreRatingInfo } from '@features/rating/services/rating';
-import { CoreTagItem } from '@features/tag/services/tag';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { CoreRatingInfo } from '@features/rating/services/rating';
+import type { CoreTagItem } from '@features/tag/services/tag';
 import { CoreApp } from '@services/app';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import type { CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
-import { AddonModGlossaryEntryDBRecord, ENTRIES_TABLE_NAME } from './database/glossary';
+import type { AddonModGlossaryEntryDBRecord } from './database/glossary';
+import { ENTRIES_TABLE_NAME } from './database/glossary';
 import { AddonModGlossaryOffline } from './glossary-offline';
-import { AddonModGlossaryAutoSyncData, AddonModGlossarySyncProvider } from './glossary-sync';
-import { CoreFileEntry } from '@services/file-helper';
+import type { AddonModGlossaryAutoSyncData, AddonModGlossarySyncProvider } from './glossary-sync';
+import type { CoreFileEntry } from '@services/file-helper';
 
 const ROOT_CACHE_KEY = 'mmaModGlossary:';
 

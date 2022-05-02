@@ -15,10 +15,11 @@
 import { BehaviorSubject } from 'rxjs';
 
 import { CoreQuestionHelper } from '@features/question/services/question-helper';
-import { CoreQuestionsAnswers } from '@features/question/services/question';
+import type { CoreQuestionsAnswers } from '@features/question/services/question';
 import { CoreLogger } from '@singletons/logger';
 import { AddonModQuizConnectionErrorComponent } from '../components/connection-error/connection-error';
-import { AddonModQuiz, AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from '../services/quiz';
+import type { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from '../services/quiz';
+import { AddonModQuiz } from '../services/quiz';
 import { CoreDomUtils } from '@services/utils/dom';
 
 /**

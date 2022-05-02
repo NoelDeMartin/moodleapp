@@ -14,7 +14,7 @@
 
 import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
-import { CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
 import { makeSingleton } from '@singletons';
 
 const ROOT_CACHE_KEY = 'AddonBlockStarredCourses:';

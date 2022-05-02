@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
 import { SHAREDFILES_PAGE_NAME } from '@features/sharedfiles/sharedfiles.module';
 import { CoreApp } from '@services/app';

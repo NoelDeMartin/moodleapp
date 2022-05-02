@@ -12,19 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { IonTabs } from '@ionic/angular';
-import { BackButtonEvent } from '@ionic/core';
-import { Subscription } from 'rxjs';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { IonTabs } from '@ionic/angular';
+import type { BackButtonEvent } from '@ionic/core';
+import type { Subscription } from 'rxjs';
 
 import { CoreApp } from '@services/app';
-import { CoreEvents, CoreEventObserver } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreMainMenu, CoreMainMenuProvider } from '../../services/mainmenu';
-import { CoreMainMenuDelegate, CoreMainMenuHandlerToDisplay } from '../../services/mainmenu-delegate';
+import type { CoreMainMenuHandlerToDisplay } from '../../services/mainmenu-delegate';
+import { CoreMainMenuDelegate } from '../../services/mainmenu-delegate';
 import { Router } from '@singletons';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreAriaRoleTab, CoreAriaRoleTabFindable } from '@classes/aria-role-tab';
-import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
+import type { CoreAriaRoleTabFindable } from '@classes/aria-role-tab';
+import { CoreAriaRoleTab } from '@classes/aria-role-tab';
+import type { CoreNavigationOptions } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 import { filter } from 'rxjs/operators';
 import { NavigationEnd } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';

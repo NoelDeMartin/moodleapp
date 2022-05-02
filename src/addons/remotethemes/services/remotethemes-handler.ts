@@ -14,13 +14,14 @@
 
 import { Injectable } from '@angular/core';
 import { CoreConstants } from '@/core/constants';
-import { CoreSitePublicConfigResponse } from '@classes/site';
+import type { CoreSitePublicConfigResponse } from '@classes/site';
 import { CoreFile } from '@services/file';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSites } from '@services/sites';
 import { CoreWS } from '@services/ws';
 import { makeSingleton } from '@singletons';
-import { CoreStyleHandler, CoreStylesService } from '@features/styles/services/styles';
+import type { CoreStyleHandler } from '@features/styles/services/styles';
+import { CoreStylesService } from '@features/styles/services/styles';
 import { CoreLogger } from '@singletons/logger';
 import { CoreUtils } from '@services/utils/utils';
 

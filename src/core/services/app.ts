@@ -16,18 +16,20 @@ import { Injectable } from '@angular/core';
 
 import { CoreDB } from '@services/db';
 import { CoreEvents } from '@singletons/events';
-import { CoreUtils, PromiseDefer } from '@services/utils/utils';
-import { SQLiteDB, SQLiteDBTableSchema } from '@classes/sqlitedb';
+import type { PromiseDefer } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
+import type { SQLiteDB, SQLiteDBTableSchema } from '@classes/sqlitedb';
 
 import { makeSingleton, Keyboard, Network, StatusBar, Platform, Device } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreColors } from '@singletons/colors';
-import { DBNAME, SCHEMA_VERSIONS_TABLE_NAME, SCHEMA_VERSIONS_TABLE_SCHEMA, SchemaVersionsDBEntry } from '@services/database/app';
+import type { SchemaVersionsDBEntry } from '@services/database/app';
+import { DBNAME, SCHEMA_VERSIONS_TABLE_NAME, SCHEMA_VERSIONS_TABLE_SCHEMA } from '@services/database/app';
 import { CoreObject } from '@singletons/object';
-import { CoreRedirectPayload } from './navigator';
+import type { CoreRedirectPayload } from './navigator';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
 import { asyncInstance } from '../utils/async-instance';
-import { CoreDatabaseTable } from '@classes/database/database-table';
+import type { CoreDatabaseTable } from '@classes/database/database-table';
 
 /**
  * Factory to provide some global functionalities, like access to the global app database.

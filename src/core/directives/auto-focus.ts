@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, Input, ElementRef, AfterViewInit } from '@angular/core';
+import type { ElementRef, AfterViewInit } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';

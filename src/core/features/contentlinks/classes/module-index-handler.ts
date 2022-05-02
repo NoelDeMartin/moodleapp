@@ -13,10 +13,10 @@
 // limitations under the License.
 
 import { CoreContentLinksHandlerBase } from './base-handler';
-import { Params } from '@angular/router';
-import { CoreContentLinksAction } from '../services/contentlinks-delegate';
+import type { Params } from '@angular/router';
+import type { CoreContentLinksAction } from '../services/contentlinks-delegate';
 import { CoreCourseHelper } from '@features/course/services/course-helper';
-import { CoreNavigationOptions } from '@services/navigator';
+import type { CoreNavigationOptions } from '@services/navigator';
 
 /**
  * Handler to handle URLs pointing to the index of a module.

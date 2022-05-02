@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { conditionalRoutes } from '@/app/app-routing.module';
 import { CoreTagIndexAreaRoute } from '@features/tag/tag-lazy.module';
 import { CoreScreen } from '@services/screen';

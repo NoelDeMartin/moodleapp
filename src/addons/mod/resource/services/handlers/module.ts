@@ -13,11 +13,12 @@
 // limitations under the License.
 
 import { CoreConstants, ModPurpose } from '@/core/constants';
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CoreModuleHandlerBase } from '@features/course/classes/module-base-handler';
 import { CoreCourse } from '@features/course/services/course';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
-import { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '@features/course/services/module-delegate';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '@features/course/services/module-delegate';
 import { CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
 import { CoreFileHelper } from '@services/file-helper';
 import { CoreSites } from '@services/sites';
@@ -26,7 +27,8 @@ import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { makeSingleton, Translate } from '@singletons';
 import { AddonModResourceIndexComponent } from '../../components/index';
-import { AddonModResource, AddonModResourceCustomData } from '../resource';
+import type { AddonModResourceCustomData } from '../resource';
+import { AddonModResource } from '../resource';
 import { AddonModResourceHelper } from '../resource-helper';
 
 /**

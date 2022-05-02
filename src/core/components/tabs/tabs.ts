@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import type {
+    AfterViewInit,
+    ElementRef } from '@angular/core';
 import {
     Component,
     Input,
-    AfterViewInit,
     ViewChild,
-    ElementRef,
 } from '@angular/core';
 
 import { CoreTabsBaseComponent } from '@classes/tabs';
-import { CoreTabComponent } from './tab';
+import type { CoreTabComponent } from './tab';
 
 /**
  * This component displays some top scrollable tabs that will autohide on vertical scroll.

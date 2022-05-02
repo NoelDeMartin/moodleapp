@@ -22,9 +22,10 @@ import { CoreError } from '@classes/errors/error';
 
 import { makeSingleton } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
-import { APP_SCHEMA, CRON_TABLE_NAME, CronDBEntry } from '@services/database/cron';
+import type { CronDBEntry } from '@services/database/cron';
+import { APP_SCHEMA, CRON_TABLE_NAME } from '@services/database/cron';
 import { asyncInstance } from '../utils/async-instance';
-import { CoreDatabaseTable } from '@classes/database/database-table';
+import type { CoreDatabaseTable } from '@classes/database/database-table';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
 
 /*

@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
-import { CanLeave } from '@guards/can-leave';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CanLeave } from '@guards/can-leave';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSitePluginsModuleIndexComponent } from '../../components/module-index/module-index';
 

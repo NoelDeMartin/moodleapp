@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreH5PLibraryMetadataSettings } from './validator';
+import type { CoreH5PLibraryMetadataSettings } from './validator';
 
 /**
  * Equivalent to H5P's H5PMetadata class.

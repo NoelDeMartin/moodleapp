@@ -17,8 +17,8 @@ import { Component } from '@angular/core';
 
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
-import { CoreUserProfileField } from '@features/user/services/user';
+import type { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
+import type { CoreUserProfileField } from '@features/user/services/user';
 import { Translate } from '@singletons';
 import { CoreUserProfileFieldBaseComponent } from '@features/user/classes/base-profilefield-component';
 import { CoreLang } from '@services/lang';

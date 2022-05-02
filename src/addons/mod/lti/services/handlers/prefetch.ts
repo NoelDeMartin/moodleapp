@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourseAnyModuleData } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData } from '@features/course/services/course';
 import { makeSingleton } from '@singletons';
 import { AddonModLti, AddonModLtiProvider } from '../lti';
 

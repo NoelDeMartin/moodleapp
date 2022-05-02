@@ -15,11 +15,12 @@
 import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreContentLinksDelegate, CoreContentLinksAction } from './contentlinks-delegate';
-import { CoreSite } from '@classes/site';
+import type { CoreContentLinksAction } from './contentlinks-delegate';
+import { CoreContentLinksDelegate } from './contentlinks-delegate';
+import type { CoreSite } from '@classes/site';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreNavigator } from '@services/navigator';
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { CoreContentLinksChooseSiteModalComponent } from '../components/choose-site-modal/choose-site-modal';
 import { CoreCustomURLSchemes } from '@services/urlschemes';
 

@@ -12,23 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
-import { Params } from '@angular/router';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, Optional } from '@angular/core';
+import type { Params } from '@angular/router';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
-import { IonContent } from '@ionic/angular';
-import { CoreGroupInfo, CoreGroups } from '@services/groups';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { IonContent } from '@ionic/angular';
+import type { CoreGroupInfo } from '@services/groups';
+import { CoreGroups } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Platform } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { Subscription } from 'rxjs';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { Subscription } from 'rxjs';
 import { AddonModWorkshopModuleHandlerService } from '../../services/handlers/module';
-import {
-    AddonModWorkshopProvider,
-    AddonModWorkshopPhase,
-    AddonModWorkshop,
+import type {
     AddonModWorkshopData,
     AddonModWorkshopGetWorkshopAccessInformationWSResponse,
     AddonModWorkshopPhaseData,
@@ -37,19 +37,26 @@ import {
     AddonModWorkshopSubmissionChangedEventData,
     AddonModWorkshopGradesData,
     AddonModWorkshopPhaseTaskData,
-    AddonModWorkshopReviewer,
+    AddonModWorkshopReviewer } from '../../services/workshop';
+import {
+    AddonModWorkshopProvider,
+    AddonModWorkshopPhase,
+    AddonModWorkshop,
 } from '../../services/workshop';
+import type {
+    AddonModWorkshopSubmissionAssessmentWithFormData,
+    AddonModWorkshopSubmissionDataWithOfflineData } from '../../services/workshop-helper';
 import {
     AddonModWorkshopHelper,
-    AddonModWorkshopSubmissionAssessmentWithFormData,
-    AddonModWorkshopSubmissionDataWithOfflineData,
 } from '../../services/workshop-helper';
-import { AddonModWorkshopOffline, AddonModWorkshopOfflineSubmission } from '../../services/workshop-offline';
+import type { AddonModWorkshopOfflineSubmission } from '../../services/workshop-offline';
+import { AddonModWorkshopOffline } from '../../services/workshop-offline';
+import type {
+    AddonModWorkshopAutoSyncData,
+    AddonModWorkshopSyncResult } from '../../services/workshop-sync';
 import {
     AddonModWorkshopSyncProvider,
     AddonModWorkshopSync,
-    AddonModWorkshopAutoSyncData,
-    AddonModWorkshopSyncResult,
 } from '../../services/workshop-sync';
 import { AddonModWorkshopPhaseInfoComponent } from '../phase/phase';
 

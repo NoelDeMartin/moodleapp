@@ -14,15 +14,16 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalWarning } from '@services/ws';
+import type { CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { CoreCommentsOffline } from './comments-offline';
-import { CoreCommentsSyncAutoSyncData, CoreCommentsSyncProvider } from './comments-sync';
+import type { CoreCommentsSyncAutoSyncData, CoreCommentsSyncProvider } from './comments-sync';
 
 const ROOT_CACHE_KEY = 'mmComments:';
 

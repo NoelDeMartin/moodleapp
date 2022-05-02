@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreSearchHistory } from '../../services/search-history.service';
 import { Translate } from '@singletons';
-import { CoreSearchHistoryDBRecord } from '../../services/search-history-db';
+import type { CoreSearchHistoryDBRecord } from '../../services/search-history-db';
 import { CoreForms } from '@singletons/form';
 
 /**

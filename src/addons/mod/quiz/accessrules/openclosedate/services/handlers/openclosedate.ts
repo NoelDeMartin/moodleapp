@@ -14,8 +14,9 @@
 
 import { Injectable } from '@angular/core';
 
-import { AddonModQuizAccessRuleHandler } from '@addons/mod/quiz/services/access-rules-delegate';
-import { AddonModQuizAttemptWSData, AddonModQuizProvider } from '@addons/mod/quiz/services/quiz';
+import type { AddonModQuizAccessRuleHandler } from '@addons/mod/quiz/services/access-rules-delegate';
+import type { AddonModQuizAttemptWSData } from '@addons/mod/quiz/services/quiz';
+import { AddonModQuizProvider } from '@addons/mod/quiz/services/quiz';
 import { makeSingleton } from '@singletons';
 
 /**

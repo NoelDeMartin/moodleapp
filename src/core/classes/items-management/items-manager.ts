@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreItemsManagerSource } from './items-manager-source';
+import type { CoreItemsManagerSource } from './items-manager-source';
 
 /**
  * Listeners.

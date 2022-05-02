@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Type } from '@angular/core';
+import type { Type } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
 import { CoreBlockPreRenderedComponent } from '@features/block/components/pre-rendered-block/pre-rendered-block';
-import { CoreBlockDelegate, CoreBlockHandler, CoreBlockHandlerData } from '@features/block/services/block-delegate';
-import { CoreCourseBlock } from '@features/course/services/course';
+import type { CoreBlockHandler, CoreBlockHandlerData } from '@features/block/services/block-delegate';
+import { CoreBlockDelegate } from '@features/block/services/block-delegate';
+import type { CoreCourseBlock } from '@features/course/services/course';
 import { CoreSitePluginsBlockComponent } from '@features/siteplugins/components/block/block';
 import { CoreSitePluginsOnlyTitleBlockComponent } from '@features/siteplugins/components/only-title-block/only-title-block';
-import { CoreSitePluginsBlockHandlerData, CoreSitePluginsContent } from '@features/siteplugins/services/siteplugins';
+import type { CoreSitePluginsBlockHandlerData, CoreSitePluginsContent } from '@features/siteplugins/services/siteplugins';
 import { CoreLogger } from '@singletons/logger';
 import { CoreSitePluginsBaseHandler } from './base-handler';
 

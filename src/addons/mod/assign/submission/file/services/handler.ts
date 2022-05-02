@@ -12,25 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
+import type {
     AddonModAssignAssign,
     AddonModAssignSubmission,
-    AddonModAssignPlugin,
+    AddonModAssignPlugin } from '@addons/mod/assign/services/assign';
+import {
     AddonModAssignProvider,
     AddonModAssign,
 } from '@addons/mod/assign/services/assign';
 import { AddonModAssignHelper } from '@addons/mod/assign/services/assign-helper';
-import { AddonModAssignOffline, AddonModAssignSubmissionsDBRecordFormatted } from '@addons/mod/assign/services/assign-offline';
-import { AddonModAssignSubmissionHandler } from '@addons/mod/assign/services/submission-delegate';
-import { Injectable, Type } from '@angular/core';
-import { CoreFileUploader, CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
-import { CoreFileEntry, CoreFileHelper } from '@services/file-helper';
+import type { AddonModAssignSubmissionsDBRecordFormatted } from '@addons/mod/assign/services/assign-offline';
+import { AddonModAssignOffline } from '@addons/mod/assign/services/assign-offline';
+import type { AddonModAssignSubmissionHandler } from '@addons/mod/assign/services/submission-delegate';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
+import type { CoreFileEntry } from '@services/file-helper';
+import { CoreFileHelper } from '@services/file-helper';
 import { CoreFileSession } from '@services/file-session';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { AddonModAssignSubmissionFileComponent } from '../component/file';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { FileEntry } from '@ionic-native/file/ngx';
 
 /**
  * Handler for file submission plugin.

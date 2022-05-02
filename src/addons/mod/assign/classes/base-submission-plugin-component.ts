@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Component, Input } from '@angular/core';
-import { AddonModAssignAssign, AddonModAssignPlugin, AddonModAssignSubmission } from '../services/assign';
+import type { AddonModAssignAssign, AddonModAssignPlugin, AddonModAssignSubmission } from '../services/assign';
 
 /**
  * Base class for component to render a submission plugin.

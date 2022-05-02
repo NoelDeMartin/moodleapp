@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreContentLinksHandler, CoreContentLinksAction } from '../services/contentlinks-delegate';
+import type { CoreContentLinksHandler, CoreContentLinksAction } from '../services/contentlinks-delegate';
 
 /**
  * Base handler to be registered in CoreContentLinksHandler. It is useful to minimize the amount of

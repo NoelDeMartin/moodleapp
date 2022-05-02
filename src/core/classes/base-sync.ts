@@ -19,7 +19,8 @@ import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { Translate } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
-import { CoreAnyError, CoreError } from '@classes/errors/error';
+import type { CoreAnyError } from '@classes/errors/error';
+import { CoreError } from '@classes/errors/error';
 
 /**
  * Blocked sync error.

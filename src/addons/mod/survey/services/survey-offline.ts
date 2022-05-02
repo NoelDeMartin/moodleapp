@@ -16,8 +16,9 @@ import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { makeSingleton } from '@singletons';
-import { AddonModSurveyAnswersDBRecord, SURVEY_TABLE } from './database/survey';
-import { AddonModSurveySubmitAnswerData } from './survey';
+import type { AddonModSurveyAnswersDBRecord } from './database/survey';
+import { SURVEY_TABLE } from './database/survey';
+import type { AddonModSurveySubmitAnswerData } from './survey';
 
 /**
  * Service to handle Offline survey.

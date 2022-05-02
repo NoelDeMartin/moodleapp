@@ -14,10 +14,12 @@
 
 import { AppComponent } from '@/app/app.component';
 import { CoreEvents } from '@singletons/events';
-import { CoreLang, CoreLangProvider } from '@services/lang';
+import type { CoreLangProvider } from '@services/lang';
+import { CoreLang } from '@services/lang';
 
 import { mockSingleton, renderComponent } from '@/testing/utils';
-import { CoreNavigator, CoreNavigatorService } from '@services/navigator';
+import type { CoreNavigatorService } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 
 describe('AppComponent', () => {
 

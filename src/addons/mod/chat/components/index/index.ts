@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Optional } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
-import { IonContent } from '@ionic/angular';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { IonContent } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreTime } from '@singletons/time';
-import { AddonModChat, AddonModChatChat, AddonModChatProvider } from '../../services/chat';
+import type { AddonModChatChat } from '../../services/chat';
+import { AddonModChat, AddonModChatProvider } from '../../services/chat';
 import { AddonModChatModuleHandlerService } from '../../services/handlers/module';
 
 /**

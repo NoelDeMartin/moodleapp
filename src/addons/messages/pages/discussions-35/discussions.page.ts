@@ -12,24 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
+import type {
+    AddonMessagesDiscussion,
+    AddonMessagesMessageAreaContact } from '../../services/messages';
 import {
     AddonMessages,
-    AddonMessagesDiscussion,
-    AddonMessagesMessageAreaContact,
     AddonMessagesProvider,
 } from '../../services/messages';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreApp } from '@services/app';
-import { ActivatedRoute, Params } from '@angular/router';
-import { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
+import type { ActivatedRoute, Params } from '@angular/router';
+import type { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
 import { CorePushNotificationsDelegate } from '@features/pushnotifications/services/push-delegate';
-import { Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
 import { Translate, Platform } from '@singletons';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreScreen } from '@services/screen';
 import { CoreMainMenuDeepLinkManager } from '@features/mainmenu/classes/deep-link-manager';

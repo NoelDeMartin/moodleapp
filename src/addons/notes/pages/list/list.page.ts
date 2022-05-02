@@ -13,20 +13,26 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { AddonNotesAddComponent, AddonNotesAddModalReturn } from '@addons/notes/components/add/add-modal';
-import { AddonNotes, AddonNotesNoteFormatted, AddonNotesPublishState } from '@addons/notes/services/notes';
+import type { AddonNotesAddModalReturn } from '@addons/notes/components/add/add-modal';
+import { AddonNotesAddComponent } from '@addons/notes/components/add/add-modal';
+import type { AddonNotesNoteFormatted, AddonNotesPublishState } from '@addons/notes/services/notes';
+import { AddonNotes } from '@addons/notes/services/notes';
 import { AddonNotesOffline } from '@addons/notes/services/notes-offline';
 import { AddonNotesSync, AddonNotesSyncProvider } from '@addons/notes/services/notes-sync';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CoreAnimations } from '@components/animations';
-import { CoreUser, CoreUserProfile } from '@features/user/services/user';
-import { IonContent, IonRefresher } from '@ionic/angular';
+import type { CoreUserProfile } from '@features/user/services/user';
+import { CoreUser } from '@features/user/services/user';
+import type { IonRefresher } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 
 /**
  * Page that displays a list of notes.

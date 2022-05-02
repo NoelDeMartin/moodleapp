@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Input, Output, EventEmitter, DoCheck, KeyValueDiffers, ViewChild, KeyValueDiffer } from '@angular/core';
+import type { OnInit, DoCheck, KeyValueDiffers, KeyValueDiffer } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Md5 } from 'ts-md5';
 
-import { CoreSiteWSPreSets } from '@classes/site';
-import { CoreCompileHtmlComponent } from '@features/compile/components/compile-html/compile-html';
-import { CoreSitePlugins, CoreSitePluginsContent, CoreSitePluginsProvider } from '@features/siteplugins/services/siteplugins';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import type { CoreCompileHtmlComponent } from '@features/compile/components/compile-html/compile-html';
+import type { CoreSitePluginsContent } from '@features/siteplugins/services/siteplugins';
+import { CoreSitePlugins, CoreSitePluginsProvider } from '@features/siteplugins/services/siteplugins';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreEvents } from '@singletons/events';

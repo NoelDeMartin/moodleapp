@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { NgModule, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CoreContentLinksComponentsModule } from './components/components.module';
 import { CoreContentLinksDelegateService } from './services/contentlinks-delegate';
 import { CoreContentLinksHelperProvider } from './services/contentlinks-helper';

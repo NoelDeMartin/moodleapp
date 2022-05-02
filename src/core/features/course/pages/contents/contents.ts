@@ -12,31 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ViewChild, OnInit, OnDestroy, forwardRef, ChangeDetectorRef } from '@angular/core';
-import { IonContent, IonRefresher } from '@ionic/angular';
+import type { OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, forwardRef } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreCourses, CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import { CoreCourses } from '@features/courses/services/courses';
+import type {
+    CoreCourseCompletionActivityStatus } from '@features/course/services/course';
 import {
     CoreCourse,
-    CoreCourseCompletionActivityStatus,
 } from '@features/course/services/course';
+import type {
+    CoreCourseModuleCompletionData,
+    CoreCourseSection } from '@features/course/services/course-helper';
 import {
     CoreCourseHelper,
-    CoreCourseModuleCompletionData,
-    CoreCourseSection,
 } from '@features/course/services/course-helper';
 import { CoreCourseFormatDelegate } from '@features/course/services/format-delegate';
 import { CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
 import { CoreCourseSync, CoreCourseSyncProvider } from '@features/course/services/sync';
 import { CoreCourseFormatComponent } from '../../components/course-format/course-format';
+import type {
+    CoreEventObserver } from '@singletons/events';
 import {
     CoreEvents,
-    CoreEventObserver,
 } from '@singletons/events';
 import { CoreNavigator } from '@services/navigator';
-import { CoreRefreshContext, CORE_REFRESH_CONTEXT } from '@/core/utils/refresh-context';
+import type { CoreRefreshContext } from '@/core/utils/refresh-context';
+import { CORE_REFRESH_CONTEXT } from '@/core/utils/refresh-context';
 
 /**
  * Page that displays the contents of a course.

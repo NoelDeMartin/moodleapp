@@ -13,12 +13,13 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import {
-    MediaCapture,
+import type {
     CaptureAudioOptions,
     CaptureImageOptions,
     CaptureVideoOptions,
-    MediaFile,
+    MediaFile } from '@ionic-native/media-capture/ngx';
+import {
+    MediaCapture,
 } from '@ionic-native/media-capture/ngx';
 
 import { CoreEmulatorCaptureHelper } from './capture-helper';

@@ -13,8 +13,9 @@
 // limitations under the License.
 
 import { CoreConstants, ModPurpose } from '@/core/constants';
-import { Injectable, Type } from '@angular/core';
-import { CoreCourseModuleHandler } from '@features/course/services/module-delegate';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { CoreCourseModuleHandler } from '@features/course/services/module-delegate';
 import { makeSingleton } from '@singletons';
 import { AddonModFeedbackIndexComponent } from '../../components/index';
 import { CoreModuleHandlerBase } from '@features/course/classes/module-base-handler';

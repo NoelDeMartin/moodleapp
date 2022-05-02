@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@singletons';
-import { AddonModBookTocChapter, AddonModBookBookWSData, AddonModBookNumbering } from '../../services/book';
+import type { AddonModBookTocChapter, AddonModBookBookWSData } from '../../services/book';
+import { AddonModBookNumbering } from '../../services/book';
 
 /**
  * Modal to display the TOC of a book.

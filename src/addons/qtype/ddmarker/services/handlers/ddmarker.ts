@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { CoreQuestion, CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
-import { CoreQuestionHandler } from '@features/question/services/question-delegate';
-import { CoreQuestionHelper, CoreQuestionQuestion } from '@features/question/services/question-helper';
-import { CoreWSFile } from '@services/ws';
+import type { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
+import { CoreQuestion } from '@features/question/services/question';
+import type { CoreQuestionHandler } from '@features/question/services/question-delegate';
+import type { CoreQuestionQuestion } from '@features/question/services/question-helper';
+import { CoreQuestionHelper } from '@features/question/services/question-helper';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { AddonQtypeDdMarkerComponent } from '../../component/ddmarker';
 

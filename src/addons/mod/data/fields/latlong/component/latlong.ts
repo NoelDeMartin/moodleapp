@@ -13,11 +13,11 @@
 // limitations under the License.
 
 import { AddonModDataFieldPluginComponent } from '@addons/mod/data/classes/field-plugin-component';
-import { AddonModDataEntryField } from '@addons/mod/data/services/data';
+import type { AddonModDataEntryField } from '@addons/mod/data/services/data';
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { SafeUrl } from '@angular/platform-browser';
-import { CoreAnyError } from '@classes/errors/error';
+import type { FormBuilder } from '@angular/forms';
+import type { SafeUrl } from '@angular/platform-browser';
+import type { CoreAnyError } from '@classes/errors/error';
 import { CoreApp } from '@services/app';
 import { CoreGeolocation, CoreGeolocationError, CoreGeolocationErrorReason } from '@services/geolocation';
 import { CoreDomUtils } from '@services/utils/dom';

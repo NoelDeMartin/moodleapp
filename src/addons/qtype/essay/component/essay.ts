@@ -12,17 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { OnInit, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
+import type { FormBuilder, FormControl } from '@angular/forms';
+import type { FileEntry } from '@ionic-native/file/ngx';
 
-import { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
-import { AddonModQuizEssayQuestion, CoreQuestionBaseComponent } from '@features/question/classes/base-question-component';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { AddonModQuizEssayQuestion } from '@features/question/classes/base-question-component';
+import { CoreQuestionBaseComponent } from '@features/question/classes/base-question-component';
 import { CoreQuestionHelper } from '@features/question/services/question-helper';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreFileSession } from '@services/file-session';
 import { CoreQuestion } from '@features/question/services/question';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 /**
  * Component to render an essay question.
  */

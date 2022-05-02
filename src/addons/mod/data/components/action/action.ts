@@ -12,19 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Input } from '@angular/core';
-import { Params } from '@angular/router';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { Params } from '@angular/router';
 import { CoreTag } from '@features/tag/services/tag';
 import { CoreUser } from '@features/user/services/user';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreEvents } from '@singletons/events';
-import {
-    AddonModDataAction,
+import type {
     AddonModDataData,
     AddonModDataEntry,
+    AddonModDataTemplateMode } from '../../services/data';
+import {
+    AddonModDataAction,
     AddonModDataProvider,
-    AddonModDataTemplateMode,
 } from '../../services/data';
 import { AddonModDataHelper } from '../../services/data-helper';
 import { AddonModDataOffline } from '../../services/data-offline';

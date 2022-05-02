@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChange } from '@angular/core';
+import type { OnChanges, OnInit, SimpleChange } from '@angular/core';
+import { Inject, Component, ElementRef, Input } from '@angular/core';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
 import { CoreSites } from '@services/sites';
@@ -43,7 +44,7 @@ export class CoreModIconComponent implements OnInit, OnChanges {
 
     protected legacyIcon = true; // @deprecatedonmoodle since Moodle 3.11.
 
-    constructor(protected el: ElementRef) { }
+    constructor(@Inject(ElementRef) protected el: ElementRef) { }
 
     /**
      * @inheritdoc

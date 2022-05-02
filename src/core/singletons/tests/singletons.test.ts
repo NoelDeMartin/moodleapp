@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { mock } from '@/testing/utils';
-import { CoreSingletonProxy, makeSingleton, setSingletonsInjector } from '@singletons';
+import type { CoreSingletonProxy } from '@singletons';
+import { makeSingleton, setSingletonsInjector } from '@singletons';
 
 import { MilkyWayService } from './stubs';
 

@@ -12,20 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
-import { SafeUrl } from '@angular/platform-browser';
-import { IonRefresher } from '@ionic/angular';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { SafeUrl } from '@angular/platform-browser';
+import type { IonRefresher } from '@ionic/angular';
 
-import { CoreSite } from '@classes/site';
-import { CoreCourseModuleDefaultHandler } from './handlers/default-module';
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
-import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { CoreSite } from '@classes/site';
+import type { CoreCourseModuleDefaultHandler } from './handlers/default-module';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
 import { CoreCourse } from './course';
 import { CoreSites } from '@services/sites';
 import { makeSingleton } from '@singletons';
-import { CoreCourseModuleData } from './course-helper';
-import { CoreNavigationOptions } from '@services/navigator';
-import { CoreIonicColorNames } from '@singletons/colors';
+import type { CoreCourseModuleData } from './course-helper';
+import type { CoreNavigationOptions } from '@services/navigator';
+import type { CoreIonicColorNames } from '@singletons/colors';
 
 /**
  * Interface that all course module handlers must implement.

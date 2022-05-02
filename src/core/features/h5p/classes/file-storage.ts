@@ -18,16 +18,18 @@ import { CoreSites } from '@services/sites';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import {
-    CoreH5PCore,
+import type {
     CoreH5PDependencyAsset,
     CoreH5PContentDependencyData,
     CoreH5PDependenciesFiles,
     CoreH5PLibraryBasicData,
-    CoreH5PContentMainLibraryData,
+    CoreH5PContentMainLibraryData } from './core';
+import {
+    CoreH5PCore,
 } from './core';
-import { CONTENTS_LIBRARIES_TABLE_NAME, CONTENT_TABLE_NAME, CoreH5PLibraryCachedAssetsDBRecord } from '../services/database/h5p';
-import { CoreH5PLibraryBeingSaved } from './storage';
+import type { CoreH5PLibraryCachedAssetsDBRecord } from '../services/database/h5p';
+import { CONTENTS_LIBRARIES_TABLE_NAME, CONTENT_TABLE_NAME } from '../services/database/h5p';
+import type { CoreH5PLibraryBeingSaved } from './storage';
 import { CoreText } from '@singletons/text';
 
 /**

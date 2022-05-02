@@ -12,30 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { ActionSheetButton, IonRefresher } from '@ionic/angular';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { OnDestroy, OnInit, ElementRef } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import type { ActionSheetButton, IonRefresher } from '@ionic/angular';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
-import {
+import type {
     CoreCourseCustomField,
     CoreCourseEnrolmentMethod,
-    CoreCourses,
     CoreCourseSearchedData,
+    CoreEnrolledCourseData } from '@features/courses/services/courses';
+import {
+    CoreCourses,
     CoreCoursesProvider,
-    CoreEnrolledCourseData,
 } from '@features/courses/services/courses';
+import type {
+    CoreCourseOptionsMenuHandlerToDisplay } from '@features/course/services/course-options-delegate';
 import {
     CoreCourseOptionsDelegate,
-    CoreCourseOptionsMenuHandlerToDisplay,
 } from '@features/course/services/course-options-delegate';
 import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { ActionSheetController, ModalController, NgZone, Platform, Translate } from '@singletons';
 import { CoreCoursesSelfEnrolPasswordComponent } from '../../../courses/components/self-enrol-password/self-enrol-password';
 import { CoreNavigator } from '@services/navigator';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreCoursesHelper, CoreCourseWithImageAndColor } from '@features/courses/services/courses-helper';
-import { Subscription } from 'rxjs';
+import type { CoreCourseWithImageAndColor } from '@features/courses/services/courses-helper';
+import { CoreCoursesHelper } from '@features/courses/services/courses-helper';
+import type { Subscription } from 'rxjs';
 import { CoreColors } from '@singletons/colors';
 import { CoreText } from '@singletons/text';
 import { CorePromisedValue } from '@classes/promised-value';

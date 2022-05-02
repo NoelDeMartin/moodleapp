@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { BehaviorSubject, Subject } from 'rxjs';
+import type { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { CoreEvents } from '@singletons/events';
-import { CoreDelegate, CoreDelegateDisplayHandler, CoreDelegateToDisplay } from './delegate';
+import type { CoreDelegateDisplayHandler, CoreDelegateToDisplay } from './delegate';
+import { CoreDelegate } from './delegate';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreSites } from '@services/sites';
 

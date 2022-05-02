@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
+import type {
     AbstractType,
+    Injector,
+    Type } from '@angular/core';
+import {
     ApplicationInitStatus,
     ApplicationRef,
     ComponentFactoryResolver as ComponentFactoryResolverService,
-    Injector,
     NgZone as NgZoneService,
-    Type,
 } from '@angular/core';
 import { Router as RouterService } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -66,7 +67,7 @@ import { Zip as ZipService } from '@ionic-native/zip/ngx';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { CoreApplicationInitStatus } from '@classes/application-init-status';
+import type { CoreApplicationInitStatus } from '@classes/application-init-status';
 import { asyncInstance } from '@/core/utils/async-instance';
 import { CorePromisedValue } from '@classes/promised-value';
 

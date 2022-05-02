@@ -15,17 +15,19 @@
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
 import { CoreWSError } from '@classes/errors/wserror';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
 import { CoreApp } from '@services/app';
 import { CoreFilepool } from '@services/filepool';
-import { CoreSites, CoreSitesCommonWSOptions } from '@services/sites';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreStatusWithWarningsWSResponse, CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import type { CoreStatusWithWarningsWSResponse, CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { AddonModChoiceOffline } from './choice-offline';
-import { AddonModChoiceAutoSyncData, AddonModChoiceSyncProvider } from './choice-sync';
+import type { AddonModChoiceAutoSyncData, AddonModChoiceSyncProvider } from './choice-sync';
 
 const ROOT_CACHE_KEY = 'mmaModChoice:';
 

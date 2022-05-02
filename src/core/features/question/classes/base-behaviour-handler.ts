@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Type } from '@angular/core';
+import type { Type } from '@angular/core';
 
-import { CoreQuestion, CoreQuestionState } from '@features/question/services/question';
-import { CoreQuestionBehaviourHandler } from '../services/behaviour-delegate';
-import { CoreQuestionQuestionParsed } from '../services/question';
+import type { CoreQuestionState } from '@features/question/services/question';
+import { CoreQuestion } from '@features/question/services/question';
+import type { CoreQuestionBehaviourHandler } from '../services/behaviour-delegate';
+import type { CoreQuestionQuestionParsed } from '../services/question';
 
 /**
  * Base handler for question behaviours.

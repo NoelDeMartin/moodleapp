@@ -19,11 +19,12 @@ import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreH5P } from '@features/h5p/services/h5p';
 import { CoreH5PFileStorage } from './file-storage';
-import { CoreH5PFramework } from './framework';
-import { CoreH5PContentValidator, CoreH5PSemantics } from './content-validator';
+import type { CoreH5PFramework } from './framework';
+import type { CoreH5PSemantics } from './content-validator';
+import { CoreH5PContentValidator } from './content-validator';
 import { Translate } from '@singletons';
-import { CoreH5PContentBeingSaved } from './storage';
-import { CoreH5PLibraryAddTo } from './validator';
+import type { CoreH5PContentBeingSaved } from './storage';
+import type { CoreH5PLibraryAddTo } from './validator';
 import { CoreText } from '@singletons/text';
 
 /**

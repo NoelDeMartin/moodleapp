@@ -14,7 +14,8 @@
 
 import { CoreSharedModule } from '@/core/shared.module';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CoreCommentsComponentsModule } from '@features/comments/components/components.module';
 import { CoreTagComponentsModule } from '@features/tag/components/components.module';
 import { AddonNotesListPage } from './pages/list/list.page';

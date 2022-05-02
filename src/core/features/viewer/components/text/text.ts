@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Component, Input } from '@angular/core';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 
 import { CoreUtils } from '@services/utils/utils';
 import { ModalController } from '@singletons';

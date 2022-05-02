@@ -14,7 +14,7 @@
 
 import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
-import {
+import type {
     AddonCalendarEvents,
     AddonCalendarEventsGroupedByCourse,
     AddonCalendarEvent,
@@ -24,7 +24,7 @@ import {
 } from '@addons/calendar/services/calendar';
 import moment from 'moment';
 import { makeSingleton } from '@singletons';
-import { CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
 
 // Cache key was maintained from block myoverview when blocks were splitted.
 const ROOT_CACHE_KEY = 'myoverview:';

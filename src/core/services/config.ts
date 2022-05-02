@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { EnvironmentConfig } from '@/types/config';
+import type { EnvironmentConfig } from '@/types/config';
 import { Injectable } from '@angular/core';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
 import { CoreApp } from '@services/app';
-import { APP_SCHEMA, ConfigDBEntry, CONFIG_TABLE_NAME } from '@services/database/config';
+import type { ConfigDBEntry } from '@services/database/config';
+import { APP_SCHEMA, CONFIG_TABLE_NAME } from '@services/database/config';
 import { makeSingleton } from '@singletons';
 import { CoreConstants } from '../constants';
 import { CoreEvents } from '@singletons/events';
-import { CoreDatabaseTable } from '@classes/database/database-table';
+import type { CoreDatabaseTable } from '@classes/database/database-table';
 import { asyncInstance } from '../utils/async-instance';
 import { CorePromisedValue } from '@classes/promised-value';
 import { CoreBrowser } from '@singletons/browser';

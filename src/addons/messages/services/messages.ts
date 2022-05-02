@@ -16,23 +16,26 @@ import { Injectable } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
 import { CoreSites } from '@services/sites';
 import { CoreApp } from '@services/app';
-import { CoreUser, CoreUserBasicData } from '@features/user/services/user';
-import {
-    AddonMessagesOffline,
+import type { CoreUserBasicData } from '@features/user/services/user';
+import { CoreUser } from '@features/user/services/user';
+import type {
     AddonMessagesOfflineAnyMessagesFormatted,
     AddonMessagesOfflineConversationMessagesDBRecordFormatted,
-    AddonMessagesOfflineMessagesDBRecordFormatted,
+    AddonMessagesOfflineMessagesDBRecordFormatted } from './messages-offline';
+import {
+    AddonMessagesOffline,
 } from './messages-offline';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreEvents } from '@singletons/events';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreWSExternalWarning } from '@services/ws';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { CoreError } from '@classes/errors/error';
-import { AddonMessagesSyncEvents, AddonMessagesSyncProvider } from './messages-sync';
+import type { AddonMessagesSyncEvents, AddonMessagesSyncProvider } from './messages-sync';
 import { CoreWSError } from '@classes/errors/wserror';
-import { AddonNotificationsPreferencesNotificationProcessorState } from '@addons/notifications/services/notifications';
+import type { AddonNotificationsPreferencesNotificationProcessorState } from '@addons/notifications/services/notifications';
 
 const ROOT_CACHE_KEY = 'mmaMessages:';
 

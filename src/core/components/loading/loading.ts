@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit, OnChanges, SimpleChange, ElementRef, AfterViewInit } from '@angular/core';
+import type { OnInit, OnChanges, SimpleChange, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { CoreEventLoadingChangedData, CoreEvents } from '@singletons/events';
+import type { CoreEventLoadingChangedData } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreAnimations } from '@components/animations';
 import { Translate } from '@singletons';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 import { CorePromisedValue } from '@classes/promised-value';
-import { AsyncComponent } from '@classes/async-component';
+import type { AsyncComponent } from '@classes/async-component';
 
 /**
  * Component to show a loading spinner and message while data is being loaded.

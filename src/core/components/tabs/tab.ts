@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, OnInit, OnDestroy, ElementRef, EventEmitter, ContentChild, TemplateRef } from '@angular/core';
-import { CoreTabBase } from '@classes/tabs';
+import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ContentChild, TemplateRef } from '@angular/core';
+import type { CoreTabBase } from '@classes/tabs';
 
 import { CoreUtils } from '@services/utils/utils';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 import { CoreNavBarButtonsComponent } from '../navbar-buttons/navbar-buttons';
-import { CoreTabsComponent } from './tabs';
+import type { CoreTabsComponent } from './tabs';
 
 /**
  * A tab to use inside core-tabs. The content of this tab will be displayed when the tab is selected.

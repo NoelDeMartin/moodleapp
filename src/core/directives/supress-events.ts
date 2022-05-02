@@ -14,7 +14,8 @@
 
 // Based on http://roblouie.com/article/198/using-gestures-in-the-ionic-2-beta/
 
-import { Directive, ElementRef, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Directive, Input, Inject, Output, EventEmitter, ElementRef } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
 
 /**
@@ -46,7 +47,7 @@ export class CoreSupressEventsDirective implements OnInit {
 
     protected element: HTMLElement;
 
-    constructor(el: ElementRef) {
+    constructor(@Inject(ElementRef) el: ElementRef) {
         this.element = el.nativeElement;
     }
 

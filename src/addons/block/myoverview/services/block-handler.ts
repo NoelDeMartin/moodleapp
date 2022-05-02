@@ -14,7 +14,7 @@
 
 import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
-import { CoreBlockHandlerData } from '@features/block/services/block-delegate';
+import type { CoreBlockHandlerData } from '@features/block/services/block-delegate';
 import { CoreCourses } from '@features/courses/services/courses';
 import { AddonBlockMyOverviewComponent } from '../components/myoverview/myoverview';
 import { CoreBlockBaseHandler } from '@features/block/classes/base-block-handler';

@@ -15,14 +15,14 @@
 import { Injectable } from '@angular/core';
 
 import { CoreConstants } from '@/core/constants';
-import { LangChangeEvent } from '@ngx-translate/core';
+import type { LangChangeEvent } from '@ngx-translate/core';
 import { CoreAppProvider } from '@services/app';
 import { CoreConfig } from '@services/config';
 import { CoreSubscriptions } from '@singletons/subscriptions';
 import { makeSingleton, Translate, Platform, Http } from '@singletons';
 
 import * as moment from 'moment';
-import { CoreSite } from '../classes/site';
+import type { CoreSite } from '../classes/site';
 
 /*
  * Service to handle language features, like changing the current language.

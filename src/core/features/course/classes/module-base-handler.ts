@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
+import type { CoreNavigationOptions } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 import { CoreCourse } from '../services/course';
-import { CoreCourseModuleData } from '../services/course-helper';
-import { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '../services/module-delegate';
+import type { CoreCourseModuleData } from '../services/course-helper';
+import type { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '../services/module-delegate';
 
 /**
  * Base module handler to be registered.

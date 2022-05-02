@@ -14,7 +14,7 @@
 
 import { CoreSites } from '@services/sites';
 import { CoreEvents } from '@singletons/events';
-import { CoreSite } from '@classes/site';
+import type { CoreSite } from '@classes/site';
 import { CoreLogger } from '@singletons/logger';
 
 /**

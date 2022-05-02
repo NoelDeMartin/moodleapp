@@ -13,8 +13,8 @@
 // limitations under the License.
 
 import { Component, Input } from '@angular/core';
-import { CoreTagItem } from '@features/tag/services/tag';
-import { Params } from '@angular/router';
+import type { CoreTagItem } from '@features/tag/services/tag';
+import type { Params } from '@angular/router';
 import { CoreNavigator } from '@services/navigator';
 
 /**

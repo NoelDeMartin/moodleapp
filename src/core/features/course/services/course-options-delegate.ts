@@ -13,21 +13,24 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreDelegate, CoreDelegateHandler, CoreDelegateToDisplay } from '@classes/delegate';
+import type { CoreDelegateHandler, CoreDelegateToDisplay } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
 import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
-import { CoreUtils, PromiseDefer } from '@services/utils/utils';
-import {
+import type { PromiseDefer } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
+import type {
     CoreCourseAnyCourseData,
     CoreCourseAnyCourseDataWithOptions,
+    CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
+import {
     CoreCourses,
     CoreCoursesProvider,
-    CoreCourseUserAdminOrNavOptionIndexed,
 } from '@features/courses/services/courses';
 import { CoreCourseProvider } from './course';
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { makeSingleton } from '@singletons';
-import { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '@features/courses/services/courses-helper';
+import type { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '@features/courses/services/courses-helper';
 
 /**
  * Interface that all course options handlers must implement.

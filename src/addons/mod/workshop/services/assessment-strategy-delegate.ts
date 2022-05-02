@@ -12,11 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
-import { CoreDelegateHandler, CoreDelegate } from '@classes/delegate';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
 import { makeSingleton } from '@singletons';
-import { CoreFormFields } from '@singletons/form';
-import { AddonModWorkshopGetAssessmentFormDefinitionData, AddonModWorkshopGetAssessmentFormFieldsParsedData } from './workshop';
+import type { CoreFormFields } from '@singletons/form';
+import type {
+    AddonModWorkshopGetAssessmentFormDefinitionData,
+    AddonModWorkshopGetAssessmentFormFieldsParsedData,
+} from './workshop';
 
 /**
  * Interface that all assessment strategy handlers must implement.

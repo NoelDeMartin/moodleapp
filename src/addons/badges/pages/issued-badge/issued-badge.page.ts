@@ -12,17 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreSites } from '@services/sites';
-import { CoreUser, CoreUserProfile } from '@features/user/services/user';
-import { AddonBadges, AddonBadgesUserBadge } from '../../services/badges';
+import type { CoreUserProfile } from '@features/user/services/user';
+import { CoreUser } from '@features/user/services/user';
+import type { AddonBadgesUserBadge } from '../../services/badges';
+import { AddonBadges } from '../../services/badges';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreCourses, CoreEnrolledCourseData } from '@features/courses/services/courses';
+import type { CoreEnrolledCourseData } from '@features/courses/services/courses';
+import { CoreCourses } from '@features/courses/services/courses';
 import { CoreNavigator } from '@services/navigator';
-import { ActivatedRoute } from '@angular/router';
+import type { ActivatedRoute } from '@angular/router';
 import { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
 import { AddonBadgesUserBadgesSource } from '@addons/badges/classes/user-badges-source';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';

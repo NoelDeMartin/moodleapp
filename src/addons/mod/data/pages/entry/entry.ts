@@ -12,27 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, ViewChild, ChangeDetectorRef, OnInit, Type } from '@angular/core';
+import type { OnDestroy, ChangeDetectorRef, OnInit, Type } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CoreCommentsCommentsComponent } from '@features/comments/components/comments/comments';
 import { CoreComments } from '@features/comments/services/comments';
 import { CoreCourse } from '@features/course/services/course';
-import { CoreRatingInfo } from '@features/rating/services/rating';
-import { IonContent, IonRefresher } from '@ionic/angular';
-import { CoreGroups, CoreGroupInfo } from '@services/groups';
+import type { CoreRatingInfo } from '@features/rating/services/rating';
+import type { IonRefresher } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
+import type { CoreGroupInfo } from '@services/groups';
+import { CoreGroups } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { AddonModDataComponentsCompileModule } from '../../components/components-compile.module';
-import { AddonModDataProvider,
-    AddonModData,
+import type {
     AddonModDataData,
     AddonModDataGetDataAccessInformationWSResponse,
     AddonModDataField,
+    AddonModDataEntry } from '../../services/data';
+import { AddonModDataProvider,
+    AddonModData,
     AddonModDataTemplateType,
     AddonModDataTemplateMode,
-    AddonModDataEntry,
 } from '../../services/data';
 import { AddonModDataHelper } from '../../services/data-helper';
 import { AddonModDataSyncProvider } from '../../services/data-sync';

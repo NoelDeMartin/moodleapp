@@ -17,18 +17,19 @@ import { Injectable } from '@angular/core';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
 import { AddonMessageOutputDelegate } from '@addons/messageoutput/services/messageoutput-delegate';
-import {
-    AddonNotifications,
+import type {
     AddonNotificationsNotificationMessageFormatted,
     AddonNotificationsPreferences,
     AddonNotificationsPreferencesComponent,
     AddonNotificationsPreferencesNotification,
     AddonNotificationsPreferencesNotificationProcessor,
-    AddonNotificationsPreferencesProcessor,
+    AddonNotificationsPreferencesProcessor } from './notifications';
+import {
+    AddonNotifications,
     AddonNotificationsProvider,
 } from './notifications';
 import { CoreEvents } from '@singletons/events';
-import { AddonNotificationsNotificationData } from './handlers/push-click';
+import type { AddonNotificationsNotificationData } from './handlers/push-click';
 import { CoreTimeUtils } from '@services/utils/time';
 
 /**

@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavParams } from '@ionic/angular';
+import type { ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { NavParams } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
 import { ModalController } from '@singletons';
 import { CoreForms } from '@singletons/form';

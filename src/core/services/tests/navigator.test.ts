@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { NavController as NavControllerService } from '@ionic/angular';
+import type { NavController as NavControllerService } from '@ionic/angular';
 
 import { mockSingleton } from '@/testing/utils';
 
 import { CoreNavigatorService } from '@services/navigator';
 import { NavController, Router } from '@singletons';
-import { ActivatedRoute, RouterState } from '@angular/router';
+import type { ActivatedRoute, RouterState } from '@angular/router';
 import { CoreSites } from '@services/sites';
 import { CoreMainMenu } from '@features/mainmenu/services/mainmenu';
 import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';

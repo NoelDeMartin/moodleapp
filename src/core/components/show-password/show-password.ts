@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, AfterViewInit, Input, ElementRef, ContentChild } from '@angular/core';
+import type { OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, Input, ContentChild } from '@angular/core';
 import { IonInput } from '@ionic/angular';
 
 import { CoreApp } from '@services/app';

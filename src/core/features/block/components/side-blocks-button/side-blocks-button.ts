@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { CoreCancellablePromise } from '@classes/cancellable-promise';
-import { CoreUserTourDirectiveOptions } from '@directives/user-tour';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, ElementRef } from '@angular/core';
+import type { CoreCancellablePromise } from '@classes/cancellable-promise';
+import type { CoreUserTourDirectiveOptions } from '@directives/user-tour';
 import { CoreUserToursAlignment, CoreUserToursSide } from '@features/usertours/services/user-tours';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreDom } from '@singletons/dom';
@@ -50,7 +51,7 @@ export class CoreBlockSideBlocksButtonComponent implements OnInit, OnDestroy {
     protected element: HTMLElement;
     protected slotPromise?: CoreCancellablePromise<void>;
 
-    constructor(el: ElementRef) {
+    constructor(@Inject(ElementRef) el: ElementRef) {
         this.element = el.nativeElement;
     }
 

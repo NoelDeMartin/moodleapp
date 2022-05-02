@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ContextLevel } from '@/core/constants';
-import { CoreSiteSchema } from '@services/sites';
+import type { ContextLevel } from '@/core/constants';
+import type { CoreSiteSchema } from '@services/sites';
 
 /**
  * Database variables for CoreRatingOffline service.

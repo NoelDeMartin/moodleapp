@@ -14,13 +14,14 @@
 
 import { Injectable } from '@angular/core';
 import { CoreWSError } from '@classes/errors/wserror';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
 import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
 import { CoreUser } from '@features/user/services/user';
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalWarning } from '@services/ws';
+import type { CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { AddonNotesOffline } from './notes-offline';
 

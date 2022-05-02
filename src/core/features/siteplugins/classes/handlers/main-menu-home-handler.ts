@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreMainMenuHomeHandler, CoreMainMenuHomeHandlerData } from '@features/mainmenu/services/home-delegate';
-import {
+import type { CoreMainMenuHomeHandler, CoreMainMenuHomeHandlerData } from '@features/mainmenu/services/home-delegate';
+import type {
     CoreSitePluginsContent,
     CoreSitePluginsMainMenuHomeHandlerData,
     CoreSitePluginsPlugin,

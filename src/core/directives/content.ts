@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, ElementRef, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Directive, ElementRef, Inject } from '@angular/core';
 
 /**
  * Directive to enabled scroll events on ALL scrollable ion-content.
@@ -28,7 +29,7 @@ export class CoreContentDirective implements OnInit {
 
     protected element: HTMLIonContentElement;
 
-    constructor(el: ElementRef) {
+    constructor(@Inject(ElementRef) el: ElementRef) {
         this.element = el.nativeElement;
     }
 

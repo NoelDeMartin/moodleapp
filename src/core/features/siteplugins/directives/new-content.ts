@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, Input, OnInit, ElementRef, Optional } from '@angular/core';
+import type { OnInit, ElementRef } from '@angular/core';
+import { Directive, Input, Optional } from '@angular/core';
 import { Md5 } from 'ts-md5';
 
-import { CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
 import { CoreNavigator } from '@services/navigator';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreSitePluginsPluginContentComponent } from '../components/plugin-content/plugin-content';
+import type { CoreSitePluginsPluginContentComponent } from '../components/plugin-content/plugin-content';
 import { CoreSitePlugins } from '../services/siteplugins';
 import { CoreForms } from '@singletons/form';
 

@@ -13,8 +13,8 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { WKUserScriptWindow } from 'cordova-plugin-wkuserscript';
-import { WKWebViewCookiesWindow } from 'cordova-plugin-wkwebview-cookies';
+import type { WKUserScriptWindow } from 'cordova-plugin-wkuserscript';
+import type { WKWebViewCookiesWindow } from 'cordova-plugin-wkwebview-cookies';
 
 import { CoreApp } from '@services/app';
 import { CoreFile } from '@services/file';
@@ -22,7 +22,8 @@ import { CoreFileHelper } from '@services/file-helper';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUrlUtils } from '@services/utils/url';
-import { CoreUtils, PromiseDefer } from '@services/utils/utils';
+import type { PromiseDefer } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
 
 import { makeSingleton, Network, NgZone, Translate, Diagnostic } from '@singletons';
 import { CoreLogger } from '@singletons/logger';

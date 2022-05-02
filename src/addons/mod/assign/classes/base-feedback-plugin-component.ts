@@ -17,8 +17,8 @@ import { CoreCanceledError } from '@classes/errors/cancelederror';
 import { CoreError } from '@classes/errors/error';
 import { CoreDomUtils } from '@services/utils/dom';
 import { AddonModAssignEditFeedbackModalComponent } from '../components/edit-feedback-modal/edit-feedback-modal';
-import { AddonModAssignFeedbackCommentsTextData } from '../feedback/comments/services/handler';
-import { AddonModAssignAssign, AddonModAssignPlugin, AddonModAssignSubmission } from '../services/assign';
+import type { AddonModAssignFeedbackCommentsTextData } from '../feedback/comments/services/handler';
+import type { AddonModAssignAssign, AddonModAssignPlugin, AddonModAssignSubmission } from '../services/assign';
 
 /**
  * Base class for component to render a feedback plugin.

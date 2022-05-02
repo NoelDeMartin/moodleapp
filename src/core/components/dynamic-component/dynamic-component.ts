@@ -12,21 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
-    Component,
-    Input,
-    ViewChild,
+import type {
     OnChanges,
     DoCheck,
-    ViewContainerRef,
     ComponentFactoryResolver,
-    ComponentRef,
     KeyValueDiffers,
     SimpleChange,
     ChangeDetectorRef,
     ElementRef,
     KeyValueDiffer,
-    Type,
+    Type } from '@angular/core';
+import {
+    Component,
+    Input,
+    ViewChild,
+    ViewContainerRef,
+    ComponentRef,
 } from '@angular/core';
 
 import { CoreDomUtils } from '@services/utils/dom';

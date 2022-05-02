@@ -13,30 +13,36 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
-import { CoreIonLoadingElement } from '@classes/ion-loading';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import type { CoreIonLoadingElement } from '@classes/ion-loading';
 
-import { CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import type {
+    CoreCourseModuleSummaryResult } from '@features/course/components/module-summary/module-summary';
 import {
-    CoreCourseModuleSummaryResult,
     CoreCourseModuleSummaryComponent,
 } from '@features/course/components/module-summary/module-summary';
 import { CoreCourse } from '@features/course/services/course';
-import { CoreCourseHelper, CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
+import type {
+    CoreCourseModuleMainComponent } from '@features/course/services/module-delegate';
 import {
     CoreCourseModuleDelegate,
-    CoreCourseModuleMainComponent,
 } from '@features/course/services/module-delegate';
 import { CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
+import type {
+    CoreSitePluginsContent,
+    CoreSitePluginsCourseModuleHandlerData } from '@features/siteplugins/services/siteplugins';
 import {
     CoreSitePlugins,
-    CoreSitePluginsContent,
-    CoreSitePluginsCourseModuleHandlerData,
 } from '@features/siteplugins/services/siteplugins';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreSitePluginsPluginContentComponent, CoreSitePluginsPluginContentLoadedData } from '../plugin-content/plugin-content';
+import type { CoreSitePluginsPluginContentLoadedData } from '../plugin-content/plugin-content';
+import { CoreSitePluginsPluginContentComponent } from '../plugin-content/plugin-content';
 
 /**
  * Component that displays the index of a module site plugin.

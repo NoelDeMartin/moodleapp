@@ -12,22 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, SimpleChange, ElementRef, KeyValueChanges } from '@angular/core';
-import { IonContent } from '@ionic/angular';
-import { ModalOptions, PopoverOptions, AlertOptions, AlertButton, TextFieldTypes, getMode, ToastOptions } from '@ionic/core';
+import type { ElementRef, KeyValueChanges } from '@angular/core';
+import { Injectable, SimpleChange } from '@angular/core';
+import type { IonContent } from '@ionic/angular';
+import type { ModalOptions, PopoverOptions, AlertOptions, AlertButton, TextFieldTypes, ToastOptions } from '@ionic/core';
+import { getMode } from '@ionic/core';
 import { Md5 } from 'ts-md5';
 
 import { CoreApp } from '@services/app';
 import { CoreConfig } from '@services/config';
 import { CoreFile } from '@services/file';
-import { CoreWSExternalWarning } from '@services/ws';
-import { CoreTextUtils, CoreTextErrorObject } from '@services/utils/text';
+import type { CoreWSExternalWarning } from '@services/ws';
+import type { CoreTextErrorObject } from '@services/utils/text';
+import { CoreTextUtils } from '@services/utils/text';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreConstants } from '@/core/constants';
 import { CoreIonLoadingElement } from '@classes/ion-loading';
 import { CoreCanceledError } from '@classes/errors/cancelederror';
-import { CoreAnyError, CoreError } from '@classes/errors/error';
+import type { CoreAnyError } from '@classes/errors/error';
+import { CoreError } from '@classes/errors/error';
 import { CoreSilentError } from '@classes/errors/silenterror';
 import {
     makeSingleton,
@@ -39,11 +43,12 @@ import {
     Router,
 } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
-import { CoreFileSizeSum } from '@services/plugin-file-delegate';
+import type { CoreFileSizeSum } from '@services/plugin-file-delegate';
 import { CoreNetworkError } from '@classes/errors/network-error';
 import { CoreBSTooltipComponent } from '@components/bs-tooltip/bs-tooltip';
 import { CoreViewerImageComponent } from '@features/viewer/components/image/image';
-import { CoreFormFields, CoreForms } from '../../singletons/form';
+import type { CoreFormFields } from '../../singletons/form';
+import { CoreForms } from '../../singletons/form';
 import { CoreModalLateralTransitionEnter, CoreModalLateralTransitionLeave } from '@classes/modal-lateral-transition';
 import { CoreZoomLevel } from '@features/settings/services/settings-helper';
 import { CoreErrorWithTitle } from '@classes/errors/errorwithtitle';
@@ -51,7 +56,7 @@ import { AddonFilterMultilangHandler } from '@addons/filter/multilang/services/h
 import { CoreSites } from '@services/sites';
 import { NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 import { CoreDom } from '@singletons/dom';
 

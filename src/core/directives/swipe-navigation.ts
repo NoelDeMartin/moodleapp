@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {  AfterViewInit, Directive, ElementRef, Input, OnDestroy } from '@angular/core';
-import { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
+import type {  AfterViewInit, OnDestroy } from '@angular/core';
+import { Directive, Inject, Input, ElementRef } from '@angular/core';
+import type { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
 import { CoreSwipeNavigationTourComponent } from '@components/swipe-navigation-tour/swipe-navigation-tour';
 import { CoreUserTours } from '@features/usertours/services/user-tours';
-import { Gesture, GestureDetail } from '@ionic/angular';
+import type { Gesture, GestureDetail } from '@ionic/angular';
 import { CoreScreen } from '@services/screen';
 import { GestureController, Platform } from '@singletons';
 
@@ -41,7 +42,7 @@ export class CoreSwipeNavigationDirective implements AfterViewInit, OnDestroy {
     protected element: HTMLElement;
     protected swipeGesture?: Gesture;
 
-    constructor(el: ElementRef) {
+    constructor(@Inject(ElementRef) el: ElementRef) {
         this.element = el.nativeElement;
     }
 

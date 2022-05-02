@@ -15,11 +15,12 @@
 import { ADDON_COMPETENCY_COMPETENCIES_PAGE, ADDON_COMPETENCY_LEARNING_PLANS_PAGE } from '@addons/competency/competency.module';
 import { Injectable } from '@angular/core';
 import { COURSE_PAGE_NAME } from '@features/course/course.module';
-import { CoreUserProfile } from '@features/user/services/user';
-import {
+import type { CoreUserProfile } from '@features/user/services/user';
+import type {
     CoreUserProfileHandler,
+    CoreUserProfileHandlerData } from '@features/user/services/user-delegate';
+import {
     CoreUserDelegateService,
-    CoreUserProfileHandlerData,
     CoreUserDelegateContext,
 } from '@features/user/services/user-delegate';
 import { PARTICIPANTS_PAGE_NAME } from '@features/user/user.module';

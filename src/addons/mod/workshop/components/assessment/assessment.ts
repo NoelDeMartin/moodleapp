@@ -12,18 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
-import { Params } from '@angular/router';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
-import { CoreUser, CoreUserProfile } from '@features/user/services/user';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { Params } from '@angular/router';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreUserProfile } from '@features/user/services/user';
+import { CoreUser } from '@features/user/services/user';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
-import { AddonModWorkshopData, AddonModWorkshopGetWorkshopAccessInformationWSResponse } from '../../services/workshop';
+import type { AddonModWorkshopData, AddonModWorkshopGetWorkshopAccessInformationWSResponse } from '../../services/workshop';
+import type {
+    AddonModWorkshopSubmissionAssessmentWithFormData,
+    AddonModWorkshopSubmissionDataWithOfflineData } from '../../services/workshop-helper';
 import {
     AddonModWorkshopHelper,
-    AddonModWorkshopSubmissionAssessmentWithFormData,
-    AddonModWorkshopSubmissionDataWithOfflineData,
 } from '../../services/workshop-helper';
 import { AddonModWorkshopOffline } from '../../services/workshop-offline';
 

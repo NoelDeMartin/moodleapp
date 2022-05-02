@@ -13,12 +13,13 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CameraOptions } from '@ionic-native/camera/ngx';
-import { CaptureAudioOptions, CaptureImageOptions, CaptureVideoOptions, MediaFile } from '@ionic-native/media-capture/ngx';
+import type { CameraOptions } from '@ionic-native/camera/ngx';
+import type { CaptureAudioOptions, CaptureImageOptions, CaptureVideoOptions, MediaFile } from '@ionic-native/media-capture/ngx';
 
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { makeSingleton, ModalController } from '@singletons';
-import { CaptureMediaComponentInputs, CoreEmulatorCaptureMediaComponent } from '../components/capture-media/capture-media';
+import type { CaptureMediaComponentInputs } from '../components/capture-media/capture-media';
+import { CoreEmulatorCaptureMediaComponent } from '../components/capture-media/capture-media';
 
 /**
  * Helper service with some features to capture media (image, audio, video).

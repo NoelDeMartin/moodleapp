@@ -14,7 +14,7 @@
 
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@singletons';
-import { AddonModImscpTocItem } from '../../services/imscp';
+import type { AddonModImscpTocItem } from '../../services/imscp';
 
 /**
  * Modal to display the TOC of a imscp.

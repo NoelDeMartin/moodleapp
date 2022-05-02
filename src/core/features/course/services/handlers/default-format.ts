@@ -13,12 +13,14 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreCourseAnyCourseData, CoreCourses } from '@features/courses/services/courses';
-import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import { CoreCourses } from '@features/courses/services/courses';
+import type { CoreNavigationOptions } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
-import { CoreCourseSection } from '../course-helper';
-import { CoreCourseFormatCurrentSectionData, CoreCourseFormatHandler } from '../format-delegate';
+import type { CoreCourseSection } from '../course-helper';
+import type { CoreCourseFormatCurrentSectionData, CoreCourseFormatHandler } from '../format-delegate';
 
 /**
  * Default handler used when the course format doesn't have a specific implementation.

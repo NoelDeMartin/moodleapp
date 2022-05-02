@@ -15,7 +15,7 @@
 import { CoreContentLinksHandlerBase } from './base-handler';
 import { Translate } from '@singletons';
 
-import { CoreContentLinksAction } from '../services/contentlinks-delegate';
+import type { CoreContentLinksAction } from '../services/contentlinks-delegate';
 import { CoreNavigator } from '@services/navigator';
 
 /**

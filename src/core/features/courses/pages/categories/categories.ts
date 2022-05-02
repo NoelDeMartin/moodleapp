@@ -12,15 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreCategoryData, CoreCourseListItem, CoreCourses, CoreCoursesProvider } from '../../services/courses';
+import type { CoreCategoryData, CoreCourseListItem } from '../../services/courses';
+import { CoreCourses, CoreCoursesProvider } from '../../services/courses';
 import { Translate } from '@singletons';
 import { CoreNavigator } from '@services/navigator';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 
 /**
  * Page that displays a list of categories and the courses in the current category if any.

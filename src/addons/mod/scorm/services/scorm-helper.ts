@@ -14,23 +14,24 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate } from '@singletons';
-import {
-    AddonModScorm,
+import type {
     AddonModScormAttempt,
     AddonModScormAttemptCountResult,
     AddonModScormDataValue,
     AddonModScormGetScosWithDataOptions,
-    AddonModScormProvider,
     AddonModScormScoIcon,
     AddonModScormScorm,
     AddonModScormScoWithData,
     AddonModScormTOCListSco,
-    AddonModScormUserDataMap,
+    AddonModScormUserDataMap } from './scorm';
+import {
+    AddonModScorm,
+    AddonModScormProvider,
 } from './scorm';
 import { AddonModScormOffline } from './scorm-offline';
 

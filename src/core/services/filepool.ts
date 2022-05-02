@@ -16,42 +16,48 @@ import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
 
 import { CoreApp } from '@services/app';
-import { CoreEventPackageStatusChanged, CoreEvents } from '@singletons/events';
+import type { CoreEventPackageStatusChanged } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreFile } from '@services/file';
 import { CorePluginFileDelegate } from '@services/plugin-file-delegate';
 import { CoreSites } from '@services/sites';
-import { CoreWS, CoreWSExternalFile, CoreWSFile } from '@services/ws';
+import type { CoreWSExternalFile, CoreWSFile } from '@services/ws';
+import { CoreWS } from '@services/ws';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUrlUtils } from '@services/utils/url';
-import { CoreUtils, CoreUtilsOpenFileOptions, PromiseDefer } from '@services/utils/utils';
+import type { CoreUtilsOpenFileOptions, PromiseDefer } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
 import { SQLiteDB } from '@classes/sqlitedb';
 import { CoreError } from '@classes/errors/error';
 import { CoreConstants } from '@/core/constants';
 import { ApplicationInit, makeSingleton, Network, NgZone, Translate } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
-import {
-    APP_SCHEMA,
-    FILES_TABLE_NAME,
-    QUEUE_TABLE_NAME,
-    PACKAGES_TABLE_NAME,
-    LINKS_TABLE_NAME,
+import type {
     CoreFilepoolFileEntry,
     CoreFilepoolComponentLink,
     CoreFilepoolFileOptions,
     CoreFilepoolLinksRecord,
     CoreFilepoolPackageEntry,
     CoreFilepoolQueueEntry,
-    CoreFilepoolQueueDBEntry,
+    CoreFilepoolQueueDBEntry } from '@services/database/filepool';
+import {
+    APP_SCHEMA,
+    FILES_TABLE_NAME,
+    QUEUE_TABLE_NAME,
+    PACKAGES_TABLE_NAME,
+    LINKS_TABLE_NAME,
 } from '@services/database/filepool';
 import { CoreFileHelper } from './file-helper';
 import { CoreUrl } from '@singletons/url';
-import { CoreDatabaseTable } from '@classes/database/database-table';
+import type { CoreDatabaseTable } from '@classes/database/database-table';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
-import { lazyMap, LazyMap } from '../utils/lazy-map';
-import { asyncInstance, AsyncInstance } from '../utils/async-instance';
+import type { LazyMap } from '../utils/lazy-map';
+import { lazyMap } from '../utils/lazy-map';
+import type { AsyncInstance } from '../utils/async-instance';
+import { asyncInstance } from '../utils/async-instance';
 import { CoreText } from '@singletons/text';
 
 /*

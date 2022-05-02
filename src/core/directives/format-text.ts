@@ -12,43 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import type {
+    OnChanges,
+    SimpleChange,
+    ViewContainerRef,
+    OnDestroy } from '@angular/core';
 import {
     Directive,
     ElementRef,
     Input,
     Output,
     EventEmitter,
-    OnChanges,
-    SimpleChange,
     Optional,
-    ViewContainerRef,
     ViewChild,
-    OnDestroy,
     Inject,
 } from '@angular/core';
-import { IonContent } from '@ionic/angular';
+import type { IonContent } from '@ionic/angular';
 
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreIframeUtils, CoreIframeUtilsProvider } from '@services/utils/iframe';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreSite } from '@classes/site';
+import type { CoreSite } from '@classes/site';
 import { NgZone, Platform, Translate } from '@singletons';
 import { CoreExternalContentDirective } from './external-content';
 import { CoreLinkDirective } from './link';
-import { CoreFilter, CoreFilterFilter, CoreFilterFormatTextOptions } from '@features/filter/services/filter';
+import type { CoreFilterFilter, CoreFilterFormatTextOptions } from '@features/filter/services/filter';
+import { CoreFilter } from '@features/filter/services/filter';
 import { CoreFilterDelegate } from '@features/filter/services/filter-delegate';
 import { CoreFilterHelper } from '@features/filter/services/filter-helper';
 import { CoreSubscriptions } from '@singletons/subscriptions';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 import { CoreCollapsibleItemDirective } from './collapsible-item';
-import { CoreCancellablePromise } from '@classes/cancellable-promise';
-import { AsyncComponent } from '@classes/async-component';
+import type { CoreCancellablePromise } from '@classes/cancellable-promise';
+import type { AsyncComponent } from '@classes/async-component';
 import { CoreText } from '@singletons/text';
 import { CoreDom } from '@singletons/dom';
 import { CoreEvents } from '@singletons/events';
-import { CoreRefreshContext, CORE_REFRESH_CONTEXT } from '@/core/utils/refresh-context';
+import type { CoreRefreshContext } from '@/core/utils/refresh-context';
+import { CORE_REFRESH_CONTEXT } from '@/core/utils/refresh-context';
 
 /**
  * Directive to format text rendered. It renders the HTML and treats all links and media, using CoreLinkDirective

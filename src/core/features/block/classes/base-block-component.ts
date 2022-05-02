@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { OnInit, Input, Component, Optional, Inject } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Input, Component, Optional, Inject } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreTextUtils } from '@services/utils/text';
-import { CoreCourseBlock } from '../../course/services/course';
-import { IonRefresher } from '@ionic/angular';
-import { Params } from '@angular/router';
-import { ContextLevel } from '@/core/constants';
-import { CoreNavigationOptions } from '@services/navigator';
+import type { CoreCourseBlock } from '../../course/services/course';
+import type { IonRefresher } from '@ionic/angular';
+import type { Params } from '@angular/router';
+import type { ContextLevel } from '@/core/constants';
+import type { CoreNavigationOptions } from '@services/navigator';
 
 /**
  * Template class to easily create components for blocks.

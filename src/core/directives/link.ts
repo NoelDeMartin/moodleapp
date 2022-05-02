@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, Input, OnInit, ElementRef, Optional, SecurityContext } from '@angular/core';
-import { SafeUrl } from '@angular/platform-browser';
-import { IonContent } from '@ionic/angular';
+import type { OnInit, ElementRef } from '@angular/core';
+import { Directive, Input, Optional, SecurityContext } from '@angular/core';
+import type { SafeUrl } from '@angular/platform-browser';
+import type { IonContent } from '@ionic/angular';
 
 import { CoreFileHelper } from '@services/file-helper';
 import { CoreSites } from '@services/sites';

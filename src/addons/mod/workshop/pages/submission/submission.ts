@@ -12,41 +12,49 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, Optional, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Params } from '@angular/router';
+import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, Optional, ViewChild } from '@angular/core';
+import type { FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import type { Params } from '@angular/router';
 import { CoreCourse } from '@features/course/services/course';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
-import { CoreGradesHelper, CoreGradesMenuItem } from '@features/grades/services/grades-helper';
-import { CoreUser, CoreUserProfile } from '@features/user/services/user';
-import { CanLeave } from '@guards/can-leave';
-import { IonContent, IonRefresher } from '@ionic/angular';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreGradesMenuItem } from '@features/grades/services/grades-helper';
+import { CoreGradesHelper } from '@features/grades/services/grades-helper';
+import type { CoreUserProfile } from '@features/user/services/user';
+import { CoreUser } from '@features/user/services/user';
+import type { CanLeave } from '@guards/can-leave';
+import type { IonContent, IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreSync } from '@services/sync';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreForms } from '@singletons/form';
 import { AddonModWorkshopAssessmentStrategyComponent } from '../../components/assessment-strategy/assessment-strategy';
+import type {
+    AddonModWorkshopSubmissionChangedEventData,
+    AddonModWorkshopData,
+    AddonModWorkshopGetWorkshopAccessInformationWSResponse,
+    AddonModWorkshopAssessmentSavedChangedEventData } from '../../services/workshop';
 import {
     AddonModWorkshopProvider,
     AddonModWorkshop,
     AddonModWorkshopPhase,
-    AddonModWorkshopSubmissionChangedEventData,
     AddonModWorkshopAction,
-    AddonModWorkshopData,
-    AddonModWorkshopGetWorkshopAccessInformationWSResponse,
-    AddonModWorkshopAssessmentSavedChangedEventData,
 } from '../../services/workshop';
+import type {
+    AddonModWorkshopSubmissionAssessmentWithFormData,
+    AddonModWorkshopSubmissionDataWithOfflineData } from '../../services/workshop-helper';
 import {
     AddonModWorkshopHelper,
-    AddonModWorkshopSubmissionAssessmentWithFormData,
-    AddonModWorkshopSubmissionDataWithOfflineData,
 } from '../../services/workshop-helper';
 import { AddonModWorkshopOffline } from '../../services/workshop-offline';
-import { AddonModWorkshopSyncProvider, AddonModWorkshopAutoSyncData } from '../../services/workshop-sync';
+import type { AddonModWorkshopAutoSyncData } from '../../services/workshop-sync';
+import { AddonModWorkshopSyncProvider } from '../../services/workshop-sync';
 
 /**
  * Page that displays a workshop submission.

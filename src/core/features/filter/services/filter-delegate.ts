@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, ViewContainerRef } from '@angular/core';
+import type { ViewContainerRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { CoreSites } from '@services/sites';
-import { CoreFilterFilter, CoreFilterFormatTextOptions } from './filter';
-import { CoreFilterDefaultHandler } from './handlers/default-filter';
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
-import { CoreSite } from '@classes/site';
+import type { CoreFilterFilter, CoreFilterFormatTextOptions } from './filter';
+import type { CoreFilterDefaultHandler } from './handlers/default-filter';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
+import type { CoreSite } from '@classes/site';
 import { makeSingleton } from '@singletons';
 
 /**

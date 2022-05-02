@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnChanges, ViewChild } from '@angular/core';
+import type { OnChanges } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { CoreBlockBaseComponent } from '@features/block/classes/base-block-component';
 import { CoreBlockDelegate } from '@features/block/services/block-delegate';
-import { CoreSitePlugins, CoreSitePluginsContent } from '@features/siteplugins/services/siteplugins';
+import type { CoreSitePluginsContent } from '@features/siteplugins/services/siteplugins';
+import { CoreSitePlugins } from '@features/siteplugins/services/siteplugins';
 import { CoreSitePluginsPluginContentComponent } from '../plugin-content/plugin-content';
 
 /**

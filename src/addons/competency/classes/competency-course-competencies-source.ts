@@ -13,12 +13,13 @@
 // limitations under the License.
 
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
-import { CoreUserProfile } from '@features/user/services/user';
+import type { CoreUserProfile } from '@features/user/services/user';
 import { CoreUtils } from '@services/utils/utils';
+import type {
+    AddonCompetencyDataForCourseCompetenciesPageCompetency,
+    AddonCompetencyDataForCourseCompetenciesPageWSResponse } from '../services/competency';
 import {
     AddonCompetency,
-    AddonCompetencyDataForCourseCompetenciesPageCompetency,
-    AddonCompetencyDataForCourseCompetenciesPageWSResponse,
 } from '../services/competency';
 import { AddonCompetencyHelper } from '../services/competency-helper';
 

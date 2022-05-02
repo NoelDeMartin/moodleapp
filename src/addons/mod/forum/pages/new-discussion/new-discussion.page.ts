@@ -12,17 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, ViewChild, ElementRef, OnInit, Optional } from '@angular/core';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { OnDestroy, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, Optional } from '@angular/core';
+import type { FileEntry } from '@ionic-native/file/ngx';
 import { FormControl } from '@angular/forms';
-import { CoreEvents, CoreEventObserver } from '@singletons/events';
-import { CoreGroup, CoreGroups, CoreGroupsProvider } from '@services/groups';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { CoreGroup } from '@services/groups';
+import { CoreGroups, CoreGroupsProvider } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
-import {
-    AddonModForum,
+import type {
     AddonModForumAccessInformation,
     AddonModForumCanAddDiscussion,
-    AddonModForumData,
+    AddonModForumData } from '@addons/mod/forum/services/forum';
+import {
+    AddonModForum,
     AddonModForumProvider,
 } from '@addons/mod/forum/services/forum';
 import { CoreEditorRichTextEditorComponent } from '@features/editor/components/rich-text-editor/rich-text-editor';
@@ -31,17 +35,18 @@ import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { Translate } from '@singletons';
 import { CoreSync } from '@services/sync';
-import { AddonModForumDiscussionOptions, AddonModForumOffline } from '@addons/mod/forum/services/forum-offline';
+import type { AddonModForumDiscussionOptions } from '@addons/mod/forum/services/forum-offline';
+import { AddonModForumOffline } from '@addons/mod/forum/services/forum-offline';
 import { CoreUtils } from '@services/utils/utils';
 import { AddonModForumHelper } from '@addons/mod/forum/services/forum-helper';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
 import { CoreTextUtils } from '@services/utils/text';
-import { CanLeave } from '@guards/can-leave';
-import { CoreSplitViewComponent } from '@components/split-view/split-view';
+import type { CanLeave } from '@guards/can-leave';
+import type { CoreSplitViewComponent } from '@components/split-view/split-view';
 import { CoreForms } from '@singletons/form';
 import { AddonModForumDiscussionsSwipeManager } from '../../classes/forum-discussions-swipe-manager';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import type { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { AddonModForumDiscussionsSource } from '../../classes/forum-discussions-source';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 

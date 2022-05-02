@@ -12,22 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ViewChild, ElementRef, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import type { ElementRef, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
-import { CoreCountry, CoreUtils } from '@services/utils/utils';
-import { CoreWS, CoreWSExternalWarning } from '@services/ws';
+import type { CoreCountry } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
+import type { CoreWSExternalWarning } from '@services/ws';
+import { CoreWS } from '@services/ws';
 import { CoreConstants } from '@/core/constants';
 import { Translate } from '@singletons';
-import { CoreSitePublicConfigResponse } from '@classes/site';
+import type { CoreSitePublicConfigResponse } from '@classes/site';
 import { CoreUserProfileFieldDelegate } from '@features/user/services/user-profile-field-delegate';
 
-import {
+import type {
     AuthEmailSignupProfileFieldsCategory,
-    AuthEmailSignupSettings,
+    AuthEmailSignupSettings } from '@features/login/services/login-helper';
+import {
     CoreLoginHelper,
 } from '@features/login/services/login-helper';
 import { CoreNavigator } from '@services/navigator';

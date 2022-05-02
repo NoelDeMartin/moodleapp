@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { CoreConstants } from '@/core/constants';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { CoreSites, CoreSiteBasicInfo } from '@services/sites';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { CoreSiteBasicInfo } from '@services/sites';
+import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreConfig } from '@services/config';
 import { CoreSettingsHelper } from '@features/settings/services/settings-helper';

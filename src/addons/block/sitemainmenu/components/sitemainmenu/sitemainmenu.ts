@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreCourse } from '@features/course/services/course';
-import { CoreCourseHelper, CoreCourseSection } from '@features/course/services/course-helper';
+import type { CoreCourseSection } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { CoreSiteHome, FrontPageItemNames } from '@features/sitehome/services/sitehome';
 import { CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
 import { CoreBlockBaseComponent } from '@features/block/classes/base-block-component';

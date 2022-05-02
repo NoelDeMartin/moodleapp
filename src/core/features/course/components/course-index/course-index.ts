@@ -12,15 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import type { ElementRef, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type {
+    CoreCourseModuleCompletionStatus } from '@features/course/services/course';
 import {
-    CoreCourseModuleCompletionStatus,
     CoreCourseModuleCompletionTracking,
     CoreCourseProvider,
 } from '@features/course/services/course';
-import { CoreCourseHelper, CoreCourseSection } from '@features/course/services/course-helper';
+import type { CoreCourseSection } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { CoreCourseFormatDelegate } from '@features/course/services/format-delegate';
-import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
 import { CoreUtils } from '@services/utils/utils';
 import { ModalController } from '@singletons';
 import { CoreDom } from '@singletons/dom';

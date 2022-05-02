@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, Input, OnInit, ElementRef } from '@angular/core';
+import type { OnInit, ElementRef } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreCourse, CoreCourseModuleContentFile } from '@features/course/services/course';
-import { CoreCourseHelper, CoreCourseModuleData } from '@features/course/services/course-helper';
-import { CoreUtilsOpenFileOptions } from '@services/utils/utils';
+import type { CoreCourseModuleContentFile } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
+import type { CoreUtilsOpenFileOptions } from '@services/utils/utils';
 
 /**
  * Directive to allow downloading and open the main file of a module.

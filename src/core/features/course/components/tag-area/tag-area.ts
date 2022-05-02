@@ -15,7 +15,7 @@
 import { Component, Input } from '@angular/core';
 
 import { CoreCourseHelper } from '@features/course/services/course-helper';
-import { CoreCouseTagItems } from '@features/course/services/handlers/course-tag-area';
+import type { CoreCouseTagItems } from '@features/course/services/handlers/course-tag-area';
 
 /**
  * Component that renders the course tag area.

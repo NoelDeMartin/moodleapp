@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { CoreCourseWSSection } from '@features/course/services/course';
-import { CoreCourseFormatHandler } from '@features/course/services/format-delegate';
+import type { CoreCourseWSSection } from '@features/course/services/course';
+import type { CoreCourseFormatHandler } from '@features/course/services/format-delegate';
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
-import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
 import { CoreCourseFormatSingleActivityComponent } from '../../components/singleactivity';
 import { makeSingleton } from '@singletons';
 

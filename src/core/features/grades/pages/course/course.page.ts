@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ActivatedRoute } from '@angular/router';
-import { AfterViewInit, Component, ElementRef, OnDestroy } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { ActivatedRoute } from '@angular/router';
+import type { AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreGrades } from '@features/grades/services/grades';
-import {
+import type {
     CoreGradesFormattedTableColumn,
-    CoreGradesFormattedTableRow,
+    CoreGradesFormattedTableRow } from '@features/grades/services/grades-helper';
+import {
     CoreGradesHelper,
 } from '@features/grades/services/grades-helper';
 import { CoreSites } from '@services/sites';

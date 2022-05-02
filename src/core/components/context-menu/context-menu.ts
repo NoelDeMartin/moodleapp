@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit, OnDestroy, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import type { OnInit, OnDestroy, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { auditTime } from 'rxjs/operators';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
-import { CoreContextMenuItemComponent } from './context-menu-item';
+import type { CoreContextMenuItemComponent } from './context-menu-item';
 import { CoreContextMenuPopoverComponent } from './context-menu-popover';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 

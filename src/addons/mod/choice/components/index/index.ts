@@ -12,28 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Optional, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
-import { IonContent } from '@ionic/angular';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { IonContent } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTimeUtils } from '@services/utils/time';
 import { Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import {
-    AddonModChoice,
+import type {
     AddonModChoiceChoice,
     AddonModChoiceOption,
+    AddonModChoiceResult } from '../../services/choice';
+import {
+    AddonModChoice,
     AddonModChoiceProvider,
-    AddonModChoiceResult,
 } from '../../services/choice';
 import { AddonModChoiceOffline } from '../../services/choice-offline';
-import {
+import type {
     AddonModChoiceAutoSyncData,
+    AddonModChoiceSyncResult } from '../../services/choice-sync';
+import {
     AddonModChoiceSync,
     AddonModChoiceSyncProvider,
-    AddonModChoiceSyncResult,
 } from '../../services/choice-sync';
 import { AddonModChoicePrefetchHandler } from '../../services/handlers/prefetch';
 

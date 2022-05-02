@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreColorScheme, CoreZoomLevel } from '@features/settings/services/settings-helper';
-import { CoreMainMenuLocalizedCustomItem } from '@features/mainmenu/services/mainmenu';
-import { CoreSitesDemoSiteData } from '@services/sites';
-import { OpenFileAction } from '@services/utils/utils';
-import { CoreLoginSiteSelectorListMethod } from '@features/login/services/login-helper';
-import { CoreDatabaseConfiguration } from '@classes/database/database-table';
+import type { CoreColorScheme, CoreZoomLevel } from '@features/settings/services/settings-helper';
+import type { CoreMainMenuLocalizedCustomItem } from '@features/mainmenu/services/mainmenu';
+import type { CoreSitesDemoSiteData } from '@services/sites';
+import type { OpenFileAction } from '@services/utils/utils';
+import type { CoreLoginSiteSelectorListMethod } from '@features/login/services/login-helper';
+import type { CoreDatabaseConfiguration } from '@classes/database/database-table';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 

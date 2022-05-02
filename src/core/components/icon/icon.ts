@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnChanges, ElementRef, SimpleChange } from '@angular/core';
+import type { OnChanges, SimpleChange } from '@angular/core';
+import { Component, Inject, Input, ElementRef } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
 
 /**
@@ -44,9 +45,7 @@ export class CoreIconComponent implements OnChanges {
 
     protected element: HTMLElement;
 
-    constructor(
-        el: ElementRef,
-    ) {
+    constructor(@Inject(ElementRef) el: ElementRef) {
         this.element = el.nativeElement;
 
         CoreLogger.getInstance('CoreIconComponent').error('CoreIconComponent is deprecated. Please use ion-icon instead.');

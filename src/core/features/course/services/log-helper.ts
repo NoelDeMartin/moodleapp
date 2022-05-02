@@ -21,8 +21,9 @@ import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
 import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
 import { makeSingleton } from '@singletons';
-import { ACTIVITY_LOG_TABLE, CoreCourseActivityLogDBRecord } from './database/log';
-import { CoreStatusWithWarningsWSResponse } from '@services/ws';
+import type { CoreCourseActivityLogDBRecord } from './database/log';
+import { ACTIVITY_LOG_TABLE } from './database/log';
+import type { CoreStatusWithWarningsWSResponse } from '@services/ws';
 import { CoreWSError } from '@classes/errors/wserror';
 
 /**

@@ -12,14 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
-import { CoreGroupInfo, CoreGroups } from '@services/groups';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
+import type { CoreGroupInfo } from '@services/groups';
+import { CoreGroups } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
-import { AddonModFeedback, AddonModFeedbackWSFeedback } from '../../services/feedback';
-import { AddonModFeedbackHelper, AddonModFeedbackNonRespondent } from '../../services/feedback-helper';
+import type { AddonModFeedbackWSFeedback } from '../../services/feedback';
+import { AddonModFeedback } from '../../services/feedback';
+import type { AddonModFeedbackNonRespondent } from '../../services/feedback-helper';
+import { AddonModFeedbackHelper } from '../../services/feedback-helper';
 
 /**
  * Page that displays feedback non respondents.

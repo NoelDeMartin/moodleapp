@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreBlockBaseComponent } from '@features/block/classes/base-block-component';
 import { AddonBlockTimeline } from '../../services/timeline';
-import { AddonCalendarEvent } from '@addons/calendar/services/calendar';
+import type { AddonCalendarEvent } from '@addons/calendar/services/calendar';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreCoursesHelper, CoreEnrolledCourseDataWithOptions } from '@features/courses/services/courses-helper';
-import { CoreSite } from '@classes/site';
+import type { CoreEnrolledCourseDataWithOptions } from '@features/courses/services/courses-helper';
+import { CoreCoursesHelper } from '@features/courses/services/courses-helper';
+import type { CoreSite } from '@classes/site';
 import { CoreCourses } from '@features/courses/services/courses';
 import { CoreCourseOptionsDelegate } from '@features/course/services/course-options-delegate';
 import { CoreNavigator } from '@services/navigator';

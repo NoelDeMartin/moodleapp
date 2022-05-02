@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { CoreCancellablePromise } from '@classes/cancellable-promise';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Directive, ElementRef, Inject } from '@angular/core';
+import type { CoreCancellablePromise } from '@classes/cancellable-promise';
 import { CoreDom } from '@singletons/dom';
 
 /**
@@ -33,7 +34,7 @@ export class CoreFabDirective implements OnInit, OnDestroy {
     protected initialPaddingBottom = 0;
     protected slotPromise?: CoreCancellablePromise<void>;
 
-    constructor(el: ElementRef) {
+    constructor(@Inject(ElementRef) el: ElementRef) {
         this.element = el.nativeElement;
     }
 

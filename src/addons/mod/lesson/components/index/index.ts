@@ -13,37 +13,42 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, Input, ViewChild, ElementRef, OnInit, OnDestroy, Optional } from '@angular/core';
+import type { ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChild, Optional } from '@angular/core';
 
 import { CoreTabsComponent } from '@components/tabs/tabs';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreUser } from '@features/user/services/user';
-import { IonContent, IonInput } from '@ionic/angular';
-import { CoreGroupInfo, CoreGroups } from '@services/groups';
+import type { IonContent, IonInput } from '@ionic/angular';
+import type { CoreGroupInfo } from '@services/groups';
+import { CoreGroups } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreForms } from '@singletons/form';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { AddonModLessonRetakeFinishedInSyncDBRecord } from '../../services/database/lesson';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { AddonModLessonRetakeFinishedInSyncDBRecord } from '../../services/database/lesson';
 import { AddonModLessonPrefetchHandler } from '../../services/handlers/prefetch';
-import {
-    AddonModLesson,
+import type {
     AddonModLessonAttemptsOverviewsStudentWSData,
     AddonModLessonAttemptsOverviewWSData,
     AddonModLessonGetAccessInformationWSResponse,
     AddonModLessonLessonWSData,
-    AddonModLessonPreventAccessReason,
+    AddonModLessonPreventAccessReason } from '../../services/lesson';
+import {
+    AddonModLesson,
     AddonModLessonProvider,
 } from '../../services/lesson';
 import { AddonModLessonOffline } from '../../services/lesson-offline';
-import {
+import type {
     AddonModLessonAutoSyncData,
+    AddonModLessonSyncResult } from '../../services/lesson-sync';
+import {
     AddonModLessonSync,
     AddonModLessonSyncProvider,
-    AddonModLessonSyncResult,
 } from '../../services/lesson-sync';
 import { AddonModLessonModuleHandlerService } from '../../services/handlers/module';
 import { CoreTime } from '@singletons/time';

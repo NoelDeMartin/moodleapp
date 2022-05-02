@@ -12,18 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { CoreError } from '@classes/errors/error';
 import { CoreCourse } from '@features/course/services/course';
-import { CanLeave } from '@guards/can-leave';
+import type { CanLeave } from '@guards/can-leave';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreSync } from '@services/sync';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { CoreForms } from '@singletons/form';

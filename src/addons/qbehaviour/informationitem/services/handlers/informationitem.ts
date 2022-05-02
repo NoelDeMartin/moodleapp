@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { CoreQuestionBehaviourHandler, CoreQuestionQuestionWithAnswers } from '@features/question/services/behaviour-delegate';
-import { CoreQuestion, CoreQuestionQuestionParsed, CoreQuestionState } from '@features/question/services/question';
+import type { CoreQuestionBehaviourHandler, CoreQuestionQuestionWithAnswers } from '@features/question/services/behaviour-delegate';
+import type { CoreQuestionQuestionParsed, CoreQuestionState } from '@features/question/services/question';
+import { CoreQuestion } from '@features/question/services/question';
 import { CoreQuestionHelper } from '@features/question/services/question-helper';
 import { makeSingleton } from '@singletons';
 import { AddonQbehaviourInformationItemComponent } from '../../component/informationitem';

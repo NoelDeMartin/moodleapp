@@ -12,20 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
+import type {
+    AddonModQuizAttemptWSData,
+    AddonModQuizGetQuizAccessInformationWSResponse } from '../../services/quiz';
 import {
     AddonModQuiz,
-    AddonModQuizAttemptWSData,
-    AddonModQuizGetQuizAccessInformationWSResponse,
     AddonModQuizProvider,
 } from '../../services/quiz';
-import { AddonModQuizAttempt, AddonModQuizHelper, AddonModQuizQuizData } from '../../services/quiz-helper';
+import type { AddonModQuizAttempt, AddonModQuizQuizData } from '../../services/quiz-helper';
+import { AddonModQuizHelper } from '../../services/quiz-helper';
 
 /**
  * Page that displays some summary data about an attempt.

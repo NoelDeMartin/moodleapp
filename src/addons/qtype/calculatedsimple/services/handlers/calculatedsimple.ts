@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { AddonQtypeCalculatedComponent } from '@addons/qtype/calculated/component/calculated';
-import { CoreQuestionHandler } from '@features/question/services/question-delegate';
+import type { CoreQuestionHandler } from '@features/question/services/question-delegate';
 import { AddonQtypeCalculatedHandler } from '@addons/qtype/calculated/services/handlers/calculated';
-import { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
+import type { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
 import { makeSingleton } from '@singletons';
 
 /**

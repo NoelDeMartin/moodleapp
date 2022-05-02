@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit, ViewChild, ElementRef, Type, OnDestroy } from '@angular/core';
+import type { OnInit, ElementRef, Type, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CoreError } from '@classes/errors/error';
-import { CoreFileUploader, CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
 import { CoreFile } from '@services/file';
-import { CoreFileEntry, CoreFileHelper } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
+import { CoreFileHelper } from '@services/file-helper';
 import { CoreFileSession } from '@services/file-session';
 import { CoreSites } from '@services/sites';
 import { CoreSync } from '@services/sync';
@@ -25,18 +28,22 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { CoreFormFields, CoreForms } from '@singletons/form';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { CoreFormFields } from '@singletons/form';
+import { CoreForms } from '@singletons/form';
 import { AddonWorkshopAssessmentStrategyDelegate } from '../../services/assessment-strategy-delegate';
+import type {
+    AddonModWorkshopData,
+    AddonModWorkshopGetWorkshopAccessInformationWSResponse,
+    AddonModWorkshopGetAssessmentFormFieldsParsedData } from '../../services/workshop';
 import {
     AddonModWorkshopProvider,
     AddonModWorkshopOverallFeedbackMode,
     AddonModWorkshop,
-    AddonModWorkshopData,
-    AddonModWorkshopGetWorkshopAccessInformationWSResponse,
-    AddonModWorkshopGetAssessmentFormFieldsParsedData,
 } from '../../services/workshop';
-import { AddonModWorkshopHelper, AddonModWorkshopSubmissionAssessmentWithFormData } from '../../services/workshop-helper';
+import type { AddonModWorkshopSubmissionAssessmentWithFormData } from '../../services/workshop-helper';
+import { AddonModWorkshopHelper } from '../../services/workshop-helper';
 import { AddonModWorkshopOffline } from '../../services/workshop-offline';
 
 /**

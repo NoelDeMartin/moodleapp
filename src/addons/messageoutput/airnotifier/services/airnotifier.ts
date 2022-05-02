@@ -14,14 +14,17 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
-import { CoreWSExternalWarning } from '@services/ws';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreWSExternalWarning } from '@services/ws';
 import { CoreConstants } from '@/core/constants';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
 import { CoreError } from '@classes/errors/error';
 import { CoreWSError } from '@classes/errors/wserror';
 import { makeSingleton, Translate } from '@singletons';
-import { CoreEvents, CoreEventSiteData } from '@singletons/events';
+import type { CoreEventSiteData } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreText } from '@singletons/text';

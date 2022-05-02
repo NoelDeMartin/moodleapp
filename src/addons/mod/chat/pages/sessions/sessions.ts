@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import type { AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CoreListItemsManager } from '@classes/items-management/list-items-manager';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 import { CoreSplitViewComponent } from '@components/split-view/split-view';
-import { IonRefresher } from '@ionic/angular';
-import { CoreGroupInfo } from '@services/groups';
+import type { IonRefresher } from '@ionic/angular';
+import type { CoreGroupInfo } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
-import { AddonModChatSessionFormatted, AddonModChatSessionsSource } from '../../classes/chat-sessions-source';
+import type { AddonModChatSessionFormatted } from '../../classes/chat-sessions-source';
+import { AddonModChatSessionsSource } from '../../classes/chat-sessions-source';
 
 /**
  * Page that displays list of chat sessions.

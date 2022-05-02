@@ -15,14 +15,18 @@
 import { CoreConstants } from '@/core/constants';
 import { AddonBlog } from '@addons/blog/services/blog';
 import { AddonBlogMainMenuHandlerService } from '@addons/blog/services/handlers/mainmenu';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Params } from '@angular/router';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { Params } from '@angular/router';
 import { CoreCourse } from '@features/course/services/course';
-import { CoreCourseHelper, CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
 import { CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
-import { CoreCourses, CoreEnrolledCourseData } from '@features/courses/services/courses';
-import { CoreGradesFormattedRow, CoreGradesFormattedTableRow, CoreGradesHelper } from '@features/grades/services/grades-helper';
+import type { CoreEnrolledCourseData } from '@features/courses/services/courses';
+import { CoreCourses } from '@features/courses/services/courses';
+import type { CoreGradesFormattedRow, CoreGradesFormattedTableRow } from '@features/grades/services/grades-helper';
+import { CoreGradesHelper } from '@features/grades/services/grades-helper';
 import { CoreApp } from '@services/app';
 import { CoreFilepool } from '@services/filepool';
 import { CoreNavigator } from '@services/navigator';
@@ -31,8 +35,9 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { ModalController, Network, NgZone } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { Subscription } from 'rxjs';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { Subscription } from 'rxjs';
 
 /**
  * Component to display a module summary modal.

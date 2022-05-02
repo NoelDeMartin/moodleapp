@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, OnInit, EventEmitter, ChangeDetectorRef, Type, ElementRef } from '@angular/core';
-import { AsyncComponent } from '@classes/async-component';
+import type { OnInit, ChangeDetectorRef, Type, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import type { AsyncComponent } from '@classes/async-component';
 import { CorePromisedValue } from '@classes/promised-value';
 import { CoreQuestionBehaviourDelegate } from '@features/question/services/behaviour-delegate';
 import { CoreQuestionDelegate } from '@features/question/services/question-delegate';
 
-import { CoreQuestionBehaviourButton, CoreQuestionHelper, CoreQuestionQuestion } from '@features/question/services/question-helper';
+import type { CoreQuestionBehaviourButton, CoreQuestionQuestion } from '@features/question/services/question-helper';
+import { CoreQuestionHelper } from '@features/question/services/question-helper';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';

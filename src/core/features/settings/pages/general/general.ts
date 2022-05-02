@@ -25,7 +25,7 @@ import { CoreIframeUtils } from '@services/utils/iframe';
 import { Diagnostic, Translate } from '@singletons';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { AlertButton } from '@ionic/angular';
+import type { AlertButton } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 
 /**

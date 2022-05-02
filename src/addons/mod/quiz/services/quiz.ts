@@ -16,30 +16,35 @@ import { Injectable } from '@angular/core';
 
 import { CoreError } from '@classes/errors/error';
 import { CoreWSError } from '@classes/errors/wserror';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
-import { CoreGradesFormattedItem, CoreGradesHelper } from '@features/grades/services/grades-helper';
+import type { CoreGradesFormattedItem } from '@features/grades/services/grades-helper';
+import { CoreGradesHelper } from '@features/grades/services/grades-helper';
 import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
-import {
-    CoreQuestion,
+import type {
     CoreQuestionQuestionParsed,
     CoreQuestionQuestionWSData,
-    CoreQuestionsAnswers,
+    CoreQuestionsAnswers } from '@features/question/services/question';
+import {
+    CoreQuestion,
 } from '@features/question/services/question';
 import { CoreQuestionDelegate } from '@features/question/services/question-delegate';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreStatusWithWarningsWSResponse, CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import type { CoreStatusWithWarningsWSResponse, CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { AddonModQuizAccessRuleDelegate } from './access-rules-delegate';
-import { AddonModQuizAttempt } from './quiz-helper';
-import { AddonModQuizOffline, AddonModQuizQuestionsWithAnswers } from './quiz-offline';
-import { AddonModQuizAutoSyncData, AddonModQuizSyncProvider } from './quiz-sync';
+import type { AddonModQuizAttempt } from './quiz-helper';
+import type { AddonModQuizQuestionsWithAnswers } from './quiz-offline';
+import { AddonModQuizOffline } from './quiz-offline';
+import type { AddonModQuizAutoSyncData, AddonModQuizSyncProvider } from './quiz-sync';
 
 const ROOT_CACHE_KEY = 'mmaModQuiz:';
 

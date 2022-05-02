@@ -14,7 +14,7 @@
 
 import { Component, Input } from '@angular/core';
 import { PopoverController } from '@singletons';
-import { AddonModWikiSubwiki, AddonModWikiSubwikiListGrouping } from '../../services/wiki';
+import type { AddonModWikiSubwiki, AddonModWikiSubwikiListGrouping } from '../../services/wiki';
 
 /**
  * Component to display the a list of subwikis in a wiki.

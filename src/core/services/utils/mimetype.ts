@@ -13,18 +13,19 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { FileEntry } from '@ionic-native/file/ngx';
 
 import { CoreFile } from '@services/file';
 import { CoreTextUtils } from '@services/utils/text';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { CoreUtils } from '@services/utils/utils';
 
 import extToMime from '@/assets/exttomime.json';
 import mimeToExt from '@/assets/mimetoext.json';
-import { CoreFileEntry, CoreFileHelper } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
+import { CoreFileHelper } from '@services/file-helper';
 
 interface MimeTypeInfo {
     type: string;

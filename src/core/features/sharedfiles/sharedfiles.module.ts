@@ -13,8 +13,9 @@
 // limitations under the License.
 
 import { AppRoutingModule } from '@/app/app-routing.module';
-import { APP_INITIALIZER, NgModule, Type } from '@angular/core';
-import { Routes } from '@angular/router';
+import type { Type } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import type { Routes } from '@angular/router';
 
 import { CoreFileUploaderDelegate } from '@features/fileuploader/services/fileuploader-delegate';
 import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-routing.module';

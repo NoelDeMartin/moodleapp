@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CorePluginFileHandler } from '@services/plugin-file-delegate';
+import type { CorePluginFileHandler } from '@services/plugin-file-delegate';
 import { makeSingleton } from '@singletons';
 
 /**

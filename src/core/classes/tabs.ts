@@ -12,32 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import type {
+    OnInit,
+    OnChanges,
+    OnDestroy,
+    AfterViewInit,
+    SimpleChange,
+    ElementRef } from '@angular/core';
 import {
     Component,
     Input,
     Output,
     EventEmitter,
-    OnInit,
-    OnChanges,
-    OnDestroy,
-    AfterViewInit,
     ViewChild,
-    SimpleChange,
-    ElementRef,
 } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
-import { BackButtonEvent } from '@ionic/core';
-import { Subscription } from 'rxjs';
+import type { BackButtonEvent } from '@ionic/core';
+import type { Subscription } from 'rxjs';
 
 import { Platform, Translate } from '@singletons';
 import { CoreSettingsHelper } from '@features/settings/services/settings-helper';
-import { CoreAriaRoleTab, CoreAriaRoleTabFindable } from './aria-role-tab';
-import { CoreEventObserver } from '@singletons/events';
+import type { CoreAriaRoleTabFindable } from './aria-role-tab';
+import { CoreAriaRoleTab } from './aria-role-tab';
+import type { CoreEventObserver } from '@singletons/events';
 import { CoreDom } from '@singletons/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreError } from './errors/error';
 import { CorePromisedValue } from './promised-value';
-import { AsyncComponent } from './async-component';
+import type { AsyncComponent } from './async-component';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 
 /**

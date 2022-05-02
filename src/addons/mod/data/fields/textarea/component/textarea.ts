@@ -14,9 +14,10 @@
 
 import { Component } from '@angular/core';
 import { AddonModDataFieldPluginComponent } from '../../../classes/field-plugin-component';
-import { AddonModDataEntryField, AddonModDataProvider } from '@addons/mod/data/services/data';
+import type { AddonModDataEntryField } from '@addons/mod/data/services/data';
+import { AddonModDataProvider } from '@addons/mod/data/services/data';
 import { CoreTextUtils } from '@services/utils/text';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 
 /**
  * Component to render data number field.

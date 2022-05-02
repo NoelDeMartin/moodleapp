@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreCourse, CoreCourseBlock } from '@features/course/services/course';
+import type { CoreCourseBlock } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreBlockDelegate } from './block-delegate';
 import { makeSingleton } from '@singletons';
 

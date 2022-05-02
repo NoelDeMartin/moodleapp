@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Input, OnInit, OnDestroy, ElementRef, Output, EventEmitter, Directive } from '@angular/core';
-import { Subscription } from 'rxjs';
+import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Input, Output, EventEmitter, Directive } from '@angular/core';
+import type { Subscription } from 'rxjs';
 
-import { CoreSiteWSPreSets } from '@classes/site';
-import { CoreSitePluginsPluginContentComponent } from '../components/plugin-content/plugin-content';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSitePluginsPluginContentComponent } from '../components/plugin-content/plugin-content';
 import { CoreSitePlugins } from '../services/siteplugins';
 import { CoreLogger } from '@singletons/logger';
-import { CoreFormFields, CoreForms } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
+import { CoreForms } from '@singletons/form';
 
 /**
  * Base class for directives that need to call a WS.

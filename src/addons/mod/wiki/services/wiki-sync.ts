@@ -23,7 +23,7 @@ import { CoreSync } from '@services/sync';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { AddonModWikiPageDBRecord } from './database/wiki';
+import type { AddonModWikiPageDBRecord } from './database/wiki';
 import { AddonModWiki, AddonModWikiProvider } from './wiki';
 import { AddonModWikiOffline } from './wiki-offline';
 

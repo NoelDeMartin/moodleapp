@@ -14,15 +14,15 @@
 
 import { Injectable } from '@angular/core';
 import { CoreCourseProvider } from '@features/course/services/course';
-import {
+import type {
     CoreCourseAccess,
     CoreCourseOptionsHandler,
     CoreCourseOptionsHandlerData,
 } from '@features/course/services/course-options-delegate';
 import { makeSingleton } from '@singletons';
 import { AddonCompetency } from '../competency';
-import { CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
-import { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '@features/courses/services/courses-helper';
+import type { CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
+import type { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '@features/courses/services/courses-helper';
 import { CoreFilterHelper } from '@features/filter/services/filter-helper';
 import { ContextLevel } from '@/core/constants';
 import { ADDON_COMPETENCY_COMPETENCIES_PAGE } from '@addons/competency/competency.module';

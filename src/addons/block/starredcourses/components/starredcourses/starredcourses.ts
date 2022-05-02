@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
-import { CoreCoursesProvider, CoreCoursesMyCoursesUpdatedEventData, CoreCourses } from '@features/courses/services/courses';
-import {
+import type { CoreCoursesMyCoursesUpdatedEventData } from '@features/courses/services/courses';
+import { CoreCoursesProvider, CoreCourses } from '@features/courses/services/courses';
+import type {
     CoreCourseSearchedDataWithExtraInfoAndOptions,
     CoreEnrolledCourseDataWithOptions,
 } from '@features/courses/services/courses-helper';
@@ -24,8 +27,9 @@ import { CoreCourseOptionsDelegate } from '@features/course/services/course-opti
 import { AddonCourseCompletion } from '@addons/coursecompletion/services/coursecompletion';
 import { CoreBlockBaseComponent } from '@features/block/classes/base-block-component';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreSite } from '@classes/site';
-import { AddonBlockStarredCourse, AddonBlockStarredCourses } from '../../services/starredcourses';
+import type { CoreSite } from '@classes/site';
+import type { AddonBlockStarredCourse } from '../../services/starredcourses';
+import { AddonBlockStarredCourses } from '../../services/starredcourses';
 
 /**
  * Component to render a starred courses block.

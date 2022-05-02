@@ -14,16 +14,18 @@
 
 import { Injectable } from '@angular/core';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreSites, CoreSitesCommonWSOptions } from '@services/sites';
-import {
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites } from '@services/sites';
+import type {
     CoreCourseAnyCourseDataWithOptions,
-    CoreCourses,
     CoreCourseSearchedData,
     CoreCourseUserAdminOrNavOptionIndexed,
-    CoreEnrolledCourseData,
+    CoreEnrolledCourseData } from './courses';
+import {
+    CoreCourses,
 } from './courses';
 import { makeSingleton, Translate } from '@singletons';
-import { CoreWSExternalFile } from '@services/ws';
+import type { CoreWSExternalFile } from '@services/ws';
 import { AddonCourseCompletion } from '@addons/coursecompletion/services/coursecompletion';
 import moment from 'moment';
 

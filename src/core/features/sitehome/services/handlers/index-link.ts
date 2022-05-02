@@ -16,7 +16,7 @@ import { Injectable } from '@angular/core';
 
 import { CoreSites } from '@services/sites';
 import { CoreContentLinksHandlerBase } from '@features/contentlinks/classes/base-handler';
-import { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
+import type { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
 import { CoreSiteHome } from '../sitehome';
 import { makeSingleton } from '@singletons';
 import { CoreNavigator } from '@services/navigator';

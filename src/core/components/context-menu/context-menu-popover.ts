@@ -14,9 +14,9 @@
 
 import { CoreConstants } from '@/core/constants';
 import { Component } from '@angular/core';
-import { NavParams } from '@ionic/angular';
+import type { NavParams } from '@ionic/angular';
 import { PopoverController } from '@singletons';
-import { CoreContextMenuItemComponent } from './context-menu-item';
+import type { CoreContextMenuItemComponent } from './context-menu-item';
 
 /**
  * Component to display a list of items received by param in a popover.

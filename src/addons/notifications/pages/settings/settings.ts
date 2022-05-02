@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 
 import { CoreConfig } from '@services/config';
 import { CoreLocalNotifications } from '@services/local-notifications';
@@ -21,20 +22,23 @@ import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreUser } from '@features/user/services/user';
-import { AddonMessageOutputDelegate, AddonMessageOutputHandlerData } from '@addons/messageoutput/services/messageoutput-delegate';
+import type { AddonMessageOutputHandlerData } from '@addons/messageoutput/services/messageoutput-delegate';
+import { AddonMessageOutputDelegate } from '@addons/messageoutput/services/messageoutput-delegate';
 import { CoreConstants } from '@/core/constants';
 import { CoreError } from '@classes/errors/error';
 import { CoreEvents } from '@singletons/events';
+import type {
+    AddonNotificationsPreferencesNotificationProcessorState } from '../../services/notifications';
 import {
     AddonNotifications,
-    AddonNotificationsPreferencesNotificationProcessorState,
 } from '../../services/notifications';
-import {
-    AddonNotificationsHelper,
+import type {
     AddonNotificationsPreferencesComponentFormatted,
     AddonNotificationsPreferencesFormatted,
     AddonNotificationsPreferencesNotificationFormatted,
-    AddonNotificationsPreferencesProcessorFormatted,
+    AddonNotificationsPreferencesProcessorFormatted } from '@addons/notifications/services/notifications-helper';
+import {
+    AddonNotificationsHelper,
 } from '@addons/notifications/services/notifications-helper';
 import { CoreNavigator } from '@services/navigator';
 

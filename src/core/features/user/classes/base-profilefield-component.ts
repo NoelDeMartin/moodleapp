@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { FormGroup } from '@angular/forms';
+import { Validators, FormControl } from '@angular/forms';
 
-import { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
-import { CoreUserProfileField } from '@features/user/services/user';
+import type { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
+import type { CoreUserProfileField } from '@features/user/services/user';
 
 /**
  * Base class for components to render a user profile field.

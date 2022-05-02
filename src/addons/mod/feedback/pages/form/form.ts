@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CoreSite } from '@classes/site';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { CoreSite } from '@classes/site';
 import { CoreContentLinksHelper } from '@features/contentlinks/services/contentlinks-helper';
-import { CoreCourse, CoreCourseCommonModWSOptions } from '@features/course/services/course';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
-import { CanLeave } from '@guards/can-leave';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CanLeave } from '@guards/can-leave';
 import { IonContent } from '@ionic/angular';
 import { CoreApp } from '@services/app';
 import { CoreNavigator } from '@services/navigator';
@@ -26,16 +28,18 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Network, NgZone, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { Subscription } from 'rxjs';
-import {
-    AddonModFeedback,
+import type { Subscription } from 'rxjs';
+import type {
     AddonModFeedbackGetFeedbackAccessInformationWSResponse,
     AddonModFeedbackPageItems,
-    AddonModFeedbackProvider,
     AddonModFeedbackResponseValue,
-    AddonModFeedbackWSFeedback,
+    AddonModFeedbackWSFeedback } from '../../services/feedback';
+import {
+    AddonModFeedback,
+    AddonModFeedbackProvider,
 } from '../../services/feedback';
-import { AddonModFeedbackFormItem, AddonModFeedbackHelper } from '../../services/feedback-helper';
+import type { AddonModFeedbackFormItem } from '../../services/feedback-helper';
+import { AddonModFeedbackHelper } from '../../services/feedback-helper';
 import { AddonModFeedbackSync } from '../../services/feedback-sync';
 import { AddonModFeedbackModuleHandlerService } from '../../services/handlers/module';
 

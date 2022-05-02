@@ -13,13 +13,14 @@
 // limitations under the License.
 
 import { CoreError } from '@classes/errors/error';
-import { FileEntry, DirectoryEntry } from '@ionic-native/file/ngx';
+import type { FileEntry, DirectoryEntry } from '@ionic-native/file/ngx';
 import { CoreFile, CoreFileFormat } from '@services/file';
 import { Translate } from '@singletons';
 import { CoreText } from '@singletons/text';
-import { CoreH5PSemantics } from './content-validator';
-import { CoreH5PCore, CoreH5PLibraryBasicData, CoreH5PMissingLibrary } from './core';
-import { CoreH5PFramework } from './framework';
+import type { CoreH5PSemantics } from './content-validator';
+import type { CoreH5PLibraryBasicData, CoreH5PMissingLibrary } from './core';
+import { CoreH5PCore } from './core';
+import type { CoreH5PFramework } from './framework';
 
 /**
  * Equivalent to H5P's H5PValidator class.

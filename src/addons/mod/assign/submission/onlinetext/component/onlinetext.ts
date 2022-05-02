@@ -15,12 +15,13 @@
 import { AddonModAssignSubmissionPluginBaseComponent } from '@addons/mod/assign/classes/base-submission-plugin-component';
 import { AddonModAssignProvider, AddonModAssign } from '@addons/mod/assign/services/assign';
 import { AddonModAssignOffline } from '@addons/mod/assign/services/assign-offline';
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import type { OnInit, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
+import type { FormBuilder, FormControl } from '@angular/forms';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { AddonModAssignSubmissionOnlineTextPluginData } from '../services/handler';
+import type { AddonModAssignSubmissionOnlineTextPluginData } from '../services/handler';
 
 /**
  * Component to render an onlinetext submission plugin.

@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 
 import { CoreContentLinksModuleIndexHandler } from '@features/contentlinks/classes/module-index-handler';
-import { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
+import type { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { CoreSitesReadingStrategy } from '@services/sites';

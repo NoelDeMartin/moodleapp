@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CoreUtils } from '@services/utils/utils';
 import { ModalController } from '@singletons';
-import { AddonModWorkshopPhaseData, AddonModWorkshopPhase, AddonModWorkshopPhaseTaskData } from '../../services/workshop';
+import type { AddonModWorkshopPhaseData, AddonModWorkshopPhase, AddonModWorkshopPhaseTaskData } from '../../services/workshop';
 
 /**
  * Page that displays the phase info modal.

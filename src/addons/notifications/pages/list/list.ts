@@ -12,22 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
+import type { Subscription } from 'rxjs';
 
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEvents, CoreEventObserver } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import {
     AddonNotifications,
     AddonNotificationsProvider,
 } from '../../services/notifications';
 import { CorePushNotificationsDelegate } from '@features/pushnotifications/services/push-delegate';
+import type {
+    AddonNotificationsNotificationToRender } from '@addons/notifications/services/notifications-helper';
 import {
     AddonNotificationsHelper,
-    AddonNotificationsNotificationToRender,
 } from '@addons/notifications/services/notifications-helper';
 import { CoreMainMenuDeepLinkManager } from '@features/mainmenu/classes/deep-link-manager';
 import { CoreNavigator } from '@services/navigator';

@@ -14,7 +14,8 @@
 
 import { CoreSharedModule } from '@/core/shared.module';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AddonModFeedbackNonRespondentsPage } from './nonrespondents';
 
 const routes: Routes = [

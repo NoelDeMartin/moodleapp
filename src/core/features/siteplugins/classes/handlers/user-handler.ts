@@ -12,21 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
-    CoreSitePlugins,
+import type {
     CoreSitePluginsContent,
     CoreSitePluginsPlugin,
-    CoreSitePluginsUserHandlerData,
-} from '@features/siteplugins/services/siteplugins';
-import { CoreUserProfile } from '@features/user/services/user';
+    CoreSitePluginsUserHandlerData } from '@features/siteplugins/services/siteplugins';
 import {
+    CoreSitePlugins,
+} from '@features/siteplugins/services/siteplugins';
+import type { CoreUserProfile } from '@features/user/services/user';
+import type {
     CoreUserDelegateContext,
-    CoreUserDelegateService,
     CoreUserProfileHandler,
-    CoreUserProfileHandlerData,
+    CoreUserProfileHandlerData } from '@features/user/services/user-delegate';
+import {
+    CoreUserDelegateService,
 } from '@features/user/services/user-delegate';
 import { CoreNavigator } from '@services/navigator';
-import { CoreUtils, PromiseDefer } from '@services/utils/utils';
+import type { PromiseDefer } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
 import { Md5 } from 'ts-md5';
 import { CoreSitePluginsBaseHandler } from './base-handler';
 

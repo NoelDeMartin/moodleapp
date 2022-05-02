@@ -12,16 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { CoreCourse, CoreCourseWSSection } from '@features/course/services/course';
-import { CoreCourseHelper, CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { CoreCourseWSSection } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
-import { IonContent } from '@ionic/angular';
-import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
+import type { IonContent } from '@ionic/angular';
+import type { CoreNavigationOptions } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 
 /**
  * Component to show a button to go to the next resource/activity.

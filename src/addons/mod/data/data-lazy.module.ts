@@ -14,7 +14,8 @@
 
 import { CoreSharedModule } from '@/core/shared.module';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CoreCommentsComponentsModule } from '@features/comments/components/components.module';
 import { CoreCompileHtmlComponentModule } from '@features/compile/components/compile-html/compile-html.module';
 import { CoreRatingComponentsModule } from '@features/rating/components/components.module';

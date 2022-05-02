@@ -12,23 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 import { CoreCommentsCommentsComponent } from '@features/comments/components/comments/comments';
 import { CoreComments } from '@features/comments/services/comments';
-import { CoreRatingInfo } from '@features/rating/services/rating';
+import type { CoreRatingInfo } from '@features/rating/services/rating';
 import { CoreTag } from '@features/tag/services/tag';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { AddonModGlossaryEntriesSource } from '../../classes/glossary-entries-source';
 import { AddonModGlossaryEntriesSwipeManager } from '../../classes/glossary-entries-swipe-manager';
+import type {
+    AddonModGlossaryEntry,
+    AddonModGlossaryGlossary } from '../../services/glossary';
 import {
     AddonModGlossary,
-    AddonModGlossaryEntry,
-    AddonModGlossaryGlossary,
     AddonModGlossaryProvider,
 } from '../../services/glossary';
 

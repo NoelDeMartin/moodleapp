@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type {
+    AddonCalendarValueAndUnit } from '../../services/calendar';
 import {
     AddonCalendar,
     AddonCalendarProvider,
     AddonCalendarReminderUnits,
-    AddonCalendarValueAndUnit,
 } from '../../services/calendar';
 import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';

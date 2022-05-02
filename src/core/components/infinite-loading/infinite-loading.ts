@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange, ViewChild, ElementRef } from '@angular/core';
+import type { OnChanges, SimpleChange, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { CoreUtils } from '@services/utils/utils';
 

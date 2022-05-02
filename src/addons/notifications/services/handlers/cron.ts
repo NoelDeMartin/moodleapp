@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 
 import { CoreApp } from '@services/app';
-import { CoreCronHandler } from '@services/cron';
+import type { CoreCronHandler } from '@services/cron';
 import { CoreSites } from '@services/sites';
 import { makeSingleton } from '@singletons';
 import { CoreEvents } from '@singletons/events';

@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
+import type {
     AddonModAssignPlugin,
     AddonModAssignAssign,
-    AddonModAssignSubmission,
+    AddonModAssignSubmission } from '@addons/mod/assign/services/assign';
+import {
     AddonModAssign,
 } from '@addons/mod/assign/services/assign';
-import { AddonModAssignFeedbackHandler } from '@addons/mod/assign/services/feedback-delegate';
-import { Injectable, Type } from '@angular/core';
-import { CoreWSFile } from '@services/ws';
+import type { AddonModAssignFeedbackHandler } from '@addons/mod/assign/services/feedback-delegate';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { AddonModAssignFeedbackEditPdfComponent } from '../component/editpdf';
 

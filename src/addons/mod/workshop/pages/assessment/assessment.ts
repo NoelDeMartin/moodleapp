@@ -12,31 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { FormBuilder } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { CoreCourse } from '@features/course/services/course';
-import { CoreGradesHelper, CoreGradesMenuItem } from '@features/grades/services/grades-helper';
-import { CoreUser, CoreUserProfile } from '@features/user/services/user';
-import { CanLeave } from '@guards/can-leave';
-import { IonRefresher } from '@ionic/angular';
+import type { CoreGradesMenuItem } from '@features/grades/services/grades-helper';
+import { CoreGradesHelper } from '@features/grades/services/grades-helper';
+import type { CoreUserProfile } from '@features/user/services/user';
+import { CoreUser } from '@features/user/services/user';
+import type { CanLeave } from '@guards/can-leave';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreSync } from '@services/sync';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreForms } from '@singletons/form';
-import {
-    AddonModWorkshop,
+import type {
     AddonModWorkshopAssessmentSavedChangedEventData,
     AddonModWorkshopData,
     AddonModWorkshopGetWorkshopAccessInformationWSResponse,
+    AddonModWorkshopSubmissionData } from '../../services/workshop';
+import {
+    AddonModWorkshop,
     AddonModWorkshopPhase,
     AddonModWorkshopProvider,
-    AddonModWorkshopSubmissionData,
 } from '../../services/workshop';
-import { AddonModWorkshopHelper, AddonModWorkshopSubmissionAssessmentWithFormData } from '../../services/workshop-helper';
+import type { AddonModWorkshopSubmissionAssessmentWithFormData } from '../../services/workshop-helper';
+import { AddonModWorkshopHelper } from '../../services/workshop-helper';
 import { AddonModWorkshopOffline } from '../../services/workshop-offline';
 import { AddonModWorkshopSyncProvider } from '../../services/workshop-sync';
 

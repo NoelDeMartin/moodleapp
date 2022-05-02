@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { APP_INITIALIZER, NgModule, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AddonNotesProvider } from './services/notes';
 import { AddonNotesOfflineProvider } from './services/notes-offline';
 import { AddonNotesSyncProvider } from './services/notes-sync';
@@ -25,7 +26,7 @@ import { AddonNotesUserHandler } from './services/handlers/user';
 import { CORE_SITE_SCHEMAS } from '@services/sites';
 import { NOTES_OFFLINE_SITE_SCHEMA } from './services/database/notes';
 import { AddonNotesComponentsModule } from './components/components.module';
-import { Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
 import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-routing.module';
 import { CoreCourseIndexRoutingModule } from '@features/course/pages/index/index-routing.module';
 

@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
-import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
-import { CoreNavigationOptions } from '@services/navigator';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { CoreNavigationOptions } from '@services/navigator';
 import { makeSingleton } from '@singletons';
-import { CoreCourseWSSection } from './course';
-import { CoreCourseSection } from './course-helper';
-import { CoreCourseFormatDefaultHandler } from './handlers/default-format';
+import type { CoreCourseWSSection } from './course';
+import type { CoreCourseSection } from './course-helper';
+import type { CoreCourseFormatDefaultHandler } from './handlers/default-format';
 
 /**
  * Interface that all course format handlers must implement.

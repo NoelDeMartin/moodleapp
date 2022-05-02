@@ -12,48 +12,55 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Optional, Input, OnInit, OnDestroy } from '@angular/core';
-import { Params } from '@angular/router';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, Optional, Input } from '@angular/core';
+import type { Params } from '@angular/router';
 import { CoreError } from '@classes/errors/error';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreCourse } from '@features/course/services/course';
-import { CoreTag, CoreTagItem } from '@features/tag/services/tag';
+import type { CoreTagItem } from '@features/tag/services/tag';
+import { CoreTag } from '@features/tag/services/tag';
 import { CoreUser } from '@features/user/services/user';
-import { IonContent } from '@ionic/angular';
+import type { IonContent } from '@ionic/angular';
 import { CoreApp } from '@services/app';
-import { CoreGroup, CoreGroups } from '@services/groups';
+import type { CoreGroup } from '@services/groups';
+import { CoreGroups } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Network, Translate, NgZone } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreText } from '@singletons/text';
-import { Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
 import { Md5 } from 'ts-md5';
-import { AddonModWikiPageDBRecord } from '../../services/database/wiki';
+import type { AddonModWikiPageDBRecord } from '../../services/database/wiki';
 import { AddonModWikiModuleHandlerService } from '../../services/handlers/module';
-import {
-    AddonModWiki,
+import type {
     AddonModWikiPageContents,
-    AddonModWikiProvider,
     AddonModWikiSubwiki,
     AddonModWikiSubwikiListData,
     AddonModWikiSubwikiListGrouping,
     AddonModWikiSubwikiListSubwiki,
     AddonModWikiSubwikiPage,
-    AddonModWikiWiki,
+    AddonModWikiWiki } from '../../services/wiki';
+import {
+    AddonModWiki,
+    AddonModWikiProvider,
 } from '../../services/wiki';
 import { AddonModWikiOffline } from '../../services/wiki-offline';
-import {
+import type {
     AddonModWikiAutoSyncData,
+    AddonModWikiSyncWikiResult,
+    AddonModWikiSyncWikiSubwiki } from '../../services/wiki-sync';
+import {
     AddonModWikiSync,
     AddonModWikiSyncProvider,
-    AddonModWikiSyncWikiResult,
-    AddonModWikiSyncWikiSubwiki,
 } from '../../services/wiki-sync';
-import { AddonModWikiMapModalComponent, AddonModWikiMapModalReturn } from '../map/map';
+import type { AddonModWikiMapModalReturn } from '../map/map';
+import { AddonModWikiMapModalComponent } from '../map/map';
 import { AddonModWikiSubwikiPickerComponent } from '../subwiki-picker/subwiki-picker';
 
 /**

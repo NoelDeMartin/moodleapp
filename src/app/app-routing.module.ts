@@ -12,17 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { InjectionToken, Injector, ModuleWithProviders, NgModule } from '@angular/core';
-import {
-    PreloadAllModules,
-    RouterModule,
+import type { ModuleWithProviders } from '@angular/core';
+import { InjectionToken, Injector, NgModule } from '@angular/core';
+import type {
     Route,
     Routes,
-    ROUTES,
     UrlMatcher,
     UrlMatchResult,
     UrlSegment,
-    UrlSegmentGroup,
+    UrlSegmentGroup } from '@angular/router';
+import {
+    PreloadAllModules,
+    RouterModule,
+    ROUTES,
 } from '@angular/router';
 
 import { CoreArray } from '@singletons/array';

@@ -15,8 +15,9 @@
 import { Injectable } from '@angular/core';
 
 import { CoreSites } from '@services/sites';
-import { SQLiteDB } from '@classes/sqlitedb';
-import { CoreSearchHistoryDBRecord, SEARCH_HISTORY_TABLE_NAME } from './search-history-db';
+import type { SQLiteDB } from '@classes/sqlitedb';
+import type { CoreSearchHistoryDBRecord } from './search-history-db';
+import { SEARCH_HISTORY_TABLE_NAME } from './search-history-db';
 import { makeSingleton } from '@singletons';
 
 /**

@@ -14,13 +14,15 @@
 
 import { Injectable } from '@angular/core';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourse, CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreUser } from '@features/user/services/user';
 import { CoreGroups } from '@services/groups';
 import { CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
-import { AddonModChat, AddonModChatProvider, AddonModChatSession } from '../chat';
+import type { AddonModChatSession } from '../chat';
+import { AddonModChat, AddonModChatProvider } from '../chat';
 
 /**
  * Handler to prefetch chats.

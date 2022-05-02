@@ -12,28 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
-    Directive,
-    Input,
+import type {
     AfterViewInit,
     ElementRef,
     OnChanges,
     SimpleChange,
+    OnDestroy } from '@angular/core';
+import {
+    Directive,
+    Input,
     Output,
     EventEmitter,
-    OnDestroy,
 } from '@angular/core';
 import { CoreApp } from '@services/app';
 import { CoreFile } from '@services/file';
-import { CoreFilepool, CoreFilepoolFileActions, CoreFilepoolFileEventData } from '@services/filepool';
+import type { CoreFilepoolFileEventData } from '@services/filepool';
+import { CoreFilepool, CoreFilepoolFileActions } from '@services/filepool';
 import { CoreSites } from '@services/sites';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';
 import { Platform } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite } from '@classes/site';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreSite } from '@classes/site';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreConstants } from '../constants';
 
 /**

@@ -18,15 +18,16 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreContentLinksHandlerBase } from '@features/contentlinks/classes/base-handler';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreCourseHelper } from '@features/course/services/course-helper';
-import { CoreCourseAnyCourseData, CoreCourses, CoreCoursesProvider, CoreEnrolledCourseData } from '../courses';
+import type { CoreCourseAnyCourseData, CoreEnrolledCourseData } from '../courses';
+import { CoreCourses, CoreCoursesProvider } from '../courses';
 import { CoreLogger } from '@singletons/logger';
 import { makeSingleton, Translate } from '@singletons';
-import { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
-import { Params } from '@angular/router';
+import type { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
+import type { Params } from '@angular/router';
 import { CoreError } from '@classes/errors/error';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreTextUtils } from '@services/utils/text';
-import { CoreIonLoadingElement } from '@classes/ion-loading';
+import type { CoreIonLoadingElement } from '@classes/ion-loading';
 
 /**
  * Handler to treat links to course view or enrol (except site home).

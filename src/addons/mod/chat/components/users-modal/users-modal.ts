@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { ModalController, Network, NgZone } from '@singletons';
-import { Subscription } from 'rxjs';
-import { AddonModChat, AddonModChatUser } from '../../services/chat';
+import type { Subscription } from 'rxjs';
+import type { AddonModChatUser } from '../../services/chat';
+import { AddonModChat } from '../../services/chat';
 
 /**
  * MMdal that displays the chat session users.

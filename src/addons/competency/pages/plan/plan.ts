@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreDomUtils } from '@services/utils/dom';
-import { AddonCompetencyDataForPlanPageCompetency, AddonCompetencyDataForPlanPageWSResponse } from '../../services/competency';
+import type { AddonCompetencyDataForPlanPageCompetency, AddonCompetencyDataForPlanPageWSResponse } from '../../services/competency';
 import { CoreNavigator } from '@services/navigator';
-import { CoreUserProfile } from '@features/user/services/user';
-import { IonRefresher } from '@ionic/angular';
+import type { CoreUserProfile } from '@features/user/services/user';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 import { AddonCompetencyPlansSource } from '@addons/competency/classes/competency-plans-source';

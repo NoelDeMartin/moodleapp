@@ -15,7 +15,7 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { CoreCourseModuleMainActivityPage } from '@features/course/classes/main-activity-page';
-import { CanLeave } from '@guards/can-leave';
+import type { CanLeave } from '@guards/can-leave';
 import { CoreDomUtils } from '@services/utils/dom';
 import { Translate } from '@singletons';
 import { AddonModH5PActivityIndexComponent } from '../../components/index';

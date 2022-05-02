@@ -12,32 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Optional, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IonContent } from '@ionic/angular';
-import { ModalOptions } from '@ionic/core';
+import type { OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, Optional, ViewChild } from '@angular/core';
+import type { ActivatedRoute } from '@angular/router';
+import type { IonContent } from '@ionic/angular';
+import type { ModalOptions } from '@ionic/core';
 
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import {
-    AddonModForum,
+import type {
     AddonModForumData,
-    AddonModForumProvider,
     AddonModForumSortOrder,
     AddonModForumDiscussion,
     AddonModForumNewDiscussionData,
-    AddonModForumReplyDiscussionData,
+    AddonModForumReplyDiscussionData } from '@addons/mod/forum/services/forum';
+import {
+    AddonModForum,
+    AddonModForumProvider,
 } from '@addons/mod/forum/services/forum';
 import { AddonModForumOffline } from '@addons/mod/forum/services/forum-offline';
 import { Translate } from '@singletons';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { AddonModForumHelper } from '@addons/mod/forum/services/forum-helper';
 import { CoreGroups, CoreGroupsProvider } from '@services/groups';
-import { CoreEvents, CoreEventObserver } from '@singletons/events';
-import {
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type {
     AddonModForumAutoSyncData,
     AddonModForumManualSyncData,
+    AddonModForumSyncResult } from '@addons/mod/forum/services/forum-sync';
+import {
     AddonModForumSyncProvider,
-    AddonModForumSyncResult,
 } from '@addons/mod/forum/services/forum-sync';
 import { CoreSites } from '@services/sites';
 import { CoreUser } from '@features/user/services/user';
@@ -55,7 +59,8 @@ import { CoreRatingProvider } from '@features/rating/services/rating';
 import { CoreRatingSyncProvider } from '@features/rating/services/rating-sync';
 import { CoreRatingOffline } from '@features/rating/services/rating-offline';
 import { ContextLevel } from '@/core/constants';
-import { AddonModForumDiscussionItem, AddonModForumDiscussionsSource } from '../../classes/forum-discussions-source';
+import type { AddonModForumDiscussionItem } from '../../classes/forum-discussions-source';
+import { AddonModForumDiscussionsSource } from '../../classes/forum-discussions-source';
 import { CoreListItemsManager } from '@classes/items-management/list-items-manager';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 import { CorePromisedValue } from '@classes/promised-value';

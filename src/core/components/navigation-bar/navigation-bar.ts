@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange } from '@angular/core';
+import type { OnChanges, SimpleChange } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Translate } from '@singletons';
 
 /**

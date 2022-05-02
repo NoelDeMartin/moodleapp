@@ -22,7 +22,7 @@ import { CoreFilepool } from '@services/filepool';
 import { CoreWS } from '@services/ws';
 import { CoreDomUtils } from '@services/utils/dom';
 import { makeSingleton } from '@singletons';
-import { CoreCourseModuleContentFile } from '@features/course/services/course';
+import type { CoreCourseModuleContentFile } from '@features/course/services/course';
 
 /**
  * Service that provides some features for page.

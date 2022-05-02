@@ -47,6 +47,7 @@ const appConfig = {
                 },
             },
         ],
+        '@typescript-eslint/consistent-type-imports': 'error',
         '@typescript-eslint/explicit-member-accessibility': [
             'error',
             {
@@ -117,6 +118,7 @@ const appConfig = {
                 leadingUnderscore: 'allow',
             },
         ],
+        '@typescript-eslint/no-duplicate-imports': 'error',
         '@typescript-eslint/no-empty-function': 'error',
         '@typescript-eslint/no-empty-interface': 'off',
         '@typescript-eslint/no-explicit-any': 'warn',
@@ -205,7 +207,7 @@ const appConfig = {
         'no-console': 'error',
         'no-debugger': 'error',
         'no-duplicate-case': 'error',
-        'no-duplicate-imports': 'error',
+        'no-duplicate-imports': 'off',
         'no-empty': 'error',
         'no-eval': 'error',
         'no-fallthrough': 'off',

@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
-import { CoreQuestionHandler } from '@features/question/services/question-delegate';
+import type { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
+import type { CoreQuestionHandler } from '@features/question/services/question-delegate';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';

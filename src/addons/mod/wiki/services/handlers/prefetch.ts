@@ -14,16 +14,21 @@
 
 import { Injectable } from '@angular/core';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourse, CoreCourseAnyModuleData } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreFilepool } from '@services/filepool';
 import { CoreGroups } from '@services/groups';
-import { CoreFileSizeSum, CorePluginFileDelegate } from '@services/plugin-file-delegate';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreFileSizeSum } from '@services/plugin-file-delegate';
+import { CorePluginFileDelegate } from '@services/plugin-file-delegate';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
-import { AddonModWiki, AddonModWikiProvider, AddonModWikiSubwikiPage } from '../wiki';
-import { AddonModWikiSync, AddonModWikiSyncWikiResult } from '../wiki-sync';
+import type { AddonModWikiSubwikiPage } from '../wiki';
+import { AddonModWiki, AddonModWikiProvider } from '../wiki';
+import type { AddonModWikiSyncWikiResult } from '../wiki-sync';
+import { AddonModWikiSync } from '../wiki-sync';
 
 /**
  * Handler to prefetch wikis.

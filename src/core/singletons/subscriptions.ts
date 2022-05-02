@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs';
+import type { EventEmitter } from '@angular/core';
+import type { Observable } from 'rxjs';
 
 /**
  * Subscribable object.

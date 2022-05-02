@@ -12,21 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import type { AfterViewInit, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
-import { AlertOptions } from '@ionic/core';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { AlertOptions } from '@ionic/core';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
-import {
-    AddonMessagesProvider,
+import type {
     AddonMessagesConversationFormatted,
     AddonMessagesConversationMember,
     AddonMessagesGetMessagesMessage,
-    AddonMessages,
     AddonMessagesConversationMessageFormatted,
-    AddonMessagesSendMessageResults,
+    AddonMessagesSendMessageResults } from '../../services/messages';
+import {
+    AddonMessagesProvider,
+    AddonMessages,
 } from '../../services/messages';
-import { AddonMessagesOffline, AddonMessagesOfflineMessagesDBRecordFormatted } from '../../services/messages-offline';
+import type { AddonMessagesOfflineMessagesDBRecordFormatted } from '../../services/messages-offline';
+import { AddonMessagesOffline } from '../../services/messages-offline';
 import { AddonMessagesSync, AddonMessagesSyncProvider } from '../../services/messages-sync';
 import { CoreUser } from '@features/user/services/user';
 import { CoreDomUtils } from '@services/utils/dom';
@@ -41,8 +45,8 @@ import { CoreAnimations } from '@components/animations';
 import { CoreError } from '@classes/errors/error';
 import { Translate } from '@singletons';
 import { CoreNavigator } from '@services/navigator';
-import { CoreIonLoadingElement } from '@classes/ion-loading';
-import { ActivatedRoute } from '@angular/router';
+import type { CoreIonLoadingElement } from '@classes/ion-loading';
+import type { ActivatedRoute } from '@angular/router';
 import { AddonMessagesConversationInfoComponent } from '../../components/conversation-info/conversation-info';
 import { CoreConstants } from '@/core/constants';
 import { CoreDom } from '@singletons/dom';

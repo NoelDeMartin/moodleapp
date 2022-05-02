@@ -22,16 +22,17 @@ import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate } from '@singletons';
-import {
-    AddonModFeedback,
+import type {
     AddonModFeedbackGetNonRespondentsWSResponse,
     AddonModFeedbackGetResponsesAnalysisWSResponse,
     AddonModFeedbackGroupPaginatedOptions,
     AddonModFeedbackItem,
-    AddonModFeedbackProvider,
     AddonModFeedbackResponseValue,
     AddonModFeedbackWSAttempt,
-    AddonModFeedbackWSNonRespondent,
+    AddonModFeedbackWSNonRespondent } from './feedback';
+import {
+    AddonModFeedback,
+    AddonModFeedbackProvider,
 } from './feedback';
 import { AddonModFeedbackModuleHandlerService } from './handlers/module';
 

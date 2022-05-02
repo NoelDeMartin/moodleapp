@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, OnChanges, EventEmitter, SimpleChange } from '@angular/core';
+import type { OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreContentLinksHelper } from '@features/contentlinks/services/contentlinks-helper';
-import { AddonCalendarEvent } from '@addons/calendar/services/calendar';
-import { CoreEnrolledCourseDataWithOptions } from '@features/courses/services/courses-helper';
+import type { AddonCalendarEvent } from '@addons/calendar/services/calendar';
+import type { CoreEnrolledCourseDataWithOptions } from '@features/courses/services/courses-helper';
 import { AddonBlockTimeline } from '../../services/timeline';
 
 /**

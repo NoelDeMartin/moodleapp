@@ -15,7 +15,8 @@
 import { CoreContentLinksHelper } from '@features/contentlinks/services/contentlinks-helper';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreCourseHelper } from '@features/course/services/course-helper';
-import { CoreNavigationOptions, CoreNavigator, CoreRedirectPayload } from '@services/navigator';
+import type { CoreNavigationOptions, CoreRedirectPayload } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 
 /**
  * A class to handle opening deep links in a main menu page. There are 2 type of deep links:

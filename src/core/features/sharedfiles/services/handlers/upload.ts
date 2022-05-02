@@ -14,7 +14,7 @@
 
 import { Injectable } from '@angular/core';
 
-import {
+import type {
     CoreFileUploaderHandler,
     CoreFileUploaderHandlerData,
     CoreFileUploaderHandlerResult,

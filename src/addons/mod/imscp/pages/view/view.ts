@@ -13,14 +13,15 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreNavigationBarItem } from '@components/navigation-bar/navigation-bar';
-import { CoreCourseResourceDownloadResult } from '@features/course/classes/main-resource-component';
+import type { CoreNavigationBarItem } from '@components/navigation-bar/navigation-bar';
+import type { CoreCourseResourceDownloadResult } from '@features/course/classes/main-resource-component';
 import { CoreCourse } from '@features/course/services/course';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
 import { CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreApp } from '@services/app';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
@@ -28,7 +29,8 @@ import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
 import { AddonModImscpTocComponent } from '../../components/toc/toc';
-import { AddonModImscp, AddonModImscpImscp, AddonModImscpTocItem } from '../../services/imscp';
+import type { AddonModImscpImscp, AddonModImscpTocItem } from '../../services/imscp';
+import { AddonModImscp } from '../../services/imscp';
 
 /**
  * Page that displays a IMSCP content.

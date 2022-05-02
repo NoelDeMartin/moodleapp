@@ -23,13 +23,14 @@ import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { AddonModScormPrefetchHandler } from './handlers/prefetch';
-import {
-    AddonModScorm,
+import type {
     AddonModScormAttemptCountResult,
     AddonModScormDataEntry,
-    AddonModScormProvider,
     AddonModScormScorm,
-    AddonModScormUserDataMap,
+    AddonModScormUserDataMap } from './scorm';
+import {
+    AddonModScorm,
+    AddonModScormProvider,
 } from './scorm';
 import { AddonModScormOffline } from './scorm-offline';
 

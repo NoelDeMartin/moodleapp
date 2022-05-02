@@ -14,8 +14,9 @@
 
 // Based on https://medium.com/madewithply/ionic-4-long-press-gestures-96cf1e44098b
 
-import { Directive, ElementRef, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { Gesture } from '@ionic/angular';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Directive, Output, Inject, EventEmitter, ElementRef } from '@angular/core';
+import type { Gesture } from '@ionic/angular';
 import { GestureController } from '@singletons';
 /**
  * Directive to add long press actions to html elements.
@@ -33,7 +34,7 @@ export class CoreLongPressDirective implements OnInit, OnDestroy {
 
     @Output() longPress = new EventEmitter();
 
-    constructor(el: ElementRef) {
+    constructor(@Inject(ElementRef) el: ElementRef) {
         this.element = el.nativeElement;
         this.element.setAttribute('tappable', '');
     }

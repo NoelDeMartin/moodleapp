@@ -13,10 +13,11 @@
 // limitations under the License.
 
 import { AddonQbehaviourDeferredCBMComponent } from '@addons/qbehaviour/deferredcbm/component/deferredcbm';
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { CoreQuestionBehaviourHandler } from '@features/question/services/behaviour-delegate';
-import { CoreQuestionQuestionParsed } from '@features/question/services/question';
+import type { CoreQuestionBehaviourHandler } from '@features/question/services/behaviour-delegate';
+import type { CoreQuestionQuestionParsed } from '@features/question/services/question';
 import { CoreQuestionHelper } from '@features/question/services/question-helper';
 import { makeSingleton } from '@singletons';
 

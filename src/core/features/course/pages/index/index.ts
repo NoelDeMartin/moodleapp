@@ -12,22 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ViewChild, OnDestroy, OnInit, ElementRef } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import type { OnDestroy, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { ActivatedRoute, Params } from '@angular/router';
 
-import { CoreTabsOutletTab, CoreTabsOutletComponent } from '@components/tabs-outlet/tabs-outlet';
+import type { CoreTabsOutletTab } from '@components/tabs-outlet/tabs-outlet';
+import { CoreTabsOutletComponent } from '@components/tabs-outlet/tabs-outlet';
 import { CoreCourseFormatDelegate } from '../../services/format-delegate';
 import { CoreCourseOptionsDelegate } from '../../services/course-options-delegate';
-import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { CoreCourse, CoreCourseModuleCompletionStatus, CoreCourseWSSection } from '@features/course/services/course';
-import { CoreCourseHelper, CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { CoreCourseWSSection } from '@features/course/services/course';
+import { CoreCourse, CoreCourseModuleCompletionStatus } from '@features/course/services/course';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
+import type { CoreNavigationOptions } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 import { CONTENTS_PAGE_NAME } from '@features/course/course.module';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreCourseSummaryPage } from '../course-summary/course-summary';
-import { CoreCoursesHelper, CoreCourseWithImageAndColor } from '@features/courses/services/courses-helper';
+import type { CoreCourseWithImageAndColor } from '@features/courses/services/courses-helper';
+import { CoreCoursesHelper } from '@features/courses/services/courses-helper';
 import { CoreColors } from '@singletons/colors';
 import { CoreText } from '@singletons/text';
 

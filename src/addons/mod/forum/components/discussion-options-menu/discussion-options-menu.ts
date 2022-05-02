@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { PopoverController } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { AddonModForum, AddonModForumDiscussion, AddonModForumProvider } from '../../services/forum';
+import type { AddonModForumDiscussion } from '../../services/forum';
+import { AddonModForum, AddonModForumProvider } from '../../services/forum';
 
 /**
  * This component is meant to display a popover with the discussion options.

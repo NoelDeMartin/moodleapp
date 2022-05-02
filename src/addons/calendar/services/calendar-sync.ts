@@ -18,18 +18,19 @@ import { CoreApp } from '@services/app';
 import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
+import type {
+    AddonCalendarEvent,
+    AddonCalendarSubmitCreateUpdateFormDataWSParams } from './calendar';
 import {
     AddonCalendar,
-    AddonCalendarEvent,
     AddonCalendarProvider,
-    AddonCalendarSubmitCreateUpdateFormDataWSParams,
 } from './calendar';
 import { AddonCalendarOffline } from './calendar-offline';
 import { AddonCalendarHelper } from './calendar-helper';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreSync } from '@services/sync';
 import { CoreNetworkError } from '@classes/errors/network-error';
-import moment from 'moment';
+import type moment from 'moment';
 
 /**
  * Service to sync calendar.

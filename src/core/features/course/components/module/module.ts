@@ -12,23 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { CoreSites } from '@services/sites';
-import {
+import type {
     CoreCourseModuleData,
     CoreCourseModuleCompletionData,
-    CoreCourseSection,
+    CoreCourseSection } from '@features/course/services/course-helper';
+import {
     CoreCourseHelper,
 } from '@features/course/services/course-helper';
 import { CoreCourse, CoreCourseModuleCompletionStatus, CoreCourseModuleCompletionTracking } from '@features/course/services/course';
-import { CoreCourseModuleDelegate, CoreCourseModuleHandlerButton } from '@features/course/services/module-delegate';
+import type { CoreCourseModuleHandlerButton } from '@features/course/services/module-delegate';
+import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
+import type {
+    CoreCourseModulePrefetchHandler } from '@features/course/services/module-prefetch-delegate';
 import {
     CoreCourseModulePrefetchDelegate,
-    CoreCourseModulePrefetchHandler,
 } from '@features/course/services/module-prefetch-delegate';
 import { CoreConstants } from '@/core/constants';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 
 /**
  * Component to display a module entry in a list of modules.

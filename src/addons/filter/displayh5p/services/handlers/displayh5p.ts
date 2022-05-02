@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import type { ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { CoreFilterDefaultHandler } from '@features/filter/services/handlers/default-filter';
-import { CoreFilterFilter, CoreFilterFormatTextOptions } from '@features/filter/services/filter';
+import type { CoreFilterFilter, CoreFilterFormatTextOptions } from '@features/filter/services/filter';
 import { makeSingleton } from '@singletons';
 import { CoreH5PPlayerComponent } from '@features/h5p/components/h5p-player/h5p-player';
 import { CoreUrlUtils } from '@services/utils/url';

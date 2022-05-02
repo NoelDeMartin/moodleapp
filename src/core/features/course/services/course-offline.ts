@@ -15,8 +15,9 @@
 import { Injectable } from '@angular/core';
 import { makeSingleton } from '@singletons';
 import { CoreSites } from '@services/sites';
-import { CoreCourseManualCompletionDBRecord, MANUAL_COMPLETION_TABLE } from './database/course';
-import { CoreStatusWithWarningsWSResponse } from '@services/ws';
+import type { CoreCourseManualCompletionDBRecord } from './database/course';
+import { MANUAL_COMPLETION_TABLE } from './database/course';
+import type { CoreStatusWithWarningsWSResponse } from '@services/ws';
 
 /**
  * Service to handle offline data for courses.

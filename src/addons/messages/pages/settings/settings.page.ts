@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-    AddonMessagesProvider, AddonMessagesMessagePreferences,
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { AddonMessagesMessagePreferences,
     AddonMessagesMessagePreferencesNotification,
-    AddonMessagesMessagePreferencesNotificationProcessor,
+    AddonMessagesMessagePreferencesNotificationProcessor } from '../../services/messages';
+import {
+    AddonMessagesProvider,
     AddonMessages,
 } from '../../services/messages';
 import { CoreUser } from '@features/user/services/user';
@@ -26,8 +28,8 @@ import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreConstants } from '@/core/constants';
-import { IonRefresher } from '@ionic/angular';
-import { AddonNotificationsPreferencesNotificationProcessorState } from '@addons/notifications/services/notifications';
+import type { IonRefresher } from '@ionic/angular';
+import type { AddonNotificationsPreferencesNotificationProcessorState } from '@addons/notifications/services/notifications';
 
 /**
  * Page that displays the messages settings page.

@@ -17,17 +17,19 @@ import { Injectable } from '@angular/core';
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreFilterDelegate } from './filter-delegate';
-import {
-    CoreFilter,
+import type {
     CoreFilterFilter,
     CoreFilterFormatTextOptions,
     CoreFilterClassifiedFilters,
-    CoreFiltersGetAvailableInContextWSParamContext,
+    CoreFiltersGetAvailableInContextWSParamContext } from './filter';
+import {
+    CoreFilter,
 } from './filter';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreCourses } from '@features/courses/services/courses';
 import { makeSingleton } from '@singletons';
-import { CoreEvents, CoreEventSiteData } from '@singletons/events';
+import type { CoreEventSiteData } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreLogger } from '@singletons/logger';
 import { CoreSite } from '@classes/site';
 import { CoreCourseHelper } from '@features/course/services/course-helper';

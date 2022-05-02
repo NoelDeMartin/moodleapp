@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Input, Output, EventEmitter, Component, Optional, Inject, ElementRef } from '@angular/core';
+import type { ElementRef } from '@angular/core';
+import { Input, Output, EventEmitter, Component, Optional, Inject } from '@angular/core';
 import { CoreFileHelper } from '@services/file-helper';
 
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUrlUtils } from '@services/utils/url';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { CoreLogger } from '@singletons/logger';
-import { CoreQuestionBehaviourButton, CoreQuestionHelper, CoreQuestionQuestion } from '../services/question-helper';
+import type { CoreQuestionBehaviourButton, CoreQuestionQuestion } from '../services/question-helper';
+import { CoreQuestionHelper } from '../services/question-helper';
 
 /**
  * Base class for components to render a question.

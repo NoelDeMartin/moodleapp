@@ -13,8 +13,8 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import type { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import type { Observable } from 'rxjs';
 
 /**
  * Interceptor for Http calls. Adds the header 'Content-Type'='application/x-www-form-urlencoded'

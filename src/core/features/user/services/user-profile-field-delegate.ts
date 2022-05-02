@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
 import { CoreError } from '@classes/errors/error';
-import { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
+import type { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
 import { makeSingleton } from '@singletons';
-import { CoreUserProfileField } from './user';
+import type { CoreUserProfileField } from './user';
 
 /**
  * Interface that all user profile field handlers must implement.

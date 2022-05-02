@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { InAppBrowserObject, InAppBrowserOptions } from '@ionic-native/in-app-browser';
-import { FileEntry } from '@ionic-native/file/ngx';
-import { Subscription } from 'rxjs';
+import type { InAppBrowserObject, InAppBrowserOptions } from '@ionic-native/in-app-browser';
+import type { FileEntry } from '@ionic-native/file/ngx';
+import type { Subscription } from 'rxjs';
 
 import { CoreApp } from '@services/app';
 import { CoreEvents } from '@singletons/events';
@@ -25,12 +25,12 @@ import { CoreWS } from '@services/ws';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreTextUtils } from '@services/utils/text';
-import { CoreWSError } from '@classes/errors/wserror';
+import type { CoreWSError } from '@classes/errors/wserror';
 import { makeSingleton, Clipboard, InAppBrowser, FileOpener, WebIntent, QRScanner, Translate, NgZone } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreViewerQRScannerComponent } from '@features/viewer/components/qr-scanner/qr-scanner';
 import { CoreCanceledError } from '@classes/errors/cancelederror';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 import { CoreConstants } from '@/core/constants';
 import { CoreWindow } from '@singletons/window';
 import { CoreColors } from '@singletons/colors';

@@ -13,17 +13,20 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import type { ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreCourse, CoreCourseProvider } from '@features/course/services/course';
-import {
-    CoreCourseHelper,
+import type {
     CoreCourseModuleData,
     CoreCourseSectionWithStatus,
-    CorePrefetchStatusInfo,
-} from '@features/course/services/course-helper';
+    CorePrefetchStatusInfo } from '@features/course/services/course-helper';
 import {
-    CoreCourseModulePrefetchDelegate,
+    CoreCourseHelper,
+} from '@features/course/services/course-helper';
+import type {
     CoreCourseModulePrefetchHandler } from '@features/course/services/module-prefetch-delegate';
+import {
+    CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
 import { CoreCourses } from '@features/courses/services/courses';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
@@ -31,7 +34,8 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
 import { CoreDom } from '@singletons/dom';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 
 /**
  * Page that displays the amount of file storage used by each activity on the course, and allows

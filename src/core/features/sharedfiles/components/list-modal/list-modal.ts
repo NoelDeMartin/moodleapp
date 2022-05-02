@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Input } from '@angular/core';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { FileEntry } from '@ionic-native/file/ngx';
 
 import { CoreFile } from '@services/file';
 import { ModalController, Translate } from '@singletons';

@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import type { AfterViewInit, ElementRef, OnInit } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
 import { ModalController, Translate } from '@singletons';
 import { CoreMath } from '@singletons/math';

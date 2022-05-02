@@ -12,21 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreApp } from '@services/app';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreCoursesHelper } from '@features/courses/services/courses-helper';
 import { AddonCalendar, AddonCalendarProvider } from '../../services/calendar';
 import { AddonCalendarOffline } from '../../services/calendar-offline';
 import { AddonCalendarSync, AddonCalendarSyncProvider } from '../../services/calendar-sync';
-import { AddonCalendarFilter, AddonCalendarHelper } from '../../services/calendar-helper';
+import type { AddonCalendarFilter } from '../../services/calendar-helper';
+import { AddonCalendarHelper } from '../../services/calendar-helper';
 import { Network, NgZone } from '@singletons';
-import { Subscription } from 'rxjs';
-import { CoreEnrolledCourseData } from '@features/courses/services/courses';
-import { ActivatedRoute, Params } from '@angular/router';
+import type { Subscription } from 'rxjs';
+import type { CoreEnrolledCourseData } from '@features/courses/services/courses';
+import type { ActivatedRoute, Params } from '@angular/router';
 import { AddonCalendarCalendarComponent } from '../../components/calendar/calendar';
 import { AddonCalendarUpcomingEventsComponent } from '../../components/upcoming-events/upcoming-events';
 import { AddonCalendarFilterComponent } from '../../components/filter/filter';

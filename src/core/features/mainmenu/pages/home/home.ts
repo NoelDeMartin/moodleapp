@@ -12,13 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import type { OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { Subscription } from 'rxjs';
 
 import { CoreSites } from '@services/sites';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { CoreTabsOutletComponent, CoreTabsOutletTab } from '@components/tabs-outlet/tabs-outlet';
-import { CoreMainMenuHomeDelegate, CoreMainMenuHomeHandlerToDisplay } from '../../services/home-delegate';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { CoreTabsOutletTab } from '@components/tabs-outlet/tabs-outlet';
+import { CoreTabsOutletComponent } from '@components/tabs-outlet/tabs-outlet';
+import type { CoreMainMenuHomeHandlerToDisplay } from '../../services/home-delegate';
+import { CoreMainMenuHomeDelegate } from '../../services/home-delegate';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreMainMenuHomeHandlerService } from '@features/mainmenu/services/handlers/mainmenu';
 import { CoreMainMenuDeepLinkManager } from '@features/mainmenu/classes/deep-link-manager';

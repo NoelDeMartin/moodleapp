@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { AddonQbehaviourDeferredFeedbackHandler } from '@addons/qbehaviour/deferredfeedback/services/handlers/deferredfeedback';
-import { CoreQuestionBehaviourHandler, CoreQuestionQuestionWithAnswers } from '@features/question/services/behaviour-delegate';
+import type { CoreQuestionBehaviourHandler, CoreQuestionQuestionWithAnswers } from '@features/question/services/behaviour-delegate';
 import { makeSingleton } from '@singletons';
-import { CoreQuestionQuestionParsed, CoreQuestionsAnswers, CoreQuestionState } from '@features/question/services/question';
+import type { CoreQuestionQuestionParsed, CoreQuestionsAnswers, CoreQuestionState } from '@features/question/services/question';
 import { CoreQuestionHelper } from '@features/question/services/question-helper';
 import { AddonQbehaviourDeferredCBMComponent } from '../../component/deferredcbm';
 import { CoreQuestionDelegate } from '@features/question/services/question-delegate';

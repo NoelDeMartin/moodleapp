@@ -13,12 +13,12 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 
 import { AddonModForum } from '@addons/mod/forum/services/forum';
 import { CoreNavigator } from '@services/navigator';
-import { CorePushNotificationsClickHandler } from '@features/pushnotifications/services/push-delegate';
-import { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
+import type { CorePushNotificationsClickHandler } from '@features/pushnotifications/services/push-delegate';
+import type { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';

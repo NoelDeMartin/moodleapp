@@ -15,16 +15,19 @@
 import { Injectable } from '@angular/core';
 import { CoreComments } from '@features/comments/services/comments';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourse, CoreCourseAnyModuleData } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreCourses } from '@features/courses/services/courses';
 import { CoreUser } from '@features/user/services/user';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
-import { AddonModGlossary, AddonModGlossaryEntry, AddonModGlossaryGlossary, AddonModGlossaryProvider } from '../glossary';
-import { AddonModGlossarySync, AddonModGlossarySyncResult } from '../glossary-sync';
+import type { AddonModGlossaryEntry, AddonModGlossaryGlossary } from '../glossary';
+import { AddonModGlossary, AddonModGlossaryProvider } from '../glossary';
+import type { AddonModGlossarySyncResult } from '../glossary-sync';
+import { AddonModGlossarySync } from '../glossary-sync';
 
 /**
  * Handler to prefetch forums.

@@ -14,7 +14,10 @@
 
 import { Injectable } from '@angular/core';
 
-import { AddonMessageOutputHandler, AddonMessageOutputHandlerData } from '@addons/messageoutput/services/messageoutput-delegate';
+import type {
+    AddonMessageOutputHandler,
+    AddonMessageOutputHandlerData,
+} from '@addons/messageoutput/services/messageoutput-delegate';
 import { makeSingleton } from '@singletons';
 
 /**

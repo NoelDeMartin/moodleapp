@@ -27,9 +27,10 @@ import { makeSingleton, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { AddonModGlossary, AddonModGlossaryProvider } from './glossary';
 import { AddonModGlossaryHelper } from './glossary-helper';
-import { AddonModGlossaryOffline, AddonModGlossaryOfflineEntry } from './glossary-offline';
+import type { AddonModGlossaryOfflineEntry } from './glossary-offline';
+import { AddonModGlossaryOffline } from './glossary-offline';
 import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 
 /**
  * Service to sync glossaries.

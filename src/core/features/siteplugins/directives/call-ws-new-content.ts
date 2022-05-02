@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, Input, ElementRef, Optional } from '@angular/core';
-import { CoreSiteWSPreSets } from '@classes/site';
+import type { ElementRef } from '@angular/core';
+import { Directive, Input, Optional } from '@angular/core';
+import type { CoreSiteWSPreSets } from '@classes/site';
 import { CoreNavigator } from '@services/navigator';
 import { CoreUtils } from '@services/utils/utils';
 import { Md5 } from 'ts-md5';
 
 import { CoreSitePluginsCallWSOnClickBaseDirective } from '../classes/call-ws-click-directive';
-import { CoreSitePluginsPluginContentComponent } from '../components/plugin-content/plugin-content';
+import type { CoreSitePluginsPluginContentComponent } from '../components/plugin-content/plugin-content';
 import { CoreSitePlugins } from '../services/siteplugins';
 
 /**

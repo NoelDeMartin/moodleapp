@@ -13,41 +13,46 @@
 // limitations under the License.
 
 import { ContextLevel } from '@/core/constants';
-import { AfterViewInit, Component, OnDestroy, OnInit, Optional, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import type { AfterViewInit, OnDestroy, OnInit } from '@angular/core';
+import { Component, Optional, ViewChild } from '@angular/core';
+import type { ActivatedRoute } from '@angular/router';
 import { CoreListItemsManager } from '@classes/items-management/list-items-manager';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 import { CorePromisedValue } from '@classes/promised-value';
 import { CoreSplitViewComponent } from '@components/split-view/split-view';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreRatingProvider } from '@features/rating/services/rating';
 import { CoreRatingOffline } from '@features/rating/services/rating-offline';
 import { CoreRatingSyncProvider } from '@features/rating/services/rating-sync';
-import { IonContent } from '@ionic/angular';
+import type { IonContent } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type {
+    AddonModGlossaryEntryItem,
+    AddonModGlossaryFetchMode } from '../../classes/glossary-entries-source';
 import {
     AddonModGlossaryEntriesSource,
-    AddonModGlossaryEntryItem,
-    AddonModGlossaryFetchMode,
 } from '../../classes/glossary-entries-source';
-import {
-    AddonModGlossary,
+import type {
     AddonModGlossaryEntry,
     AddonModGlossaryEntryWithCategory,
-    AddonModGlossaryGlossary,
+    AddonModGlossaryGlossary } from '../../services/glossary';
+import {
+    AddonModGlossary,
     AddonModGlossaryProvider,
 } from '../../services/glossary';
-import { AddonModGlossaryOfflineEntry } from '../../services/glossary-offline';
-import {
+import type { AddonModGlossaryOfflineEntry } from '../../services/glossary-offline';
+import type {
     AddonModGlossaryAutoSyncData,
+    AddonModGlossarySyncResult } from '../../services/glossary-sync';
+import {
     AddonModGlossarySyncProvider,
-    AddonModGlossarySyncResult,
 } from '../../services/glossary-sync';
 import { AddonModGlossaryModuleHandlerService } from '../../services/handlers/module';
 import { AddonModGlossaryPrefetchHandler } from '../../services/handlers/prefetch';

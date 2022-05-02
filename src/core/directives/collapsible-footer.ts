@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { ScrollDetail } from '@ionic/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Directive, Inject, Input, ElementRef } from '@angular/core';
+import type { ScrollDetail } from '@ionic/core';
 import { IonContent } from '@ionic/angular';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreMath } from '@singletons/math';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 import { CoreFormatTextDirective } from './format-text';
-import { CoreEventObserver } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
 import { CoreLoadingComponent } from '@components/loading/loading';
-import { CoreCancellablePromise } from '@classes/cancellable-promise';
+import type { CoreCancellablePromise } from '@classes/cancellable-promise';
 import { CoreDom } from '@singletons/dom';
 
 /**
@@ -55,7 +56,7 @@ export class CoreCollapsibleFooterDirective implements OnInit, OnDestroy {
     protected pageDidEnterListener?: EventListener;
     protected page?: HTMLElement;
 
-    constructor(el: ElementRef, protected ionContent: IonContent) {
+    constructor(@Inject(ElementRef) el: ElementRef, @Inject(IonContent) protected ionContent: IonContent) {
         this.element = el.nativeElement;
     }
 

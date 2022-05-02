@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, OnInit, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { OnInit, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import type { FileEntry } from '@ionic-native/file/ngx';
 
-import { CoreIonLoadingElement } from '@classes/ion-loading';
+import type { CoreIonLoadingElement } from '@classes/ion-loading';
 import { CoreFile } from '@services/file';
 import { CoreFileHelper } from '@services/file-helper';
 import { CoreSites } from '@services/sites';
@@ -23,7 +24,8 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
-import { CoreUtils, CoreUtilsOpenFileOptions, OpenFileAction } from '@services/utils/utils';
+import type { CoreUtilsOpenFileOptions } from '@services/utils/utils';
+import { CoreUtils, OpenFileAction } from '@services/utils/utils';
 import { CoreForms } from '@singletons/form';
 import { CoreApp } from '@services/app';
 import { CoreText } from '@singletons/text';

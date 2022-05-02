@@ -13,30 +13,33 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreFileUploader, CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
-import { CoreSites, CoreSitesCommonWSOptions } from '@services/sites';
-import { FileEntry, DirectoryEntry } from '@ionic-native/file/ngx';
-import {
-    AddonModAssignProvider,
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites } from '@services/sites';
+import type { FileEntry, DirectoryEntry } from '@ionic-native/file/ngx';
+import type {
     AddonModAssignAssign,
     AddonModAssignSubmission,
     AddonModAssignParticipant,
     AddonModAssignSubmissionFeedback,
-    AddonModAssign,
     AddonModAssignPlugin,
-    AddonModAssignSavePluginData,
+    AddonModAssignSavePluginData } from './assign';
+import {
+    AddonModAssignProvider,
+    AddonModAssign,
     AddonModAssignSubmissionStatusValues,
 } from './assign';
 import { AddonModAssignOffline } from './assign-offline';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreFile } from '@services/file';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreGroups } from '@services/groups';
 import { AddonModAssignSubmissionDelegate } from './submission-delegate';
 import { AddonModAssignFeedbackDelegate } from './feedback-delegate';
 import { makeSingleton } from '@singletons';
-import { CoreFormFields } from '@singletons/form';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFormFields } from '@singletons/form';
+import type { CoreFileEntry } from '@services/file-helper';
 
 /**
  * Service that provides some helper functions for assign.

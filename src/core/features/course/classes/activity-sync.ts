@@ -13,9 +13,10 @@
 // limitations under the License.
 
 import { CoreSyncBaseProvider } from '@classes/base-sync';
-import { CoreCourse, CoreCourseAnyModuleData } from '../services/course';
+import type { CoreCourseAnyModuleData } from '../services/course';
+import { CoreCourse } from '../services/course';
 import { CoreCourseModulePrefetchDelegate } from '../services/module-prefetch-delegate';
-import { CoreCourseModulePrefetchHandlerBase } from './module-prefetch-handler';
+import type { CoreCourseModulePrefetchHandlerBase } from './module-prefetch-handler';
 
 /**
  * Base class to create activity sync providers. It provides some common functions.

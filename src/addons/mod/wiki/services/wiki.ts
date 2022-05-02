@@ -14,20 +14,22 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
-import { CoreTagItem } from '@features/tag/services/tag';
+import type { CoreTagItem } from '@features/tag/services/tag';
 import { CoreApp } from '@services/app';
 import { CoreNavigator } from '@services/navigator';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalFile, CoreWSExternalWarning, CoreWSFile } from '@services/ws';
+import type { CoreWSExternalFile, CoreWSExternalWarning, CoreWSFile } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { AddonModWikiPageDBRecord } from './database/wiki';
+import type { AddonModWikiPageDBRecord } from './database/wiki';
 import { AddonModWikiOffline } from './wiki-offline';
-import { AddonModWikiAutoSyncData, AddonModWikiManualSyncData, AddonModWikiSyncProvider } from './wiki-sync';
+import type { AddonModWikiAutoSyncData, AddonModWikiManualSyncData, AddonModWikiSyncProvider } from './wiki-sync';
 
 const ROOT_CACHE_KEY = 'mmaModWiki:';
 

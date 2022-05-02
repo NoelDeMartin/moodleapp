@@ -12,15 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { CoreUserProfileFieldHandler, CoreUserProfileFieldHandlerData } from '@features/user/services/user-profile-field-delegate';
+import type {
+    CoreUserProfileFieldHandler,
+    CoreUserProfileFieldHandlerData,
+} from '@features/user/services/user-profile-field-delegate';
 import { AddonUserProfileFieldTextareaComponent } from '../../component/textarea';
 import { CoreTextUtils } from '@services/utils/text';
-import { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
-import { CoreUserProfileField } from '@features/user/services/user';
+import type { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
+import type { CoreUserProfileField } from '@features/user/services/user';
 import { makeSingleton } from '@singletons';
-import { CoreFormFields } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
 
 /**
  * Textarea user profile field handlers.

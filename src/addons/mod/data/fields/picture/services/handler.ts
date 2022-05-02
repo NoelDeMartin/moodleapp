@@ -12,22 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
+import type {
     AddonModDataEntryField,
     AddonModDataField,
-    AddonModDataProvider,
     AddonModDataSearchEntriesAdvancedFieldFormatted,
-    AddonModDataSubfieldData,
+    AddonModDataSubfieldData } from '@addons/mod/data/services/data';
+import {
+    AddonModDataProvider,
 } from '@addons/mod/data/services/data';
-import { AddonModDataFieldHandler } from '@addons/mod/data/services/data-fields-delegate';
-import { Injectable, Type } from '@angular/core';
-import { CoreFileUploader, CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { AddonModDataFieldHandler } from '@addons/mod/data/services/data-fields-delegate';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
+import type { FileEntry } from '@ionic-native/file/ngx';
 import { CoreFileSession } from '@services/file-session';
-import { CoreFormFields } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
 import { makeSingleton, Translate } from '@singletons';
 import { AddonModDataFieldPictureComponent } from '../component/picture';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 
 /**
  * Handler for picture data field plugin.

@@ -14,34 +14,37 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreFileUploader, CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
+import type { FileEntry } from '@ionic-native/file/ngx';
 import { CoreFile } from '@services/file';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate } from '@singletons';
-import { CoreFormFields } from '@singletons/form';
-import { AddonModWorkshopAssessmentStrategyFieldErrors } from '../components/assessment-strategy/assessment-strategy';
+import type { CoreFormFields } from '@singletons/form';
+import type { AddonModWorkshopAssessmentStrategyFieldErrors } from '../components/assessment-strategy/assessment-strategy';
 import { AddonWorkshopAssessmentStrategyDelegate } from './assessment-strategy-delegate';
-import {
-    AddonModWorkshopExampleMode,
-    AddonModWorkshopPhase,
+import type {
     AddonModWorkshopUserOptions,
-    AddonModWorkshopProvider,
     AddonModWorkshopData,
-    AddonModWorkshop,
     AddonModWorkshopSubmissionData,
     AddonModWorkshopGetWorkshopAccessInformationWSResponse,
     AddonModWorkshopPhaseTaskData,
     AddonModWorkshopSubmissionAssessmentData,
     AddonModWorkshopGetAssessmentFormDefinitionData,
+    AddonModWorkshopGetAssessmentFormFieldsParsedData } from './workshop';
+import {
+    AddonModWorkshopExampleMode,
+    AddonModWorkshopPhase,
+    AddonModWorkshopProvider,
+    AddonModWorkshop,
     AddonModWorkshopAction,
     AddonModWorkshopOverallFeedbackMode,
-    AddonModWorkshopGetAssessmentFormFieldsParsedData,
 } from './workshop';
-import { AddonModWorkshopOffline, AddonModWorkshopOfflineSubmission } from './workshop-offline';
+import type { AddonModWorkshopOfflineSubmission } from './workshop-offline';
+import { AddonModWorkshopOffline } from './workshop-offline';
 
 /**
  * Helper to gather some common functions for workshop.

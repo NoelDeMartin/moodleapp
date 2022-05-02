@@ -16,7 +16,8 @@ import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { makeSingleton } from '@singletons';
-import { AddonModChoiceResponsesDBRecord, RESPONSES_TABLE_NAME } from './database/choice';
+import type { AddonModChoiceResponsesDBRecord } from './database/choice';
+import { RESPONSES_TABLE_NAME } from './database/choice';
 
 /**
  * Service to handle offline choices.

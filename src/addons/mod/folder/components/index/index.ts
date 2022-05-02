@@ -12,15 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit, Optional } from '@angular/core';
-import { Params } from '@angular/router';
+import type { OnInit } from '@angular/core';
+import { Component, Input, Optional } from '@angular/core';
+import type { Params } from '@angular/router';
 import { CoreCourseModuleMainResourceComponent } from '@features/course/classes/main-resource-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreNavigator } from '@services/navigator';
 import { Md5 } from 'ts-md5';
-import { AddonModFolder, AddonModFolderFolder, AddonModFolderProvider } from '../../services/folder';
-import { AddonModFolderFolderFormattedData, AddonModFolderHelper } from '../../services/folder-helper';
+import type { AddonModFolderFolder } from '../../services/folder';
+import { AddonModFolder, AddonModFolderProvider } from '../../services/folder';
+import type { AddonModFolderFolderFormattedData } from '../../services/folder-helper';
+import { AddonModFolderHelper } from '../../services/folder-helper';
 import { AddonModFolderModuleHandlerService } from '../../services/handlers/module';
 
 /**

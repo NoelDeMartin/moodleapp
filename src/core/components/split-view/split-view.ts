@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import type { AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import type { ActivatedRouteSnapshot } from '@angular/router';
 import { IonContent, IonRouterOutlet } from '@ionic/angular';
 import { CoreScreen } from '@services/screen';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import type { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 export enum CoreSplitViewMode {
     MENU_ONLY = 'menu-only', // Hides content.

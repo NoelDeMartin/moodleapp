@@ -16,28 +16,31 @@ import { Injectable } from '@angular/core';
 import { CoreEvents } from '@singletons/events';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreSyncBlockedError } from '@classes/base-sync';
-import {
-    AddonModAssignProvider,
+import type {
     AddonModAssignAssign,
     AddonModAssignSubmission,
-    AddonModAssign,
     AddonModAssignGetSubmissionStatusWSResponse,
-    AddonModAssignSubmissionStatusOptions,
+    AddonModAssignSubmissionStatusOptions } from './assign';
+import {
+    AddonModAssignProvider,
+    AddonModAssign,
 } from './assign';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreCourseActivitySyncBaseProvider } from '@features/course/classes/activity-sync';
+import type {
+    AddonModAssignSubmissionsDBRecordFormatted,
+    AddonModAssignSubmissionsGradingDBRecordFormatted } from './assign-offline';
 import {
     AddonModAssignOffline,
-    AddonModAssignSubmissionsDBRecordFormatted,
-    AddonModAssignSubmissionsGradingDBRecordFormatted,
 } from './assign-offline';
 import { CoreSync } from '@services/sync';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreApp } from '@services/app';
 import { CoreNetworkError } from '@classes/errors/network-error';
-import { CoreGradesFormattedItem, CoreGradesHelper } from '@features/grades/services/grades-helper';
+import type { CoreGradesFormattedItem } from '@features/grades/services/grades-helper';
+import { CoreGradesHelper } from '@features/grades/services/grades-helper';
 import { AddonModAssignSubmissionDelegate } from './submission-delegate';
 import { AddonModAssignFeedbackDelegate } from './feedback-delegate';
 

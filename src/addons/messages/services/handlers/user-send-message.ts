@@ -13,9 +13,10 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Params } from '@angular/router';
-import { CoreUserProfile } from '@features/user/services/user';
-import { CoreUserDelegateService, CoreUserProfileHandler, CoreUserProfileHandlerData } from '@features/user/services/user-delegate';
+import type { Params } from '@angular/router';
+import type { CoreUserProfile } from '@features/user/services/user';
+import type { CoreUserProfileHandler, CoreUserProfileHandlerData } from '@features/user/services/user-delegate';
+import { CoreUserDelegateService } from '@features/user/services/user-delegate';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { makeSingleton } from '@singletons';

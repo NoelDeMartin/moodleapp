@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 
-import { CoreDelegateDisplayHandler, CoreDelegateToDisplay } from '@classes/delegate';
+import type { CoreDelegateDisplayHandler, CoreDelegateToDisplay } from '@classes/delegate';
 import { CoreSortedDelegate } from '@classes/delegate-sorted';
 import { makeSingleton } from '@singletons';
 

@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApplicationInitStatus, Injector, NgModule, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { ApplicationInitStatus, Injector, NgModule } from '@angular/core';
 import { HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 import { CoreApplicationInitStatus } from './classes/application-init-status';

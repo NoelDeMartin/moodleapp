@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit, ViewChild, OnDestroy, DoCheck, KeyValueDiffers, KeyValueDiffer, Type } from '@angular/core';
+import type { OnInit, OnDestroy, DoCheck, KeyValueDiffers, KeyValueDiffer, Type } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CoreBlockDelegate } from '../../services/block-delegate';
 import { CoreDynamicComponent } from '@components/dynamic-component/dynamic-component';
-import { Subscription } from 'rxjs';
-import { CoreCourseBlock } from '@/core/features/course/services/course';
-import { IonRefresher } from '@ionic/angular';
+import type { Subscription } from 'rxjs';
+import type { CoreCourseBlock } from '@/core/features/course/services/course';
+import type { IonRefresher } from '@ionic/angular';
 
 /**
  * Component to render a block.

@@ -13,13 +13,17 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreSites, CoreSitesCommonWSOptions } from '@services/sites';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreTagItem } from '@features/tag/services/tag';
-import { CoreWSExternalWarning, CoreWSExternalFile, CoreWS } from '@services/ws';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites } from '@services/sites';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreTagItem } from '@features/tag/services/tag';
+import type { CoreWSExternalWarning, CoreWSExternalFile } from '@services/ws';
+import { CoreWS } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
-import { CoreCourse, CoreCourseModuleContentFile } from '@features/course/services/course';
+import type { CoreCourseModuleContentFile } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreFilepool } from '@services/filepool';
 import { CoreTextUtils } from '@services/utils/text';

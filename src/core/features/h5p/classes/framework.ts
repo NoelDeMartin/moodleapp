@@ -15,32 +15,34 @@
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreH5P } from '@features/h5p/services/h5p';
-import {
-    CoreH5PCore,
-    CoreH5PDisplayOptionBehaviour,
+import type {
     CoreH5PContentDependencyData,
     CoreH5PLibraryData,
     CoreH5PLibraryAddonData,
     CoreH5PContentDepsTreeDependency,
     CoreH5PLibraryBasicData,
-    CoreH5PLibraryBasicDataWithPatch,
-} from './core';
+    CoreH5PLibraryBasicDataWithPatch } from './core';
 import {
-    CONTENT_TABLE_NAME,
-    LIBRARIES_CACHEDASSETS_TABLE_NAME,
+    CoreH5PCore,
+    CoreH5PDisplayOptionBehaviour,
+} from './core';
+import type {
     CoreH5PLibraryCachedAssetsDBRecord,
-    LIBRARIES_TABLE_NAME,
-    LIBRARY_DEPENDENCIES_TABLE_NAME,
-    CONTENTS_LIBRARIES_TABLE_NAME,
     CoreH5PContentDBRecord,
     CoreH5PLibraryDBRecord,
     CoreH5PLibraryDependencyDBRecord,
-    CoreH5PContentsLibraryDBRecord,
+    CoreH5PContentsLibraryDBRecord } from '../services/database/h5p';
+import {
+    CONTENT_TABLE_NAME,
+    LIBRARIES_CACHEDASSETS_TABLE_NAME,
+    LIBRARIES_TABLE_NAME,
+    LIBRARY_DEPENDENCIES_TABLE_NAME,
+    CONTENTS_LIBRARIES_TABLE_NAME,
 } from '../services/database/h5p';
 import { CoreError } from '@classes/errors/error';
-import { CoreH5PSemantics } from './content-validator';
-import { CoreH5PContentBeingSaved, CoreH5PLibraryBeingSaved } from './storage';
-import { CoreH5PLibraryAddTo, CoreH5PLibraryMetadataSettings } from './validator';
+import type { CoreH5PSemantics } from './content-validator';
+import type { CoreH5PContentBeingSaved, CoreH5PLibraryBeingSaved } from './storage';
+import type { CoreH5PLibraryAddTo, CoreH5PLibraryMetadataSettings } from './validator';
 import { CoreH5PMetadata } from './metadata';
 import { Translate } from '@singletons';
 import { SQLiteDB } from '@classes/sqlitedb';

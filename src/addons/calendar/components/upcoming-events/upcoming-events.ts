@@ -12,18 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit, Input, DoCheck, Output, EventEmitter, KeyValueDiffers, KeyValueDiffer } from '@angular/core';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { OnDestroy, OnInit, DoCheck, KeyValueDiffers, KeyValueDiffer } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
+import type {
+    AddonCalendarEventToDisplay } from '../../services/calendar';
 import {
     AddonCalendarProvider,
-    AddonCalendarEventToDisplay,
     AddonCalendar,
 } from '../../services/calendar';
-import { AddonCalendarHelper, AddonCalendarFilter } from '../../services/calendar-helper';
+import type { AddonCalendarFilter } from '../../services/calendar-helper';
+import { AddonCalendarHelper } from '../../services/calendar-helper';
 import { AddonCalendarOffline } from '../../services/calendar-offline';
-import { CoreCategoryData, CoreCourses } from '@features/courses/services/courses';
+import type { CoreCategoryData } from '@features/courses/services/courses';
+import { CoreCourses } from '@features/courses/services/courses';
 import { CoreConstants } from '@/core/constants';
 
 /**

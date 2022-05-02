@@ -14,16 +14,20 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreQuestionBehaviourDelegate, CoreQuestionQuestionWithAnswers } from '@features/question/services/behaviour-delegate';
-import { CoreQuestionAnswerDBRecord } from '@features/question/services/database/question';
-import { CoreQuestion, CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
+import type { CoreQuestionQuestionWithAnswers } from '@features/question/services/behaviour-delegate';
+import { CoreQuestionBehaviourDelegate } from '@features/question/services/behaviour-delegate';
+import type { CoreQuestionAnswerDBRecord } from '@features/question/services/database/question';
+import type { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
+import { CoreQuestion } from '@features/question/services/question';
 import { CoreSites } from '@services/sites';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
-import { AddonModQuizAttemptDBRecord, ATTEMPTS_TABLE_NAME } from './database/quiz';
-import { AddonModQuizAttemptWSData, AddonModQuizProvider, AddonModQuizQuizWSData } from './quiz';
+import type { AddonModQuizAttemptDBRecord } from './database/quiz';
+import { ATTEMPTS_TABLE_NAME } from './database/quiz';
+import type { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from './quiz';
+import { AddonModQuizProvider } from './quiz';
 
 /**
  * Service to handle offline quiz.

@@ -12,23 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreAnimations } from '@components/animations';
-import { ActivatedRoute } from '@angular/router';
+import type { ActivatedRoute } from '@angular/router';
 import { CoreSites } from '@services/sites';
+import type {
+    CoreCommentsCommentBasicData,
+    CoreCommentsData } from '@features/comments/services/comments';
 import {
     CoreComments,
-    CoreCommentsCommentBasicData,
-    CoreCommentsData,
     CoreCommentsProvider,
 } from '@features/comments/services/comments';
 import {
     CoreCommentsSync,
     CoreCommentsSyncProvider,
 } from '@features/comments/services/comments-sync';
-import { IonContent, IonRefresher } from '@ionic/angular';
-import { ContextLevel, CoreConstants } from '@/core/constants';
+import type { IonRefresher } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
+import type { ContextLevel } from '@/core/constants';
+import { CoreConstants } from '@/core/constants';
 import { CoreNavigator } from '@services/navigator';
 import { Network, NgZone, Translate } from '@singletons';
 import { CoreUtils } from '@services/utils/utils';
@@ -37,11 +42,11 @@ import { CoreUser } from '@features/user/services/user';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreError } from '@classes/errors/error';
 import { CoreCommentsOffline } from '@features/comments/services/comments-offline';
-import { CoreCommentsDBRecord } from '@features/comments/services/database/comments';
+import type { CoreCommentsDBRecord } from '@features/comments/services/database/comments';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreApp } from '@services/app';
 import moment from 'moment';
-import { Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
 
 /**
  * Page that displays comments.

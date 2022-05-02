@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { CoreContentLinksHelper } from '@features/contentlinks/services/contentlinks-helper';
-import { NavController } from '@ionic/angular';
+import type { NavController } from '@ionic/angular';
 import { CoreConfig } from '@services/config';
 
 import { CoreFileHelper } from '@services/file-helper';

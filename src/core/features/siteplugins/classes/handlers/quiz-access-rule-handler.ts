@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Type } from '@angular/core';
+import type { Type } from '@angular/core';
 
-import { AddonModQuizAccessRuleHandler } from '@addons/mod/quiz/services/access-rules-delegate';
+import type { AddonModQuizAccessRuleHandler } from '@addons/mod/quiz/services/access-rules-delegate';
 import { CoreSitePluginsQuizAccessRuleComponent } from '../../components/quiz-access-rule/quiz-access-rule';
 
 /**

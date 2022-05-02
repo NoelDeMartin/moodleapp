@@ -12,22 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { ActivatedRouteSnapshot } from '@angular/router';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 import { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { AddonModFeedbackAttemptsSource } from '../../classes/feedback-attempts-source';
+import type {
+    AddonModFeedbackWSAnonAttempt,
+    AddonModFeedbackWSAttempt,
+    AddonModFeedbackWSFeedback } from '../../services/feedback';
 import {
     AddonModFeedback,
     AddonModFeedbackProvider,
-    AddonModFeedbackWSAnonAttempt,
-    AddonModFeedbackWSAttempt,
-    AddonModFeedbackWSFeedback,
 } from '../../services/feedback';
-import { AddonModFeedbackFormItem, AddonModFeedbackHelper } from '../../services/feedback-helper';
+import type { AddonModFeedbackFormItem } from '../../services/feedback-helper';
+import { AddonModFeedbackHelper } from '../../services/feedback-helper';
 
 /**
  * Page that displays a feedback attempt review.

@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AddonNotes, AddonNotesPublishState } from '@addons/notes/services/notes';
-import { Component, ViewChild, ElementRef, Input } from '@angular/core';
+import type { AddonNotesPublishState } from '@addons/notes/services/notes';
+import { AddonNotes } from '@addons/notes/services/notes';
+import type { ElementRef } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';

@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { FormGroup, FormBuilder } from '@angular/forms';
 
-import { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from '@addons/mod/quiz/services/quiz';
+import type { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from '@addons/mod/quiz/services/quiz';
 
 /**
  * Component to render the preflight for password.

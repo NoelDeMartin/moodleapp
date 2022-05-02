@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ContextLevel } from '@/core/constants';
+import type { ContextLevel } from '@/core/constants';
 import { Injectable } from '@angular/core';
-import { CoreSiteWSPreSets, CoreSite } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
 import { CoreUser } from '@features/user/services/user';
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalWarning } from '@services/ws';
+import type { CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { CoreRatingOffline } from './rating-offline';

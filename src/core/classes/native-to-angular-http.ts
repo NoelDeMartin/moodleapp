@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { HttpResponse as AngularHttpResponse, HttpHeaders } from '@angular/common/http';
-import { HTTPResponse as NativeHttpResponse } from '@ionic-native/http';
+import type { HTTPResponse as NativeHttpResponse } from '@ionic-native/http';
 
 const HTTP_STATUS_MESSAGES = {
     100: 'Continue',

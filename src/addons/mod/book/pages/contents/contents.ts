@@ -13,18 +13,21 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
 import { CoreSwipeSlidesItemsManager } from '@classes/items-management/swipe-slides-items-manager';
 import { CoreSwipeSlidesItemsManagerSource } from '@classes/items-management/swipe-slides-items-manager-source';
-import { CoreNavigationBarItem } from '@components/navigation-bar/navigation-bar';
-import { CoreSwipeSlidesComponent, CoreSwipeSlidesOptions } from '@components/swipe-slides/swipe-slides';
-import { CoreCourseResourceDownloadResult } from '@features/course/classes/main-resource-component';
+import type { CoreNavigationBarItem } from '@components/navigation-bar/navigation-bar';
+import type { CoreSwipeSlidesOptions } from '@components/swipe-slides/swipe-slides';
+import { CoreSwipeSlidesComponent } from '@components/swipe-slides/swipe-slides';
+import type { CoreCourseResourceDownloadResult } from '@features/course/classes/main-resource-component';
 import { CoreCourse } from '@features/course/services/course';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
 import { CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
-import { CoreTag, CoreTagItem } from '@features/tag/services/tag';
-import { IonRefresher } from '@ionic/angular';
+import type { CoreTagItem } from '@features/tag/services/tag';
+import { CoreTag } from '@features/tag/services/tag';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreApp } from '@services/app';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
@@ -32,13 +35,14 @@ import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
 import { AddonModBookTocComponent } from '../../components/toc/toc';
-import {
-    AddonModBook,
+import type {
     AddonModBookBookWSData,
     AddonModBookContentsMap,
+    AddonModBookTocChapter } from '../../services/book';
+import {
+    AddonModBook,
     AddonModBookNavStyle,
     AddonModBookProvider,
-    AddonModBookTocChapter,
 } from '../../services/book';
 
 /**

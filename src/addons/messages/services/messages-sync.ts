@@ -14,13 +14,15 @@
 
 import { Injectable } from '@angular/core';
 import { CoreSyncBaseProvider } from '@classes/base-sync';
+import type { AddonMessagesOfflineAnyMessagesFormatted } from './messages-offline';
 import {
-    AddonMessagesOffline, AddonMessagesOfflineAnyMessagesFormatted,
+    AddonMessagesOffline,
 } from './messages-offline';
+import type {
+    AddonMessagesGetMessagesWSParams } from './messages';
 import {
     AddonMessagesProvider,
     AddonMessages,
-    AddonMessagesGetMessagesWSParams,
 } from './messages';
 import { CoreEvents } from '@singletons/events';
 import { CoreUtils } from '@services/utils/utils';
@@ -30,8 +32,9 @@ import { CoreApp } from '@services/app';
 import { CoreConstants } from '@/core/constants';
 import { CoreUser } from '@features/user/services/user';
 import { CoreError } from '@classes/errors/error';
-import { CoreTextErrorObject, CoreTextUtils } from '@services/utils/text';
-import { CoreSiteWSPreSets } from '@classes/site';
+import type { CoreTextErrorObject } from '@services/utils/text';
+import { CoreTextUtils } from '@services/utils/text';
+import type { CoreSiteWSPreSets } from '@classes/site';
 
 /**
  * Service to sync messages.

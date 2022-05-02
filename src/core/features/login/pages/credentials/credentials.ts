@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { FormBuilder, FormGroup } from '@angular/forms';
+import { Validators } from '@angular/forms';
+import type { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { CoreApp } from '@services/app';
@@ -23,7 +25,7 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
 import { CoreConstants } from '@/core/constants';
 import { Translate } from '@singletons';
-import { CoreSiteIdentityProvider, CoreSitePublicConfigResponse } from '@classes/site';
+import type { CoreSiteIdentityProvider, CoreSitePublicConfigResponse } from '@classes/site';
 import { CoreEvents } from '@singletons/events';
 import { CoreNavigator } from '@services/navigator';
 import { CoreForms } from '@singletons/form';

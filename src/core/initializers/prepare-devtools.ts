@@ -12,10 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreApp, CoreAppProvider } from '@services/app';
-import { CoreConfig, CoreConfigProvider } from '@services/config';
-import { CoreDB, CoreDbProvider } from '@services/db';
-import { CoreCustomURLSchemes, CoreCustomURLSchemesProvider } from '@services/urlschemes';
+import type { CoreAppProvider } from '@services/app';
+import { CoreApp } from '@services/app';
+import type { CoreConfigProvider } from '@services/config';
+import { CoreConfig } from '@services/config';
+import type { CoreDbProvider } from '@services/db';
+import { CoreDB } from '@services/db';
+import type { CoreCustomURLSchemesProvider } from '@services/urlschemes';
+import { CoreCustomURLSchemes } from '@services/urlschemes';
 import { CoreConstants } from '../constants';
 
 type DevelopmentWindow = Window & {

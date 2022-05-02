@@ -12,14 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AddonNotificationsNotificationData } from '@addons/notifications/services/handlers/push-click';
+import type { AddonNotificationsNotificationData } from '@addons/notifications/services/handlers/push-click';
 import { AddonNotifications } from '@addons/notifications/services/notifications';
+import type {
+    AddonNotificationsNotificationToRender } from '@addons/notifications/services/notifications-helper';
 import {
     AddonNotificationsHelper,
-    AddonNotificationsNotificationToRender,
 } from '@addons/notifications/services/notifications-helper';
-import { Component, OnInit } from '@angular/core';
-import { CoreContentLinksAction, CoreContentLinksDelegate } from '@features/contentlinks/services/contentlinks-delegate';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
+import { CoreContentLinksDelegate } from '@features/contentlinks/services/contentlinks-delegate';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';

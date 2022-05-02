@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CanDeactivate } from '@angular/router';
+import type { CanDeactivate } from '@angular/router';
 import { CoreUtils } from '@services/utils/utils';
 
 @Injectable({ providedIn: 'root' })

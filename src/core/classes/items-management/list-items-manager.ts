@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ActivatedRoute, ActivatedRouteSnapshot, UrlSegment } from '@angular/router';
-import { Subscription } from 'rxjs';
+import type { ActivatedRouteSnapshot, UrlSegment } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import type { Subscription } from 'rxjs';
 
-import { CoreSplitViewComponent } from '@components/split-view/split-view';
+import type { CoreSplitViewComponent } from '@components/split-view/split-view';
 import { CoreNavigator } from '@services/navigator';
 import { CoreScreen } from '@services/screen';
 import { CoreUtils } from '@services/utils/utils';
 
-import { CoreRoutedItemsManagerSource } from './routed-items-manager-source';
+import type { CoreRoutedItemsManagerSource } from './routed-items-manager-source';
 import { CoreRoutedItemsManager } from './routed-items-manager';
 
 /**

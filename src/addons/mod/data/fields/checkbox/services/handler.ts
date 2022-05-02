@@ -11,15 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import {
+import type {
     AddonModDataEntryField,
     AddonModDataField,
     AddonModDataSearchEntriesAdvancedFieldFormatted,
     AddonModDataSubfieldData,
 } from '@addons/mod/data/services/data';
-import { AddonModDataFieldHandler } from '@addons/mod/data/services/data-fields-delegate';
-import { Injectable, Type } from '@angular/core';
-import { CoreFormFields } from '@singletons/form';
+import type { AddonModDataFieldHandler } from '@addons/mod/data/services/data-fields-delegate';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { CoreFormFields } from '@singletons/form';
 import { makeSingleton, Translate } from '@singletons';
 import { AddonModDataFieldCheckboxComponent } from '../component/checkbox';
 

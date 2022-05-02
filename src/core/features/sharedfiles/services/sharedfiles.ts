@@ -13,10 +13,10 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { FileEntry, DirectoryEntry } from '@ionic-native/file/ngx';
+import type { FileEntry, DirectoryEntry } from '@ionic-native/file/ngx';
 import { Md5 } from 'ts-md5/dist/md5';
 
-import { SQLiteDB } from '@classes/sqlitedb';
+import type { SQLiteDB } from '@classes/sqlitedb';
 import { CoreLogger } from '@singletons/logger';
 import { CoreApp } from '@services/app';
 import { CoreFile } from '@services/file';
@@ -25,7 +25,8 @@ import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreSites } from '@services/sites';
 import { CoreEvents } from '@singletons/events';
 import { makeSingleton } from '@singletons';
-import { APP_SCHEMA, CoreSharedFilesDBRecord, SHARED_FILES_TABLE_NAME } from './database/sharedfiles';
+import type { CoreSharedFilesDBRecord } from './database/sharedfiles';
+import { APP_SCHEMA, SHARED_FILES_TABLE_NAME } from './database/sharedfiles';
 import { CoreText } from '@singletons/text';
 
 /**

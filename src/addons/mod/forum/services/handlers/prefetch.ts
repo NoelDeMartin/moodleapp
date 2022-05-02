@@ -14,11 +14,13 @@
 
 import { Injectable } from '@angular/core';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { AddonModForum, AddonModForumData, AddonModForumPost, AddonModForumProvider } from '../forum';
+import type { AddonModForumData, AddonModForumPost } from '../forum';
+import { AddonModForum, AddonModForumProvider } from '../forum';
 import { CoreSitesReadingStrategy } from '@services/sites';
 import { CoreFilepool } from '@services/filepool';
-import { CoreWSFile } from '@services/ws';
-import { CoreCourse, CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreWSFile } from '@services/ws';
+import type { CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreUser } from '@features/user/services/user';
 import { CoreGroups, CoreGroupsProvider } from '@services/groups';
 import { CoreUtils } from '@services/utils/utils';

@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ViewChildren, Input, OnInit, QueryList } from '@angular/core';
+import type { OnInit, QueryList } from '@angular/core';
+import { Component, ViewChildren, Input } from '@angular/core';
 import { ModalController } from '@singletons';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreCourse, CoreCourseBlock } from '@features/course/services/course';
+import type { CoreCourseBlock } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreBlockHelper } from '../../services/block-helper';
 import { CoreBlockComponent } from '../block/block';
 import { CoreUtils } from '@services/utils/utils';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreCoursesDashboard } from '@features/courses/services/dashboard';
 
 /**

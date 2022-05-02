@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnChanges, SimpleChange } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import type { OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { FormControl } from '@angular/forms';
 import { Translate } from '@singletons';
 
 /**

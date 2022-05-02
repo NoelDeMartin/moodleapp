@@ -15,8 +15,9 @@
 import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { makeSingleton } from '@singletons';
-import { AddonModWikiPageDBRecord, NEW_PAGES_TABLE_NAME } from './database/wiki';
-import { AddonModWikiSubwiki } from './wiki';
+import type { AddonModWikiPageDBRecord } from './database/wiki';
+import { NEW_PAGES_TABLE_NAME } from './database/wiki';
+import type { AddonModWikiSubwiki } from './wiki';
 
 /**
  * Service to handle offline wiki.

@@ -15,20 +15,22 @@
 import { Injectable } from '@angular/core';
 
 import { CoreConstants } from '@/core/constants';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCourseAnyModuleData } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCourseAnyModuleData } from '@features/course/services/course';
 import { CoreCourses } from '@features/courses/services/courses';
 import { CoreApp } from '@services/app';
 import { CoreFilepool } from '@services/filepool';
 import { CoreLang } from '@services/lang';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
-import { CoreUtils, PromiseDefer } from '@services/utils/utils';
-import { CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import type { PromiseDefer } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
+import type { CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { CoreLogger } from '@singletons/logger';
-import { CoreSitePluginsModuleHandler } from '../classes/handlers/module-handler';
+import type { CoreSitePluginsModuleHandler } from '../classes/handlers/module-handler';
 
 const ROOT_CACHE_KEY = 'CoreSitePlugins:';
 

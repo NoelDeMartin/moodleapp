@@ -14,9 +14,9 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreBlockHandlerData } from '@features/block/services/block-delegate';
+import type { CoreBlockHandlerData } from '@features/block/services/block-delegate';
 import { CoreBlockBaseHandler } from '@features/block/classes/base-block-handler';
-import { CoreCourseBlock } from '@features/course/services/course';
+import type { CoreCourseBlock } from '@features/course/services/course';
 import { AddonBlockRssClientComponent } from '../components/rssclient/rssclient';
 import { makeSingleton } from '@singletons';
 

@@ -26,14 +26,16 @@ import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreArray } from '@singletons/array';
 import { CoreEvents } from '@singletons/events';
+import type {
+    AddonModForumAddDiscussionPostWSOptionsObject,
+    AddonModForumAddDiscussionWSOptionsObject } from './forum';
 import {
     AddonModForum,
-    AddonModForumAddDiscussionPostWSOptionsObject,
-    AddonModForumAddDiscussionWSOptionsObject,
     AddonModForumProvider,
 } from './forum';
 import { AddonModForumHelper } from './forum-helper';
-import { AddonModForumOffline, AddonModForumOfflineDiscussion, AddonModForumOfflineReply } from './forum-offline';
+import type { AddonModForumOfflineDiscussion, AddonModForumOfflineReply } from './forum-offline';
+import { AddonModForumOffline } from './forum-offline';
 
 declare module '@singletons/events' {
 

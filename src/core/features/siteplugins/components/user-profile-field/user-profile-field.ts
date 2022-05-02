@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { FormGroup } from '@angular/forms';
 
-import { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
+import type { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
 import { CoreSitePluginsCompileInitComponent } from '@features/siteplugins/classes/compile-init-component';
-import { CoreUserProfileField } from '@features/user/services/user';
+import type { CoreUserProfileField } from '@features/user/services/user';
 import { CoreUserProfileFieldDelegate } from '@features/user/services/user-profile-field-delegate';
 
 /**

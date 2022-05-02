@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { SQLiteDB } from '@classes/sqlitedb';
+import type { SQLiteDB } from '@classes/sqlitedb';
 import { CoreUser } from '@features/user/services/user';
 import { CoreSites } from '@services/sites';
 import { CoreSync } from '@services/sync';
@@ -22,21 +22,23 @@ import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
-import {
+import type {
     AddonModScormAttemptDBRecord,
     AddonModScormOfflineDBCommonData,
-    AddonModScormTrackDBRecord,
+    AddonModScormTrackDBRecord } from './database/scorm';
+import {
     ATTEMPTS_TABLE_NAME,
     TRACKS_TABLE_NAME,
 } from './database/scorm';
-import {
+import type {
     AddonModScormDataEntry,
     AddonModScormDataValue,
-    AddonModScormProvider,
     AddonModScormScorm,
     AddonModScormScoUserData,
     AddonModScormUserDataMap,
-    AddonModScormWSSco,
+    AddonModScormWSSco } from './scorm';
+import {
+    AddonModScormProvider,
 } from './scorm';
 
 /**

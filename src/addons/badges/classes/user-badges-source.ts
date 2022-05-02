@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
-import { AddonBadges, AddonBadgesUserBadge } from '../services/badges';
+import type { AddonBadgesUserBadge } from '../services/badges';
+import { AddonBadges } from '../services/badges';
 
 /**
  * Provides a collection of user badges.

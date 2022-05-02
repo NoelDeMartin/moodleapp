@@ -12,13 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChange } from '@angular/core';
+import type { OnInit, OnChanges, OnDestroy, SimpleChange } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { CoreUserProvider, CoreUserBasicData } from '@features/user/services/user';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { CoreUserBasicData } from '@features/user/services/user';
+import { CoreUserProvider } from '@features/user/services/user';
 import { CoreNavigator } from '@services/navigator';
 
 /**

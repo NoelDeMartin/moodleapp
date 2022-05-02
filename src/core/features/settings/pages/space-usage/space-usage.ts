@@ -12,13 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 
-import { CoreSiteBasicInfo, CoreSites } from '@services/sites';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreSiteBasicInfo } from '@services/sites';
+import { CoreSites } from '@services/sites';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 
-import { CoreSettingsHelper, CoreSiteSpaceUsage } from '../../services/settings-helper';
+import type { CoreSiteSpaceUsage } from '../../services/settings-helper';
+import { CoreSettingsHelper } from '../../services/settings-helper';
 
 /**
  * Page that displays the space usage settings.

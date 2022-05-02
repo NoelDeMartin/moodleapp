@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, EventEmitter } from '@angular/core';
-import { FileEntry, DirectoryEntry } from '@ionic-native/file/ngx';
+import type { EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { FileEntry, DirectoryEntry } from '@ionic-native/file/ngx';
 
 import { CoreFile } from '@services/file';
 import { CoreFileHelper } from '@services/file-helper';
@@ -22,9 +23,10 @@ import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
-import { CoreQuestion, CoreQuestionProvider, CoreQuestionQuestionParsed, CoreQuestionsAnswers } from './question';
+import type { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from './question';
+import { CoreQuestion, CoreQuestionProvider } from './question';
 import { CoreQuestionDelegate } from './question-delegate';
 
 /**

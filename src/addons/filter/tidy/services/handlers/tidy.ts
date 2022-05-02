@@ -15,8 +15,8 @@
 import { Injectable } from '@angular/core';
 
 import { CoreFilterDefaultHandler } from '@features/filter/services/handlers/default-filter';
-import { CoreFilterFormatTextOptions } from '@features/filter/services/filter';
-import { CoreSite } from '@classes/site';
+import type { CoreFilterFormatTextOptions } from '@features/filter/services/filter';
+import type { CoreSite } from '@classes/site';
 import { makeSingleton } from '@singletons';
 
 /**

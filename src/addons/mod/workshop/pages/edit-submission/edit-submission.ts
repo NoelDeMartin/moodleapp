@@ -12,14 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { FormBuilder } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { CoreError } from '@classes/errors/error';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
-import { CoreFileUploader, CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
-import { CanLeave } from '@guards/can-leave';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
+import type { CanLeave } from '@guards/can-leave';
 import { CoreFile } from '@services/file';
-import { CoreFileEntry, CoreFileHelper } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
+import { CoreFileHelper } from '@services/file-helper';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreSync } from '@services/sync';
@@ -29,16 +33,18 @@ import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { CoreForms } from '@singletons/form';
+import type {
+    AddonModWorkshopSubmissionChangedEventData,
+    AddonModWorkshopGetWorkshopAccessInformationWSResponse,
+    AddonModWorkshopData } from '../../services/workshop';
 import {
     AddonModWorkshopProvider,
     AddonModWorkshop,
     AddonModWorkshopSubmissionType,
-    AddonModWorkshopSubmissionChangedEventData,
     AddonModWorkshopAction,
-    AddonModWorkshopGetWorkshopAccessInformationWSResponse,
-    AddonModWorkshopData,
 } from '../../services/workshop';
-import { AddonModWorkshopHelper, AddonModWorkshopSubmissionDataWithOfflineData } from '../../services/workshop-helper';
+import type { AddonModWorkshopSubmissionDataWithOfflineData } from '../../services/workshop-helper';
+import { AddonModWorkshopHelper } from '../../services/workshop-helper';
 import { AddonModWorkshopOffline } from '../../services/workshop-offline';
 
 /**

@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AddonWorkshopAssessmentStrategyHandler } from '@addons/mod/workshop/services/assessment-strategy-delegate';
-import { AddonModWorkshopGetAssessmentFormFieldsParsedData } from '@addons/mod/workshop/services/workshop';
-import { Type } from '@angular/core';
+import type { AddonWorkshopAssessmentStrategyHandler } from '@addons/mod/workshop/services/assessment-strategy-delegate';
+import type { AddonModWorkshopGetAssessmentFormFieldsParsedData } from '@addons/mod/workshop/services/workshop';
+import type { Type } from '@angular/core';
 import {
     CoreSitePluginsWorkshopAssessmentStrategyComponent,
 } from '@features/siteplugins/components/workshop-assessment-strategy/workshop-assessment-strategy';
-import { CoreFormFields } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
 import { CoreSitePluginsBaseHandler } from './base-handler';
 
 /**

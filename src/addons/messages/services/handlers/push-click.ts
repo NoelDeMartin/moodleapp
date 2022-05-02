@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Params } from '@angular/router';
-import { CorePushNotificationsClickHandler } from '@features/pushnotifications/services/push-delegate';
-import { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
+import type { Params } from '@angular/router';
+import type { CorePushNotificationsClickHandler } from '@features/pushnotifications/services/push-delegate';
+import type { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
 import { CoreNavigator } from '@services/navigator';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';

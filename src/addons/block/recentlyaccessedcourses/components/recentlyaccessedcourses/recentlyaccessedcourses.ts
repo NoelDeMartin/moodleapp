@@ -12,25 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
+import type {
+    CoreCoursesMyCoursesUpdatedEventData,
+    CoreCourseSummaryData } from '@features/courses/services/courses';
 import {
     CoreCoursesProvider,
-    CoreCoursesMyCoursesUpdatedEventData,
     CoreCourses,
-    CoreCourseSummaryData,
 } from '@features/courses/services/courses';
-import {
+import type {
     CoreCourseSearchedDataWithExtraInfoAndOptions,
+    CoreEnrolledCourseDataWithOptions } from '@features/courses/services/courses-helper';
+import {
     CoreCoursesHelper,
-    CoreEnrolledCourseDataWithOptions,
 } from '@features/courses/services/courses-helper';
 import { CoreCourseOptionsDelegate } from '@features/course/services/course-options-delegate';
 import { AddonCourseCompletion } from '@addons/coursecompletion/services/coursecompletion';
 import { CoreBlockBaseComponent } from '@features/block/classes/base-block-component';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreSite } from '@classes/site';
+import type { CoreSite } from '@classes/site';
 
 /**
  * Component to render a recent courses block.

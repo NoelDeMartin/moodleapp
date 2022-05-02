@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnChanges, ViewChild, Input, Output, SimpleChange, Type, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import type { OnInit, OnChanges, SimpleChange, Type } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import type { FormGroup } from '@angular/forms';
 import { CoreDynamicComponent } from '@components/dynamic-component/dynamic-component';
-import { CoreFormFields } from '@singletons/form';
-import { AddonModDataEntryFieldInitialized } from '../../classes/field-plugin-component';
-import { AddonModDataData, AddonModDataField, AddonModDataTemplateMode } from '../../services/data';
+import type { CoreFormFields } from '@singletons/form';
+import type { AddonModDataEntryFieldInitialized } from '../../classes/field-plugin-component';
+import type { AddonModDataData, AddonModDataField } from '../../services/data';
+import { AddonModDataTemplateMode } from '../../services/data';
 import { AddonModDataFieldsDelegate } from '../../services/data-fields-delegate';
 
 /**

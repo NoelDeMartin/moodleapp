@@ -13,10 +13,10 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { Translate } from '@singletons';
-import { AddonModAssignPlugin } from '../assign';
-import { AddonModAssignFeedbackHandler } from '../feedback-delegate';
+import type { AddonModAssignPlugin } from '../assign';
+import type { AddonModAssignFeedbackHandler } from '../feedback-delegate';
 
 /**
  * Default handler used when a feedback plugin doesn't have a specific implementation.

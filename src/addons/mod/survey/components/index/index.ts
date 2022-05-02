@@ -12,30 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Optional } from '@angular/core';
-import { CoreIonLoadingElement } from '@classes/ion-loading';
+import type { OnInit } from '@angular/core';
+import { Component, Optional } from '@angular/core';
+import type { CoreIonLoadingElement } from '@classes/ion-loading';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
-import { IonContent } from '@ionic/angular';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { IonContent } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { AddonModSurveyPrefetchHandler } from '../../services/handlers/prefetch';
+import type {
+    AddonModSurveySurvey,
+    AddonModSurveySubmitAnswerData } from '../../services/survey';
 import {
     AddonModSurveyProvider,
-    AddonModSurveySurvey,
     AddonModSurvey,
-    AddonModSurveySubmitAnswerData,
 } from '../../services/survey';
-import { AddonModSurveyHelper, AddonModSurveyQuestionFormatted } from '../../services/survey-helper';
+import type { AddonModSurveyQuestionFormatted } from '../../services/survey-helper';
+import { AddonModSurveyHelper } from '../../services/survey-helper';
 import { AddonModSurveyOffline } from '../../services/survey-offline';
-import {
+import type {
     AddonModSurveyAutoSyncData,
+    AddonModSurveySyncResult } from '../../services/survey-sync';
+import {
     AddonModSurveySync,
     AddonModSurveySyncProvider,
-    AddonModSurveySyncResult,
 } from '../../services/survey-sync';
 
 /**

@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Optional, OnInit } from '@angular/core';
-import { IonContent } from '@ionic/angular';
+import type { OnInit } from '@angular/core';
+import { Component, Optional } from '@angular/core';
+import type { IonContent } from '@ionic/angular';
 
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
-import { AddonModLti, AddonModLtiLti, AddonModLtiProvider } from '../../services/lti';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { AddonModLtiLti } from '../../services/lti';
+import { AddonModLti, AddonModLtiProvider } from '../../services/lti';
 import { AddonModLtiHelper } from '../../services/lti-helper';
 
 /**

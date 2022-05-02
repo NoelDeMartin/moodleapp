@@ -12,19 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy } from '@angular/core';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
+import type {
+    AddonMessagesConversationMember,
+    AddonMessagesMessageAreaContact } from '../../services/messages';
 import {
     AddonMessagesProvider,
-    AddonMessagesConversationMember,
-    AddonMessagesMessageAreaContact,
     AddonMessages,
 } from '../../services/messages';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreApp } from '@services/app';
 import { CoreNavigator } from '@services/navigator';
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { CoreScreen } from '@services/screen';
 
 /**

@@ -13,13 +13,14 @@
 // limitations under the License.
 
 import { CoreError } from '@classes/errors/error';
-import { SQLiteDBRecordValues } from '@classes/sqlitedb';
-import {
+import type { SQLiteDBRecordValues } from '@classes/sqlitedb';
+import type {
     CoreDatabaseConfiguration,
-    CoreDatabaseTable,
     CoreDatabaseConditions,
     GetDBRecordPrimaryKey,
-    CoreDatabaseQueryOptions,
+    CoreDatabaseQueryOptions } from './database-table';
+import {
+    CoreDatabaseTable,
 } from './database-table';
 
 /**

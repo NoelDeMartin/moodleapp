@@ -14,7 +14,7 @@
 
 import { Injectable } from '@angular/core';
 import { makeSingleton, Translate } from '@singletons';
-import { AddonModSurveyQuestion } from './survey';
+import type { AddonModSurveyQuestion } from './survey';
 
 /**
  * Service that provides helper functions for surveys.

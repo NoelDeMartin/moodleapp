@@ -12,12 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ApplicationRef, NgZone as NgZoneService } from '@angular/core';
-import { CorePushNotifications, CorePushNotificationsProvider } from '@features/pushnotifications/services/pushnotifications';
+import type { ApplicationRef, NgZone as NgZoneService } from '@angular/core';
+import type { CorePushNotificationsProvider } from '@features/pushnotifications/services/pushnotifications';
+import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
 import { CoreApp, CoreAppProvider } from '@services/app';
-import { CoreCronDelegate, CoreCronDelegateService } from '@services/cron';
-import { CoreDB, CoreDbProvider } from '@services/db';
-import { CoreCustomURLSchemes, CoreCustomURLSchemesProvider } from '@services/urlschemes';
+import type { CoreCronDelegateService } from '@services/cron';
+import { CoreCronDelegate } from '@services/cron';
+import type { CoreDbProvider } from '@services/db';
+import { CoreDB } from '@services/db';
+import type { CoreCustomURLSchemesProvider } from '@services/urlschemes';
+import { CoreCustomURLSchemes } from '@services/urlschemes';
 import { Application, NgZone } from '@singletons';
 
 type AutomatedTestsWindow = Window & {

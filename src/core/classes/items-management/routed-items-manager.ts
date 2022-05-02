@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
-import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
+import type { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import type { CoreNavigationOptions } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 import { CoreItemsManager } from './items-manager';
 
-import { CoreRoutedItemsManagerSource } from './routed-items-manager-source';
+import type { CoreRoutedItemsManagerSource } from './routed-items-manager-source';
 import { CoreRoutedItemsManagerSourcesTracker } from './routed-items-manager-sources-tracker';
 
 /**

@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { APP_INITIALIZER, NgModule, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CoreContentLinksDelegate } from '@features/contentlinks/services/contentlinks-delegate';
 import { CoreCourseOptionsDelegate } from '@features/course/services/course-options-delegate';
 import { CorePushNotificationsDelegate } from '@features/pushnotifications/services/push-delegate';
@@ -26,7 +27,7 @@ import { AddonCompetencyPlansLinkHandler } from './services/handlers/plans-link'
 import { AddonCompetencyPushClickHandler } from './services/handlers/push-click';
 import { AddonCompetencyUserCompetencyLinkHandler } from './services/handlers/user-competency-link';
 import { AddonCompetencyUserHandler } from './services/handlers/user';
-import { Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
 import { CoreMainMenuRoutingModule } from '@features/mainmenu/mainmenu-routing.module';
 import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-routing.module';
 import { CoreCourseIndexRoutingModule } from '@features/course/pages/index/index-routing.module';

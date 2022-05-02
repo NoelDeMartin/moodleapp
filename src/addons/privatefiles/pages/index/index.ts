@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 import { Md5 } from 'ts-md5/dist/md5';
 
 import { CoreApp } from '@services/app';
@@ -21,13 +22,15 @@ import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type {
+    AddonPrivateFilesFile,
+    AddonPrivateFilesGetUserInfoWSResult,
+    AddonPrivateFilesGetFilesWSParams } from '@addons/privatefiles/services/privatefiles';
 import {
     AddonPrivateFiles,
     AddonPrivateFilesProvider,
-    AddonPrivateFilesFile,
-    AddonPrivateFilesGetUserInfoWSResult,
-    AddonPrivateFilesGetFilesWSParams,
 } from '@addons/privatefiles/services/privatefiles';
 import { AddonPrivateFilesHelper } from '@addons/privatefiles/services/privatefiles-helper';
 import { CoreUtils } from '@services/utils/utils';

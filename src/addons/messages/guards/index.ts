@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, UrlTree } from '@angular/router';
+import type { ActivatedRouteSnapshot, CanActivate, UrlTree } from '@angular/router';
 import { Router } from '@singletons';
 import { AddonMessagesMainMenuHandlerService } from '../services/handlers/mainmenu';
 import { AddonMessages } from '../services/messages';

@@ -13,9 +13,11 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreSites, CoreSitesCommonWSOptions } from '@services/sites';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreWSExternalWarning, CoreWSExternalFile } from '@services/ws';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites } from '@services/sites';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreWSExternalWarning, CoreWSExternalFile } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreConstants } from '@/core/constants';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';

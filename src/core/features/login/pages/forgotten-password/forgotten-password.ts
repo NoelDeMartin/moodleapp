@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import type { ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { FormBuilder, FormGroup } from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
 import { Translate, Platform } from '@singletons';
-import { CoreWSExternalWarning } from '@services/ws';
+import type { CoreWSExternalWarning } from '@services/ws';
 import { CoreNavigator } from '@services/navigator';
 import { CoreForms } from '@singletons/form';
 

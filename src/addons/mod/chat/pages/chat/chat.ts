@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CoreAnimations } from '@components/animations';
 import { CoreSendMessageFormComponent } from '@components/send-message-form/send-message-form';
-import { CanLeave } from '@guards/can-leave';
+import type { CanLeave } from '@guards/can-leave';
 import { IonContent } from '@ionic/angular';
 import { CoreApp } from '@services/app';
 import { CoreNavigator } from '@services/navigator';
@@ -24,10 +25,13 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Network, NgZone, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { Subscription } from 'rxjs';
-import { AddonModChatUsersModalComponent, AddonModChatUsersModalResult } from '../../components/users-modal/users-modal';
-import { AddonModChat, AddonModChatProvider, AddonModChatUser } from '../../services/chat';
-import { AddonModChatFormattedMessage, AddonModChatHelper } from '../../services/chat-helper';
+import type { Subscription } from 'rxjs';
+import type { AddonModChatUsersModalResult } from '../../components/users-modal/users-modal';
+import { AddonModChatUsersModalComponent } from '../../components/users-modal/users-modal';
+import type { AddonModChatUser } from '../../services/chat';
+import { AddonModChat, AddonModChatProvider } from '../../services/chat';
+import type { AddonModChatFormattedMessage } from '../../services/chat-helper';
+import { AddonModChatHelper } from '../../services/chat-helper';
 
 /**
  * Page that displays a chat session.

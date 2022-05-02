@@ -16,7 +16,8 @@ import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreTimeUtils } from '@services/utils/time';
 import { makeSingleton } from '@singletons';
-import { COMMENTS_TABLE, COMMENTS_DELETED_TABLE, CoreCommentsDBRecord, CoreCommentsDeletedDBRecord } from './database/comments';
+import type { CoreCommentsDBRecord, CoreCommentsDeletedDBRecord } from './database/comments';
+import { COMMENTS_TABLE, COMMENTS_DELETED_TABLE } from './database/comments';
 
 /**
  * Service to handle offline comments.

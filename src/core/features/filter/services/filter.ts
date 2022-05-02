@@ -17,11 +17,12 @@ import { Injectable } from '@angular/core';
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreSite } from '@classes/site';
-import { CoreWSExternalWarning } from '@services/ws';
+import type { CoreWSExternalWarning } from '@services/ws';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreFilterDelegate } from './filter-delegate';
 import { makeSingleton } from '@singletons';
-import { CoreEvents, CoreEventSiteData } from '@singletons/events';
+import type { CoreEventSiteData } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreLogger } from '@singletons/logger';
 
 /**

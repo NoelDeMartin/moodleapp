@@ -17,7 +17,8 @@ import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreFileUploaderHelper } from '@features/fileuploader/services/fileuploader-helper';
-import { AddonPrivateFiles, AddonPrivateFilesGetUserInfoWSResult } from './privatefiles';
+import type { AddonPrivateFilesGetUserInfoWSResult } from './privatefiles';
+import { AddonPrivateFiles } from './privatefiles';
 import { CoreError } from '@classes/errors/error';
 import { makeSingleton, Translate } from '@singletons';
 

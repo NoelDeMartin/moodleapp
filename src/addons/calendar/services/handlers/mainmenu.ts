@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 import { AddonCalendar } from '../calendar';
 import { makeSingleton } from '@singletons';
-import { CoreMainMenuHandler, CoreMainMenuHandlerData } from '@features/mainmenu/services/mainmenu-delegate';
+import type { CoreMainMenuHandler, CoreMainMenuHandlerData } from '@features/mainmenu/services/mainmenu-delegate';
 
 /**
  * Handler to inject an option into main menu.

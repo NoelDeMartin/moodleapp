@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PopoverController } from '@singletons';
-import { AddonModGlossaryFetchMode } from '../../classes/glossary-entries-source';
+import type { AddonModGlossaryFetchMode } from '../../classes/glossary-entries-source';
 
 /**
  * Component to display the mode picker.

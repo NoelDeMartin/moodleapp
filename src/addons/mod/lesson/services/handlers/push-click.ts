@@ -16,8 +16,8 @@ import { Injectable } from '@angular/core';
 
 import { CoreGrades } from '@features/grades/services/grades';
 import { CoreGradesHelper } from '@features/grades/services/grades-helper';
-import { CorePushNotificationsClickHandler } from '@features/pushnotifications/services/push-delegate';
-import { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
+import type { CorePushNotificationsClickHandler } from '@features/pushnotifications/services/push-delegate';
+import type { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
 

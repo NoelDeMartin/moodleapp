@@ -16,10 +16,11 @@ import { CoreFormatTextDirective } from '@directives/format-text';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
-import { CoreCoordinates, CoreDom } from '@singletons/dom';
-import { CoreEventObserver } from '@singletons/events';
+import type { CoreCoordinates } from '@singletons/dom';
+import { CoreDom } from '@singletons/dom';
+import type { CoreEventObserver } from '@singletons/events';
 import { CoreLogger } from '@singletons/logger';
-import { AddonModQuizDdwtosQuestionData } from '../component/ddwtos';
+import type { AddonModQuizDdwtosQuestionData } from '../component/ddwtos';
 
 /**
  * Class to make a question of ddwtos type work.

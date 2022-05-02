@@ -13,13 +13,15 @@
 // limitations under the License.
 
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
-import { CoreGroupInfo, CoreGroups } from '@services/groups';
+import type { CoreGroupInfo } from '@services/groups';
+import { CoreGroups } from '@services/groups';
+import type {
+    AddonModFeedbackWSAnonAttempt,
+    AddonModFeedbackWSAttempt,
+    AddonModFeedbackWSFeedback } from '../services/feedback';
 import {
     AddonModFeedback,
     AddonModFeedbackProvider,
-    AddonModFeedbackWSAnonAttempt,
-    AddonModFeedbackWSAttempt,
-    AddonModFeedbackWSFeedback,
 } from '../services/feedback';
 import { AddonModFeedbackHelper } from '../services/feedback-helper';
 

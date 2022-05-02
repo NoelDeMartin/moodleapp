@@ -12,14 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CoreCoursesHelper, CoreEnrolledCourseDataWithExtraInfo } from '@features/courses/services/courses-helper';
-import { IonRefresher } from '@ionic/angular';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreEnrolledCourseDataWithExtraInfo } from '@features/courses/services/courses-helper';
+import { CoreCoursesHelper } from '@features/courses/services/courses-helper';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { CoreCourseBasicSearchedData, CoreCourses, CoreCoursesProvider } from '../../services/courses';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { CoreCourseBasicSearchedData } from '../../services/courses';
+import { CoreCourses, CoreCoursesProvider } from '../../services/courses';
 
 type CoreCoursesListMode = 'search' | 'all' | 'my';
 

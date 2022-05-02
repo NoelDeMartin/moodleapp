@@ -13,17 +13,20 @@
 // limitations under the License.
 
 import { ContextLevel, CoreConstants } from '@/core/constants';
-import { Component, OnDestroy, ViewChild, OnInit, AfterViewInit, ElementRef, Optional } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import type { OnDestroy, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, Optional } from '@angular/core';
+import type { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
-import { CoreSplitViewComponent } from '@components/split-view/split-view';
+import type { CoreSplitViewComponent } from '@components/split-view/split-view';
 import { CoreFileUploader } from '@features/fileuploader/services/fileuploader';
-import { CoreRatingInfo, CoreRatingProvider } from '@features/rating/services/rating';
+import type { CoreRatingInfo } from '@features/rating/services/rating';
+import { CoreRatingProvider } from '@features/rating/services/rating';
 import { CoreRatingOffline } from '@features/rating/services/rating-offline';
 import { CoreRatingSyncProvider } from '@features/rating/services/rating-sync';
 import { CoreUser } from '@features/user/services/user';
-import { CanLeave } from '@guards/can-leave';
-import { IonContent, IonRefresher } from '@ionic/angular';
+import type { CanLeave } from '@guards/can-leave';
+import type { IonRefresher } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { CoreApp } from '@services/app';
 import { CoreNavigator } from '@services/navigator';
 import { CoreScreen } from '@services/screen';
@@ -33,20 +36,22 @@ import { CoreUtils } from '@services/utils/utils';
 import { Network, NgZone, Translate } from '@singletons';
 import { CoreArray } from '@singletons/array';
 import { CoreDom } from '@singletons/dom';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { Subscription } from 'rxjs';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { Subscription } from 'rxjs';
 import { AddonModForumDiscussionsSource } from '../../classes/forum-discussions-source';
 import { AddonModForumDiscussionsSwipeManager } from '../../classes/forum-discussions-swipe-manager';
-import {
-    AddonModForum,
+import type {
     AddonModForumAccessInformation,
     AddonModForumData,
     AddonModForumDiscussion,
     AddonModForumPost,
-    AddonModForumProvider,
     AddonModForumPostFormData,
     AddonModForumChangeDiscussionData,
-    AddonModForumReplyDiscussionData,
+    AddonModForumReplyDiscussionData } from '../../services/forum';
+import {
+    AddonModForum,
+    AddonModForumProvider,
 } from '../../services/forum';
 import { AddonModForumHelper } from '../../services/forum-helper';
 import { AddonModForumOffline } from '../../services/forum-offline';

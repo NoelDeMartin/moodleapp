@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { InjectionToken, Injector, ModuleWithProviders, NgModule } from '@angular/core';
-import { Route, Routes } from '@angular/router';
+import type { Injector, ModuleWithProviders } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
+import type { Route, Routes } from '@angular/router';
 
-import { ModuleRoutesConfig, resolveModuleRoutes } from '@/app/app-routing.module';
+import type { ModuleRoutesConfig } from '@/app/app-routing.module';
+import { resolveModuleRoutes } from '@/app/app-routing.module';
 
 export const MAIN_MENU_TAB_ROUTES = new InjectionToken('MAIN_MENU_TAB_ROUTES');
 

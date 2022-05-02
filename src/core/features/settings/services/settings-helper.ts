@@ -17,7 +17,7 @@ import { CoreApp } from '@services/app';
 import { CoreCronDelegate } from '@services/cron';
 import { CoreEvents } from '@singletons/events';
 import { CoreFilepool } from '@services/filepool';
-import { CoreSite } from '@classes/site';
+import type { CoreSite } from '@classes/site';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreConstants } from '@/core/constants';
@@ -27,7 +27,8 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreCourse } from '@features/course/services/course';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreError } from '@classes/errors/error';
-import { Observable, Subject } from 'rxjs';
+import type { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 /**
  * Object with space usage and cache entries that can be erased.

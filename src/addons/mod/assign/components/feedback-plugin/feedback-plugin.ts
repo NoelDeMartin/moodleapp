@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit, ViewChild, Type } from '@angular/core';
+import type { OnInit, Type } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CoreDynamicComponent } from '@components/dynamic-component/dynamic-component';
-import { CoreWSFile } from '@services/ws';
-import {
+import type { CoreWSFile } from '@services/ws';
+import type {
     AddonModAssignAssign,
     AddonModAssignSubmission,
-    AddonModAssignPlugin,
+    AddonModAssignPlugin } from '../../services/assign';
+import {
     AddonModAssignProvider,
     AddonModAssign,
 } from '../../services/assign';
-import { AddonModAssignHelper, AddonModAssignPluginConfig } from '../../services/assign-helper';
+import type { AddonModAssignPluginConfig } from '../../services/assign-helper';
+import { AddonModAssignHelper } from '../../services/assign-helper';
 import { AddonModAssignFeedbackDelegate } from '../../services/feedback-delegate';
 
 /**

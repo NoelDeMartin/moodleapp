@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 
 import { CoreError } from '@classes/errors/error';
 import { CoreUser } from '@features/user/services/user';
@@ -23,17 +24,19 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
-import {
-    AddonModLesson,
+import type {
     AddonModLessonAttemptsOverviewsAttemptWSData,
     AddonModLessonAttemptsOverviewsStudentWSData,
     AddonModLessonGetUserAttemptWSResponse,
     AddonModLessonLessonWSData,
-    AddonModLessonProvider,
     AddonModLessonUserAttemptAnswerData,
-    AddonModLessonUserAttemptAnswerPageWSData,
+    AddonModLessonUserAttemptAnswerPageWSData } from '../../services/lesson';
+import {
+    AddonModLesson,
+    AddonModLessonProvider,
 } from '../../services/lesson';
-import { AddonModLessonAnswerData, AddonModLessonHelper } from '../../services/lesson-helper';
+import type { AddonModLessonAnswerData } from '../../services/lesson-helper';
+import { AddonModLessonHelper } from '../../services/lesson-helper';
 import { CoreTime } from '@singletons/time';
 
 /**

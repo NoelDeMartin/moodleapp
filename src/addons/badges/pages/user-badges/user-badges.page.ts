@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
-import { AddonBadges, AddonBadgesUserBadge } from '../../services/badges';
+import type { AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
+import type { AddonBadgesUserBadge } from '../../services/badges';
+import { AddonBadges } from '../../services/badges';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreSites } from '@services/sites';

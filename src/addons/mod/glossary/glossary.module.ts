@@ -13,8 +13,9 @@
 // limitations under the License.
 
 import { conditionalRoutes } from '@/app/app-routing.module';
-import { APP_INITIALIZER, NgModule, Type } from '@angular/core';
-import { Routes } from '@angular/router';
+import type { Type } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import type { Routes } from '@angular/router';
 import { CoreContentLinksDelegate } from '@features/contentlinks/services/contentlinks-delegate';
 import { COURSE_CONTENTS_PATH } from '@features/course/course.module';
 import { CoreCourseContentsRoutingModule } from '@features/course/pages/contents/contents-routing.module';

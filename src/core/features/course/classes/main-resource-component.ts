@@ -13,23 +13,29 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { OnInit, OnDestroy, Input, Output, EventEmitter, Component, Optional, Inject } from '@angular/core';
-import { CoreAnyError } from '@classes/errors/error';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Input, Output, EventEmitter, Component, Optional, Inject } from '@angular/core';
+import type { CoreAnyError } from '@classes/errors/error';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 
-import { CoreTextErrorObject, CoreTextUtils } from '@services/utils/text';
+import type { CoreTextErrorObject } from '@services/utils/text';
+import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreLogger } from '@singletons/logger';
-import { CoreCourseModuleSummaryComponent, CoreCourseModuleSummaryResult } from '../components/module-summary/module-summary';
-import { CoreCourseContentsPage } from '../pages/contents/contents';
+import type { CoreCourseModuleSummaryResult } from '../components/module-summary/module-summary';
+import { CoreCourseModuleSummaryComponent } from '../components/module-summary/module-summary';
+import type { CoreCourseContentsPage } from '../pages/contents/contents';
 import { CoreCourse } from '../services/course';
-import { CoreCourseHelper, CoreCourseModuleData } from '../services/course-helper';
-import { CoreCourseModuleDelegate, CoreCourseModuleMainComponent } from '../services/module-delegate';
+import type { CoreCourseModuleData } from '../services/course-helper';
+import { CoreCourseHelper } from '../services/course-helper';
+import type { CoreCourseModuleMainComponent } from '../services/module-delegate';
+import { CoreCourseModuleDelegate } from '../services/module-delegate';
 import { CoreCourseModulePrefetchDelegate } from '../services/module-prefetch-delegate';
 
 /**

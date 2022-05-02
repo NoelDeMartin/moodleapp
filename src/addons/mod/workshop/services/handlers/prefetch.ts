@@ -12,25 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AddonModDataSyncResult } from '@addons/mod/data/services/data-sync';
+import type { AddonModDataSyncResult } from '@addons/mod/data/services/data-sync';
 import { Injectable } from '@angular/core';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourse, CoreCourseAnyModuleData } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreCourses } from '@features/courses/services/courses';
 import { CoreUser } from '@features/user/services/user';
 import { CoreFilepool } from '@services/filepool';
-import { CoreGroup, CoreGroups } from '@services/groups';
-import { CoreSites, CoreSitesReadingStrategy, CoreSitesCommonWSOptions } from '@services/sites';
+import type { CoreGroup } from '@services/groups';
+import { CoreGroups } from '@services/groups';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalFile, CoreWSFile } from '@services/ws';
+import type { CoreWSExternalFile, CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
+import type {
+    AddonModWorkshopGradesData,
+    AddonModWorkshopData,
+    AddonModWorkshopGetWorkshopAccessInformationWSResponse } from '../workshop';
 import {
     AddonModWorkshopProvider,
     AddonModWorkshop,
     AddonModWorkshopPhase,
-    AddonModWorkshopGradesData,
-    AddonModWorkshopData,
-    AddonModWorkshopGetWorkshopAccessInformationWSResponse,
 } from '../workshop';
 import { AddonModWorkshopHelper } from '../workshop-helper';
 import { AddonModWorkshopSync } from '../workshop-sync';

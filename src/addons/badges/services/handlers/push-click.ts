@@ -15,10 +15,10 @@
 import { Injectable } from '@angular/core';
 
 import { CoreUtils } from '@services/utils/utils';
-import { CorePushNotificationsClickHandler } from '@features/pushnotifications/services/push-delegate';
+import type { CorePushNotificationsClickHandler } from '@features/pushnotifications/services/push-delegate';
 import { AddonBadges } from '../badges';
 import { makeSingleton } from '@singletons';
-import { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
+import type { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
 import { CoreNavigator } from '@services/navigator';
 
 /**

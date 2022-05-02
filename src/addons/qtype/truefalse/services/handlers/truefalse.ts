@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { AddonQtypeMultichoiceComponent } from '@addons/qtype/multichoice/component/multichoice';
-import { CoreQuestionHandler } from '@features/question/services/question-delegate';
-import { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
+import type { CoreQuestionHandler } from '@features/question/services/question-delegate';
+import type { CoreQuestionQuestionParsed, CoreQuestionsAnswers } from '@features/question/services/question';
 import { CoreUtils } from '@services/utils/utils';
-import { AddonModQuizMultichoiceQuestion } from '@features/question/classes/base-question-component';
+import type { AddonModQuizMultichoiceQuestion } from '@features/question/classes/base-question-component';
 import { makeSingleton } from '@singletons';
 
 /**

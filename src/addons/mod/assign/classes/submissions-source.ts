@@ -12,22 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
-import { CoreGroupInfo, CoreGroups } from '@services/groups';
+import type { CoreGroupInfo } from '@services/groups';
+import { CoreGroups } from '@services/groups';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
 import { CoreIonicColorNames } from '@singletons/colors';
 import { CoreEvents } from '@singletons/events';
+import type {
+    AddonModAssignAssign,
+    AddonModAssignSubmission } from '../services/assign';
 import {
     AddonModAssign,
-    AddonModAssignAssign,
     AddonModAssignGradingStates,
-    AddonModAssignSubmission,
     AddonModAssignSubmissionStatusValues,
 } from '../services/assign';
-import { AddonModAssignHelper, AddonModAssignSubmissionFormatted } from '../services/assign-helper';
+import type { AddonModAssignSubmissionFormatted } from '../services/assign-helper';
+import { AddonModAssignHelper } from '../services/assign-helper';
 import { AddonModAssignOffline } from '../services/assign-offline';
 import { AddonModAssignSync, AddonModAssignSyncProvider } from '../services/assign-sync';
 

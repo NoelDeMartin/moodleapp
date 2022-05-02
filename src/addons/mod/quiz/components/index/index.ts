@@ -13,36 +13,41 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreQuestionBehaviourDelegate } from '@features/question/services/behaviour-delegate';
-import { IonContent } from '@ionic/angular';
+import type { IonContent } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { AddonModQuizModuleHandlerService } from '../../services/handlers/module';
 import { AddonModQuizPrefetchHandler } from '../../services/handlers/prefetch';
-import {
-    AddonModQuiz,
+import type {
     AddonModQuizAttemptFinishedData,
     AddonModQuizAttemptWSData,
     AddonModQuizCombinedReviewOptions,
     AddonModQuizGetAttemptAccessInformationWSResponse,
     AddonModQuizGetQuizAccessInformationWSResponse,
-    AddonModQuizGetUserBestGradeWSResponse,
+    AddonModQuizGetUserBestGradeWSResponse } from '../../services/quiz';
+import {
+    AddonModQuiz,
     AddonModQuizProvider,
 } from '../../services/quiz';
-import { AddonModQuizAttempt, AddonModQuizHelper, AddonModQuizQuizData } from '../../services/quiz-helper';
-import {
+import type { AddonModQuizAttempt, AddonModQuizQuizData } from '../../services/quiz-helper';
+import { AddonModQuizHelper } from '../../services/quiz-helper';
+import type {
     AddonModQuizAutoSyncData,
+    AddonModQuizSyncResult } from '../../services/quiz-sync';
+import {
     AddonModQuizSync,
     AddonModQuizSyncProvider,
-    AddonModQuizSyncResult,
 } from '../../services/quiz-sync';
 
 /**

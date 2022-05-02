@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ContextLevel } from '@/core/constants';
+import type { ContextLevel } from '@/core/constants';
 import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
-import { CoreRatingDBPrimaryData, CoreRatingDBRecord, RATINGS_TABLE } from './database/rating';
+import type { CoreRatingDBPrimaryData, CoreRatingDBRecord } from './database/rating';
+import { RATINGS_TABLE } from './database/rating';
 
 /**
  * Structure of item sets.

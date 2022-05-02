@@ -14,18 +14,19 @@
 
 import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
-import {
-    AddonCalendar,
+import type {
     AddonCalendarDayName,
     AddonCalendarEvent,
     AddonCalendarEventBase,
     AddonCalendarEventToDisplay,
-    AddonCalendarEventType,
     AddonCalendarGetEventsEvent,
-    AddonCalendarProvider,
     AddonCalendarReminderUnits,
     AddonCalendarWeek,
-    AddonCalendarWeekDay,
+    AddonCalendarWeekDay } from './calendar';
+import {
+    AddonCalendar,
+    AddonCalendarEventType,
+    AddonCalendarProvider,
 } from './calendar';
 import { CoreConfig } from '@services/config';
 import { CoreUtils } from '@services/utils/utils';
@@ -33,10 +34,10 @@ import { CoreCourse } from '@features/course/services/course';
 import { ContextLevel, CoreConstants } from '@/core/constants';
 import moment from 'moment';
 import { makeSingleton } from '@singletons';
-import { AddonCalendarSyncInvalidateEvent } from './calendar-sync';
-import { AddonCalendarOfflineEventDBRecord } from './database/calendar-offline';
-import { CoreCategoryData } from '@features/courses/services/courses';
-import { AddonCalendarReminderDBRecord } from './database/calendar';
+import type { AddonCalendarSyncInvalidateEvent } from './calendar-sync';
+import type { AddonCalendarOfflineEventDBRecord } from './database/calendar-offline';
+import type { CoreCategoryData } from '@features/courses/services/courses';
+import type { AddonCalendarReminderDBRecord } from './database/calendar';
 import { CoreTimeUtils } from '@services/utils/time';
 
 /**

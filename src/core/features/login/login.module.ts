@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
 
 import { AppRoutingModule } from '@/app/app-routing.module';
 import { CoreLoginHelperProvider } from './services/login-helper';

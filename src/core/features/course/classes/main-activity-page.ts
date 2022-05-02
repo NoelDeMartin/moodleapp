@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreCourseModuleData } from '../services/course-helper';
-import { CoreCourseModuleMainResourceComponent } from './main-resource-component';
+import type { CoreCourseModuleData } from '../services/course-helper';
+import type { CoreCourseModuleMainResourceComponent } from './main-resource-component';
 
 /**
  * Template class to easily create CoreCourseModuleMainComponent of resources (or activities without syncing).

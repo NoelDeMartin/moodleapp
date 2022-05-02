@@ -14,21 +14,23 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
-import { CoreRatingInfo } from '@features/rating/services/rating';
-import { CoreTagItem } from '@features/tag/services/tag';
+import type { CoreRatingInfo } from '@features/rating/services/rating';
+import type { CoreTagItem } from '@features/tag/services/tag';
 import { CoreApp } from '@services/app';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 import { CoreFilepool } from '@services/filepool';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import type { CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { AddonModDataFieldsDelegate } from './data-fields-delegate';
 import { AddonModDataOffline } from './data-offline';
-import { AddonModDataAutoSyncData, AddonModDataSyncProvider } from './data-sync';
+import type { AddonModDataAutoSyncData, AddonModDataSyncProvider } from './data-sync';
 
 const ROOT_CACHE_KEY = 'mmaModData:';
 

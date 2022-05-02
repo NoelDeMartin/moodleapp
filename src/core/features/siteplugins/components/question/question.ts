@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { AddonModQuizQuestion } from '@features/question/classes/base-question-component';
+import type { AddonModQuizQuestion } from '@features/question/classes/base-question-component';
 import { CoreQuestionDelegate } from '@features/question/services/question-delegate';
-import { CoreQuestionBehaviourButton } from '@features/question/services/question-helper';
+import type { CoreQuestionBehaviourButton } from '@features/question/services/question-helper';
 import { CoreSitePluginsCompileInitComponent } from '@features/siteplugins/classes/compile-init-component';
 
 /**

@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import type { ElementRef, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import {
-    Component, Input, Output, ViewChild, ElementRef, EventEmitter, OnChanges, SimpleChange, OnDestroy,
+    Component, Input, Output, ViewChild, EventEmitter,
 } from '@angular/core';
-import { SafeResourceUrl } from '@angular/platform-browser';
+import type { SafeResourceUrl } from '@angular/platform-browser';
 
 import { CoreFile } from '@services/file';
 import { CoreDomUtils } from '@services/utils/dom';
@@ -23,9 +24,10 @@ import { CoreUrlUtils } from '@services/utils/url';
 import { CoreIframeUtils } from '@services/utils/iframe';
 import { CoreUtils } from '@services/utils/utils';
 import { DomSanitizer, Router, StatusBar } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreScreen, CoreScreenOrientation } from '@services/screen';
-import { Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { NavigationStart } from '@angular/router';
 

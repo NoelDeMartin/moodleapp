@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { CoreCancellablePromise } from '@classes/cancellable-promise';
-import { CoreUserTours, CoreUserToursFocusedOptions, CoreUserToursUserTour } from '@features/usertours/services/user-tours';
+import type { ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Directive, Input } from '@angular/core';
+import type { CoreCancellablePromise } from '@classes/cancellable-promise';
+import type { CoreUserToursFocusedOptions, CoreUserToursUserTour } from '@features/usertours/services/user-tours';
+import { CoreUserTours } from '@features/usertours/services/user-tours';
 import { CoreDom } from '@singletons/dom';
 
 /**

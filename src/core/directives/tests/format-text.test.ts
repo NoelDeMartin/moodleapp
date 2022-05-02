@@ -25,7 +25,8 @@ import { CoreSite } from '@classes/site';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 
-import { mock, mockSingleton, RenderConfig, renderTemplate, renderWrapperComponent } from '@/testing/utils';
+import type { RenderConfig } from '@/testing/utils';
+import { mock, mockSingleton, renderTemplate, renderWrapperComponent } from '@/testing/utils';
 import { CoreDB } from '@services/db';
 
 describe('CoreFormatTextDirective', () => {

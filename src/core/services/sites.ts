@@ -16,7 +16,8 @@ import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
 import { timeout } from 'rxjs/operators';
 
-import { CoreApp, CoreStoreConfig } from '@services/app';
+import type { CoreStoreConfig } from '@services/app';
+import { CoreApp } from '@services/app';
 import { CoreEvents } from '@singletons/events';
 import { CoreWS } from '@services/ws';
 import { CoreDomUtils } from '@services/utils/dom';
@@ -24,41 +25,44 @@ import { CoreTextUtils } from '@services/utils/text';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreConstants } from '@/core/constants';
-import {
-    CoreSite,
+import type {
     CoreSiteWSPreSets,
     CoreSiteInfo,
     CoreSiteConfig,
     CoreSitePublicConfigResponse,
-    CoreSiteInfoResponse,
+    CoreSiteInfoResponse } from '@classes/site';
+import {
+    CoreSite,
 } from '@classes/site';
-import { SQLiteDB, SQLiteDBRecordValues, SQLiteDBTableSchema } from '@classes/sqlitedb';
+import type { SQLiteDB, SQLiteDBRecordValues, SQLiteDBTableSchema } from '@classes/sqlitedb';
 import { CoreError } from '@classes/errors/error';
 import { CoreSiteError } from '@classes/errors/siteerror';
 import { makeSingleton, Translate, Http } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
+import type {
+    SiteDBEntry,
+    SchemaVersionsDBEntry } from '@services/database/sites';
 import {
     APP_SCHEMA,
     SCHEMA_VERSIONS_TABLE_SCHEMA,
     SITES_TABLE_NAME,
     SCHEMA_VERSIONS_TABLE_NAME,
-    SiteDBEntry,
-    SchemaVersionsDBEntry,
 } from '@services/database/sites';
 import { CoreArray } from '../singletons/array';
 import { CoreNetworkError } from '@classes/errors/network-error';
-import { CoreRedirectPayload } from './navigator';
+import type { CoreRedirectPayload } from './navigator';
 import { CoreSitesFactory } from './sites-factory';
 import { CoreText } from '@singletons/text';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
 import { CoreErrorWithTitle } from '@classes/errors/errorwithtitle';
-import { CoreAjaxError } from '@classes/errors/ajaxerror';
-import { CoreAjaxWSError } from '@classes/errors/ajaxwserror';
+import type { CoreAjaxError } from '@classes/errors/ajaxerror';
+import type { CoreAjaxWSError } from '@classes/errors/ajaxwserror';
 import { CoreSitePlugins } from '@features/siteplugins/services/siteplugins';
 import { CorePromisedValue } from '@classes/promised-value';
-import { CoreDatabaseConfiguration, CoreDatabaseTable } from '@classes/database/database-table';
+import type { CoreDatabaseConfiguration, CoreDatabaseTable } from '@classes/database/database-table';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
-import { asyncInstance, AsyncInstance } from '../utils/async-instance';
+import type { AsyncInstance } from '../utils/async-instance';
+import { asyncInstance } from '../utils/async-instance';
 import { CoreConfig } from './config';
 
 export const CORE_SITE_SCHEMAS = new InjectionToken<CoreSiteSchema[]>('CORE_SITE_SCHEMAS');

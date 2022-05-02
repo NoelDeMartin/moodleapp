@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ContextLevel } from '@/core/constants';
-import { AddonCompetencySummary, AddonCompetency } from '@addons/competency/services/competency';
-import { IonRefresher } from '@ionic/angular';
+import type { AddonCompetencySummary } from '@addons/competency/services/competency';
+import { AddonCompetency } from '@addons/competency/services/competency';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';

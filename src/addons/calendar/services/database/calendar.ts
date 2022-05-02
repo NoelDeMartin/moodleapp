@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { SQLiteDB } from '@classes/sqlitedb';
+import type { SQLiteDB } from '@classes/sqlitedb';
 import { CoreConfig } from '@services/config';
-import { CoreSiteSchema } from '@services/sites';
+import type { CoreSiteSchema } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { AddonCalendar, AddonCalendarEventType, AddonCalendarProvider } from '../calendar';
+import type { AddonCalendarEventType } from '../calendar';
+import { AddonCalendar, AddonCalendarProvider } from '../calendar';
 
 /**
  * Database variables for AddonCalendarProvider service.

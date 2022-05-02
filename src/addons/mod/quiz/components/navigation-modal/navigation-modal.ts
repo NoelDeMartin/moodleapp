@@ -14,7 +14,7 @@
 
 import { Component, Input } from '@angular/core';
 
-import { CoreQuestionQuestionParsed } from '@features/question/services/question';
+import type { CoreQuestionQuestionParsed } from '@features/question/services/question';
 import { ModalController } from '@singletons';
 
 /**

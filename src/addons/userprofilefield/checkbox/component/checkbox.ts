@@ -15,7 +15,7 @@
 import { Component } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
 
-import { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
+import type { AuthEmailSignupProfileField } from '@features/login/services/login-helper';
 import { CoreUserProfileFieldBaseComponent } from '@features/user/classes/base-profilefield-component';
 import { CoreUtils } from '@services/utils/utils';
 

@@ -13,12 +13,14 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
 import { CoreInterceptor } from '@classes/interceptor';
-import { CoreWSExternalWarning, CoreWSExternalFile, CoreWSFile } from '@services/ws';
+import type { CoreWSExternalWarning, CoreWSExternalFile, CoreWSFile } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreGrades } from '@features/grades/services/grades';
 import { CoreTimeUtils } from '@services/utils/time';
@@ -29,10 +31,10 @@ import { CoreUtils } from '@services/utils/utils';
 import { AddonModAssignOffline } from './assign-offline';
 import { AddonModAssignSubmissionDelegate } from './submission-delegate';
 import { CoreComments } from '@features/comments/services/comments';
-import { AddonModAssignSubmissionFormatted } from './assign-helper';
+import type { AddonModAssignSubmissionFormatted } from './assign-helper';
 import { CoreWSError } from '@classes/errors/wserror';
-import { AddonModAssignAutoSyncData, AddonModAssignManualSyncData, AddonModAssignSyncProvider } from './assign-sync';
-import { CoreFormFields } from '@singletons/form';
+import type { AddonModAssignAutoSyncData, AddonModAssignManualSyncData, AddonModAssignSyncProvider } from './assign-sync';
+import type { CoreFormFields } from '@singletons/form';
 import { CoreFileHelper } from '@services/file-helper';
 import { CoreIonicColorNames } from '@singletons/colors';
 

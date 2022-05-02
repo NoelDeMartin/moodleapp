@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { mock, mockSingleton } from '@/testing/utils';
-import { ActivatedRoute, ActivatedRouteSnapshot, UrlSegment } from '@angular/router';
+import type { ActivatedRoute, ActivatedRouteSnapshot, UrlSegment } from '@angular/router';
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
 import { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
 import { CoreNavigator } from '@services/navigator';

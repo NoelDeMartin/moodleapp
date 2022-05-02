@@ -13,10 +13,11 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Coordinates } from '@ionic-native/geolocation';
+import type { Coordinates } from '@ionic-native/geolocation';
 
 import { CoreApp } from '@services/app';
-import { CoreAnyError, CoreError } from '@classes/errors/error';
+import type { CoreAnyError } from '@classes/errors/error';
+import { CoreError } from '@classes/errors/error';
 import { Geolocation, Diagnostic, makeSingleton } from '@singletons';
 import { CoreUtils } from './utils/utils';
 

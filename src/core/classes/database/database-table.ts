@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { CoreError } from '@classes/errors/error';
-import { SQLiteDB, SQLiteDBRecordValue, SQLiteDBRecordValues } from '@classes/sqlitedb';
+import type { SQLiteDB, SQLiteDBRecordValue, SQLiteDBRecordValues } from '@classes/sqlitedb';
 
 /**
  * Wrapper used to interact with a database table.

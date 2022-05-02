@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ElementRef } from '@angular/core';
+import type { ElementRef } from '@angular/core';
 import { CoreEventFormAction, CoreEvents } from '@singletons/events';
 
 /**

@@ -14,7 +14,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreBlockHandlerData } from '@features/block/services/block-delegate';
+import type { CoreBlockHandlerData } from '@features/block/services/block-delegate';
 import { CoreBlockBaseHandler } from '@features/block/classes/base-block-handler';
 import { AddonBlockActivityResultsComponent } from '../components/activityresults/activityresults';
 import { makeSingleton } from '@singletons';

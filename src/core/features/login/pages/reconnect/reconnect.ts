@@ -12,18 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { FormBuilder, FormGroup } from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 import { CoreApp } from '@services/app';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
-import { CoreSite, CoreSiteIdentityProvider, CoreSitePublicConfigResponse } from '@classes/site';
+import type { CoreSite, CoreSiteIdentityProvider, CoreSitePublicConfigResponse } from '@classes/site';
 import { CoreEvents } from '@singletons/events';
 import { CoreError } from '@classes/errors/error';
-import { CoreNavigator, CoreRedirectPayload } from '@services/navigator';
+import type { CoreRedirectPayload } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 import { CoreForms } from '@singletons/form';
 
 /**

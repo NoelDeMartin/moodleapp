@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { CoreContentLinksModuleIndexHandler } from '@features/contentlinks/classes/module-index-handler';
-import { CoreNavigationOptions } from '@services/navigator';
+import type { CoreNavigationOptions } from '@services/navigator';
 import { makeSingleton } from '@singletons';
 import { AddonModBook } from '../book';
 

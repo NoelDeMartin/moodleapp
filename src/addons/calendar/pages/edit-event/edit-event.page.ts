@@ -12,36 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreEvents } from '@singletons/events';
-import { CoreGroup, CoreGroups } from '@services/groups';
+import type { CoreGroup } from '@services/groups';
+import { CoreGroups } from '@services/groups';
 import { CoreSites } from '@services/sites';
 import { CoreSync } from '@services/sync';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreCategoryData, CoreCourses, CoreCourseSearchedData, CoreEnrolledCourseData } from '@features/courses/services/courses';
+import type { CoreCategoryData, CoreCourseSearchedData, CoreEnrolledCourseData } from '@features/courses/services/courses';
+import { CoreCourses } from '@features/courses/services/courses';
 import { CoreEditorRichTextEditorComponent } from '@features/editor/components/rich-text-editor/rich-text-editor';
-import {
-    AddonCalendarProvider,
+import type {
     AddonCalendarGetCalendarAccessInformationWSResponse,
     AddonCalendarEvent,
+    AddonCalendarSubmitCreateUpdateFormDataWSParams } from '../../services/calendar';
+import {
+    AddonCalendarProvider,
     AddonCalendarEventType,
     AddonCalendar,
-    AddonCalendarSubmitCreateUpdateFormDataWSParams,
 } from '../../services/calendar';
 import { AddonCalendarOffline } from '../../services/calendar-offline';
-import { AddonCalendarEventReminder, AddonCalendarEventTypeOption, AddonCalendarHelper } from '../../services/calendar-helper';
+import type { AddonCalendarEventReminder, AddonCalendarEventTypeOption } from '../../services/calendar-helper';
+import { AddonCalendarHelper } from '../../services/calendar-helper';
 import { AddonCalendarSync, AddonCalendarSyncProvider } from '../../services/calendar-sync';
-import { CoreSite } from '@classes/site';
+import type { CoreSite } from '@classes/site';
 import { Translate } from '@singletons';
 import { CoreFilterHelper } from '@features/filter/services/filter-helper';
-import { AddonCalendarOfflineEventDBRecord } from '../../services/database/calendar-offline';
+import type { AddonCalendarOfflineEventDBRecord } from '../../services/database/calendar-offline';
 import { CoreError } from '@classes/errors/error';
 import { CoreNavigator } from '@services/navigator';
-import { CanLeave } from '@guards/can-leave';
+import type { CanLeave } from '@guards/can-leave';
 import { CoreForms } from '@singletons/form';
 import { CoreLocalNotifications } from '@services/local-notifications';
 import { AddonCalendarReminderTimeModalComponent } from '@addons/calendar/components/reminder-time-modal/reminder-time-modal';

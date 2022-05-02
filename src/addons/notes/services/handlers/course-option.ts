@@ -14,13 +14,13 @@
 
 import { Injectable } from '@angular/core';
 import { CoreCourseProvider } from '@features/course/services/course';
-import {
+import type {
     CoreCourseAccess,
     CoreCourseOptionsHandler,
     CoreCourseOptionsHandlerData,
 } from '@features/course/services/course-options-delegate';
-import { CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
-import { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '@features/courses/services/courses-helper';
+import type { CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
+import type { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '@features/courses/services/courses-helper';
 import { makeSingleton } from '@singletons';
 import { AddonNotes } from '../notes';
 

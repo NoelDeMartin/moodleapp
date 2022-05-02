@@ -15,10 +15,12 @@
 import { Injectable } from '@angular/core';
 
 import { CoreApp } from '@services/app';
-import { CoreLang, CoreLangLanguage } from '@services/lang';
+import type { CoreLangLanguage } from '@services/lang';
+import { CoreLang } from '@services/lang';
 import { CoreSites } from '@services/sites';
 import { CoreConstants } from '@/core/constants';
-import { CoreMainMenuDelegate, CoreMainMenuHandlerToDisplay } from './mainmenu-delegate';
+import type { CoreMainMenuHandlerToDisplay } from './mainmenu-delegate';
+import { CoreMainMenuDelegate } from './mainmenu-delegate';
 import { Device, makeSingleton } from '@singletons';
 import { CoreArray } from '@singletons/array';
 import { CoreTextUtils } from '@services/utils/text';

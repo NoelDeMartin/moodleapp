@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Input, OnInit, ElementRef, Directive } from '@angular/core';
+import type { OnInit, ElementRef } from '@angular/core';
+import { Input, Directive } from '@angular/core';
 
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
-import { CoreSitePluginsPluginContentComponent } from '../components/plugin-content/plugin-content';
+import type { CoreSitePluginsPluginContentComponent } from '../components/plugin-content/plugin-content';
 import { CoreSitePluginsCallWSBaseDirective } from './call-ws-directive';
 
 /**

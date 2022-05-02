@@ -12,19 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
-    Injectable,
+import type {
     Injector,
-    Component,
-    NgModule,
     Compiler,
     ComponentFactory,
     ComponentRef,
+    Type } from '@angular/core';
+import {
+    Injectable,
+    Component,
+    NgModule,
     NgModuleRef,
     NO_ERRORS_SCHEMA,
-    Type,
 } from '@angular/core';
-import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
+import type { JitCompilerFactory } from '@angular/platform-browser-dynamic';
 import {
     Platform,
     ActionSheetController,

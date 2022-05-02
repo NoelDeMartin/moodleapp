@@ -14,13 +14,14 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreQuestionBehaviourHandler, CoreQuestionQuestionWithAnswers } from '@features/question/services/behaviour-delegate';
-import { CoreQuestionDBRecord } from '@features/question/services/database/question';
-import {
-    CoreQuestion,
+import type { CoreQuestionBehaviourHandler, CoreQuestionQuestionWithAnswers } from '@features/question/services/behaviour-delegate';
+import type { CoreQuestionDBRecord } from '@features/question/services/database/question';
+import type {
     CoreQuestionQuestionParsed,
     CoreQuestionsAnswers,
-    CoreQuestionState,
+    CoreQuestionState } from '@features/question/services/question';
+import {
+    CoreQuestion,
 } from '@features/question/services/question';
 import { CoreQuestionDelegate } from '@features/question/services/question-delegate';
 import { makeSingleton } from '@singletons';

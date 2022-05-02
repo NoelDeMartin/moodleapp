@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CameraOptions } from '@ionic-native/camera/ngx';
-import { FileEntry } from '@ionic-native/file/ngx';
-import { MediaFile, CaptureError, CaptureAudioOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import type { CameraOptions } from '@ionic-native/camera/ngx';
+import type { FileEntry } from '@ionic-native/file/ngx';
+import type { MediaFile, CaptureError, CaptureAudioOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { Subject } from 'rxjs';
 
 import { CoreApp } from '@services/app';
@@ -25,13 +25,14 @@ import { CoreSites } from '@services/sites';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile, CoreWSFileUploadOptions, CoreWSUploadFileResult } from '@services/ws';
+import type { CoreWSFile, CoreWSFileUploadOptions, CoreWSUploadFileResult } from '@services/ws';
 import { makeSingleton, Translate, MediaCapture, ModalController, Camera } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreEmulatorCaptureMediaComponent } from '@features/emulator/components/capture-media/capture-media';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite } from '@classes/site';
-import { CoreFileEntry, CoreFileHelper } from '@services/file-helper';
+import type { CoreSite } from '@classes/site';
+import type { CoreFileEntry } from '@services/file-helper';
+import { CoreFileHelper } from '@services/file-helper';
 import { CoreText } from '@singletons/text';
 
 /**

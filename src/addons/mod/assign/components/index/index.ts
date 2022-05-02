@@ -12,34 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Optional, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Params } from '@angular/router';
-import { CoreSite } from '@classes/site';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, Optional, ViewChild } from '@angular/core';
+import type { Params } from '@angular/router';
+import type { CoreSite } from '@classes/site';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
-import { IonContent } from '@ionic/angular';
-import { CoreGroupInfo, CoreGroups } from '@services/groups';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { IonContent } from '@ionic/angular';
+import type { CoreGroupInfo } from '@services/groups';
+import { CoreGroups } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreTime } from '@singletons/time';
 import { AddonModAssignListFilterName } from '../../classes/submissions-source';
+import type {
+    AddonModAssignAssign,
+    AddonModAssignSubmissionGradingSummary } from '../../services/assign';
 import {
     AddonModAssign,
-    AddonModAssignAssign,
     AddonModAssignProvider,
-    AddonModAssignSubmissionGradingSummary,
 } from '../../services/assign';
 import { AddonModAssignOffline } from '../../services/assign-offline';
-import {
+import type {
     AddonModAssignAutoSyncData,
+    AddonModAssignSyncResult } from '../../services/assign-sync';
+import {
     AddonModAssignSync,
     AddonModAssignSyncProvider,
-    AddonModAssignSyncResult,
 } from '../../services/assign-sync';
 import { AddonModAssignModuleHandlerService } from '../../services/handlers/module';
 import { AddonModAssignSubmissionComponent } from '../submission/submission';

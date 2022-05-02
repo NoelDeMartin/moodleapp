@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import type { OnInit, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
+import type { FormBuilder, FormControl } from '@angular/forms';
 import { AddonModAssign, AddonModAssignProvider } from '@addons/mod/assign/services/assign';
 import { CoreTextUtils } from '@services/utils/text';
-import {
+import type {
     AddonModAssignFeedbackCommentsDraftData,
+    AddonModAssignFeedbackCommentsPluginData } from '../services/handler';
+import {
     AddonModAssignFeedbackCommentsHandler,
-    AddonModAssignFeedbackCommentsPluginData,
 } from '../services/handler';
 import { AddonModAssignFeedbackDelegate } from '@addons/mod/assign/services/feedback-delegate';
 import { AddonModAssignOffline } from '@addons/mod/assign/services/assign-offline';

@@ -13,26 +13,29 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
-import { ILocalNotification } from '@ionic-native/local-notifications';
+import type { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import type { ILocalNotification } from '@ionic-native/local-notifications';
 
 import { CoreApp } from '@services/app';
 import { CoreConfig } from '@services/config';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { SQLiteDB } from '@classes/sqlitedb';
+import type { SQLiteDB } from '@classes/sqlitedb';
 import { CoreQueueRunner } from '@classes/queue-runner';
 import { CoreError } from '@classes/errors/error';
 import { CoreConstants } from '@/core/constants';
 import { makeSingleton, NgZone, Platform, Translate, LocalNotifications, Push } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
+import type {
+    CodeRequestsQueueItem } from '@services/database/local-notifications';
 import {
     APP_SCHEMA,
     TRIGGERED_TABLE_NAME,
     COMPONENTS_TABLE_NAME,
     SITES_TABLE_NAME,
-    CodeRequestsQueueItem,
 } from '@services/database/local-notifications';
 
 /**

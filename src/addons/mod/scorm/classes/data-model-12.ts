@@ -14,14 +14,15 @@
 
 import { CoreUtils } from '@services/utils/utils';
 import { CoreEvents } from '@singletons/events';
-import {
-    AddonModScorm,
+import type {
     AddonModScormCommonEventData,
     AddonModScormDataEntry,
     AddonModScormDataValue,
-    AddonModScormProvider,
     AddonModScormScorm,
-    AddonModScormUserDataMap,
+    AddonModScormUserDataMap } from '../services/scorm';
+import {
+    AddonModScorm,
+    AddonModScormProvider,
 } from '../services/scorm';
 
 // Standard Data Type Definition.

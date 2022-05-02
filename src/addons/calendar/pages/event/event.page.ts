@@ -12,19 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
-import { AlertOptions } from '@ionic/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
+import type { AlertOptions } from '@ionic/core';
+import type {
+    AddonCalendarEventToDisplay } from '../../services/calendar';
 import {
     AddonCalendar,
-    AddonCalendarEventToDisplay,
     AddonCalendarProvider,
 } from '../../services/calendar';
-import { AddonCalendarEventReminder, AddonCalendarHelper } from '../../services/calendar-helper';
+import type { AddonCalendarEventReminder } from '../../services/calendar-helper';
+import { AddonCalendarHelper } from '../../services/calendar-helper';
 import { AddonCalendarOffline } from '../../services/calendar-offline';
-import { AddonCalendarSync, AddonCalendarSyncEvents, AddonCalendarSyncProvider } from '../../services/calendar-sync';
+import type { AddonCalendarSyncEvents } from '../../services/calendar-sync';
+import { AddonCalendarSync, AddonCalendarSyncProvider } from '../../services/calendar-sync';
 import { CoreApp } from '@services/app';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreSites } from '@services/sites';
@@ -33,10 +38,10 @@ import { CoreCourse } from '@features/course/services/course';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreGroups } from '@services/groups';
 import { Network, NgZone, Translate } from '@singletons';
-import { Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
 import { CoreNavigator } from '@services/navigator';
 import { CoreUtils } from '@services/utils/utils';
-import { ActivatedRoute } from '@angular/router';
+import type { ActivatedRoute } from '@angular/router';
 import { CoreConstants } from '@/core/constants';
 import { AddonCalendarReminderTimeModalComponent } from '@addons/calendar/components/reminder-time-modal/reminder-time-modal';
 

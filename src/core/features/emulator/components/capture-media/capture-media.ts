@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef, Input } from '@angular/core';
-import { MediaObject } from '@ionic-native/media/ngx';
-import { FileEntry } from '@ionic-native/file/ngx';
-import { MediaFile } from '@ionic-native/media-capture/ngx';
+import type { OnInit, OnDestroy, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
+import type { MediaObject } from '@ionic-native/media/ngx';
+import type { FileEntry } from '@ionic-native/file/ngx';
+import type { MediaFile } from '@ionic-native/media-capture/ngx';
 
 import { CoreApp } from '@services/app';
 import { CoreFile, CoreFileProvider } from '@services/file';

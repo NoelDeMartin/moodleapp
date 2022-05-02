@@ -15,22 +15,25 @@
 import { CoreConstants } from '@/core/constants';
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
 import { CoreFilepool } from '@services/filepool';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreSync } from '@services/sync';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWS, CoreWSExternalFile, CoreWSExternalWarning, CoreWSFile, CoreWSPreSets } from '@services/ws';
+import type { CoreWSExternalFile, CoreWSExternalWarning, CoreWSFile, CoreWSPreSets } from '@services/ws';
+import { CoreWS } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { CoreText } from '@singletons/text';
 import { AddonModScormOffline } from './scorm-offline';
-import { AddonModScormAutoSyncEventData, AddonModScormSyncProvider } from './scorm-sync';
+import type { AddonModScormAutoSyncEventData, AddonModScormSyncProvider } from './scorm-sync';
 
 // Private constants.
 const VALID_STATUSES = ['notattempted', 'passed', 'completed', 'failed', 'incomplete', 'browsed', 'suspend'];

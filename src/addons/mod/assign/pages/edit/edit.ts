@@ -12,33 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { ActivatedRoute } from '@angular/router';
 import { CoreError } from '@classes/errors/error';
 import { CoreFileUploaderHelper } from '@features/fileuploader/services/fileuploader-helper';
-import { CanLeave } from '@guards/can-leave';
+import type { CanLeave } from '@guards/can-leave';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreSync } from '@services/sync';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreFormFields, CoreForms } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
+import { CoreForms } from '@singletons/form';
 import { Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import {
+import type {
     AddonModAssignAssign,
     AddonModAssignSubmission,
-    AddonModAssignProvider,
-    AddonModAssign,
     AddonModAssignSubmissionStatusOptions,
     AddonModAssignGetSubmissionStatusWSResponse,
-    AddonModAssignSavePluginData,
+    AddonModAssignSavePluginData } from '../../services/assign';
+import {
+    AddonModAssignProvider,
+    AddonModAssign,
     AddonModAssignSubmissionStatusValues,
 } from '../../services/assign';
 import { AddonModAssignHelper } from '../../services/assign-helper';
 import { AddonModAssignOffline } from '../../services/assign-offline';
 import { AddonModAssignSync } from '../../services/assign-sync';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalFile } from '@services/ws';
+import type { CoreWSExternalFile } from '@services/ws';
 
 /**
  * Page that allows adding or editing an assigment submission.

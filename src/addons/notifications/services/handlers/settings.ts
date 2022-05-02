@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 
 import { makeSingleton } from '@singletons';
-import { CoreSettingsHandler, CoreSettingsHandlerData } from '@features/settings/services/settings-delegate';
+import type { CoreSettingsHandler, CoreSettingsHandlerData } from '@features/settings/services/settings-delegate';
 
 /**
  * Notifications settings handler.

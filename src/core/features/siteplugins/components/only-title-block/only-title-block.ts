@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { OnInit, Component } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Md5 } from 'ts-md5';
 
 import { CoreBlockBaseComponent } from '@features/block/classes/base-block-component';
 import { CoreBlockDelegate } from '@features/block/services/block-delegate';
-import { CoreSitePlugins, CoreSitePluginsUserHandlerData } from '@features/siteplugins/services/siteplugins';
+import type { CoreSitePluginsUserHandlerData } from '@features/siteplugins/services/siteplugins';
+import { CoreSitePlugins } from '@features/siteplugins/services/siteplugins';
 import { CoreNavigator } from '@services/navigator';
 
 /**

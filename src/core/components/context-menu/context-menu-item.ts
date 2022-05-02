@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, OnInit, OnDestroy, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
+import type { OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
-import { CoreContextMenuComponent } from '../context-menu/context-menu';
+import type { CoreContextMenuComponent } from '../context-menu/context-menu';
 
 /**
  * This directive adds a item to the Context Menu popover.

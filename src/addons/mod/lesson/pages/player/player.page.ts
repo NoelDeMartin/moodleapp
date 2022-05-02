@@ -12,25 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import type { OnInit, OnDestroy, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { FormBuilder, FormGroup } from '@angular/forms';
 import { IonContent } from '@ionic/angular';
 
 import { CoreError } from '@classes/errors/error';
-import { CanLeave } from '@guards/can-leave';
+import type { CanLeave } from '@guards/can-leave';
 import { CoreApp } from '@services/app';
 import { CoreNavigator } from '@services/navigator';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreSync } from '@services/sync';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalFile } from '@services/ws';
+import type { CoreWSExternalFile } from '@services/ws';
 import { ModalController, Translate } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { AddonModLessonMenuModalPage } from '../../components/menu-modal/menu-modal';
-import {
-    AddonModLesson,
+import type {
     AddonModLessonEOLPageDataEntry,
     AddonModLessonFinishRetakeResponse,
     AddonModLessonGetAccessInformationWSResponse,
@@ -42,18 +43,22 @@ import {
     AddonModLessonPageWSData,
     AddonModLessonPossibleJumps,
     AddonModLessonProcessPageOptions,
-    AddonModLessonProcessPageResponse,
+    AddonModLessonProcessPageResponse } from '../../services/lesson';
+import {
+    AddonModLesson,
     AddonModLessonProvider,
 } from '../../services/lesson';
-import {
+import type {
     AddonModLessonActivityLink,
-    AddonModLessonHelper,
     AddonModLessonPageButton,
-    AddonModLessonQuestion,
+    AddonModLessonQuestion } from '../../services/lesson-helper';
+import {
+    AddonModLessonHelper,
 } from '../../services/lesson-helper';
 import { AddonModLessonOffline } from '../../services/lesson-offline';
 import { AddonModLessonSync } from '../../services/lesson-sync';
-import { CoreFormFields, CoreForms } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
+import { CoreForms } from '@singletons/form';
 
 /**
  * Page that allows attempting and reviewing a lesson.

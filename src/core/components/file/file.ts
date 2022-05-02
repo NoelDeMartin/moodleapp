@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, OnInit, OnDestroy, EventEmitter } from '@angular/core';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CoreApp } from '@services/app';
 import { CoreFilepool } from '@services/filepool';
 import { CoreFileHelper } from '@services/file-helper';
@@ -21,11 +22,13 @@ import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreUrlUtils } from '@services/utils/url';
-import { CoreUtils, CoreUtilsOpenFileOptions, OpenFileAction } from '@services/utils/utils';
+import type { CoreUtilsOpenFileOptions } from '@services/utils/utils';
+import { CoreUtils, OpenFileAction } from '@services/utils/utils';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreConstants } from '@/core/constants';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { CoreWSFile } from '@services/ws';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { CoreWSFile } from '@services/ws';
 
 /**
  * Component to handle a remote file. Shows the file name, icon (depending on mimetype) and a button

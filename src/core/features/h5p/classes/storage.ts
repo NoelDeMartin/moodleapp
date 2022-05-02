@@ -16,10 +16,10 @@ import { CoreFile, CoreFileProvider } from '@services/file';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreText } from '@singletons/text';
-import { CoreH5PCore, CoreH5PLibraryBasicData } from './core';
-import { CoreH5PFramework } from './framework';
+import type { CoreH5PCore, CoreH5PLibraryBasicData } from './core';
+import type { CoreH5PFramework } from './framework';
 import { CoreH5PMetadata } from './metadata';
-import {
+import type {
     CoreH5PLibrariesJsonData,
     CoreH5PLibraryJsonData,
     CoreH5PLibraryMetadataSettings,

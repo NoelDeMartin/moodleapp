@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AddonModPage } from '../page';
-import { CoreCourseModuleHandler } from '@features/course/services/module-delegate';
+import type { CoreCourseModuleHandler } from '@features/course/services/module-delegate';
 import { CoreConstants, ModPurpose } from '@/core/constants';
 import { AddonModPageIndexComponent } from '../../components/index';
 import { makeSingleton } from '@singletons';

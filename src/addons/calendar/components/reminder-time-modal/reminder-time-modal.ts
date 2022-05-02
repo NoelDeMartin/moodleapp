@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AddonCalendar, AddonCalendarReminderUnits, AddonCalendarValueAndUnit } from '@addons/calendar/services/calendar';
-import { Component, Input, OnInit } from '@angular/core';
+import type { AddonCalendarValueAndUnit } from '@addons/calendar/services/calendar';
+import { AddonCalendar, AddonCalendarReminderUnits } from '@addons/calendar/services/calendar';
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CoreDomUtils } from '@services/utils/dom';
 import { ModalController } from '@singletons';
 

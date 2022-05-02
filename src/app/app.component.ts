@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import type { AfterViewInit, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonRouterOutlet } from '@ionic/angular';
-import { BackButtonEvent, ScrollDetail } from '@ionic/core';
+import type { BackButtonEvent, ScrollDetail } from '@ionic/core';
 
 import { CoreLang } from '@services/lang';
 import { CoreLoginHelper } from '@features/login/services/login-helper';

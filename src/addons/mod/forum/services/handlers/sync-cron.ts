@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreCronHandler } from '@services/cron';
+import type { CoreCronHandler } from '@services/cron';
 import { makeSingleton } from '@singletons';
 import { AddonModForumSync } from '../forum-sync';
 

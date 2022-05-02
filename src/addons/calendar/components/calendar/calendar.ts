@@ -12,39 +12,45 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
-    Component,
+import type {
     OnDestroy,
     OnInit,
-    Input,
     DoCheck,
+    KeyValueDiffers,
+    KeyValueDiffer } from '@angular/core';
+import {
+    Component,
+    Input,
     Output,
     EventEmitter,
-    KeyValueDiffers,
-    KeyValueDiffer,
     ViewChild,
     HostBinding,
 } from '@angular/core';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import {
-    AddonCalendar,
-    AddonCalendarProvider,
+import type {
     AddonCalendarWeek,
     AddonCalendarWeekDaysTranslationKeys,
     AddonCalendarEventToDisplay,
-    AddonCalendarDayName,
+    AddonCalendarDayName } from '../../services/calendar';
+import {
+    AddonCalendar,
+    AddonCalendarProvider,
 } from '../../services/calendar';
-import { AddonCalendarFilter, AddonCalendarHelper } from '../../services/calendar-helper';
+import type { AddonCalendarFilter } from '../../services/calendar-helper';
+import { AddonCalendarHelper } from '../../services/calendar-helper';
 import { AddonCalendarOffline } from '../../services/calendar-offline';
-import { CoreCategoryData, CoreCourses } from '@features/courses/services/courses';
+import type { CoreCategoryData } from '@features/courses/services/courses';
+import { CoreCourses } from '@features/courses/services/courses';
 import { CoreApp } from '@services/app';
 import { CoreSwipeSlidesComponent } from '@components/swipe-slides/swipe-slides';
+import type {
+    CoreSwipeSlidesDynamicItem } from '@classes/items-management/swipe-slides-dynamic-items-manager-source';
 import {
-    CoreSwipeSlidesDynamicItem,
     CoreSwipeSlidesDynamicItemsManagerSource,
 } from '@classes/items-management/swipe-slides-dynamic-items-manager-source';
 import { CoreSwipeSlidesDynamicItemsManager } from '@classes/items-management/swipe-slides-dynamic-items-manager';

@@ -14,21 +14,23 @@
 
 import { Injectable } from '@angular/core';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreFilepool } from '@services/filepool';
 import { CoreGroups } from '@services/groups';
 import { CoreSitesReadingStrategy } from '@services/sites';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
+import type {
+    AddonModFeedbackGetFeedbackAccessInformationWSResponse,
+    AddonModFeedbackWSFeedback } from '../feedback';
 import {
     AddonModFeedback,
-    AddonModFeedbackGetFeedbackAccessInformationWSResponse,
     AddonModFeedbackProvider,
-    AddonModFeedbackWSFeedback,
 } from '../feedback';
-import { AddonModFeedbackSync, AddonModFeedbackSyncResult } from '../feedback-sync';
+import type { AddonModFeedbackSyncResult } from '../feedback-sync';
+import { AddonModFeedbackSync } from '../feedback-sync';
 
 /**
  * Handler to prefetch feedbacks.

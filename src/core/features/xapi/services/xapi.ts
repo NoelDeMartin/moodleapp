@@ -17,8 +17,9 @@ import { Injectable } from '@angular/core';
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreSite } from '@classes/site';
-import { CoreXAPIOffline, CoreXAPIOfflineSaveStatementsOptions } from './offline';
+import type { CoreSite } from '@classes/site';
+import type { CoreXAPIOfflineSaveStatementsOptions } from './offline';
+import { CoreXAPIOffline } from './offline';
 import { makeSingleton } from '@singletons';
 import { CoreText } from '@singletons/text';
 

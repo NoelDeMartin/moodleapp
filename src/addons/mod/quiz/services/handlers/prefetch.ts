@@ -17,25 +17,27 @@ import { CoreConstants } from '@/core/constants';
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourses } from '@features/courses/services/courses';
 import { CoreQuestionHelper } from '@features/question/services/question-helper';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { AddonModQuizAccessRuleDelegate } from '../access-rules-delegate';
-import {
-    AddonModQuiz,
+import type {
     AddonModQuizAttemptWSData,
     AddonModQuizGetQuizAccessInformationWSResponse,
+    AddonModQuizQuizWSData } from '../quiz';
+import {
+    AddonModQuiz,
     AddonModQuizProvider,
-    AddonModQuizQuizWSData,
 } from '../quiz';
 import { AddonModQuizHelper } from '../quiz-helper';
-import { AddonModQuizSync, AddonModQuizSyncResult } from '../quiz-sync';
+import type { AddonModQuizSyncResult } from '../quiz-sync';
+import { AddonModQuizSync } from '../quiz-sync';
 
 /**
  * Handler to prefetch quizzes.

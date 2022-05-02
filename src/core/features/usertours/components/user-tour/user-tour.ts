@@ -12,27 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { BackButtonEvent } from '@ionic/core';
-import {
+import type { BackButtonEvent } from '@ionic/core';
+import type {
     AfterViewInit,
-    Component,
     ElementRef,
+    OnDestroy } from '@angular/core';
+import {
+    Component,
     EventEmitter,
     HostBinding,
     Input,
-    OnDestroy,
     Output,
     ViewChild,
 } from '@angular/core';
 import { CorePromisedValue } from '@classes/promised-value';
 import { CoreUserToursFocusLayout } from '@features/usertours/classes/focus-layout';
 import { CoreUserToursPopoverLayout } from '@features/usertours/classes/popover-layout';
-import { CoreUserTours, CoreUserToursAlignment, CoreUserToursSide } from '@features/usertours/services/user-tours';
+import type { CoreUserToursAlignment, CoreUserToursSide } from '@features/usertours/services/user-tours';
+import { CoreUserTours } from '@features/usertours/services/user-tours';
 import { CoreDomUtils } from '@services/utils/dom';
 import { AngularFrameworkDelegate } from '@singletons';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 import { CoreDom } from '@singletons/dom';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreMainMenuProvider } from '@features/mainmenu/services/mainmenu';
 import { COLLAPSIBLE_HEADER_UPDATED } from '@directives/collapsible-header';
 

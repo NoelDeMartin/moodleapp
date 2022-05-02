@@ -12,24 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ElementRef, Input, OnInit, Type, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import type { ElementRef, OnInit, Type } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import type { FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { CoreTag } from '@features/tag/services/tag';
 import { CoreSites } from '@services/sites';
-import { CoreFormFields, CoreForms } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
+import { CoreForms } from '@singletons/form';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { ModalController } from '@singletons';
-import {
+import type {
     AddonModDataField,
     AddonModDataData,
+    AddonModDataSearchEntriesAdvancedField } from '../../services/data';
+import {
     AddonModDataTemplateType,
-    AddonModDataSearchEntriesAdvancedField,
 } from '../../services/data';
 import { AddonModDataFieldsDelegate } from '../../services/data-fields-delegate';
 import { AddonModDataHelper } from '../../services/data-helper';
 import { AddonModDataComponentsCompileModule } from '../components-compile.module';
-import { AddonModDataSearchDataParams } from '../index';
+import type { AddonModDataSearchDataParams } from '../index';
 
 /**
  * Page that displays the search modal.

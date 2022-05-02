@@ -18,9 +18,11 @@ import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreXAPI } from '@features/xapi/services/xapi';
 import { CoreH5P } from '../services/h5p';
-import { CoreH5PCore, CoreH5PDisplayOptions, CoreH5PContentData, CoreH5PDependenciesFiles } from './core';
-import { CoreH5PCoreSettings, CoreH5PHelper } from './helper';
-import { CoreH5PStorage } from './storage';
+import type { CoreH5PDisplayOptions, CoreH5PContentData, CoreH5PDependenciesFiles } from './core';
+import { CoreH5PCore } from './core';
+import type { CoreH5PCoreSettings } from './helper';
+import { CoreH5PHelper } from './helper';
+import type { CoreH5PStorage } from './storage';
 import { CoreText } from '@singletons/text';
 
 /**

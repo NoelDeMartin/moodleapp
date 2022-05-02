@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreAppSchema } from '@services/app';
-import { CoreSiteSchema } from '@services/sites';
-import { SQLiteDB, SQLiteDBTableSchema } from '@classes/sqlitedb';
+import type { CoreAppSchema } from '@services/app';
+import type { CoreSiteSchema } from '@services/sites';
+import type { SQLiteDB, SQLiteDBTableSchema } from '@classes/sqlitedb';
 import { CoreSite } from '@classes/site';
 
 /**

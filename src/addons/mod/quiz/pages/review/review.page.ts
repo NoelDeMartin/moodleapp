@@ -12,29 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { CoreQuestionQuestionParsed } from '@features/question/services/question';
+import type { ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { CoreQuestionQuestionParsed } from '@features/question/services/question';
 import { CoreQuestionHelper } from '@features/question/services/question-helper';
-import { IonContent, IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
 import { CoreDom } from '@singletons/dom';
 import { CoreTime } from '@singletons/time';
+import type {
+    AddonModQuizNavigationModalReturn,
+    AddonModQuizNavigationQuestion } from '../../components/navigation-modal/navigation-modal';
 import {
     AddonModQuizNavigationModalComponent,
-    AddonModQuizNavigationModalReturn,
-    AddonModQuizNavigationQuestion,
 } from '../../components/navigation-modal/navigation-modal';
-import {
-    AddonModQuiz,
+import type {
     AddonModQuizAttemptWSData,
     AddonModQuizCombinedReviewOptions,
     AddonModQuizGetAttemptReviewResponse,
-    AddonModQuizProvider,
     AddonModQuizQuizWSData,
-    AddonModQuizWSAdditionalData,
+    AddonModQuizWSAdditionalData } from '../../services/quiz';
+import {
+    AddonModQuiz,
+    AddonModQuizProvider,
 } from '../../services/quiz';
 import { AddonModQuizHelper } from '../../services/quiz-helper';
 

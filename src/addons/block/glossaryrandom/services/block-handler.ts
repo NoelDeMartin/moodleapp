@@ -14,10 +14,10 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreBlockHandlerData } from '@features/block/services/block-delegate';
+import type { CoreBlockHandlerData } from '@features/block/services/block-delegate';
 import { CoreBlockPreRenderedComponent } from '@features/block/components/pre-rendered-block/pre-rendered-block';
 import { CoreBlockBaseHandler } from '@features/block/classes/base-block-handler';
-import { CoreCourseBlock } from '@features/course/services/course';
+import type { CoreCourseBlock } from '@features/course/services/course';
 import { makeSingleton } from '@singletons';
 
 /**

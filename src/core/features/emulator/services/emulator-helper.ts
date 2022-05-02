@@ -13,12 +13,12 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { File } from '@ionic-native/file/ngx';
+import type { File } from '@ionic-native/file/ngx';
 
 import { CoreFile } from '@services/file';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreLogger } from '@singletons/logger';
-import { FileMock } from './file';
+import type { FileMock } from './file';
 import { FileTransferErrorMock } from './file-transfer';
 
 /**

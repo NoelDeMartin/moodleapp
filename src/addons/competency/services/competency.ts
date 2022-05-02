@@ -13,11 +13,12 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCommentsArea } from '@features/comments/services/comments';
-import { CoreCourseSummary, CoreCourseModuleSummary } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCommentsArea } from '@features/comments/services/comments';
+import type { CoreCourseSummary, CoreCourseModuleSummary } from '@features/course/services/course';
 import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
-import { CoreUserSummary } from '@features/user/services/user';
+import type { CoreUserSummary } from '@features/user/services/user';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';

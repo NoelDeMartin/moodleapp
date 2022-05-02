@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreCourseModuleContentFile } from '@features/course/services/course';
+import type { CoreCourseModuleContentFile } from '@features/course/services/course';
 import { makeSingleton } from '@singletons';
 
 /**

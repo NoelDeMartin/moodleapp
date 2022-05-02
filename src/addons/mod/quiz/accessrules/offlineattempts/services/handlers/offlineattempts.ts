@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { AddonModQuizAccessRuleHandler } from '@addons/mod/quiz/services/access-rules-delegate';
-import { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from '@addons/mod/quiz/services/quiz';
+import type { AddonModQuizAccessRuleHandler } from '@addons/mod/quiz/services/access-rules-delegate';
+import type { AddonModQuizAttemptWSData, AddonModQuizQuizWSData } from '@addons/mod/quiz/services/quiz';
 import { AddonModQuizAccessOfflineAttemptsComponent } from '../../component/offlineattempts';
 import { AddonModQuizSync } from '@addons/mod/quiz/services/quiz-sync';
 import { makeSingleton } from '@singletons';

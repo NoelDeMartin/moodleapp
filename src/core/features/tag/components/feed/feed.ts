@@ -14,7 +14,7 @@
 
 import { Component, Input } from '@angular/core';
 
-import { CoreTagFeedElement } from '@features/tag/services/tag-helper';
+import type { CoreTagFeedElement } from '@features/tag/services/tag-helper';
 
 /**
  * Component to render a tag area that uses the "core_tag/tagfeed" web template.

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { CoreItemsManager } from './items-manager';
-import { CoreSwipeSlidesItemsManagerSource } from './swipe-slides-items-manager-source';
+import type { CoreSwipeSlidesItemsManagerSource } from './swipe-slides-items-manager-source';
 
 /**
  * Helper class to manage items for core-swipe-slides.

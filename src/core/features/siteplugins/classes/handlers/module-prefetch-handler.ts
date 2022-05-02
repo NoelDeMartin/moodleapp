@@ -13,10 +13,12 @@
 // limitations under the License.
 
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourse, CoreCourseAnyModuleData } from '@features/course/services/course';
-import { CoreSitePlugins, CoreSitePluginsCourseModuleHandlerData } from '@features/siteplugins/services/siteplugins';
+import type { CoreCourseAnyModuleData } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
+import type { CoreSitePluginsCourseModuleHandlerData } from '@features/siteplugins/services/siteplugins';
+import { CoreSitePlugins } from '@features/siteplugins/services/siteplugins';
 import { CoreFilepool } from '@services/filepool';
-import { CoreFileSizeSum } from '@services/plugin-file-delegate';
+import type { CoreFileSizeSum } from '@services/plugin-file-delegate';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 

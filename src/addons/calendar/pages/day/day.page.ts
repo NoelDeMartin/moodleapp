@@ -12,37 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreApp } from '@services/app';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTimeUtils } from '@services/utils/time';
+import type {
+    AddonCalendarEventToDisplay,
+    AddonCalendarCalendarDay } from '../../services/calendar';
 import {
     AddonCalendarProvider,
     AddonCalendar,
-    AddonCalendarEventToDisplay,
-    AddonCalendarCalendarDay,
     AddonCalendarEventType,
 } from '../../services/calendar';
 import { AddonCalendarOffline } from '../../services/calendar-offline';
-import { AddonCalendarFilter, AddonCalendarHelper } from '../../services/calendar-helper';
+import type { AddonCalendarFilter } from '../../services/calendar-helper';
+import { AddonCalendarHelper } from '../../services/calendar-helper';
 import { AddonCalendarSync, AddonCalendarSyncProvider } from '../../services/calendar-sync';
-import { CoreCategoryData, CoreCourses, CoreEnrolledCourseData } from '@features/courses/services/courses';
+import type { CoreCategoryData, CoreEnrolledCourseData } from '@features/courses/services/courses';
+import { CoreCourses } from '@features/courses/services/courses';
 import { CoreCoursesHelper } from '@features/courses/services/courses-helper';
 import { AddonCalendarFilterComponent } from '../../components/filter/filter';
 import moment from 'moment';
 import { Network, NgZone } from '@singletons';
 import { CoreNavigator } from '@services/navigator';
-import { Params } from '@angular/router';
-import { Subscription } from 'rxjs';
+import type { Params } from '@angular/router';
+import type { Subscription } from 'rxjs';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreConstants } from '@/core/constants';
 import { CoreSwipeSlidesDynamicItemsManager } from '@classes/items-management/swipe-slides-dynamic-items-manager';
 import { CoreSwipeSlidesComponent } from '@components/swipe-slides/swipe-slides';
+import type {
+    CoreSwipeSlidesDynamicItem } from '@classes/items-management/swipe-slides-dynamic-items-manager-source';
 import {
-    CoreSwipeSlidesDynamicItem,
     CoreSwipeSlidesDynamicItemsManagerSource,
 } from '@classes/items-management/swipe-slides-dynamic-items-manager-source';
 

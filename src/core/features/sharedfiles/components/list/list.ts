@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-import { FileEntry, DirectoryEntry } from '@ionic-native/file/ngx';
-import { IonRefresher } from '@ionic/angular';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import type { FileEntry, DirectoryEntry } from '@ionic-native/file/ngx';
+import type { IonRefresher } from '@ionic/angular';
 import { Md5 } from 'ts-md5';
 
 import { CoreSharedFiles } from '@features/sharedfiles/services/sharedfiles';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreText } from '@singletons/text';
 
 /**

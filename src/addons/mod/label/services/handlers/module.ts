@@ -15,8 +15,8 @@
 import { CoreConstants, ModPurpose } from '@/core/constants';
 import { Injectable } from '@angular/core';
 import { CoreModuleHandlerBase } from '@features/course/classes/module-base-handler';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
-import { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '@features/course/services/module-delegate';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleHandler, CoreCourseModuleHandlerData } from '@features/course/services/module-delegate';
 import { makeSingleton } from '@singletons';
 
 /**

@@ -14,19 +14,23 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
-import { CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
+import type { CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
-import { CoreGradesMenuItem } from '@features/grades/services/grades-helper';
+import type { CoreGradesMenuItem } from '@features/grades/services/grades-helper';
 import { CoreApp } from '@services/app';
-import { CoreSites, CoreSitesCommonWSOptions, CoreSitesReadingStrategy } from '@services/sites';
-import { CoreTextFormat, defaultTextFormat } from '@services/utils/text';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreTextFormat } from '@services/utils/text';
+import { defaultTextFormat } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreStatusWithWarningsWSResponse, CoreWS, CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import type { CoreStatusWithWarningsWSResponse, CoreWSExternalFile, CoreWSExternalWarning } from '@services/ws';
+import { CoreWS } from '@services/ws';
 import { makeSingleton, Translate } from '@singletons';
-import { CoreFormFields } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
 import { AddonModWorkshopOffline } from './workshop-offline';
-import { AddonModWorkshopAutoSyncData, AddonModWorkshopSyncProvider } from './workshop-sync';
+import type { AddonModWorkshopAutoSyncData, AddonModWorkshopSyncProvider } from './workshop-sync';
 
 const ROOT_CACHE_KEY = 'mmaModWorkshop:';
 

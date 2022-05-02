@@ -14,16 +14,17 @@
 
 import { Injectable } from '@angular/core';
 import { CoreCourseResourcePrefetchHandlerBase } from '@features/course/classes/resource-prefetch-handler';
+import type {
+    CoreCourseAnyModuleData,
+    CoreCourseModuleContentFile } from '@features/course/services/course';
 import {
     CoreCourse,
-    CoreCourseAnyModuleData,
-    CoreCourseModuleContentFile,
 } from '@features/course/services/course';
-import { CoreCourseModuleData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleData } from '@features/course/services/course-helper';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { AddonModImscp, AddonModImscpProvider } from '../imscp';
 

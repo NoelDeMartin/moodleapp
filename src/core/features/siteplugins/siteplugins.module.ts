@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
 
 import { CoreCourseIndexRoutingModule } from '@features/course/pages/index/index-routing.module';
 import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-routing.module';

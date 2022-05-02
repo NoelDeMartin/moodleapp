@@ -12,8 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AddonMessageOutputHandler, AddonMessageOutputHandlerData } from '@addons/messageoutput/services/messageoutput-delegate';
-import {
+import type {
+    AddonMessageOutputHandler,
+    AddonMessageOutputHandlerData,
+} from '@addons/messageoutput/services/messageoutput-delegate';
+import type {
     CoreSitePluginsContent,
     CoreSitePluginsMessageOutputHandlerData,
     CoreSitePluginsPlugin,

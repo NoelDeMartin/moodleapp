@@ -12,7 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreSwipeSlidesDynamicItem, CoreSwipeSlidesDynamicItemsManagerSource } from './swipe-slides-dynamic-items-manager-source';
+import type {
+    CoreSwipeSlidesDynamicItem,
+    CoreSwipeSlidesDynamicItemsManagerSource,
+} from './swipe-slides-dynamic-items-manager-source';
 import { CoreSwipeSlidesItemsManager } from './swipe-slides-items-manager';
 
 /**

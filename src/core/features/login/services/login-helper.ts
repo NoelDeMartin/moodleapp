@@ -13,26 +13,33 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Params } from '@angular/router';
+import type { Params } from '@angular/router';
 import { Md5 } from 'ts-md5/dist/md5';
 
-import { CoreApp, CoreStoreConfig } from '@services/app';
+import type { CoreStoreConfig } from '@services/app';
+import { CoreApp } from '@services/app';
 import { CoreConfig } from '@services/config';
-import { CoreEvents, CoreEventSessionExpiredData, CoreEventSiteData } from '@singletons/events';
-import { CoreSites, CoreLoginSiteInfo, CoreSiteBasicInfo } from '@services/sites';
-import { CoreWS, CoreWSExternalWarning } from '@services/ws';
+import type { CoreEventSessionExpiredData, CoreEventSiteData } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { CoreLoginSiteInfo, CoreSiteBasicInfo } from '@services/sites';
+import { CoreSites } from '@services/sites';
+import type { CoreWSExternalWarning } from '@services/ws';
+import { CoreWS } from '@services/ws';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
-import { CoreUrlParams, CoreUrlUtils } from '@services/utils/url';
+import type { CoreUrlParams } from '@services/utils/url';
+import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreConstants } from '@/core/constants';
-import { CoreSite, CoreSiteIdentityProvider, CoreSitePublicConfigResponse, CoreSiteQRCodeType } from '@classes/site';
+import type { CoreSite, CoreSiteIdentityProvider, CoreSitePublicConfigResponse } from '@classes/site';
+import { CoreSiteQRCodeType } from '@classes/site';
 import { CoreError } from '@classes/errors/error';
 import { CoreWSError } from '@classes/errors/wserror';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreUrl } from '@singletons/url';
-import { CoreNavigator, CoreRedirectPayload } from '@services/navigator';
+import type { CoreRedirectPayload } from '@services/navigator';
+import { CoreNavigator } from '@services/navigator';
 import { CoreCanceledError } from '@classes/errors/cancelederror';
 import { CoreCustomURLSchemes } from '@services/urlschemes';
 import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';

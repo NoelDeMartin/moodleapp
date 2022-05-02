@@ -12,16 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { CoreEventCourseStatusChanged, CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { CoreEventCourseStatusChanged, CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreCourses, CoreCoursesProvider } from '@features/courses/services/courses';
 import { CoreCourse, CoreCourseProvider } from '@features/course/services/course';
-import { CoreCourseHelper, CorePrefetchStatusInfo } from '@features/course/services/course-helper';
+import type { CorePrefetchStatusInfo } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { Translate } from '@singletons';
 import { CoreConstants } from '@/core/constants';
-import {
+import type {
     CoreCourseAnyCourseDataWithExtraInfoAndOptions,
     CoreEnrolledCourseDataWithExtraInfoAndOptions,
 } from '../../services/courses-helper';

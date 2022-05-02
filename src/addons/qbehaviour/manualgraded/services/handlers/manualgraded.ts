@@ -15,8 +15,8 @@
 import { Injectable } from '@angular/core';
 
 import { AddonQbehaviourDeferredFeedbackHandler } from '@addons/qbehaviour/deferredfeedback/services/handlers/deferredfeedback';
-import { CoreQuestionBehaviourHandler, CoreQuestionQuestionWithAnswers } from '@features/question/services/behaviour-delegate';
-import { CoreQuestionState } from '@features/question/services/question';
+import type { CoreQuestionBehaviourHandler, CoreQuestionQuestionWithAnswers } from '@features/question/services/behaviour-delegate';
+import type { CoreQuestionState } from '@features/question/services/question';
 import { makeSingleton } from '@singletons';
 
 /**

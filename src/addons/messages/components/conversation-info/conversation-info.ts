@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
-import {
+import type { OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
+import type {
     AddonMessagesConversationFormatted,
-    AddonMessagesConversationMember,
+    AddonMessagesConversationMember } from '../../services/messages';
+import {
     AddonMessages,
 } from '../../services/messages';
 import { CoreDomUtils } from '@services/utils/dom';
-import { ActivatedRoute } from '@angular/router';
+import type { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@singletons';
 
 /**

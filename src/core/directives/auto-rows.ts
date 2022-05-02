@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, ElementRef, Output, EventEmitter, AfterViewInit, Input, OnChanges } from '@angular/core';
+import type { ElementRef, AfterViewInit, OnChanges } from '@angular/core';
+import { Directive, Output, EventEmitter, Input } from '@angular/core';
 
 /**
  * Directive to adapt a textarea rows depending on the input text. It's based on Moodle's data-auto-rows.

@@ -12,15 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import type { OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { FormBuilder, FormGroup, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 
 import { CoreApp } from '@services/app';
 import { CoreConfig } from '@services/config';
-import { CoreSites, CoreSiteCheckResponse, CoreLoginSiteInfo, CoreSitesDemoSiteData } from '@services/sites';
+import type { CoreSiteCheckResponse, CoreLoginSiteInfo, CoreSitesDemoSiteData } from '@services/sites';
+import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreLoginHelper, CoreLoginHelperProvider, CoreLoginSiteSelectorListMethod } from '@features/login/services/login-helper';
+import type { CoreLoginSiteSelectorListMethod } from '@features/login/services/login-helper';
+import { CoreLoginHelper, CoreLoginHelperProvider } from '@features/login/services/login-helper';
 import { CoreSite } from '@classes/site';
 import { CoreError } from '@classes/errors/error';
 import { CoreConstants } from '@/core/constants';
@@ -30,10 +33,11 @@ import { CoreUrlUtils } from '@services/utils/url';
 import { CoreLoginSiteHelpComponent } from '@features/login/components/site-help/site-help';
 import { CoreLoginSiteOnboardingComponent } from '@features/login/components/site-onboarding/site-onboarding';
 import { CoreNavigator } from '@services/navigator';
-import { CoreCustomURLSchemes, CoreCustomURLSchemesHandleError } from '@services/urlschemes';
+import type { CoreCustomURLSchemesHandleError } from '@services/urlschemes';
+import { CoreCustomURLSchemes } from '@services/urlschemes';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreForms } from '@singletons/form';
-import { AlertButton } from '@ionic/core';
+import type { AlertButton } from '@ionic/core';
 
 /**
  * Site (url) chooser when adding a new site.

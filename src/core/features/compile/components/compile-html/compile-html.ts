@@ -12,26 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
-    Component,
-    Input,
+import type {
     OnInit,
     OnChanges,
     OnDestroy,
-    ViewContainerRef,
-    ViewChild,
     ComponentRef,
     SimpleChange,
     ChangeDetectorRef,
     ElementRef,
-    Output,
-    EventEmitter,
     DoCheck,
     KeyValueDiffers,
     AfterContentInit,
     AfterViewInit,
     Type,
-    KeyValueDiffer,
+    KeyValueDiffer } from '@angular/core';
+import {
+    Component,
+    Input,
+    ViewContainerRef,
+    ViewChild,
+    Output,
+    EventEmitter,
 } from '@angular/core';
 
 import { CoreCompile } from '@features/compile/services/compile';

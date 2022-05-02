@@ -18,9 +18,9 @@ import { AddonMessageOutputDelegate } from '@addons/messageoutput/services/messa
 import { AddonModAssignFeedbackDelegate } from '@addons/mod/assign/services/feedback-delegate';
 import { AddonModAssignSubmissionDelegate } from '@addons/mod/assign/services/submission-delegate';
 import { AddonModQuizAccessRuleDelegate } from '@addons/mod/quiz/services/access-rules-delegate';
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
+import type { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
 import { CoreError } from '@classes/errors/error';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSite, CoreSiteWSPreSets } from '@classes/site';
 import { CoreBlockDelegate } from '@features/block/services/block-delegate';
 import { CoreCompile } from '@features/compile/services/compile';
 import { CoreCourseOptionsDelegate } from '@features/course/services/course-options-delegate';
@@ -57,12 +57,10 @@ import { CoreSitePluginsQuizAccessRuleHandler } from '../classes/handlers/quiz-a
 import { CoreSitePluginsSettingsHandler } from '../classes/handlers/settings-handler';
 import { CoreSitePluginsUserProfileHandler } from '../classes/handlers/user-handler';
 import { CoreSitePluginsUserProfileFieldHandler } from '../classes/handlers/user-profile-field-handler';
-import {
-    CoreSitePlugins,
+import type {
     CoreSitePluginsContent,
     CoreSitePluginsPlugin,
     CoreSitePluginsHandlerData,
-    CoreSitePluginsProvider,
     CoreSitePluginsCourseOptionHandlerData,
     CoreSitePluginsMainMenuHandlerData,
     CoreSitePluginsCourseModuleHandlerData,
@@ -73,7 +71,10 @@ import {
     CoreSitePluginsBlockHandlerData,
     CoreSitePluginsHandlerCommonData,
     CoreSitePluginsInitHandlerData,
-    CoreSitePluginsMainMenuHomeHandlerData,
+    CoreSitePluginsMainMenuHomeHandlerData } from './siteplugins';
+import {
+    CoreSitePlugins,
+    CoreSitePluginsProvider,
 } from './siteplugins';
 import { makeSingleton } from '@singletons';
 import { CoreMainMenuHomeDelegate } from '@features/mainmenu/services/home-delegate';

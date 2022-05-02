@@ -19,12 +19,13 @@ import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSExternalFile } from '@services/ws';
+import type { CoreWSExternalFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { CoreText } from '@singletons/text';
-import {
+import type {
     CoreQuestionAnswerDBRecord,
-    CoreQuestionDBRecord,
+    CoreQuestionDBRecord } from './database/question';
+import {
     QUESTION_ANSWERS_TABLE_NAME,
     QUESTION_TABLE_NAME,
 } from './database/question';

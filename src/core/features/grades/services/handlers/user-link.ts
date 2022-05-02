@@ -14,7 +14,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
+import type { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
 import { CoreContentLinksHandlerBase } from '@features/contentlinks/classes/base-handler';
 import { CoreGrades } from '@features/grades/services/grades';
 import { CoreGradesHelper } from '@features/grades/services/grades-helper';

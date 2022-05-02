@@ -13,34 +13,39 @@
 // limitations under the License.
 
 import { ContextLevel } from '@/core/constants';
-import { Component, OnDestroy, OnInit, Optional, Type } from '@angular/core';
-import { Params } from '@angular/router';
+import type { OnDestroy, OnInit, Type } from '@angular/core';
+import { Component, Optional } from '@angular/core';
+import type { Params } from '@angular/router';
 import { CoreCommentsProvider } from '@features/comments/services/comments';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreRatingProvider } from '@features/rating/services/rating';
 import { CoreRatingSyncProvider } from '@features/rating/services/rating-sync';
-import { IonContent } from '@ionic/angular';
-import { CoreGroupInfo, CoreGroups } from '@services/groups';
+import type { IonContent } from '@ionic/angular';
+import type { CoreGroupInfo } from '@services/groups';
+import { CoreGroups } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import {
-    AddonModDataProvider,
-    AddonModData,
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type {
     AddonModDataEntry,
-    AddonModDataTemplateType,
-    AddonModDataTemplateMode,
     AddonModDataField,
     AddonModDataGetDataAccessInformationWSResponse,
     AddonModDataData,
-    AddonModDataSearchEntriesAdvancedField,
+    AddonModDataSearchEntriesAdvancedField } from '../../services/data';
+import {
+    AddonModDataProvider,
+    AddonModData,
+    AddonModDataTemplateType,
+    AddonModDataTemplateMode,
 } from '../../services/data';
 import { AddonModDataHelper } from '../../services/data-helper';
-import { AddonModDataAutoSyncData, AddonModDataSyncProvider, AddonModDataSyncResult } from '../../services/data-sync';
+import type { AddonModDataAutoSyncData, AddonModDataSyncResult } from '../../services/data-sync';
+import { AddonModDataSyncProvider } from '../../services/data-sync';
 import { AddonModDataModuleHandlerService } from '../../services/handlers/module';
 import { AddonModDataPrefetchHandler } from '../../services/handlers/prefetch';
 import { AddonModDataComponentsCompileModule } from '../components-compile.module';

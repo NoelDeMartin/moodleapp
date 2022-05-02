@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnDestroy, OnInit, QueryList } from '@angular/core';
+import { Component, ViewChildren } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 
 import { CoreCourses } from '../../services/courses';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
 import { CoreCoursesDashboard } from '@features/courses/services/dashboard';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreCourseBlock } from '@features/course/services/course';
+import type { CoreCourseBlock } from '@features/course/services/course';
 import { CoreBlockComponent } from '@features/block/components/block/block';
 import { CoreNavigator } from '@services/navigator';
 import { CoreBlockDelegate } from '@features/block/services/block-delegate';

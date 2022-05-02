@@ -12,21 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import type {
+    ElementRef,
+    OnInit,
+    OnDestroy,
+    AfterViewInit } from '@angular/core';
 import {
     Component,
     Input,
     Output,
     EventEmitter,
     ViewChild,
-    ElementRef,
-    OnInit,
-    OnDestroy,
     Optional,
-    AfterViewInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { IonTextarea, IonContent, IonSlides } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import type { FormControl } from '@angular/forms';
+import type { IonTextarea, IonContent } from '@ionic/angular';
+import { IonSlides } from '@ionic/angular';
+import type { Subscription } from 'rxjs';
 
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
@@ -35,12 +37,13 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils } from '@services/utils/utils';
 import { Platform, Translate } from '@singletons';
-import { CoreEventFormActionData, CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventFormActionData, CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreEditorOffline } from '../../services/editor-offline';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 import { CoreLoadingComponent } from '@components/loading/loading';
 import { CoreScreen } from '@services/screen';
-import { CoreCancellablePromise } from '@classes/cancellable-promise';
+import type { CoreCancellablePromise } from '@classes/cancellable-promise';
 import { CoreDom } from '@singletons/dom';
 
 /**

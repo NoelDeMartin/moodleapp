@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreBlockBaseComponent } from '@features/block/classes/base-block-component';
+import type {
+    AddonBlockRecentlyAccessedItemsItem } from '../../services/recentlyaccesseditems';
 import {
     AddonBlockRecentlyAccessedItems,
-    AddonBlockRecentlyAccessedItemsItem,
 } from '../../services/recentlyaccesseditems';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreDomUtils } from '@services/utils/dom';

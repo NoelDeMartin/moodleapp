@@ -17,9 +17,10 @@ import { CoreFilterHelper } from '@features/filter/services/filter-helper';
 import { CoreApp } from '@services/app';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSites } from '@services/sites';
-import { CoreWSFile } from '@services/ws';
-import { CoreCourse, CoreCourseAnyModuleData } from '../services/course';
-import { CoreCourseModuleData } from '../services/course-helper';
+import type { CoreWSFile } from '@services/ws';
+import type { CoreCourseAnyModuleData } from '../services/course';
+import { CoreCourse } from '../services/course';
+import type { CoreCourseModuleData } from '../services/course-helper';
 import { CoreCourseModulePrefetchHandlerBase } from './module-prefetch-handler';
 
 /**

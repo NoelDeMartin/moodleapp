@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { CoreApp } from '@services/app';
-import { Component, OnDestroy } from '@angular/core';
+import type { OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreConstants } from '@/core/constants';
 import { CoreLocalNotifications } from '@services/local-notifications';
 import { Device, Platform, Translate, Network, NgZone } from '@singletons';
@@ -21,7 +22,7 @@ import { CoreLang } from '@services/lang';
 import { CoreFile } from '@services/file';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
 import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
 import { CoreConfig } from '@services/config';
 import { CoreDomUtils } from '@services/utils/dom';

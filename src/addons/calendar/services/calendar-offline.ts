@@ -13,14 +13,15 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { SQLiteDBRecordValues } from '@classes/sqlitedb';
+import type { SQLiteDBRecordValues } from '@classes/sqlitedb';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
-import { AddonCalendarSubmitCreateUpdateFormDataWSParams } from './calendar';
-import {
+import type { AddonCalendarSubmitCreateUpdateFormDataWSParams } from './calendar';
+import type {
     AddonCalendarOfflineDeletedEventDBRecord,
-    AddonCalendarOfflineEventDBRecord,
+    AddonCalendarOfflineEventDBRecord } from './database/calendar-offline';
+import {
     DELETED_EVENTS_TABLE,
     EVENTS_TABLE,
 } from './database/calendar-offline';

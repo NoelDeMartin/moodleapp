@@ -12,38 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { InAppBrowserObject, InAppBrowserOptions } from '@ionic-native/in-app-browser';
+import type { InAppBrowserObject, InAppBrowserOptions } from '@ionic-native/in-app-browser';
 import { Md5 } from 'ts-md5/dist/md5';
 
 import { CoreApp } from '@services/app';
 import { CoreDB } from '@services/db';
 import { CoreEvents } from '@singletons/events';
 import { CoreFile } from '@services/file';
-import {
-    CoreWS,
+import type {
     CoreWSPreSets,
     CoreWSFileUploadOptions,
     CoreWSAjaxPreSets,
     CoreWSExternalWarning,
     CoreWSUploadFileResult,
-    CoreWSPreSetsSplitRequest,
+    CoreWSPreSetsSplitRequest } from '@services/ws';
+import {
+    CoreWS,
 } from '@services/ws';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
-import { CoreUrlUtils, CoreUrlParams } from '@services/utils/url';
-import { CoreUtils, CoreUtilsOpenInBrowserOptions, PromiseDefer } from '@services/utils/utils';
+import type { CoreUrlParams } from '@services/utils/url';
+import { CoreUrlUtils } from '@services/utils/url';
+import type { CoreUtilsOpenInBrowserOptions, PromiseDefer } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
 import { CoreConstants } from '@/core/constants';
 import { SQLiteDB } from '@classes/sqlitedb';
 import { CoreError } from '@classes/errors/error';
 import { CoreWSError } from '@classes/errors/wserror';
 import { CoreLogger } from '@singletons/logger';
 import { Translate } from '@singletons';
-import { CoreIonLoadingElement } from './ion-loading';
+import type { CoreIonLoadingElement } from './ion-loading';
 import { CoreLang } from '@services/lang';
-import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
-import { asyncInstance, AsyncInstance } from '../utils/async-instance';
-import { CoreDatabaseTable } from './database/database-table';
+import type { CoreSitesReadingStrategy } from '@services/sites';
+import { CoreSites } from '@services/sites';
+import type { AsyncInstance } from '../utils/async-instance';
+import { asyncInstance } from '../utils/async-instance';
+import type { CoreDatabaseTable } from './database/database-table';
 import { CoreDatabaseCachingStrategy } from './database/database-table-proxy';
 import { CoreSilentError } from './errors/silenterror';
 

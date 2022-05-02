@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { CoreDom } from '@singletons/dom';
-import { AddonQtypeDdMarkerQuestion } from './ddmarker';
+import type { AddonQtypeDdMarkerQuestion } from './ddmarker';
 
 /**
  * Graphics API for drag-and-drop markers question type.

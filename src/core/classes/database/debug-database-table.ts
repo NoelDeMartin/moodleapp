@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { SQLiteDBRecordValues } from '@classes/sqlitedb';
+import type { SQLiteDBRecordValues } from '@classes/sqlitedb';
 import { CoreLogger } from '@singletons/logger';
-import {
-    CoreDatabaseTable,
+import type {
     CoreDatabaseConditions,
     GetDBRecordPrimaryKey,
     CoreDatabaseReducer,
-    CoreDatabaseQueryOptions,
+    CoreDatabaseQueryOptions } from './database-table';
+import {
+    CoreDatabaseTable,
 } from './database-table';
 
 /**

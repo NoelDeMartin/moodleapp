@@ -18,7 +18,8 @@ import { AddonModGlossaryEntryPage } from './entry';
 import { CoreCommentsComponentsModule } from '@features/comments/components/components.module';
 import { CoreRatingComponentsModule } from '@features/rating/components/components.module';
 import { CoreTagComponentsModule } from '@features/tag/components/components.module';
-import { RouterModule, Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 const routes: Routes = [{
     path: '',

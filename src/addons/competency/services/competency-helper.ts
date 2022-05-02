@@ -15,7 +15,8 @@
 import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { AddonCompetencyProvider } from './competency';
-import { CoreUser, CoreUserProfile } from '@features/user/services/user';
+import type { CoreUserProfile } from '@features/user/services/user';
+import { CoreUser } from '@features/user/services/user';
 import { makeSingleton, Translate } from '@singletons';
 
 /**

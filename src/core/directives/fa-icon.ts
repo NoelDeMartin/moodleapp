@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AfterViewInit, Directive, ElementRef, Input, OnChanges, SimpleChange } from '@angular/core';
+import type { AfterViewInit, OnChanges, SimpleChange } from '@angular/core';
+import { Directive, Inject, Input, ElementRef } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
 import { Http } from '@singletons';
 import { CoreConstants } from '@/core/constants';
@@ -36,7 +37,7 @@ export class CoreFaIconDirective implements AfterViewInit, OnChanges {
 
     protected logger: CoreLogger;
 
-    constructor(el: ElementRef) {
+    constructor(@Inject(ElementRef) el: ElementRef) {
         this.element = el.nativeElement;
         this.logger = CoreLogger.getInstance('CoreFaIconDirective');
     }

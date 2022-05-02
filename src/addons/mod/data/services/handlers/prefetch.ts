@@ -15,17 +15,22 @@
 import { Injectable } from '@angular/core';
 import { CoreComments } from '@features/comments/services/comments';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourseCommonModWSOptions, CoreCourse, CoreCourseAnyModuleData } from '@features/course/services/course';
+import type { CoreCourseCommonModWSOptions, CoreCourseAnyModuleData } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { CoreCourses } from '@features/courses/services/courses';
 import { CoreFilepool } from '@services/filepool';
-import { CoreGroup, CoreGroups } from '@services/groups';
-import { CoreSitesCommonWSOptions, CoreSites, CoreSitesReadingStrategy } from '@services/sites';
+import type { CoreGroup } from '@services/groups';
+import { CoreGroups } from '@services/groups';
+import type { CoreSitesCommonWSOptions } from '@services/sites';
+import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
-import { AddonModDataProvider, AddonModDataEntry, AddonModData, AddonModDataData } from '../data';
-import { AddonModDataSync, AddonModDataSyncResult } from '../data-sync';
+import type { AddonModDataEntry, AddonModDataData } from '../data';
+import { AddonModDataProvider, AddonModData } from '../data';
+import type { AddonModDataSyncResult } from '../data-sync';
+import { AddonModDataSync } from '../data-sync';
 
 /**
  * Handler to prefetch databases.

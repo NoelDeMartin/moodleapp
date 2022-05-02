@@ -15,14 +15,15 @@
 import { AddonModAssign, AddonModAssignProvider } from '@addons/mod/assign/services/assign';
 import { AddonModAssignHelper } from '@addons/mod/assign/services/assign-helper';
 import { AddonModAssignOffline } from '@addons/mod/assign/services/assign-offline';
-import { Component, OnInit } from '@angular/core';
-import { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
 import { CoreFileSession } from '@services/file-session';
 import { CoreUtils } from '@services/utils/utils';
 import { AddonModAssignSubmissionFileHandlerService } from '../services/handler';
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { FileEntry } from '@ionic-native/file/ngx';
 import { AddonModAssignSubmissionPluginBaseComponent } from '@addons/mod/assign/classes/base-submission-plugin-component';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 
 /**
  * Component to render a file submission plugin.

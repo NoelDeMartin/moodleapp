@@ -13,11 +13,11 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreBlockHandlerData } from '@features/block/services/block-delegate';
+import type { CoreBlockHandlerData } from '@features/block/services/block-delegate';
 import { CoreBlockOnlyTitleComponent } from '@features/block/components/only-title-block/only-title-block';
 import { CoreBlockBaseHandler } from '@features/block/classes/base-block-handler';
-import { CoreCourseBlock } from '@features/course/services/course';
-import { Params } from '@angular/router';
+import type { CoreCourseBlock } from '@features/course/services/course';
+import type { Params } from '@angular/router';
 import { makeSingleton } from '@singletons';
 import { AddonCalendarMainMenuHandlerService } from '@addons/calendar/services/handlers/mainmenu';
 import { CoreSites } from '@services/sites';

@@ -14,10 +14,11 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreUserDelegateService, CoreUserProfileHandler, CoreUserProfileHandlerData } from '../user-delegate';
+import type { CoreUserProfileHandler, CoreUserProfileHandlerData } from '../user-delegate';
+import { CoreUserDelegateService } from '../user-delegate';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreUserProfile } from '../user';
+import type { CoreUserProfile } from '../user';
 import { makeSingleton } from '@singletons';
 
 /**

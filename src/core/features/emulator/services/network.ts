@@ -14,7 +14,8 @@
 
 import { Injectable } from '@angular/core';
 import { Network } from '@ionic-native/network/ngx';
-import { Observable, Subject, merge } from 'rxjs';
+import type { Observable } from 'rxjs';
+import { Subject, merge } from 'rxjs';
 
 /**
  * Emulates the Cordova Network plugin in browser.

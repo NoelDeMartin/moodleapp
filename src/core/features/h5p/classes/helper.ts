@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { FileEntry } from '@ionic-native/file/ngx';
+import type { FileEntry } from '@ionic-native/file/ngx';
 
 import { CoreFile, CoreFileProvider } from '@services/file';
 import { CoreSites } from '@services/sites';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreH5P } from '../services/h5p';
-import { CoreH5PCore, CoreH5PDisplayOptions } from './core';
+import type { CoreH5PDisplayOptions } from './core';
+import { CoreH5PCore } from './core';
 import { CoreError } from '@classes/errors/error';
 import { CoreText } from '@singletons/text';
 

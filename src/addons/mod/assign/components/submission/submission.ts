@@ -12,41 +12,50 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit, OnDestroy, ViewChild, Optional, ViewChildren, QueryList } from '@angular/core';
-import { CoreEvents, CoreEventObserver } from '@singletons/events';
+import type { OnInit, OnDestroy, QueryList } from '@angular/core';
+import { Component, Input, ViewChild, Optional, ViewChildren } from '@angular/core';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
-import {
-    AddonModAssignProvider,
+import type {
     AddonModAssignAssign,
     AddonModAssignSubmissionFeedback,
     AddonModAssignSubmissionAttempt,
     AddonModAssignSubmissionPreviousAttempt,
     AddonModAssignPlugin,
-    AddonModAssign,
     AddonModAssignGetSubmissionStatusWSResponse,
-    AddonModAssignSavePluginData,
+    AddonModAssignSavePluginData } from '../../services/assign';
+import {
+    AddonModAssignProvider,
+    AddonModAssign,
     AddonModAssignGradingStates,
     AddonModAssignSubmissionStatusValues,
     AddonModAssignAttemptReopenMethodValues,
 } from '../../services/assign';
-import {
+import type {
     AddonModAssignAutoSyncData,
-    AddonModAssignManualSyncData,
+    AddonModAssignManualSyncData } from '../../services/assign-sync';
+import {
     AddonModAssignSync,
     AddonModAssignSyncProvider,
 } from '../../services/assign-sync';
 import { CoreTabsComponent } from '@components/tabs/tabs';
-import { CoreTabComponent } from '@components/tabs/tab';
-import { CoreSplitViewComponent } from '@components/split-view/split-view';
-import { CoreGradesFormattedItem, CoreGradesHelper } from '@features/grades/services/grades-helper';
-import { CoreMenuItem, CoreUtils } from '@services/utils/utils';
-import { AddonModAssignHelper, AddonModAssignSubmissionFormatted } from '../../services/assign-helper';
+import type { CoreTabComponent } from '@components/tabs/tab';
+import type { CoreSplitViewComponent } from '@components/split-view/split-view';
+import type { CoreGradesFormattedItem } from '@features/grades/services/grades-helper';
+import { CoreGradesHelper } from '@features/grades/services/grades-helper';
+import type { CoreMenuItem } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
+import type { AddonModAssignSubmissionFormatted } from '../../services/assign-helper';
+import { AddonModAssignHelper } from '../../services/assign-helper';
 import { CoreDomUtils } from '@services/utils/dom';
 import { Translate } from '@singletons';
 import { CoreTextUtils } from '@services/utils/text';
-import { CoreCourse, CoreCourseModuleGradeInfo, CoreCourseModuleGradeOutcome } from '@features/course/services/course';
+import type { CoreCourseModuleGradeInfo, CoreCourseModuleGradeOutcome } from '@features/course/services/course';
+import { CoreCourse } from '@features/course/services/course';
 import { AddonModAssignOffline } from '../../services/assign-offline';
-import { CoreUser, CoreUserProfile } from '@features/user/services/user';
+import type { CoreUserProfile } from '@features/user/services/user';
+import { CoreUser } from '@features/user/services/user';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreNavigator } from '@services/navigator';
 import { CoreApp } from '@services/app';
@@ -57,7 +66,7 @@ import { CoreGroups } from '@services/groups';
 import { CoreSync } from '@services/sync';
 import { AddonModAssignSubmissionPluginComponent } from '../submission-plugin/submission-plugin';
 import { AddonModAssignModuleHandlerService } from '../../services/handlers/module';
-import { CanLeave } from '@guards/can-leave';
+import type { CanLeave } from '@guards/can-leave';
 import { CoreTime } from '@singletons/time';
 
 /**

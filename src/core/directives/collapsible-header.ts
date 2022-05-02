@@ -12,20 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Directive, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange } from '@angular/core';
-import { CoreCancellablePromise } from '@classes/cancellable-promise';
+import type { OnChanges, OnDestroy, OnInit, SimpleChange } from '@angular/core';
+import { Directive, Inject, Input, ElementRef } from '@angular/core';
+import type { CoreCancellablePromise } from '@classes/cancellable-promise';
 import { CorePromisedValue } from '@classes/promised-value';
 import { CoreLoadingComponent } from '@components/loading/loading';
 import { CoreTabsOutletComponent } from '@components/tabs-outlet/tabs-outlet';
 import { CoreTabsComponent } from '@components/tabs/tabs';
 import { CoreSettingsHelper } from '@features/settings/services/settings-helper';
-import { ScrollDetail } from '@ionic/core';
+import type { ScrollDetail } from '@ionic/core';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreComponentsRegistry } from '@singletons/components-registry';
 import { CoreDom } from '@singletons/dom';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreMath } from '@singletons/math';
-import { Subscription } from 'rxjs';
+import type { Subscription } from 'rxjs';
 import { CoreFormatTextDirective } from './format-text';
 
 declare module '@singletons/events' {
@@ -97,7 +99,7 @@ export class CoreCollapsibleHeaderDirective implements OnInit, OnChanges, OnDest
     protected loadingFloatingTitle = false;
     protected visiblePromise?: CoreCancellablePromise<void>;
 
-    constructor(el: ElementRef) {
+    constructor(@Inject(ElementRef) el: ElementRef) {
         this.collapsedHeader = el.nativeElement;
     }
 

@@ -25,13 +25,14 @@ import { makeSingleton, Translate } from '@singletons';
 import { AddonModQuizPreflightModalComponent } from '../components/preflight-modal/preflight-modal';
 import { AddonModQuizAccessRuleDelegate } from './access-rules-delegate';
 import { AddonModQuizModuleHandlerService } from './handlers/module';
-import {
-    AddonModQuiz,
+import type {
     AddonModQuizAttemptWSData,
     AddonModQuizCombinedReviewOptions,
     AddonModQuizGetQuizAccessInformationWSResponse,
+    AddonModQuizQuizWSData } from './quiz';
+import {
+    AddonModQuiz,
     AddonModQuizProvider,
-    AddonModQuizQuizWSData,
 } from './quiz';
 import { AddonModQuizOffline } from './quiz-offline';
 

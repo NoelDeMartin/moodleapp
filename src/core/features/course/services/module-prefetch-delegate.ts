@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, Subscription } from 'rxjs';
+import type { Subject, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Md5 } from 'ts-md5/dist/md5';
 
 import { CoreFile } from '@services/file';
@@ -22,18 +23,23 @@ import { CoreFilepool } from '@services/filepool';
 import { CoreSites } from '@services/sites';
 import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreCourse, CoreCourseAnyModuleData, CoreCourseModuleContentFile } from './course';
+import type { CoreCourseAnyModuleData, CoreCourseModuleContentFile } from './course';
+import { CoreCourse } from './course';
 import { CoreCache } from '@classes/cache';
-import { CoreSiteWSPreSets } from '@classes/site';
+import type { CoreSiteWSPreSets } from '@classes/site';
 import { CoreConstants } from '@/core/constants';
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
 import { makeSingleton } from '@singletons';
-import { CoreEvents, CoreEventSectionStatusChangedData } from '@singletons/events';
+import type { CoreEventSectionStatusChangedData } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreError } from '@classes/errors/error';
-import { CoreWSFile, CoreWSExternalWarning } from '@services/ws';
-import { CHECK_UPDATES_TIMES_TABLE, CoreCourseCheckUpdatesDBRecord } from './database/module-prefetch';
-import { CoreFileSizeSum } from '@services/plugin-file-delegate';
-import { CoreCourseHelper, CoreCourseModuleData } from './course-helper';
+import type { CoreWSFile, CoreWSExternalWarning } from '@services/ws';
+import type { CoreCourseCheckUpdatesDBRecord } from './database/module-prefetch';
+import { CHECK_UPDATES_TIMES_TABLE } from './database/module-prefetch';
+import type { CoreFileSizeSum } from '@services/plugin-file-delegate';
+import type { CoreCourseModuleData } from './course-helper';
+import { CoreCourseHelper } from './course-helper';
 
 const ROOT_CACHE_KEY = 'mmCourse:';
 

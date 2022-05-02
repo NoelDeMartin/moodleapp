@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { NgModule, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { AddonMessageOutputAirnotifierModule } from './airnotifier/airnotifier.module';
 import { AddonMessageOutputDelegateService } from './services/messageoutput-delegate';

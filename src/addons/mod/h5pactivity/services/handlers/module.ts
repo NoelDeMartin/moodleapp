@@ -13,9 +13,10 @@
 // limitations under the License.
 
 import { CoreConstants, ModPurpose } from '@/core/constants';
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CoreModuleHandlerBase } from '@features/course/classes/module-base-handler';
-import { CoreCourseModuleHandler } from '@features/course/services/module-delegate';
+import type { CoreCourseModuleHandler } from '@features/course/services/module-delegate';
 import { makeSingleton } from '@singletons';
 import { AddonModH5PActivityIndexComponent } from '../../components/index';
 import { AddonModH5PActivity } from '../h5pactivity';

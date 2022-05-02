@@ -14,7 +14,8 @@
 
 import { CoreRoutedItemsManagerSource } from '@classes/items-management/routed-items-manager-source';
 import { CoreGrades } from '../services/grades';
-import { CoreGradesGradeOverviewWithCourseData, CoreGradesHelper } from '../services/grades-helper';
+import type { CoreGradesGradeOverviewWithCourseData } from '../services/grades-helper';
+import { CoreGradesHelper } from '../services/grades-helper';
 
 /**
  * Provides a collection of courses.

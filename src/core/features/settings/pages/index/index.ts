@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import type { AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { CoreSplitViewComponent } from '@components/split-view/split-view';
 import { CoreListItemsManager } from '@classes/items-management/list-items-manager';
-import { CoreSettingsSection, CoreSettingsSectionsSource } from '@features/settings/classes/settings-sections-source';
+import type { CoreSettingsSection } from '@features/settings/classes/settings-sections-source';
+import { CoreSettingsSectionsSource } from '@features/settings/classes/settings-sections-source';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 
 @Component({

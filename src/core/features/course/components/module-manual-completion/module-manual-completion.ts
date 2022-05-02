@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
+import type { OnChanges, OnDestroy, OnInit, SimpleChange } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CoreCourseCompletionMode } from '@features/course/services/course';
-import { CoreCourseHelper, CoreCourseModuleCompletionData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleCompletionData } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { CoreUser } from '@features/user/services/user';
 import { Translate } from '@singletons';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 
 /**
  * Component to display a button for manual completion.

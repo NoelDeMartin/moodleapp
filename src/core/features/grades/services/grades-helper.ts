@@ -16,20 +16,23 @@ import { Injectable } from '@angular/core';
 
 import { CoreLogger } from '@singletons/logger';
 import { CoreSites, CoreSitesReadingStrategy } from '@services/sites';
-import { CoreCourses, CoreEnrolledCourseData, CoreCourseSearchedData } from '@features/courses/services/courses';
+import type { CoreEnrolledCourseData, CoreCourseSearchedData } from '@features/courses/services/courses';
+import { CoreCourses } from '@features/courses/services/courses';
 import { CoreCourse } from '@features/course/services/course';
-import {
-    CoreGrades,
+import type {
     CoreGradesGradeItem,
     CoreGradesGradeOverview,
     CoreGradesTable,
     CoreGradesTableColumn,
     CoreGradesTableItemNameColumn,
-    CoreGradesTableRow,
+    CoreGradesTableRow } from '@features/grades/services/grades';
+import {
+    CoreGrades,
 } from '@features/grades/services/grades';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUrlUtils } from '@services/utils/url';
-import { CoreMenuItem, CoreUtils } from '@services/utils/utils';
+import type { CoreMenuItem } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreNavigator } from '@services/navigator';
 import { makeSingleton, Translate } from '@singletons';

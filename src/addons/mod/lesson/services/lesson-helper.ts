@@ -13,17 +13,18 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import type { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreFormFields } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { makeSingleton, Translate } from '@singletons';
+import type {
+    AddonModLessonAttemptsOverviewsAttemptWSData,
+    AddonModLessonGetPageDataWSResponse } from './lesson';
 import {
     AddonModLesson,
-    AddonModLessonAttemptsOverviewsAttemptWSData,
-    AddonModLessonGetPageDataWSResponse,
     AddonModLessonProvider,
 } from './lesson';
 import { CoreTime } from '@singletons/time';

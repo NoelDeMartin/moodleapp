@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
+import type {
     AddonModWorkshopAssessmentStrategyFieldErrors,
 } from '@addons/mod/workshop/components/assessment-strategy/assessment-strategy';
-import { AddonWorkshopAssessmentStrategyHandler } from '@addons/mod/workshop/services/assessment-strategy-delegate';
-import {
+import type { AddonWorkshopAssessmentStrategyHandler } from '@addons/mod/workshop/services/assessment-strategy-delegate';
+import type {
     AddonModWorkshopGetAssessmentFormDefinitionData,
     AddonModWorkshopGetAssessmentFormFieldsParsedData,
 } from '@addons/mod/workshop/services/workshop';
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Translate, makeSingleton } from '@singletons';
-import { CoreFormFields } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
 import { AddonModWorkshopAssessmentStrategyRubricComponent } from '../component/rubric';
 
 /**

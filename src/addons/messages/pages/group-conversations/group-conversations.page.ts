@@ -12,27 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { IonContent, IonRefresher } from '@ionic/angular';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
+import type {
+    AddonMessagesConversationFormatted,
+    AddonMessagesNewMessagedEventData } from '../../services/messages';
 import {
     AddonMessagesProvider,
-    AddonMessagesConversationFormatted,
     AddonMessages,
-    AddonMessagesNewMessagedEventData,
 } from '../../services/messages';
+import type {
+    AddonMessagesOfflineAnyMessagesFormatted } from '../../services/messages-offline';
 import {
     AddonMessagesOffline,
-    AddonMessagesOfflineAnyMessagesFormatted,
 } from '../../services/messages-offline';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUser } from '@features/user/services/user';
 import { CorePushNotificationsDelegate } from '@features/pushnotifications/services/push-delegate';
 import { Platform, Translate } from '@singletons';
-import { Subscription } from 'rxjs';
-import { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
-import { ActivatedRoute, Params } from '@angular/router';
+import type { Subscription } from 'rxjs';
+import type { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
+import type { ActivatedRoute, Params } from '@angular/router';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreNavigator } from '@services/navigator';
 import { CoreScreen } from '@services/screen';

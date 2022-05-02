@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreUser } from '@features/user/services/user';
-import { IonRefresher } from '@ionic/angular';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { AddonModChat } from '../../services/chat';
-import { AddonModChatFormattedSessionMessage, AddonModChatHelper } from '../../services/chat-helper';
+import type { AddonModChatFormattedSessionMessage } from '../../services/chat-helper';
+import { AddonModChatHelper } from '../../services/chat-helper';
 
 /**
  * Page that displays list of chat session messages.

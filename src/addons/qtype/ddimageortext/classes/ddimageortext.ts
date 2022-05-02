@@ -14,9 +14,9 @@
 
 import { CoreUtils } from '@services/utils/utils';
 import { CoreDom } from '@singletons/dom';
-import { CoreEventObserver } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
 import { CoreLogger } from '@singletons/logger';
-import { AddonModQuizDdImageOrTextQuestionData } from '../component/ddimageortext';
+import type { AddonModQuizDdImageOrTextQuestionData } from '../component/ddimageortext';
 
 /**
  * Class to make a question of ddimageortext type work.

@@ -19,7 +19,7 @@ import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
-import { CorePushNotificationsNotificationBasicData } from './pushnotifications';
+import type { CorePushNotificationsNotificationBasicData } from './pushnotifications';
 
 /**
  * Interface that all click handlers must implement.

@@ -13,8 +13,10 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
-import { Observable, Subscriber, TeardownLogic } from 'rxjs';
+import type { GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import type { Subscriber, TeardownLogic } from 'rxjs';
+import { Observable } from 'rxjs';
 
 /**
  * Emulates the Cordova Geolocation plugin in desktop apps and in browser.

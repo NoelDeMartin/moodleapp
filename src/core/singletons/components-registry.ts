@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component } from '@angular/core';
-import { AsyncComponent } from '@classes/async-component';
+import type { Component } from '@angular/core';
+import type { AsyncComponent } from '@classes/async-component';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreLogger } from './logger';
 

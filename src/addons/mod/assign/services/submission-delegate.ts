@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
-import { AddonModAssignDefaultSubmissionHandler } from './handlers/default-submission';
-import { AddonModAssignAssign, AddonModAssignSubmission, AddonModAssignPlugin, AddonModAssignSavePluginData } from './assign';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
+import type { AddonModAssignDefaultSubmissionHandler } from './handlers/default-submission';
+import type { AddonModAssignAssign, AddonModAssignSubmission, AddonModAssignPlugin, AddonModAssignSavePluginData } from './assign';
 import { makeSingleton } from '@singletons';
-import { CoreWSFile } from '@services/ws';
-import { AddonModAssignSubmissionsDBRecordFormatted } from './assign-offline';
-import { CoreFormFields } from '@singletons/form';
+import type { CoreWSFile } from '@services/ws';
+import type { AddonModAssignSubmissionsDBRecordFormatted } from './assign-offline';
+import type { CoreFormFields } from '@singletons/form';
 
 /**
  * Interface that all submission handlers must implement.

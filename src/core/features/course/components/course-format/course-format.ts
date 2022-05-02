@@ -12,43 +12,47 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
-    Component,
-    Input,
+import type {
     OnInit,
     OnChanges,
     OnDestroy,
     SimpleChange,
-    ViewChildren,
     QueryList,
     Type,
-    ElementRef,
+    ElementRef } from '@angular/core';
+import {
+    Component,
+    Input,
+    ViewChildren,
 } from '@angular/core';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreDynamicComponent } from '@components/dynamic-component/dynamic-component';
-import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
 import {
     CoreCourse,
     CoreCourseModuleCompletionStatus,
     CoreCourseProvider,
 } from '@features/course/services/course';
+import type {
+    CoreCourseSection } from '@features/course/services/course-helper';
 import {
     CoreCourseHelper,
-    CoreCourseSection,
 } from '@features/course/services/course-helper';
 import { CoreCourseFormatDelegate } from '@features/course/services/format-delegate';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { IonContent, IonRefresher } from '@ionic/angular';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { IonContent, IonRefresher } from '@ionic/angular';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreCourseCourseIndexComponent, CoreCourseIndexSectionWithModule } from '../course-index/course-index';
+import type { CoreCourseIndexSectionWithModule } from '../course-index/course-index';
+import { CoreCourseCourseIndexComponent } from '../course-index/course-index';
 import { CoreBlockHelper } from '@features/block/services/block-helper';
 import { CoreNavigator } from '@services/navigator';
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
-import { CoreCourseViewedModulesDBRecord } from '@features/course/services/database/course';
+import type { CoreCourseViewedModulesDBRecord } from '@features/course/services/database/course';
 import { CoreUserToursAlignment, CoreUserToursSide } from '@features/usertours/services/user-tours';
 import { CoreCourseCourseIndexTourComponent } from '../course-index-tour/course-index-tour';
 import { CoreDom } from '@singletons/dom';
-import { CoreUserTourDirectiveOptions } from '@directives/user-tour';
+import type { CoreUserTourDirectiveOptions } from '@directives/user-tour';
 
 /**
  * Component to display course contents using a certain format. If the format isn't found, use default one.

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ContextLevel } from '@/core/constants';
+import type { ContextLevel } from '@/core/constants';
 import { Injectable } from '@angular/core';
 import { CoreSyncBaseProvider } from '@classes/base-sync';
 import { CoreNetworkError } from '@classes/errors/network-error';
@@ -23,7 +23,8 @@ import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
 import { CoreEvents } from '@singletons/events';
 import { CoreRating } from './rating';
-import { CoreRatingItemSet, CoreRatingOffline } from './rating-offline';
+import type { CoreRatingItemSet } from './rating-offline';
+import { CoreRatingOffline } from './rating-offline';
 
 /**
  * Service to sync ratings.

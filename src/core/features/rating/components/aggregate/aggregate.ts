@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ContextLevel } from '@/core/constants';
-import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
+import type { ContextLevel } from '@/core/constants';
+import type { OnChanges, OnDestroy } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import type {
+    CoreRatingInfo,
+    CoreRatingInfoItem } from '@features/rating/services/rating';
 import {
     CoreRating,
-    CoreRatingInfo,
-    CoreRatingInfoItem,
     CoreRatingProvider,
 } from '@features/rating/services/rating';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
 import { CoreRatingRatingsComponent } from '../ratings/ratings';
 
 /**

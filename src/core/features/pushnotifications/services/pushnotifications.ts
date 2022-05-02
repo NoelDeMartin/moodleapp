@@ -13,8 +13,8 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { ILocalNotification } from '@ionic-native/local-notifications';
-import { NotificationEventResponse, PushOptions, RegistrationEventResponse } from '@ionic-native/push/ngx';
+import type { ILocalNotification } from '@ionic-native/local-notifications';
+import type { NotificationEventResponse, PushOptions, RegistrationEventResponse } from '@ionic-native/push/ngx';
 
 import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
@@ -24,28 +24,31 @@ import { CoreUtils } from '@services/utils/utils';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreConfig } from '@services/config';
 import { CoreConstants } from '@/core/constants';
-import { CoreSite, CoreSiteInfo } from '@classes/site';
+import type { CoreSite, CoreSiteInfo } from '@classes/site';
 import { makeSingleton, Badge, Push, Device, Translate, Platform, ApplicationInit, NgZone } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreEvents } from '@singletons/events';
+import type {
+    CorePushNotificationsPendingUnregisterDBRecord,
+    CorePushNotificationsRegisteredDeviceDBRecord,
+    CorePushNotificationsBadgeDBRecord } from './database/pushnotifications';
 import {
     APP_SCHEMA,
     BADGE_TABLE_NAME,
     PENDING_UNREGISTER_TABLE_NAME,
     REGISTERED_DEVICES_TABLE_NAME,
-    CorePushNotificationsPendingUnregisterDBRecord,
-    CorePushNotificationsRegisteredDeviceDBRecord,
-    CorePushNotificationsBadgeDBRecord,
 } from './database/pushnotifications';
 import { CoreError } from '@classes/errors/error';
-import { CoreWSExternalWarning } from '@services/ws';
+import type { CoreWSExternalWarning } from '@services/ws';
 import { CoreSitesFactory } from '@services/sites-factory';
 import { CoreMainMenuProvider } from '@features/mainmenu/services/mainmenu';
-import { AsyncInstance, asyncInstance } from '@/core/utils/async-instance';
-import { CoreDatabaseTable } from '@classes/database/database-table';
+import type { AsyncInstance } from '@/core/utils/async-instance';
+import { asyncInstance } from '@/core/utils/async-instance';
+import type { CoreDatabaseTable } from '@classes/database/database-table';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
 import { CoreObject } from '@singletons/object';
-import { lazyMap, LazyMap } from '@/core/utils/lazy-map';
+import type { LazyMap } from '@/core/utils/lazy-map';
+import { lazyMap } from '@/core/utils/lazy-map';
 
 /**
  * Service to handle push notifications.

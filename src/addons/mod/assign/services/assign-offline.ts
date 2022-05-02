@@ -14,17 +14,18 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { SQLiteDBRecordValues } from '@classes/sqlitedb';
+import type { SQLiteDBRecordValues } from '@classes/sqlitedb';
 import { CoreFile } from '@services/file';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { makeSingleton } from '@singletons';
 import { CoreText } from '@singletons/text';
-import { AddonModAssignOutcomes, AddonModAssignSavePluginData } from './assign';
-import {
+import type { AddonModAssignOutcomes, AddonModAssignSavePluginData } from './assign';
+import type {
     AddonModAssignSubmissionsDBRecord,
-    AddonModAssignSubmissionsGradingDBRecord,
+    AddonModAssignSubmissionsGradingDBRecord } from './database/assign';
+import {
     SUBMISSIONS_GRADES_TABLE,
     SUBMISSIONS_TABLE,
 } from './database/assign';

@@ -13,25 +13,26 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
 import { CoreFile } from '@services/file';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
 import { makeSingleton } from '@singletons';
-import { CoreFormFields } from '@singletons/form';
+import type { CoreFormFields } from '@singletons/form';
 import { CoreText } from '@singletons/text';
-import {
+import type {
     AddonModWorkshopAssessmentDBRecord,
     AddonModWorkshopEvaluateAssessmentDBRecord,
     AddonModWorkshopEvaluateSubmissionDBRecord,
-    AddonModWorkshopSubmissionDBRecord,
+    AddonModWorkshopSubmissionDBRecord } from './database/workshop';
+import {
     ASSESSMENTS_TABLE,
     EVALUATE_ASSESSMENTS_TABLE,
     EVALUATE_SUBMISSIONS_TABLE,
     SUBMISSIONS_TABLE,
 } from './database/workshop';
-import { AddonModWorkshopAction } from './workshop';
+import type { AddonModWorkshopAction } from './workshop';
 
 /**
  * Service to handle offline workshop.

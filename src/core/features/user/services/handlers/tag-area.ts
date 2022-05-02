@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreTagAreaHandler } from '@features/tag/services/tag-area-delegate';
+import type { CoreTagAreaHandler } from '@features/tag/services/tag-area-delegate';
 import { CoreUserTagAreaComponent } from '@features/user/components/tag-area/tag-area';
-import { CoreTagFeedElement } from '@features/tag/services/tag-helper';
-import { CoreUserBasicData } from '../user';
+import type { CoreTagFeedElement } from '@features/tag/services/tag-helper';
+import type { CoreUserBasicData } from '../user';
 import { makeSingleton } from '@singletons';
 
 /**

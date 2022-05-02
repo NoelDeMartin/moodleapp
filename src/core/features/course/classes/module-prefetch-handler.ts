@@ -13,11 +13,13 @@
 // limitations under the License.
 
 import { CoreFilepool } from '@services/filepool';
-import { CoreFileSizeSum, CorePluginFileDelegate } from '@services/plugin-file-delegate';
+import type { CoreFileSizeSum } from '@services/plugin-file-delegate';
+import { CorePluginFileDelegate } from '@services/plugin-file-delegate';
 import { CoreSites } from '@services/sites';
-import { CoreWSFile } from '@services/ws';
-import { CoreCourse, CoreCourseAnyModuleData, CoreCourseModuleContentFile } from '../services/course';
-import { CoreCourseModulePrefetchHandler } from '../services/module-prefetch-delegate';
+import type { CoreWSFile } from '@services/ws';
+import type { CoreCourseAnyModuleData, CoreCourseModuleContentFile } from '../services/course';
+import { CoreCourse } from '../services/course';
+import type { CoreCourseModulePrefetchHandler } from '../services/module-prefetch-delegate';
 
 /**
  * Base prefetch handler to be registered in CoreCourseModulePrefetchDelegate. Prefetch handlers should inherit either

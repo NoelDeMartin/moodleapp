@@ -12,22 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import type { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
+import type { Subscription } from 'rxjs';
 
-import { CoreSite } from '@classes/site';
+import type { CoreSite } from '@classes/site';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { CoreUser, CoreUserProfile, CoreUserProvider } from '@features/user/services/user';
+import type { CoreEventObserver } from '@singletons/events';
+import { CoreEvents } from '@singletons/events';
+import type { CoreUserProfile } from '@features/user/services/user';
+import { CoreUser, CoreUserProvider } from '@features/user/services/user';
 import { CoreUserHelper } from '@features/user/services/user-helper';
+import type {
+    CoreUserProfileHandlerData } from '@features/user/services/user-delegate';
 import {
     CoreUserDelegate,
     CoreUserDelegateContext,
     CoreUserDelegateService,
-    CoreUserProfileHandlerData,
 } from '@features/user/services/user-delegate';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreNavigator } from '@services/navigator';

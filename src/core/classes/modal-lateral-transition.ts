@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { createAnimation } from '@ionic/angular';
-import { Animation } from '@ionic/core';
+import type { Animation } from '@ionic/core';
 import { Platform } from '@singletons';
 
 /**

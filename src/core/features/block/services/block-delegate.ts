@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable, Type } from '@angular/core';
+import type { Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
-import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
-import { CoreSite } from '@classes/site';
+import type { CoreDelegateHandler } from '@classes/delegate';
+import { CoreDelegate } from '@classes/delegate';
+import type { CoreSite } from '@classes/site';
 import { Subject } from 'rxjs';
-import { CoreCourseBlock } from '@features/course/services/course';
-import { Params } from '@angular/router';
+import type { CoreCourseBlock } from '@features/course/services/course';
+import type { Params } from '@angular/router';
 import { makeSingleton } from '@singletons';
-import { CoreBlockDefaultHandler } from './handlers/default-block';
-import { CoreNavigationOptions } from '@services/navigator';
+import type { CoreBlockDefaultHandler } from './handlers/default-block';
+import type { CoreNavigationOptions } from '@services/navigator';
 
 /**
  * Interface that all blocks must implement.

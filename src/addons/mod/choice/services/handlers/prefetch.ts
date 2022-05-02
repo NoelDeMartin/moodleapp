@@ -14,15 +14,16 @@
 
 import { Injectable } from '@angular/core';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData, CoreCourseCommonModWSOptions } from '@features/course/services/course';
 import { CoreUser } from '@features/user/services/user';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { AddonModChoice, AddonModChoiceProvider } from '../choice';
-import { AddonModChoiceSync, AddonModChoiceSyncResult } from '../choice-sync';
+import type { AddonModChoiceSyncResult } from '../choice-sync';
+import { AddonModChoiceSync } from '../choice-sync';
 
 /**
  * Handler to prefetch choices.

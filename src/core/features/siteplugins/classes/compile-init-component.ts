@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { CoreUtils } from '@services/utils/utils';
-import { CoreSitePlugins, CoreSitePluginsInitHandlerData } from '../services/siteplugins';
+import type { CoreSitePluginsInitHandlerData } from '../services/siteplugins';
+import { CoreSitePlugins } from '../services/siteplugins';
 
 /**
  * Base class for components that will display a component using core-compile-html and want to call a

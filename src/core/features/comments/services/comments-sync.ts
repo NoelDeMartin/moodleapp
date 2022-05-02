@@ -22,7 +22,7 @@ import { CoreSites } from '@services/sites';
 import { CoreApp } from '@services/app';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreNetworkError } from '@classes/errors/network-error';
-import { CoreCommentsDBRecord, CoreCommentsDeletedDBRecord } from './database/comments';
+import type { CoreCommentsDBRecord, CoreCommentsDeletedDBRecord } from './database/comments';
 
 /**
  * Service to sync omments.

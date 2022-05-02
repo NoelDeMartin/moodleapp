@@ -12,30 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {
-    Component,
+import type {
     ElementRef,
-    EventEmitter,
-    Input,
     OnChanges,
     OnDestroy,
     OnInit,
+    SimpleChange } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
     Output,
-    SimpleChange,
     ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
-import {
-    AddonModForum,
+import type {
     AddonModForumAccessInformation,
     AddonModForumData,
     AddonModForumDiscussion,
     AddonModForumPost,
+    AddonModForumPostFormData } from '../../services/forum';
+import {
+    AddonModForum,
     AddonModForumProvider,
-    AddonModForumPostFormData,
 } from '../../services/forum';
 import { CoreTag } from '@features/tag/services/tag';
 import { Translate } from '@singletons';
@@ -47,10 +49,10 @@ import { AddonModForumHelper } from '../../services/forum-helper';
 import { AddonModForumOffline } from '../../services/forum-offline';
 import { CoreUtils } from '@services/utils/utils';
 import { AddonModForumPostOptionsMenuComponent } from '../post-options-menu/post-options-menu';
-import { CoreRatingInfo } from '@features/rating/services/rating';
+import type { CoreRatingInfo } from '@features/rating/services/rating';
 import { CoreForms } from '@singletons/form';
-import { CoreFileEntry } from '@services/file-helper';
-import { AddonModForumSharedPostFormData } from '../../pages/discussion/discussion.page';
+import type { CoreFileEntry } from '@services/file-helper';
+import type { AddonModForumSharedPostFormData } from '../../pages/discussion/discussion.page';
 import { CoreDom } from '@singletons/dom';
 
 /**

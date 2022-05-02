@@ -16,27 +16,29 @@ import { Injectable } from '@angular/core';
 import { CoreSyncBaseProvider, CoreSyncBlockedError } from '@classes/base-sync';
 import { CoreNetworkError } from '@classes/errors/network-error';
 import { CoreCourseLogHelper } from '@features/course/services/log-helper';
-import { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
+import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';
 import { CoreApp } from '@services/app';
-import { CoreFileEntry } from '@services/file-helper';
+import type { CoreFileEntry } from '@services/file-helper';
 import { CoreSites } from '@services/sites';
 import { CoreSync } from '@services/sync';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate, makeSingleton } from '@singletons';
 import { CoreEvents } from '@singletons/events';
+import type {
+    AddonModWorkshopData } from './workshop';
 import { AddonModWorkshop,
     AddonModWorkshopAction,
-    AddonModWorkshopData,
     AddonModWorkshopProvider,
     AddonModWorkshopSubmissionType,
 } from './workshop';
 import { AddonModWorkshopHelper } from './workshop-helper';
-import { AddonModWorkshopOffline,
+import type {
     AddonModWorkshopOfflineAssessment,
     AddonModWorkshopOfflineEvaluateAssessment,
     AddonModWorkshopOfflineEvaluateSubmission,
-    AddonModWorkshopOfflineSubmission,
+    AddonModWorkshopOfflineSubmission } from './workshop-offline';
+import { AddonModWorkshopOffline,
 } from './workshop-offline';
 
 /**

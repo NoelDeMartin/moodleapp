@@ -13,13 +13,16 @@
 // limitations under the License.
 
 import { ContextLevel } from '@/core/constants';
-import { AddonBlog, AddonBlogFilter, AddonBlogPost, AddonBlogProvider } from '@addons/blog/services/blog';
-import { Component, OnInit } from '@angular/core';
+import type { AddonBlogFilter, AddonBlogPost } from '@addons/blog/services/blog';
+import { AddonBlog, AddonBlogProvider } from '@addons/blog/services/blog';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreComments } from '@features/comments/services/comments';
 import { CoreMainMenuDeepLinkManager } from '@features/mainmenu/classes/deep-link-manager';
 import { CoreTag } from '@features/tag/services/tag';
-import { CoreUser, CoreUserProfile } from '@features/user/services/user';
-import { IonRefresher } from '@ionic/angular';
+import type { CoreUserProfile } from '@features/user/services/user';
+import { CoreUser } from '@features/user/services/user';
+import type { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';

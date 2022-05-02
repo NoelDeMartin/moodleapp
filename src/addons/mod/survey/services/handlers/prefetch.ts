@@ -14,14 +14,15 @@
 
 import { Injectable } from '@angular/core';
 import { CoreCourseActivityPrefetchHandlerBase } from '@features/course/classes/activity-prefetch-handler';
-import { CoreCourseAnyModuleData } from '@features/course/services/course';
+import type { CoreCourseAnyModuleData } from '@features/course/services/course';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSitesReadingStrategy } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 import { makeSingleton } from '@singletons';
 import { AddonModSurvey, AddonModSurveyProvider } from '../survey';
-import { AddonModSurveySync, AddonModSurveySyncResult } from '../survey-sync';
+import type { AddonModSurveySyncResult } from '../survey-sync';
+import { AddonModSurveySync } from '../survey-sync';
 
 /**
  * Handler to prefetch surveys.

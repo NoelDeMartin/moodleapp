@@ -16,13 +16,14 @@ import { Injectable } from '@angular/core';
 
 import { AddonPrivateFiles } from '@addons/privatefiles/services/privatefiles';
 import { makeSingleton } from '@singletons';
+import type {
+    CoreUserProfileHandler,
+    CoreUserProfileHandlerData } from '@features/user/services/user-delegate';
 import {
     CoreUserDelegateContext,
     CoreUserDelegateService,
-    CoreUserProfileHandler,
-    CoreUserProfileHandlerData,
 } from '@features/user/services/user-delegate';
-import { CoreUserProfile } from '@features/user/services/user';
+import type { CoreUserProfile } from '@features/user/services/user';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 

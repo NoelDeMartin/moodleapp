@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnChanges, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import type { OnChanges } from '@angular/core';
+import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import type { IonRefresher } from '@ionic/angular';
 
-import { CoreCourseFormatComponent } from '@features/course/components/course-format/course-format';
-import { CoreCourseModuleCompletionData, CoreCourseSection } from '@features/course/services/course-helper';
+import type { CoreCourseFormatComponent } from '@features/course/components/course-format/course-format';
+import type { CoreCourseModuleCompletionData, CoreCourseSection } from '@features/course/services/course-helper';
 import { CoreCourseFormatDelegate } from '@features/course/services/format-delegate';
-import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
-import { CoreSitePlugins, CoreSitePluginsContent } from '@features/siteplugins/services/siteplugins';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { CoreSitePluginsContent } from '@features/siteplugins/services/siteplugins';
+import { CoreSitePlugins } from '@features/siteplugins/services/siteplugins';
 import { CoreSitePluginsPluginContentComponent } from '../plugin-content/plugin-content';
 
 /**

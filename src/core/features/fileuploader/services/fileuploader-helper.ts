@@ -13,27 +13,30 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { ActionSheetButton } from '@ionic/core';
-import { CameraOptions } from '@ionic-native/camera/ngx';
-import { ChooserResult } from '@ionic-native/chooser/ngx';
-import { FileEntry, IFile } from '@ionic-native/file/ngx';
-import { MediaFile } from '@ionic-native/media-capture/ngx';
+import type { ActionSheetButton } from '@ionic/core';
+import type { CameraOptions } from '@ionic-native/camera/ngx';
+import type { ChooserResult } from '@ionic-native/chooser/ngx';
+import type { FileEntry, IFile } from '@ionic-native/file/ngx';
+import type { MediaFile } from '@ionic-native/media-capture/ngx';
 
 import { CoreApp } from '@services/app';
-import { CoreFile, CoreFileProvider, CoreFileProgressEvent } from '@services/file';
+import type { CoreFileProgressEvent } from '@services/file';
+import { CoreFile, CoreFileProvider } from '@services/file';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreTextUtils } from '@services/utils/text';
-import { CoreUtils, PromiseDefer } from '@services/utils/utils';
+import type { PromiseDefer } from '@services/utils/utils';
+import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton, Translate, Camera, Chooser, Platform, ActionSheetController } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreCanceledError } from '@classes/errors/cancelederror';
 import { CoreError } from '@classes/errors/error';
-import { CoreFileUploader, CoreFileUploaderProvider, CoreFileUploaderOptions } from './fileuploader';
+import type { CoreFileUploaderOptions } from './fileuploader';
+import { CoreFileUploader, CoreFileUploaderProvider } from './fileuploader';
 import { CoreFileUploaderDelegate } from './fileuploader-delegate';
-import { CoreCaptureError } from '@classes/errors/captureerror';
-import { CoreIonLoadingElement } from '@classes/ion-loading';
-import { CoreWSUploadFileResult } from '@services/ws';
+import type { CoreCaptureError } from '@classes/errors/captureerror';
+import type { CoreIonLoadingElement } from '@classes/ion-loading';
+import type { CoreWSUploadFileResult } from '@services/ws';
 import { CoreSites } from '@services/sites';
 import { CoreText } from '@singletons/text';
 

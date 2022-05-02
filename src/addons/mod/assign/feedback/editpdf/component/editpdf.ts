@@ -14,8 +14,9 @@
 
 import { AddonModAssignFeedbackPluginBaseComponent } from '@addons/mod/assign/classes/base-feedback-plugin-component';
 import { AddonModAssignProvider, AddonModAssign } from '@addons/mod/assign/services/assign';
-import { Component, OnInit } from '@angular/core';
-import { CoreWSFile } from '@services/ws';
+import type { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import type { CoreWSFile } from '@services/ws';
 
 /**
  * Component to render a edit pdf feedback plugin.
