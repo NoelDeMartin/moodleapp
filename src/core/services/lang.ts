@@ -16,13 +16,13 @@ import { Injectable } from '@angular/core';
 
 import { CoreConstants } from '@/core/constants';
 import { LangChangeEvent } from '@ngx-translate/core';
-import { CoreAppProvider } from '@services/app';
 import { CoreConfig } from '@services/config';
 import { CoreSubscriptions } from '@singletons/subscriptions';
 import { makeSingleton, Translate, Platform, Http } from '@singletons';
 
 import * as moment from 'moment';
 import { CoreSite } from '../classes/site';
+import { CorePlatform } from '@services/platform';
 
 /*
  * Service to handle language features, like changing the current language.
@@ -61,7 +61,7 @@ export class CoreLangProvider {
 
         let language: string;
 
-        if (CoreAppProvider.isAutomated()) {
+        if (CorePlatform.isAutomated()) {
             // Force current language to English when Behat is running.
             language = 'en';
         } else {

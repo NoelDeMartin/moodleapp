@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreApp } from '@services/app';
+import { CorePlatform } from '@services/platform';
 import { CoreTextUtilsProvider } from '@services/utils/text';
 import { DomSanitizer } from '@singletons';
 
@@ -24,7 +24,7 @@ describe('CoreTextUtilsProvider', () => {
     let textUtils: CoreTextUtilsProvider;
 
     beforeEach(() => {
-        mockSingleton(CoreApp, [], { isAndroid: () => config.platform === 'android' });
+        mockSingleton(CorePlatform, [], { isAndroid: () => config.platform === 'android' });
         mockSingleton(DomSanitizer, [], { bypassSecurityTrustUrl: url => url });
 
         textUtils = new CoreTextUtilsProvider();
@@ -57,7 +57,7 @@ describe('CoreTextUtilsProvider', () => {
         expect(url).toEqual('geo:0,0?q=Moodle%20Spain%20HQ');
 
         expect(DomSanitizer.bypassSecurityTrustUrl).toHaveBeenCalled();
-        expect(CoreApp.isAndroid).toHaveBeenCalled();
+        expect(CorePlatform.isAndroid).toHaveBeenCalled();
     });
 
     it('builds address URL for non-Android platforms', () => {
@@ -73,7 +73,7 @@ describe('CoreTextUtilsProvider', () => {
         expect(url).toEqual('http://maps.google.com?q=Moodle%20Spain%20HQ');
 
         expect(DomSanitizer.bypassSecurityTrustUrl).toHaveBeenCalled();
-        expect(CoreApp.isAndroid).toHaveBeenCalled();
+        expect(CorePlatform.isAndroid).toHaveBeenCalled();
     });
 
     it('matches glob patterns', () => {

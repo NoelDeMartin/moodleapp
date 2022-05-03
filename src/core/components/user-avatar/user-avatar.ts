@@ -14,12 +14,12 @@
 
 import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChange } from '@angular/core';
 
-import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
-import { CoreUtils } from '@services/utils/utils';
 import { CoreEventObserver, CoreEvents } from '@singletons/events';
 import { USER_PROFILE_PICTURE_UPDATED, CoreUserBasicData } from '@features/user/services/user';
 import { CoreNavigator } from '@services/navigator';
+import { CoreNetwork } from '@services/network';
+import { CoreCastingUtils } from '@services/utils/casting';
 
 /**
  * Component to display a "user avatar".
@@ -108,7 +108,7 @@ export class CoreUserAvatarComponent implements OnInit, OnChanges, OnDestroy {
             return false;
         }
 
-        if (CoreUtils.isFalseOrZero(this.user.isonline)) {
+        if (CoreCastingUtils.isFalseOrZero(this.user.isonline)) {
             return false;
         }
 
@@ -119,7 +119,7 @@ export class CoreUserAvatarComponent implements OnInit, OnChanges, OnDestroy {
             return this.user.lastaccess * 1000 >= time;
         } else {
             // You have to have Internet access first.
-            return !!this.user.isonline && CoreApp.isOnline();
+            return !!this.user.isonline && CoreNetwork.isOnline();
         }
     }
 

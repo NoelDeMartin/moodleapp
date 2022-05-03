@@ -19,7 +19,7 @@ import { CoreEvents } from '@singletons/events';
 import { CoreUtils, PromiseDefer } from '@services/utils/utils';
 import { SQLiteDB, SQLiteDBTableSchema } from '@classes/sqlitedb';
 
-import { makeSingleton, Keyboard, Network, StatusBar, Platform, Device } from '@singletons';
+import { makeSingleton, Keyboard, StatusBar, Platform, Device } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreColors } from '@singletons/colors';
 import { DBNAME, SCHEMA_VERSIONS_TABLE_NAME, SCHEMA_VERSIONS_TABLE_SCHEMA, SchemaVersionsDBEntry } from '@services/database/app';
@@ -28,6 +28,9 @@ import { CoreRedirectPayload } from './navigator';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
 import { asyncInstance } from '../utils/async-instance';
 import { CoreDatabaseTable } from '@classes/database/database-table';
+import { CorePlatform } from '@services/platform';
+import { CoreNetwork } from '@services/network';
+import { CoreAuth } from '@services/auth';
 
 /**
  * Factory to provide some global functionalities, like access to the global app database.
@@ -47,11 +50,9 @@ export class CoreAppProvider {
 
     protected db?: SQLiteDB;
     protected logger: CoreLogger;
-    protected ssoAuthenticationDeferred?: PromiseDefer<void>;
     protected isKeyboardShown = false;
     protected keyboardOpening = false;
     protected keyboardClosing = false;
-    protected forceOffline = false;
     protected redirect?: CoreRedirectData;
     protected schemaVersionsTable = asyncInstance<CoreDatabaseTable<SchemaVersionsDBEntry, 'name'>>();
 
@@ -63,9 +64,10 @@ export class CoreAppProvider {
      * Returns whether the user agent is controlled by automation. I.e. Behat testing.
      *
      * @return True if the user agent is controlled by automation, false otherwise.
+     * @deprecated since 4.1.0. Use CorePlatform instead.
      */
     static isAutomated(): boolean {
-        return !!navigator.webdriver;
+        return CorePlatform.isAutomated();
     }
 
     /**
@@ -223,9 +225,10 @@ export class CoreAppProvider {
      * Checks if the app is running in an Android mobile or tablet device.
      *
      * @return Whether the app is running in an Android mobile or tablet device.
+     * @deprecated since 4.1.0. Use CorePlatform instead.
      */
     isAndroid(): boolean {
-        return this.isMobile() && Platform.is('android');
+        return CorePlatform.isAndroid();
     }
 
     /**
@@ -242,9 +245,10 @@ export class CoreAppProvider {
      * Checks if the app is running in an iOS mobile or tablet device.
      *
      * @return Whether the app is running in an iOS mobile or tablet device.
+     * @deprecated since 4.1.0. Use CorePlatform instead.
      */
     isIOS(): boolean {
-        return this.isMobile() && !Platform.is('android');
+        return CorePlatform.isIOS();
     }
 
     /**
@@ -308,9 +312,10 @@ export class CoreAppProvider {
      * Checks if the app is running in a mobile or tablet device (Cordova).
      *
      * @return Whether the app is running in a mobile or tablet device.
+     * @deprecated since 4.1.0. Use CorePlatform instead.
      */
     isMobile(): boolean {
-        return Platform.is('cordova');
+        return CorePlatform.isMobile();
     }
 
     /**
@@ -326,54 +331,30 @@ export class CoreAppProvider {
      * Returns whether we are online.
      *
      * @return Whether the app is online.
+     * @deprecated since 4.1.0. Use CoreNetwork instead.
      */
     isOnline(): boolean {
-        if (this.forceOffline) {
-            return false;
-        }
-
-        if (!this.isMobile()) {
-            return navigator.onLine;
-        }
-
-        let online = Network.type !== null && Network.type != Network.Connection.NONE &&
-            Network.type != Network.Connection.UNKNOWN;
-
-        // Double check we are not online because we cannot rely 100% in Cordova APIs.
-        if (!online && navigator.onLine) {
-            online = true;
-        }
-
-        return online;
+        return CoreNetwork.isOnline();
     }
 
     /**
      * Check if device uses a limited connection.
      *
      * @return Whether the device uses a limited connection.
+     * @deprecated since 4.1.0. Use CoreNetwork instead.
      */
     isNetworkAccessLimited(): boolean {
-        if (!this.isMobile()) {
-            return false;
-        }
-
-        const limited = [
-            Network.Connection.CELL_2G,
-            Network.Connection.CELL_3G,
-            Network.Connection.CELL_4G,
-            Network.Connection.CELL,
-        ];
-
-        return limited.indexOf(Network.type) > -1;
+        return CoreNetwork.isNetworkAccessLimited();
     }
 
     /**
      * Check if device uses a wifi connection.
      *
      * @return Whether the device uses a wifi connection.
+     * @deprecated since 4.1.0. Use CoreNetwork instead.
      */
     isWifi(): boolean {
-        return this.isOnline() && !this.isNetworkAccessLimited();
+        return CoreNetwork.isWifi();
     }
 
     /**
@@ -449,46 +430,40 @@ export class CoreAppProvider {
      * Start an SSO authentication process.
      * Please notice that this function should be called when the app receives the new token from the browser,
      * NOT when the browser is opened.
+     *
+     * @deprecated since 4.1.0. Use CoreAuth instead.
      */
     startSSOAuthentication(): void {
-        this.ssoAuthenticationDeferred = CoreUtils.promiseDefer<void>();
-
-        // Resolve it automatically after 10 seconds (it should never take that long).
-        const cancelTimeout = setTimeout(() => this.finishSSOAuthentication(), 10000);
-
-        // If the promise is resolved because finishSSOAuthentication is called, stop the cancel promise.
-        // eslint-disable-next-line promise/catch-or-return
-        this.ssoAuthenticationDeferred.promise.then(() => clearTimeout(cancelTimeout));
+        CoreAuth.startSSOAuthentication();
     }
 
     /**
      * Finish an SSO authentication process.
+     *
+     * @deprecated since 4.1.0. Use CoreAuth instead.
      */
     finishSSOAuthentication(): void {
-        if (this.ssoAuthenticationDeferred) {
-            this.ssoAuthenticationDeferred.resolve();
-            this.ssoAuthenticationDeferred = undefined;
-        }
+        CoreAuth.finishSSOAuthentication();
     }
 
     /**
      * Check if there's an ongoing SSO authentication process.
      *
      * @return Whether there's a SSO authentication ongoing.
+     * @deprecated since 4.1.0. Use CoreAuth instead.
      */
     isSSOAuthenticationOngoing(): boolean {
-        return !!this.ssoAuthenticationDeferred;
+        return CoreAuth.isSSOAuthenticationOngoing();
     }
 
     /**
      * Returns a promise that will be resolved once SSO authentication finishes.
      *
      * @return Promise resolved once SSO authentication finishes.
+     * @deprecated since 4.1.0. Use CoreAuth instead.
      */
     async waitForSSOAuthentication(): Promise<void> {
-        const promise = this.ssoAuthenticationDeferred?.promise;
-
-        await promise;
+        await CoreAuth.waitForSSOAuthentication();
     }
 
     /**
@@ -665,9 +640,10 @@ export class CoreAppProvider {
      * Set value of forceOffline flag. If true, the app will think the device is offline.
      *
      * @param value Value to set.
+     * @deprecated since 4.1.0. Use CoreNetwork instead.
      */
     setForceOffline(value: boolean): void {
-        this.forceOffline = !!value;
+        CoreNetwork.setForceOffline(value);
     }
 
     /**

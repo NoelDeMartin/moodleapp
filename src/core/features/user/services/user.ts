@@ -14,7 +14,6 @@
 
 import { Injectable } from '@angular/core';
 
-import { CoreApp } from '@services/app';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
@@ -27,6 +26,7 @@ import { CoreStatusWithWarningsWSResponse, CoreWSExternalWarning } from '@servic
 import { CoreError } from '@classes/errors/error';
 import { USERS_TABLE_NAME, CoreUserDBRecord } from './database/user';
 import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
+import { CoreNetwork } from '@services/network';
 
 const ROOT_CACHE_KEY = 'mmUser:';
 
@@ -403,7 +403,7 @@ export class CoreUserProvider {
 
         const preference = await CoreUtils.ignoreErrors(CoreUserOffline.getPreference(name, siteId));
 
-        if (preference && !CoreApp.isOnline()) {
+        if (preference && !CoreNetwork.isOnline()) {
             // Offline, return stored value.
             return preference.value;
         }
@@ -762,7 +762,7 @@ export class CoreUserProvider {
     async setUserPreference(name: string, value: string, siteId?: string): Promise<void> {
         siteId = siteId || CoreSites.getCurrentSiteId();
 
-        if (!CoreApp.isOnline()) {
+        if (!CoreNetwork.isOnline()) {
             // Offline, just update the preference.
             return CoreUserOffline.setPreference(name, value);
         }
