@@ -23,6 +23,24 @@ import { makeSingleton } from '@singletons';
 import { CoreCourses, CoreCourseUserAdminOrNavOptionIndexed } from '@features/courses/services/courses';
 import { CoreSites } from '@services/sites';
 
+declare module '@singletons/events' {
+
+    /**
+     * Augment CoreEventsData interface with events specific to this service.
+     *
+     * @see https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation
+     */
+    export interface CoreEventsData {
+        [USER_DELEGATE_UPDATE_HANDLER_EVENT]: CoreUserUpdateHandlerData;
+    }
+
+}
+
+/**
+ * Update handler information event.
+ */
+export const USER_DELEGATE_UPDATE_HANDLER_EVENT = 'CoreUserDelegate_update_handler_event';
+
 /**
  * Interface that all user profile handlers must implement.
  */
@@ -189,11 +207,6 @@ export class CoreUserDelegateService extends CoreDelegate<CoreUserProfileHandler
     static readonly TYPE_ACTION = 'action';
 
     /**
-     * Update handler information event.
-     */
-    static readonly UPDATE_HANDLER_EVENT = 'CoreUserDelegate_update_handler_event';
-
-    /**
      * Cache object that checks enabled for use.
      */
     protected enabledForUserCache: Record<string, Record<string, boolean>> = {};
@@ -206,7 +219,7 @@ export class CoreUserDelegateService extends CoreDelegate<CoreUserProfileHandler
     constructor() {
         super('CoreUserDelegate', true);
 
-        CoreEvents.on(CoreUserDelegateService.UPDATE_HANDLER_EVENT, (data) => {
+        CoreEvents.on(USER_DELEGATE_UPDATE_HANDLER_EVENT, (data) => {
             const handlersData = this.getHandlersData(data.userId, data.context, data.contextId);
 
             // Search the handler.
@@ -495,7 +508,7 @@ export enum CoreUserDelegateContext {
 }
 
 /**
- * Data passed to UPDATE_HANDLER_EVENT event.
+ * Data passed to USER_DELEGATE_UPDATE_HANDLER_EVENT event.
  */
 export type CoreUserUpdateHandlerData = {
     handler: string; // Name of the handler.
