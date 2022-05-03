@@ -19,7 +19,6 @@ import type {
     ComponentRef,
     SimpleChange,
     ChangeDetectorRef,
-    ElementRef,
     DoCheck,
     KeyValueDiffers,
     AfterContentInit,
@@ -28,12 +27,13 @@ import type {
     KeyValueDiffer } from '@angular/core';
 import {
     Component,
-    Input,
+    Input, Inject
     ViewContainerRef,
     ViewChild,
     Output,
     EventEmitter,
-} from '@angular/core';
+
+    ElementRef } from '@angular/core';
 
 import { CoreCompile } from '@features/compile/services/compile';
 import { CoreDomUtils } from '@services/utils/dom';
@@ -85,7 +85,7 @@ export class CoreCompileHtmlComponent implements OnChanges, OnDestroy, DoCheck {
 
     constructor(
         protected changeDetector: ChangeDetectorRef,
-        element: ElementRef,
+        @Inject(ElementRef) element: ElementRef,
         differs: KeyValueDiffers,
     ) {
         this.element = element.nativeElement;
@@ -181,7 +181,7 @@ export class CoreCompileHtmlComponent implements OnChanges, OnDestroy, DoCheck {
                 this['dataObject'] = {};
                 this['dataArray'] = [];
 
-                // Inject the libraries.
+                // Inject,the libraries.
                 CoreCompile.injectLibraries(this, compileInstance.extraProviders);
 
                 // Always add these elements, they could be needed on component init (componentObservable).

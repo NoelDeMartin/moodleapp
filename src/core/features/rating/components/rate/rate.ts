@@ -14,7 +14,7 @@
 
 import type { ContextLevel } from '@/core/constants';
 import type { OnChanges, OnDestroy } from '@angular/core';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Inject,Output } from '@angular/core';
 import type {
     CoreRatingInfo,
     CoreRatingInfoItem,

@@ -95,7 +95,7 @@ const HANDLER_DISABLED = 'core_site_plugins_helper_handler_disabled';
  *
  * This code is split from CoreSitePluginsProvider to prevent circular dependencies.
  *
- * @todo: Support ViewChild and similar in site plugins. Possible solution: make components and directives inject the instance
+ * @todo: Support ViewChild and similar in site plugins. Possible solution: make components and directives Inject,the instance
  * inside the host DOM element?
  */
 @Injectable({ providedIn: 'root' })

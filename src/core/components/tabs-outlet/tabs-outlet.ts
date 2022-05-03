@@ -20,7 +20,7 @@ import type {
     SimpleChange } from '@angular/core';
 import {
     Component,
-    Input,
+    Input, Inject
     ViewChild,
 } from '@angular/core';
 import type { IonRouterOutlet, ViewDidEnter, ViewDidLeave } from '@ionic/angular';

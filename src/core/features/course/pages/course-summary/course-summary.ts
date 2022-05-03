@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnDestroy, OnInit, ElementRef } from '@angular/core';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Inject,ViewChild } from '@angular/core';
 import type { ActionSheetButton, IonRefresher } from '@ionic/angular';
 import type { CoreEventObserver } from '@singletons/events';
 import { CoreEvents } from '@singletons/events';

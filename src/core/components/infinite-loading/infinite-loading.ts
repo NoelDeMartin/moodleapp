@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { OnChanges, SimpleChange, ElementRef } from '@angular/core';
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import type { OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter, ViewChild , ElementRef } from '@angular/core';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { CoreUtils } from '@services/utils/utils';
 
@@ -41,7 +41,7 @@ export class CoreInfiniteLoadingComponent implements OnChanges {
     loadingMore = false; // Hide button and avoid loading more.
     hostElement: HTMLElement;
 
-    constructor(element: ElementRef<HTMLElement>) {
+    constructor(@Inject(ElementRef) element: ElementRef<HTMLElement>) {
         this.action = new EventEmitter();
         this.hostElement = element.nativeElement;
     }

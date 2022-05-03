@@ -13,10 +13,10 @@
 // limitations under the License.
 
 import type { OnInit } from '@angular/core';
-import { Component, Input, Optional } from '@angular/core';
+import { Component, Input, Inject,Optional } from '@angular/core';
 import type { Params } from '@angular/router';
 import { CoreCourseModuleMainResourceComponent } from '@features/course/classes/main-resource-component';
-import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
 import { CoreCourse } from '@features/course/services/course';
 import { CoreNavigator } from '@services/navigator';
 import { Md5 } from 'ts-md5';
@@ -44,7 +44,7 @@ export class AddonModFolderIndexComponent extends CoreCourseModuleMainResourceCo
     component = AddonModFolderProvider.COMPONENT;
     contents?: AddonModFolderFolderFormattedData;
 
-    constructor(@Optional() courseContentsPage?: CoreCourseContentsPage) {
+    constructor(@Inject(CoreCourseContentsPage) @Optional() courseContentsPage?: CoreCourseContentsPage) {
         super('AddonModFolderIndexComponent', courseContentsPage);
     }
 

@@ -23,7 +23,7 @@ import { Translate } from '@singletons';
  * @description
  * The purpose of this component is to make easier and consistent the validation of forms.
  *
- * It should be applied next to the input element (ion-input, ion-select, ...). In case of ion-checkbox, it should be in another
+ * It should be applied next to the input element (ion-Input, Inject,ion-select, ...). In case of ion-checkbox, it should be in another
  * item, placing it in the same item as the checkbox will cause problems.
  *
  * Please notice that the inputs need to have a FormControl to make it work. That FormControl needs to be passed to this component.

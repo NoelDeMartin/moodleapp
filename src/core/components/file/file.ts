@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit, OnDestroy } from '@angular/core';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter } from '@angular/core';
 import { CoreApp } from '@services/app';
 import { CoreFilepool } from '@services/filepool';
 import { CoreFileHelper } from '@services/file-helper';

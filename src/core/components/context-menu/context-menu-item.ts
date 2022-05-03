@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
 import type { CoreContextMenuComponent } from '../context-menu/context-menu';
 

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnChanges, SimpleChange } from '@angular/core';
-import { Component, Inject, Input, ElementRef } from '@angular/core';
+import { Component, Inject, Input, Inject,ElementRef } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
 
 /**

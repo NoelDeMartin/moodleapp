@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { OnInit, ElementRef } from '@angular/core';
-import { Directive, Input, Optional } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Directive, Input, Inject,Optional , ElementRef } from '@angular/core';
 import { Md5 } from 'ts-md5';
 
 import type { CoreSiteWSPreSets } from '@classes/site';
@@ -64,7 +64,7 @@ export class CoreSitePluginsNewContentDirective implements OnInit {
     protected element: HTMLElement;
 
     constructor(
-        element: ElementRef,
+    @Inject(ElementRef) element: ElementRef,
         @Optional() protected parentContent: CoreSitePluginsPluginContentComponent,
     ) {
         this.element = element.nativeElement || element;

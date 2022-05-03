@@ -17,7 +17,7 @@ import type {
     ElementRef } from '@angular/core';
 import {
     Component,
-    Input,
+    Input, Inject
     ViewChild,
 } from '@angular/core';
 

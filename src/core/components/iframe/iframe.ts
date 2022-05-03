@@ -14,7 +14,7 @@
 
 import type { ElementRef, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import {
-    Component, Input, Output, ViewChild, EventEmitter,
+    Component, Input, Inject,Output, ViewChild, EventEmitter,
 } from '@angular/core';
 import type { SafeResourceUrl } from '@angular/platform-browser';
 

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit } from '@angular/core';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter } from '@angular/core';
 
 import type { AddonModQuizQuestion } from '@features/question/classes/base-question-component';
 import { CoreQuestionDelegate } from '@features/question/services/question-delegate';

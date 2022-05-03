@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit } from '@angular/core';
-import { Input, Component, Optional, Inject } from '@angular/core';
+import { Input, Inject,Component, Optional, Inject } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';

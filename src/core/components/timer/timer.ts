@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter } from '@angular/core';
 
 import { CoreTimeUtils } from '@services/utils/time';
 

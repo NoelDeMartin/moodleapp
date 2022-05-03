@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { ElementRef, OnInit } from '@angular/core';
-import { Directive, Output, EventEmitter } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Directive, Output, EventEmitter , ElementRef } from '@angular/core';
 import { CoreDom } from '@singletons/dom';
 
 /**
@@ -29,7 +29,7 @@ export class CoreAriaButtonClickDirective implements OnInit {
     @Output() ariaButtonClick = new EventEmitter();
 
     constructor(
-        element: ElementRef,
+    @Inject(ElementRef) element: ElementRef,
     ) {
         this.element = element.nativeElement;
     }

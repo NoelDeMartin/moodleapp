@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { Directive, Output, EventEmitter } from '@angular/core';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Directive, Output, EventEmitter , ElementRef } from '@angular/core';
 import { CoreUtils } from '@services/utils/utils';
 
 /**
@@ -30,7 +30,7 @@ export class CoreOnResizeDirective implements OnInit, OnDestroy {
     private resizeObserver?: ResizeObserver;
     private mutationObserver?: MutationObserver;
 
-    constructor(element: ElementRef) {
+    constructor(@Inject(ElementRef) element: ElementRef) {
         this.element = element.nativeElement;
     }
 

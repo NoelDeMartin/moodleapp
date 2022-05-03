@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit } from '@angular/core';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter } from '@angular/core';
 
 import { CoreFilter } from '@features/filter/services/filter';
 import type { CoreSiteBasicInfo } from '@services/sites';

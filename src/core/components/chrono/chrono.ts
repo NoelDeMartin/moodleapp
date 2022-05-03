@@ -20,7 +20,7 @@ import type {
     ChangeDetectorRef } from '@angular/core';
 import {
     Component,
-    Input,
+    Input, Inject
     Output,
     EventEmitter,
 } from '@angular/core';

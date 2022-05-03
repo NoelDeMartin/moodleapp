@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { ElementRef } from '@angular/core';
-import { Input, Output, EventEmitter, Component, Optional, Inject } from '@angular/core';
+import { Input, Inject,Output, EventEmitter, Component, Optional, Inject } from '@angular/core';
 import { CoreFileHelper } from '@services/file-helper';
 
 import { CoreSites } from '@services/sites';

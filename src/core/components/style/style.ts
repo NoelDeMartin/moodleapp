@@ -34,7 +34,7 @@ export class CoreStyleComponent implements OnChanges {
     @Input() css = ''; // CSS rules.
     @Input() prefix = ''; // Prefix to add to CSS rules.
 
-    constructor(private element: ElementRef) {}
+    constructor(private @Inject(ElementRef) element: ElementRef) {}
 
     /**
      * @inheritdoc

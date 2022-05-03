@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import type { OnInit, OnChanges, SimpleChange } from '@angular/core';
-import { Input, Output, EventEmitter, Component } from '@angular/core';
-import type { FormGroup, FormBuilder } from '@angular/forms';
-import { Validators } from '@angular/forms';
+import { Input, Inject, Output, EventEmitter, Component } from '@angular/core';
+import type { FormGroup } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import type { CoreFormFields } from '@singletons/form';
 import type { AddonModDataData, AddonModDataEntryField, AddonModDataField } from '../services/data';
 import { AddonModDataTemplateMode } from '../services/data';
@@ -39,7 +39,7 @@ export abstract class AddonModDataFieldPluginComponent implements OnInit, OnChan
     // Output called when the field is initialized with a value and it didn't have one already.
     @Output() onFieldInit = new EventEmitter<AddonModDataEntryFieldInitialized>();
 
-    constructor(protected fb: FormBuilder) {
+    constructor(@Inject(FormBuilder) protected fb: FormBuilder) {
     }
 
     /**

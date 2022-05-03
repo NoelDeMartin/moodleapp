@@ -20,7 +20,7 @@ import type {
 import {
     Directive,
     ElementRef,
-    Input,
+    Input, Inject
     Output,
     EventEmitter,
     Optional,
@@ -102,7 +102,7 @@ export class CoreFormatTextDirective implements OnChanges, OnDestroy, AsyncCompo
     protected domElementPromise?: CoreCancellablePromise<void>;
 
     constructor(
-        element: ElementRef,
+    @Inject(ElementRef) element: ElementRef,
         @Optional() protected content: IonContent,
         protected viewContainerRef: ViewContainerRef,
         @Optional() @Inject(CORE_REFRESH_CONTEXT) protected refreshContext?: CoreRefreshContext,
@@ -455,7 +455,7 @@ export class CoreFormatTextDirective implements OnChanges, OnDestroy, AsyncCompo
         const iframes = Array.from(div.querySelectorAll('iframe'));
         const buttons = Array.from(div.querySelectorAll('.button'));
         const elementsWithInlineStyles = Array.from(div.querySelectorAll('*[style]'));
-        const stopClicksElements = Array.from(div.querySelectorAll('button,input,select,textarea'));
+        const stopClicksElements = Array.from(div.querySelectorAll('button,Input, Injectselect,textarea'));
         const frames = Array.from(div.querySelectorAll(CoreIframeUtilsProvider.FRAME_TAGS.join(',').replace(/iframe,?/, '')));
         const svgImages = Array.from(div.querySelectorAll('image'));
         const promises: Promise<void>[] = [];

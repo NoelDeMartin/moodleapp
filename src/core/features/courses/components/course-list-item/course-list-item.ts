@@ -13,8 +13,8 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import type { ElementRef, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { Component, Input } from '@angular/core';
+import type { OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input , ElementRef } from '@angular/core';
 import { CoreCourseProvider, CoreCourse } from '@features/course/services/course';
 import type { CorePrefetchStatusInfo } from '@features/course/services/course-helper';
 import { CoreCourseHelper } from '@features/course/services/course-helper';
@@ -70,7 +70,7 @@ export class CoreCoursesCourseListItemComponent implements OnInit, OnDestroy, On
 
     protected element: HTMLElement;
 
-    constructor(element: ElementRef) {
+    constructor(@Inject(ElementRef) element: ElementRef) {
         this.element = element.nativeElement;
     }
 

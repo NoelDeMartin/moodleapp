@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { ElementRef } from '@angular/core';
-import { Directive, Input, Optional } from '@angular/core';
+import { ElementRef } from '@angular/core';
+import { Directive, Input, Inject,Optional } from '@angular/core';
 import type { CoreSiteWSPreSets } from '@classes/site';
 import { CoreNavigator } from '@services/navigator';
 import { CoreUtils } from '@services/utils/utils';
@@ -70,7 +70,7 @@ export class CoreSitePluginsCallWSNewContentDirective extends CoreSitePluginsCal
     @Input() ptrEnabled?: boolean | string; // Whether PTR should be enabled in the new page. Defaults to true.
 
     constructor(
-        element: ElementRef,
+    @Inject(ElementRef) element: ElementRef,
         @Optional() parentContent: CoreSitePluginsPluginContentComponent,
     ) {
         super(element, parentContent);

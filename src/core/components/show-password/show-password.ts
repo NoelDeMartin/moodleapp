@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { OnInit, AfterViewInit, ElementRef } from '@angular/core';
-import { Component, Input, ContentChild } from '@angular/core';
+import type { OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, Inject,ContentChild , ElementRef } from '@angular/core';
 import { IonInput } from '@ionic/angular';
 
 import { CoreApp } from '@services/app';
@@ -51,7 +51,7 @@ export class CoreShowPasswordComponent implements OnInit, AfterViewInit {
     protected input?: HTMLInputElement; // Input affected.
     protected element: HTMLElement; // Current element.
 
-    constructor(element: ElementRef) {
+    constructor(@Inject(ElementRef) element: ElementRef) {
         this.element = element.nativeElement;
     }
 
@@ -67,7 +67,7 @@ export class CoreShowPasswordComponent implements OnInit, AfterViewInit {
      */
     async ngAfterViewInit(): Promise<void> {
         if (this.ionInput) {
-            // It's an ion-input, use it to get the native element.
+            // It's an ion-Input, Inject,use it to get the native element.
             this.input = await this.ionInput.getInputElement();
             this.setData(this.input);
 

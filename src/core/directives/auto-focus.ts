@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { ElementRef, AfterViewInit } from '@angular/core';
-import { Directive, Input } from '@angular/core';
+import type { AfterViewInit } from '@angular/core';
+import { Directive, Input , ElementRef } from '@angular/core';
 
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
@@ -36,7 +36,7 @@ export class CoreAutoFocusDirective implements AfterViewInit {
 
     protected element: HTMLIonInputElement | HTMLIonTextareaElement | HTMLIonSearchbarElement | HTMLElement;
 
-    constructor(element: ElementRef) {
+    constructor(@Inject(ElementRef) element: ElementRef) {
         this.element = element.nativeElement;
     }
 

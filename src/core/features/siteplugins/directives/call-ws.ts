@@ -12,15 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { ElementRef } from '@angular/core';
-import { Directive, Input, Optional } from '@angular/core';
+import { ElementRef, Directive, Input, Inject,Inject, Optional } from '@angular/core';
 
 import { Translate } from '@singletons';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSitePluginsCallWSOnClickBaseDirective } from '../classes/call-ws-click-directive';
-import type { CoreSitePluginsPluginContentComponent } from '../components/plugin-content/plugin-content';
+import { CoreSitePluginsPluginContentComponent } from '../components/plugin-content/plugin-content';
 
 /**
  * Directive to call a WS when the element is clicked. The action to do when the WS call is successful depends on the input data:
@@ -57,8 +56,8 @@ export class CoreSitePluginsCallWSDirective extends CoreSitePluginsCallWSOnClick
     @Input() refreshOnSuccess?: boolean | string; // Whether to refresh the current view if the WS call is successful.
 
     constructor(
-        element: ElementRef,
-        @Optional() parentContent: CoreSitePluginsPluginContentComponent,
+    @Inject(ElementRef) element: ElementRef,
+        @Optional() @Inject(CoreSitePluginsPluginContentComponent) parentContent: CoreSitePluginsPluginContentComponent | null,
     ) {
         super(element, parentContent);
     }

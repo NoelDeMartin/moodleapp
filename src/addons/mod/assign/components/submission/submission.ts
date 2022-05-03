@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit, OnDestroy, QueryList } from '@angular/core';
-import { Component, Input, ViewChild, Optional, ViewChildren } from '@angular/core';
+import { Component, Input, Inject, ViewChild, Optional, ViewChildren } from '@angular/core';
 import type { CoreEventObserver } from '@singletons/events';
 import { CoreEvents } from '@singletons/events';
 import { CoreSites } from '@services/sites';
@@ -41,7 +41,7 @@ import {
 } from '../../services/assign-sync';
 import { CoreTabsComponent } from '@components/tabs/tabs';
 import type { CoreTabComponent } from '@components/tabs/tab';
-import type { CoreSplitViewComponent } from '@components/split-view/split-view';
+import { CoreSplitViewComponent } from '@components/split-view/split-view';
 import type { CoreGradesFormattedItem } from '@features/grades/services/grades-helper';
 import { CoreGradesHelper } from '@features/grades/services/grades-helper';
 import type { CoreMenuItem } from '@services/utils/utils';
@@ -159,9 +159,7 @@ export class AddonModAssignSubmissionComponent implements OnInit, OnDestroy, Can
     protected syncObserver: CoreEventObserver;
     protected hasOfflineGrade = false;
 
-    constructor(
-        @Optional() protected splitviewCtrl: CoreSplitViewComponent,
-    ) {
+    constructor(@Inject(CoreSplitViewComponent) @Optional() protected splitviewCtrl: CoreSplitViewComponent | null) {
         this.siteId = CoreSites.getCurrentSiteId();
         this.currentUserId = CoreSites.getCurrentSiteUserId();
         this.maxAttemptsText = Translate.instant('addon.mod_assign.unlimitedattempts');

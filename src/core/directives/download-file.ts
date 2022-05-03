@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { OnInit, ElementRef } from '@angular/core';
-import { Directive, Input } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Directive, Input , ElementRef } from '@angular/core';
 import { CoreFileHelper } from '@services/file-helper';
 import { CoreDomUtils } from '@services/utils/dom';
 import type { CoreWSFile } from '@services/ws';
@@ -33,7 +33,7 @@ export class CoreDownloadFileDirective implements OnInit {
 
     protected element: HTMLElement;
 
-    constructor(element: ElementRef) {
+    constructor(@Inject(ElementRef) element: ElementRef) {
         this.element = element.nativeElement;
     }
 

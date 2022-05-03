@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit, ElementRef } from '@angular/core';
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter, ViewChild } from '@angular/core';
 import type { FileEntry } from '@ionic-native/file/ngx';
 
 import type { CoreIonLoadingElement } from '@classes/ion-loading';

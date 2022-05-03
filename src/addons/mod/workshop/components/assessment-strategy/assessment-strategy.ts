@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit, ElementRef, Type, OnDestroy } from '@angular/core';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Inject,ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CoreError } from '@classes/errors/error';
 import type { CoreFileUploaderStoreFilesResult } from '@features/fileuploader/services/fileuploader';

@@ -15,14 +15,14 @@
 import type {
     OnInit,
     OnDestroy,
-    ElementRef,
     ComponentFactoryResolver } from '@angular/core';
 import {
     Component,
-    Input,
+    Input, Inject
     ViewContainerRef,
     ViewChild,
-} from '@angular/core';
+
+    ElementRef } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreContextMenuComponent } from '../context-menu/context-menu';
@@ -79,7 +79,7 @@ export class CoreNavBarButtonsComponent implements OnInit, OnDestroy {
     protected mergedContextMenu?: CoreContextMenuComponent;
     protected createdMainContextMenuElement?: HTMLElement;
 
-    constructor(element: ElementRef, protected factoryResolver: ComponentFactoryResolver) {
+    constructor(@Inject(ElementRef) element: ElementRef, protected factoryResolver: ComponentFactoryResolver) {
         this.element = element.nativeElement;
         this.logger = CoreLogger.getInstance('CoreNavBarButtonsComponent');
 

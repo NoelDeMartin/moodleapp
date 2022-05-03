@@ -15,7 +15,7 @@
 // Based on http://roblouie.com/article/198/using-gestures-in-the-ionic-2-beta/
 
 import type { OnInit } from '@angular/core';
-import { Directive, Input, Inject, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Directive, Input, Inject,Inject, Output, EventEmitter, ElementRef } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
 
 /**

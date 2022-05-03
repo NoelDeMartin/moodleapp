@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnDestroy, OnInit } from '@angular/core';
-import { Directive, Inject, Input, ElementRef } from '@angular/core';
+import { Directive, Inject, Input, Inject,ElementRef } from '@angular/core';
 import type { CoreCancellablePromise } from '@classes/cancellable-promise';
 import { CoreLoadingComponent } from '@components/loading/loading';
 import { CoreSettingsHelper } from '@features/settings/services/settings-helper';

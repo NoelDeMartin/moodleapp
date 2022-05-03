@@ -17,15 +17,15 @@ import type {
     OnChanges,
     OnDestroy,
     AfterViewInit,
-    SimpleChange,
-    ElementRef } from '@angular/core';
+    SimpleChange } from '@angular/core';
 import {
     Component,
-    Input,
+    Input, Inject
     Output,
     EventEmitter,
     ViewChild,
-} from '@angular/core';
+
+    ElementRef } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
 import type { BackButtonEvent } from '@ionic/core';
 import type { Subscription } from 'rxjs';
@@ -95,7 +95,7 @@ export class CoreTabsBaseComponent<T extends CoreTabBase> implements OnInit, Aft
 
     tabAction: CoreTabsRoleTab<T>;
 
-    constructor(element: ElementRef) {
+    constructor(@Inject(ElementRef) element: ElementRef) {
         this.backButtonFunction = this.backButtonClicked.bind(this);
 
         this.tabAction = new CoreTabsRoleTab(this);

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { OnInit, ElementRef } from '@angular/core';
-import { Directive, Input } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Directive, Input , ElementRef } from '@angular/core';
 import { CoreNavigator } from '@services/navigator';
 
 /**
@@ -30,7 +30,7 @@ export class CoreUserLinkDirective implements OnInit {
     protected element: HTMLElement;
 
     constructor(
-        element: ElementRef,
+    @Inject(ElementRef) element: ElementRef,
     ) {
         this.element = element.nativeElement;
     }

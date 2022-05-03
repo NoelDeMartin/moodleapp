@@ -15,9 +15,10 @@
 import { AddonModAssignSubmissionPluginBaseComponent } from '@addons/mod/assign/classes/base-submission-plugin-component';
 import { AddonModAssignProvider, AddonModAssign } from '@addons/mod/assign/services/assign';
 import { AddonModAssignOffline } from '@addons/mod/assign/services/assign-offline';
-import type { OnInit, ElementRef } from '@angular/core';
-import { Component } from '@angular/core';
-import type { FormBuilder, FormControl } from '@angular/forms';
+import type { OnInit } from '@angular/core';
+import { Component, Inject, ElementRef } from '@angular/core';
+import type { FormControl } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
@@ -44,10 +45,7 @@ export class AddonModAssignSubmissionOnlineTextComponent extends AddonModAssignS
     protected wordCountTimeout?: number;
     protected element: HTMLElement;
 
-    constructor(
-        protected fb: FormBuilder,
-        element: ElementRef,
-    ) {
+    constructor(@Inject(FormBuilder) protected fb: FormBuilder, @Inject(ElementRef) element: ElementRef) {
         super();
         this.element = element.nativeElement;
         this.currentUserId = CoreSites.getCurrentSiteUserId();

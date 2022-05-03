@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnDestroy, OnInit, ElementRef, OnChanges, SimpleChange } from '@angular/core';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Inject,ViewChild } from '@angular/core';
 import { CoreFilter } from '@features/filter/services/filter';
 import { CoreFilterHelper } from '@features/filter/services/filter-helper';
 import { CoreUtils } from '@services/utils/utils';

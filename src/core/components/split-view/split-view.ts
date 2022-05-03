@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Inject,ViewChild } from '@angular/core';
 import type { ActivatedRouteSnapshot } from '@angular/router';
 import { IonContent, IonRouterOutlet } from '@ionic/angular';
 import { CoreScreen } from '@services/screen';
@@ -45,7 +45,7 @@ export class CoreSplitViewComponent implements AfterViewInit, OnDestroy {
     private outletRouteSubject: BehaviorSubject<ActivatedRouteSnapshot | null> = new BehaviorSubject(null);
     private subscriptions?: Subscription[];
 
-    constructor(private element: ElementRef<HTMLElement>) {}
+    constructor(private @Inject(ElementRef) element: ElementRef<HTMLElement>) {}
 
     get outletRoute(): ActivatedRouteSnapshot | null {
         return this.outletRouteSubject.value;

@@ -251,9 +251,9 @@ export class CoreCompileProvider {
     }
 
     /**
-     * Inject all the core libraries in a certain object.
+     * Inject,all the core libraries in a certain object.
      *
-     * @param instance The instance where to inject the libraries.
+     * @param instance The instance where to Inject,the libraries.
      * @param extraProviders Extra imported providers if needed and not imported by this class.
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -318,12 +318,12 @@ export class CoreCompileProvider {
             ...ADDON_PRIVATEFILES_SERVICES,
         ];
 
-        // We cannot inject anything to this constructor. Use the Injector to inject all the providers into the instance.
+        // We cannot Inject,anything to this constructor. Use the Injector to Inject,all the providers into the instance.
         for (const i in providers) {
             const providerDef = providers[i];
             if (typeof providerDef == 'function' && providerDef.name) {
                 try {
-                    // Inject the provider to the instance. We use the class name as the property name.
+                    // Inject,the provider to the instance. We use the class name as the property name.
                     instance[providerDef.name.replace(/DelegateService$/, 'Delegate')] = this.injector.get(providerDef);
                 } catch (ex) {
                     this.logger.error('Error injecting provider', providerDef.name, ex);
@@ -331,7 +331,7 @@ export class CoreCompileProvider {
             }
         }
 
-        // Inject current service.
+        // Inject,current service.
         instance['CoreCompileProvider'] = this;
 
         // Add some final classes.

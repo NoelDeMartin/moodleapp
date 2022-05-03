@@ -96,7 +96,7 @@ export class AddonModAssignIndexComponent extends CoreCourseModuleMainActivityCo
 
     constructor(
         protected content?: IonContent,
-        @Optional() courseContentsPage?: CoreCourseContentsPage,
+        @Optional() courseContentsPage: CoreCourseContentsPage | null,
     ) {
         super('AddonModLessonIndexComponent', content, courseContentsPage);
 

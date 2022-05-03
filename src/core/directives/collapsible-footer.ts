@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnDestroy, OnInit } from '@angular/core';
-import { Directive, Inject, Input, ElementRef } from '@angular/core';
+import { Directive, Inject, Input, Inject,ElementRef } from '@angular/core';
 import type { ScrollDetail } from '@ionic/core';
 import { IonContent } from '@ionic/angular';
 import { CoreUtils } from '@services/utils/utils';

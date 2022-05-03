@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { AfterViewInit, OnChanges, SimpleChange } from '@angular/core';
-import { Directive, Inject, Input, ElementRef } from '@angular/core';
+import { Directive, Inject, Input, Inject,ElementRef } from '@angular/core';
 import { CoreLogger } from '@singletons/logger';
 import { Http } from '@singletons';
 import { CoreConstants } from '@/core/constants';

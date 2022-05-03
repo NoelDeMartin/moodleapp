@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit, OnDestroy, DoCheck, KeyValueDiffers, KeyValueDiffer, Type } from '@angular/core';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Inject,ViewChild } from '@angular/core';
 import { CoreBlockDelegate } from '../../services/block-delegate';
 import { CoreDynamicComponent } from '@components/dynamic-component/dynamic-component';
 import type { Subscription } from 'rxjs';

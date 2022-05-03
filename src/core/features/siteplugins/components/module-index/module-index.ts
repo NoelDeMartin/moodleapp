@@ -14,7 +14,7 @@
 
 import { CoreConstants } from '@/core/constants';
 import type { OnInit, OnDestroy } from '@angular/core';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Inject,ViewChild } from '@angular/core';
 import type { CoreIonLoadingElement } from '@classes/ion-loading';
 
 import type { CoreSiteWSPreSets } from '@classes/site';

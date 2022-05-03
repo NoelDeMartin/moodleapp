@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
-import { Input, Output, EventEmitter, Directive } from '@angular/core';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { ElementRef, Inject, Input, Inject,Output, EventEmitter, Directive } from '@angular/core';
 import type { Subscription } from 'rxjs';
 
 import type { CoreSiteWSPreSets } from '@classes/site';
@@ -43,7 +43,7 @@ export class CoreSitePluginsCallWSBaseDirective implements OnInit, OnDestroy {
     protected invalidateObserver?: Subscription;
 
     constructor(
-        element: ElementRef,
+    @Inject(ElementRef) @Inject(ElementRef) element: ElementRef,
         protected parentContent: CoreSitePluginsPluginContentComponent | null,
     ) {
         this.element = element.nativeElement || element;

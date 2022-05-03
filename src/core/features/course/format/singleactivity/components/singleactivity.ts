@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnChanges, SimpleChange, Type } from '@angular/core';
-import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Inject,ViewChild, Output, EventEmitter } from '@angular/core';
 
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
 import { CoreCourseUnsupportedModuleComponent } from '@features/course/components/unsupported-module/unsupported-module';

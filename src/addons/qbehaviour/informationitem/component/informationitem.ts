@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter } from '@angular/core';
 
 import type { CoreQuestionBehaviourButton, CoreQuestionQuestion } from '@features/question/services/question-helper';
 

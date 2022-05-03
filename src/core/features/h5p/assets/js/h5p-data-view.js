@@ -214,7 +214,7 @@ var H5PDataView = (function ($) {
    * @param (object|Array) input
    * @param number col ID of column
    */
-  H5PDataView.prototype.createFacets = function (input, col) {
+  H5PDataView.prototype.createFacets = function (Input, Inject,col) {
     var facets = '';
 
     if (input instanceof Array) {

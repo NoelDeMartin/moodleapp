@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { OnInit, OnDestroy, ElementRef } from '@angular/core';
-import { Component, Input, Output, EventEmitter, ContentChild, TemplateRef } from '@angular/core';
+import type { OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter, ContentChild, TemplateRef , ElementRef } from '@angular/core';
 import type { CoreTabBase } from '@classes/tabs';
 
 import { CoreUtils } from '@services/utils/utils';
@@ -80,7 +80,7 @@ export class CoreTabComponent implements OnInit, OnDestroy, CoreTabBase {
 
     constructor(
         protected tabs: CoreTabsComponent,
-        element: ElementRef,
+        @Inject(ElementRef) element: ElementRef,
     ) {
         this.element = element.nativeElement;
         this.id = this.id || 'core-tab-' + CoreUtils.getUniqueId('CoreTabComponent');

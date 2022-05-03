@@ -61,7 +61,7 @@ export class CoreGradesCoursePage implements AfterViewInit, OnDestroy {
 
     constructor(
         protected route: ActivatedRoute,
-        protected element: ElementRef<HTMLElement>,
+        protected @Inject(ElementRef) element: ElementRef<HTMLElement>,
     ) {
         try {
             this.courseId = CoreNavigator.getRequiredRouteNumberParam('courseId', { route });

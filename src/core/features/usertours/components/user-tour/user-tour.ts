@@ -21,7 +21,7 @@ import {
     Component,
     EventEmitter,
     HostBinding,
-    Input,
+    Input, Inject
     Output,
     ViewChild,
 } from '@angular/core';

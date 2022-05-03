@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnDestroy, OnInit } from '@angular/core';
-import { Component, Input, Optional } from '@angular/core';
+import { Component, Input, Inject,Optional } from '@angular/core';
 import type { Params } from '@angular/router';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
 import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';

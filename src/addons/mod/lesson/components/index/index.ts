@@ -14,7 +14,7 @@
 
 import { CoreConstants } from '@/core/constants';
 import type { ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { Component, Input, ViewChild, Optional } from '@angular/core';
+import { Component, Input, Inject,ViewChild, Optional } from '@angular/core';
 
 import { CoreTabsComponent } from '@components/tabs/tabs';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';

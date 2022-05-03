@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit } from '@angular/core';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Inject,Output } from '@angular/core';
 import { CoreCourse } from '@features/course/services/course';
 import type { CoreCourseModuleCompletionData, CoreCourseModuleData } from '@features/course/services/course-helper';
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';

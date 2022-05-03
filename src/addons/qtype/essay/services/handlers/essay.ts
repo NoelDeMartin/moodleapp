@@ -363,7 +363,7 @@ export class AddonQtypeEssayHandlerService implements CoreQuestionHandler {
         }
 
         if (attachmentsInput) {
-            await this.prepareAttachments(question, answers, offline, component, componentId, attachmentsInput, siteId);
+            await this.prepareAttachments(question, answers, offline, component, componentId, attachmentsInput, Inject,siteId);
         }
     }
 

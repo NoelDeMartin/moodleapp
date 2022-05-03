@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnDestroy, OnInit } from '@angular/core';
-import { Component, Inject, Input, Optional } from '@angular/core';
+import { Component, Inject, Input, Inject,Optional } from '@angular/core';
 import type { IonContent } from '@ionic/angular';
 
 import { CoreCourseModuleMainResourceComponent } from './main-resource-component';
@@ -44,7 +44,7 @@ export class CoreCourseModuleMainActivityComponent extends CoreCourseModuleMainR
     constructor(
         @Optional() @Inject('') loggerName: string = 'CoreCourseModuleMainResourceComponent',
         protected content?: IonContent,
-        courseContentsPage?: CoreCourseContentsPage,
+        courseContentsPage: CoreCourseContentsPage | null,
     ) {
         super(loggerName, courseContentsPage);
     }

@@ -22,7 +22,7 @@ import type {
     ElementRef } from '@angular/core';
 import {
     Component,
-    Input,
+    Input, Inject
     ViewChildren,
 } from '@angular/core';
 import { CoreDomUtils } from '@services/utils/dom';

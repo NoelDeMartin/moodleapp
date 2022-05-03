@@ -21,7 +21,7 @@ import type {
 import {
     Component,
     EventEmitter,
-    Input,
+    Input, Inject
     Output,
     ViewChild,
 } from '@angular/core';

@@ -32,7 +32,7 @@ export class CoreAutoRowsDirective implements AfterViewInit, OnChanges {
     @Input('core-auto-rows') value?: string; // eslint-disable-line @angular-eslint/no-input-rename
     @Output() onResize: EventEmitter<void>; // Emit when resizing the textarea.
 
-    constructor(protected element: ElementRef) {
+    constructor(protected @Inject(ElementRef) element: ElementRef) {
         this.onResize = new EventEmitter();
     }
 

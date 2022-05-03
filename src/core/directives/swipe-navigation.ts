@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type {  AfterViewInit, OnDestroy } from '@angular/core';
-import { Directive, Inject, Input, ElementRef } from '@angular/core';
+import { Directive, Inject, Input, Inject,ElementRef } from '@angular/core';
 import type { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
 import { CoreSwipeNavigationTourComponent } from '@components/swipe-navigation-tour/swipe-navigation-tour';
 import { CoreUserTours } from '@features/usertours/services/user-tours';

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit, DoCheck, KeyValueDiffers, KeyValueDiffer } from '@angular/core';
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Md5 } from 'ts-md5';
 

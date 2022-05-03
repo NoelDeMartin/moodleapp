@@ -14,16 +14,16 @@
 
 import type {
     AfterViewInit,
-    ElementRef,
     OnChanges,
     SimpleChange,
     OnDestroy } from '@angular/core';
 import {
     Directive,
-    Input,
+    Input, Inject
     Output,
     EventEmitter,
-} from '@angular/core';
+
+    ElementRef } from '@angular/core';
 import { CoreApp } from '@services/app';
 import { CoreFile } from '@services/file';
 import type { CoreFilepoolFileEventData } from '@services/filepool';
@@ -70,7 +70,7 @@ export class CoreExternalContentDirective implements AfterViewInit, OnChanges, O
     protected initialized = false;
     protected fileEventObserver?: CoreEventObserver;
 
-    constructor(element: ElementRef) {
+    constructor(@Inject(ElementRef) element: ElementRef) {
 
         this.element = element.nativeElement;
         this.logger = CoreLogger.getInstance('CoreExternalContentDirective');

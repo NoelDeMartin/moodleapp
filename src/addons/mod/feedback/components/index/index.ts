@@ -13,11 +13,11 @@
 // limitations under the License.
 
 import type { OnInit, OnDestroy } from '@angular/core';
-import { Component, Input, Optional, ViewChild } from '@angular/core';
+import { Component, Input, Inject, Optional, ViewChild } from '@angular/core';
 import { CoreTabsComponent } from '@components/tabs/tabs';
 import { CoreCourseModuleMainActivityComponent } from '@features/course/classes/main-activity-component';
-import type { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
-import type { IonContent } from '@ionic/angular';
+import { CoreCourseContentsPage } from '@features/course/pages/contents/contents';
+import { IonContent } from '@ionic/angular';
 import type { CoreGroupInfo } from '@services/groups';
 import { CoreGroups } from '@services/groups';
 import { CoreNavigator } from '@services/navigator';
@@ -90,8 +90,8 @@ export class AddonModFeedbackIndexComponent extends CoreCourseModuleMainActivity
     protected checkCompletionAfterLog = false;
 
     constructor(
-        protected content?: IonContent,
-        @Optional() courseContentsPage?: CoreCourseContentsPage,
+        @Inject(IonContent) protected content?: IonContent,
+        @Inject(CoreCourseContentsPage) @Optional() courseContentsPage?: CoreCourseContentsPage,
     ) {
         super('AddonModLessonIndexComponent', content, courseContentsPage);
 

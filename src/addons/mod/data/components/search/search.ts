@@ -13,9 +13,8 @@
 // limitations under the License.
 
 import type { ElementRef, OnInit, Type } from '@angular/core';
-import { Component, Input, ViewChild } from '@angular/core';
-import type { FormBuilder } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
+import { Component, Input, Inject, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { CoreTag } from '@features/tag/services/tag';
 import { CoreSites } from '@services/sites';
 import type { CoreFormFields } from '@singletons/form';
@@ -64,9 +63,7 @@ export class AddonModDataSearchComponent implements OnInit {
 
     fieldsArray: AddonModDataField[] = [];
 
-    constructor(
-        protected fb: FormBuilder,
-    ) {
+    constructor(@Inject(FormBuilder) protected fb: FormBuilder) {
         this.searchForm = new FormGroup({});
     }
 

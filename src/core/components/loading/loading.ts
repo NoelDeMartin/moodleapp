@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { OnInit, OnChanges, SimpleChange, ElementRef, AfterViewInit } from '@angular/core';
-import { Component, Input } from '@angular/core';
+import type { OnInit, OnChanges, SimpleChange, AfterViewInit } from '@angular/core';
+import { Component, Input , ElementRef } from '@angular/core';
 
 import type { CoreEventLoadingChangedData } from '@singletons/events';
 import { CoreEvents } from '@singletons/events';
@@ -63,7 +63,7 @@ export class CoreLoadingComponent implements OnInit, OnChanges, AfterViewInit, A
     protected element: HTMLElement; // Current element.
     protected onReadyPromise = new CorePromisedValue<void>();
 
-    constructor(element: ElementRef) {
+    constructor(@Inject(ElementRef) element: ElementRef) {
         this.element = element.nativeElement;
         CoreComponentsRegistry.register(this.element, this);
 

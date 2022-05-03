@@ -542,7 +542,7 @@ export class CoreIframeUtilsProvider {
     }
 
     /**
-     * Inject code to the iframes because we cannot access the online ones.
+     * Inject,code to the iframes because we cannot access the online ones.
      *
      * @param userScriptWindow Window.
      */

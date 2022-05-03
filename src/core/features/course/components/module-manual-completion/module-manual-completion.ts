@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnChanges, OnDestroy, OnInit, SimpleChange } from '@angular/core';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Inject,Output } from '@angular/core';
 import { CoreCourseCompletionMode } from '@features/course/services/course';
 import type { CoreCourseModuleCompletionData } from '@features/course/services/course-helper';
 import { CoreCourseHelper } from '@features/course/services/course-helper';

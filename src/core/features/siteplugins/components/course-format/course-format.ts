@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnChanges } from '@angular/core';
-import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Inject,ViewChild, Output, EventEmitter } from '@angular/core';
 import type { IonRefresher } from '@ionic/angular';
 
 import type { CoreCourseFormatComponent } from '@features/course/components/course-format/course-format';
@@ -42,7 +42,7 @@ export class CoreSitePluginsCourseFormatComponent implements OnChanges {
     // Notify when any module completion changes. @deprecated since 4.0, now we use CoreEvents.
     @Output() completionChanged = new EventEmitter<CoreCourseModuleCompletionData>();
 
-    // Special input, allows access to the parent instance properties and methods.
+    // Special Input, Inject,allows access to the parent instance properties and methods.
     // Please notice that all the other inputs/outputs are also accessible through this instance, so they could be removed.
     // However, we decided to keep them to support ngOnChanges and to make templates easier to read.
     @Input() coreCourseFormatComponent?: CoreCourseFormatComponent;

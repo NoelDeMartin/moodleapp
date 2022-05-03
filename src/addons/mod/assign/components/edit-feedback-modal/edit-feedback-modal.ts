@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { ElementRef } from '@angular/core';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Inject,ViewChild } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import type { CoreFormFields } from '@singletons/form';

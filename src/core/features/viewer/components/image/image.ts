@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { AfterViewInit, ElementRef, OnInit } from '@angular/core';
-import { Component, Input, ViewChild } from '@angular/core';
+import type { AfterViewInit, OnInit } from '@angular/core';
+import { Component, Input, Inject,Inject, ViewChild, ElementRef } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
 import { ModalController, Translate } from '@singletons';
 import { CoreMath } from '@singletons/math';
@@ -49,7 +49,7 @@ export class CoreViewerImageComponent implements OnInit, AfterViewInit {
 
     slidesSwiper: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
-    constructor(protected element: ElementRef<HTMLElement>) {
+    constructor(@Inject(ElementRef) protected element: ElementRef<HTMLElement>) {
     }
 
     /**

@@ -19,7 +19,7 @@ import type {
     AfterViewInit } from '@angular/core';
 import {
     Component,
-    Input,
+    Input, Inject
     Output,
     EventEmitter,
     ViewChild,

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnInit, ChangeDetectorRef, Type, ElementRef } from '@angular/core';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter } from '@angular/core';
 import type { AsyncComponent } from '@classes/async-component';
 import { CorePromisedValue } from '@classes/promised-value';
 import { CoreQuestionBehaviourDelegate } from '@features/question/services/behaviour-delegate';
@@ -65,7 +65,7 @@ export class CoreQuestionComponent implements OnInit, AsyncComponent {
         return this.promisedReady.isResolved();
     }
 
-    constructor(protected changeDetector: ChangeDetectorRef, private element: ElementRef) {
+    constructor(protected changeDetector: ChangeDetectorRef, private @Inject(ElementRef) element: ElementRef) {
         this.logger = CoreLogger.getInstance('CoreQuestionComponent');
         this.promisedReady = new CorePromisedValue();
         CoreComponentsRegistry.register(this.element.nativeElement, this);

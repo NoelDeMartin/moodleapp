@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { ElementRef, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Inject,Output, EventEmitter } from '@angular/core';
 import type { Router } from '@angular/router';
 import { NavigationEnd } from '@angular/router';
 import type { Subscription } from 'rxjs';

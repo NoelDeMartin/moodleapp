@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { Component, Input } from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, Input , ElementRef } from '@angular/core';
 import type { CoreCourseWSSection } from '@features/course/services/course';
 import { CoreCourse } from '@features/course/services/course';
 import type { CoreCourseModuleData } from '@features/course/services/course-helper';
@@ -53,7 +53,7 @@ export class CoreCourseModuleNavigationComponent implements OnInit, OnDestroy {
 
     protected completionObserver: CoreEventObserver;
 
-    constructor(protected ionContent: IonContent, element: ElementRef) {
+    constructor(protected ionContent: IonContent, @Inject(ElementRef) element: ElementRef) {
         const siteId = CoreSites.getCurrentSiteId();
         this.element = element.nativeElement;
 

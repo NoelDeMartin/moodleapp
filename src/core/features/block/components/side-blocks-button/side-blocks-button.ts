@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import type { OnDestroy, OnInit } from '@angular/core';
-import { Component, Inject, Input, ElementRef } from '@angular/core';
+import { Component, Inject, Input, Inject,ElementRef } from '@angular/core';
 import type { CoreCancellablePromise } from '@classes/cancellable-promise';
 import type { CoreUserTourDirectiveOptions } from '@directives/user-tour';
 import { CoreUserToursAlignment, CoreUserToursSide } from '@features/usertours/services/user-tours';

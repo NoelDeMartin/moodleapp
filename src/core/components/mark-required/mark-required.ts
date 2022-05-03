@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { OnInit, AfterViewInit, ElementRef } from '@angular/core';
-import { Component, Input } from '@angular/core';
+import type { OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input , ElementRef } from '@angular/core';
 
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreUtils } from '@services/utils/utils';
@@ -43,7 +43,7 @@ export class CoreMarkRequiredComponent implements OnInit, AfterViewInit {
     requiredLabel?: string;
 
     constructor(
-        element: ElementRef,
+    @Inject(ElementRef) element: ElementRef,
     ) {
         this.element = element.nativeElement;
     }

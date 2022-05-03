@@ -1438,7 +1438,7 @@ ion-item.ion-activatable:not(.only-links) {
 
         ion-anchor, a,
         ion-button, button,
-        audio, video, select, input, iframe {
+        audio, video, select, Input, Inject,iframe {
             pointer-events: visible;
         }
     }
@@ -1531,7 +1531,7 @@ ion-item.item {
     outline: none;
 }
 
-textarea, button, select, input, a {
+textarea, button, select, Input, Inject,a {
     &:focus {
         @include core-focus-style();
         outline: none;

@@ -24,7 +24,7 @@ import type {
     Type } from '@angular/core';
 import {
     Component,
-    Input,
+    Input, Inject
     ViewChild,
     ViewContainerRef,
     ComponentRef,
@@ -89,7 +89,7 @@ export class CoreDynamicComponent implements OnChanges, DoCheck {
         protected factoryResolver: ComponentFactoryResolver,
         differs: KeyValueDiffers,
         protected cdr: ChangeDetectorRef,
-        protected element: ElementRef,
+        protected @Inject(ElementRef) element: ElementRef,
     ) {
 
         this.logger = CoreLogger.getInstance('CoreDynamicComponent');
@@ -162,7 +162,7 @@ export class CoreDynamicComponent implements OnChanges, DoCheck {
             this.container.insert(this.component.hostView);
             this.instance = this.component.instance;
 
-            // This feature is usually meant for site plugins. Inject some properties.
+            // This feature is usually meant for site plugins. Inject,some properties.
             this.instance['ChangeDetectorRef'] = this.cdr;
             this.instance['componentContainer'] = this.element.nativeElement;
         } else {

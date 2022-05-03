@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { OnInit, ElementRef } from '@angular/core';
-import { Component } from '@angular/core';
-import type { FormBuilder, FormControl } from '@angular/forms';
+import type { OnInit } from '@angular/core';
+import { Component, Inject, ElementRef } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import type { FormControl } from '@angular/forms';
 import { AddonModAssign, AddonModAssignProvider } from '@addons/mod/assign/services/assign';
 import { CoreTextUtils } from '@services/utils/text';
 import type {
@@ -44,10 +45,7 @@ export class AddonModAssignFeedbackCommentsComponent extends AddonModAssignFeedb
 
     protected element: HTMLElement;
 
-    constructor(
-        element: ElementRef,
-        protected fb: FormBuilder,
-    ) {
+    constructor(@Inject(ElementRef) element: ElementRef, @Inject(FormBuilder) protected fb: FormBuilder) {
         super();
         this.element = element.nativeElement;
     }

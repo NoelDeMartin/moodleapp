@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { OnInit, ElementRef } from '@angular/core';
-import { Directive, Optional } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Directive, Optional , ElementRef } from '@angular/core';
 
 import { CoreSitePluginsCallWSBaseDirective } from '../classes/call-ws-directive';
 import type { CoreSitePluginsPluginContentComponent } from '../components/plugin-content/plugin-content';
@@ -37,7 +37,7 @@ import type { CoreSitePluginsPluginContentComponent } from '../components/plugin
 export class CoreSitePluginsCallWSOnLoadDirective extends CoreSitePluginsCallWSBaseDirective implements OnInit {
 
     constructor(
-        element: ElementRef,
+    @Inject(ElementRef) element: ElementRef,
         @Optional() parentContent: CoreSitePluginsPluginContentComponent,
     ) {
         super(element, parentContent);

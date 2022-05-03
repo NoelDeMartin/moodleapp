@@ -14,7 +14,7 @@
 
 import { CoreConstants } from '@/core/constants';
 import type { OnInit, OnDestroy } from '@angular/core';
-import { Input, Output, EventEmitter, Component, Optional, Inject } from '@angular/core';
+import { Input, Inject,Output, EventEmitter, Component, Optional, Inject } from '@angular/core';
 import type { CoreAnyError } from '@classes/errors/error';
 import type { IonRefresher } from '@ionic/angular';
 import { CoreApp } from '@services/app';
@@ -83,7 +83,7 @@ export class CoreCourseModuleMainResourceComponent implements OnInit, OnDestroy,
 
     constructor(
         @Optional() @Inject('') loggerName: string = 'CoreCourseModuleMainResourceComponent',
-        protected courseContentsPage?: CoreCourseContentsPage,
+        protected courseContentsPage: CoreCourseContentsPage | null,
     ) {
         this.logger = CoreLogger.getInstance(loggerName);
     }

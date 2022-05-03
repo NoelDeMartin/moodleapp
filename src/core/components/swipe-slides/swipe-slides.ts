@@ -14,7 +14,7 @@
 
 import type { ElementRef, OnChanges, OnDestroy } from '@angular/core';
 import {
-    Component, ContentChild, EventEmitter, Input, Output, TemplateRef, ViewChild,
+    Component, ContentChild, EventEmitter, Input, Inject,Output, TemplateRef, ViewChild,
 } from '@angular/core';
 import type { CoreSwipeSlidesItemsManager } from '@classes/items-management/swipe-slides-items-manager';
 import type { IonContent } from '@ionic/angular';
