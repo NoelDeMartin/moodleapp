@@ -12,10 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import barbara from '@/storybook/fixtures/barbara.json';
+import mark from '@/storybook/fixtures/mark.json';
 import { StorybookModule } from '@/storybook/storybook.module';
 import type { Meta, Story } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { CoreUserAvatarComponent } from './user-avatar';
+
+const USER_FIXTURES = [barbara, mark].reduce((users, user) => {
+    users[user.fullname] = user;
+
+    return users;
+}, {});
 
 export default {
     title: 'Core/User Avatar',
@@ -26,8 +34,25 @@ export default {
             imports: [StorybookModule],
         }),
     ],
+    argTypes: {
+        user: {
+            control: {
+                type: 'select',
+                options: Object.keys(USER_FIXTURES),
+            },
+        },
+    },
 } as Meta;
 
-export const Primary: Story = () => ({
+const Template: Story = ({ user }) => ({
     component: CoreUserAvatarComponent,
+    props: {
+        user: USER_FIXTURES[user],
+    },
 });
+
+export const Primary = Template.bind({});
+
+Primary.args = {
+    user: Object.keys(USER_FIXTURES)[0],
+};
