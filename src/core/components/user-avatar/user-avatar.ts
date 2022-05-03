@@ -16,7 +16,8 @@ import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChange } from '@a
 
 import { CoreSites } from '@services/sites';
 import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { USER_PROFILE_PICTURE_UPDATED, CoreUserBasicData } from '@features/user/services/user';
+import { USER_PROFILE_PICTURE_UPDATED } from '@features/user/services/user';
+import type { CoreUserBasicData } from '@features/user/services/user';
 import { CoreNavigator } from '@services/navigator';
 import { CoreNetwork } from '@services/network';
 import { CoreCastingUtils } from '@services/utils/casting';
