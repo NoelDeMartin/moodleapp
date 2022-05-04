@@ -19,7 +19,11 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import englishTranslations from '@/assets/lang/en.json';
 import { CoreApplicationInitStatus } from '@classes/application-init-status';
+import { CoreSitesProvider } from '@services/sites';
+import { CoreSitesProviderStub } from '@/storybook/stubs/sites';
 import { Translate } from '@singletons';
+import { CoreDbProviderStub } from '@/storybook/stubs/db';
+import { CoreDbProvider } from '@services/db';
 
 // For translate loader. AoT requires an exported function for factories.
 export class StaticTranslateLoader extends TranslateLoader {
@@ -42,6 +46,8 @@ export class StaticTranslateLoader extends TranslateLoader {
     ],
     providers: [
         { provide: ApplicationInitStatus, useClass: CoreApplicationInitStatus, deps: [Injector] },
+        { provide: CoreSitesProvider, useClass: CoreSitesProviderStub },
+        { provide: CoreDbProvider, useClass: CoreDbProviderStub },
         {
             provide: APP_INITIALIZER,
             multi: true,
