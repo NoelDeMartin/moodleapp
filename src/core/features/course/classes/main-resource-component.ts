@@ -28,7 +28,8 @@ import { CoreLogger } from '@singletons/logger';
 import { CoreCourseModuleSummaryComponent, CoreCourseModuleSummaryResult } from '../components/module-summary/module-summary';
 import { CoreCourseContentsPage } from '../pages/contents/contents';
 import { CoreCourse } from '../services/course';
-import { CoreCourseHelper, CoreCourseModuleData } from '../services/course-helper';
+import { CoreCourseHelper } from '../services/course-helper';
+import type { CoreCourseModuleData } from '../services/course-helper';
 import { CoreCourseModuleDelegate, CoreCourseModuleMainComponent } from '../services/module-delegate';
 import { CoreCourseModulePrefetchDelegate } from '../services/module-prefetch-delegate';
 

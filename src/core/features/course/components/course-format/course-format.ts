@@ -26,7 +26,7 @@ import {
 } from '@angular/core';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreDynamicComponent } from '@components/dynamic-component/dynamic-component';
-import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
 import {
     CoreCourse,
     CoreCourseModuleCompletionStatus,

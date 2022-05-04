@@ -14,7 +14,7 @@
 
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
 
-import { CoreCourseModuleCompletionData } from '@features/course/services/course-helper';
+import type { CoreCourseModuleCompletionData } from '@features/course/services/course-helper';
 
 /**
  * Base class for completion components.

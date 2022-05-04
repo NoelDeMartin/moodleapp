@@ -25,7 +25,7 @@ import { CoreUtils, CoreUtilsOpenFileOptions, OpenFileAction } from '@services/u
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreConstants } from '@/core/constants';
 import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 
 /**
  * Component to handle a remote file. Shows the file name, icon (depending on mimetype) and a button

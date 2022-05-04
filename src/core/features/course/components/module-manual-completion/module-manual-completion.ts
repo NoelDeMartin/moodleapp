@@ -14,7 +14,8 @@
 
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
 import { CoreCourseCompletionMode } from '@features/course/services/course';
-import { CoreCourseHelper, CoreCourseModuleCompletionData } from '@features/course/services/course-helper';
+import { CoreCourseHelper } from '@features/course/services/course-helper';
+import type { CoreCourseModuleCompletionData } from '@features/course/services/course-helper';
 import { CoreUser } from '@features/user/services/user';
 import { Translate } from '@singletons';
 import { CoreEventObserver, CoreEvents } from '@singletons/events';

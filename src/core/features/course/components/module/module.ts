@@ -15,12 +15,8 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
 import { CoreSites } from '@services/sites';
-import {
-    CoreCourseModuleData,
-    CoreCourseModuleCompletionData,
-    CoreCourseSection,
-    CoreCourseHelper,
-} from '@features/course/services/course-helper';
+import { CoreCourseModuleCompletionData, CoreCourseHelper } from '@features/course/services/course-helper';
+import type { CoreCourseModuleData, CoreCourseSection } from '@features/course/services/course-helper';
 import { CoreCourse, CoreCourseModuleCompletionStatus, CoreCourseModuleCompletionTracking } from '@features/course/services/course';
 import { CoreCourseModuleDelegate, CoreCourseModuleHandlerButton } from '@features/course/services/module-delegate';
 import {

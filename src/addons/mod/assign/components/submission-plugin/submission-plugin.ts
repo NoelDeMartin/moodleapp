@@ -14,13 +14,8 @@
 
 import { Component, Input, OnInit, Type, ViewChild } from '@angular/core';
 import { CoreDynamicComponent } from '@components/dynamic-component/dynamic-component';
-import {
-    AddonModAssignAssign,
-    AddonModAssignSubmission,
-    AddonModAssignPlugin,
-    AddonModAssignProvider,
-    AddonModAssign,
-} from '../../services/assign';
+import type { AddonModAssignAssign, AddonModAssignPlugin, AddonModAssignSubmission } from '../../services/assign';
+import { AddonModAssignProvider, AddonModAssign } from '../../services/assign';
 import { AddonModAssignHelper, AddonModAssignPluginConfig } from '../../services/assign-helper';
 import { AddonModAssignSubmissionDelegate } from '../../services/submission-delegate';
 import { CoreFileEntry } from '@services/file-helper';

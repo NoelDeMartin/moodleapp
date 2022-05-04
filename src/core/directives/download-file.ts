@@ -15,7 +15,7 @@
 import { Directive, Input, OnInit, ElementRef } from '@angular/core';
 import { CoreFileHelper } from '@services/file-helper';
 import { CoreDomUtils } from '@services/utils/dom';
-import { CoreWSFile } from '@services/ws';
+import type { CoreWSFile } from '@services/ws';
 
 /**
  * Directive to allow downloading and open a file. When the item with this directive is clicked, the file will be

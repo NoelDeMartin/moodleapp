@@ -48,7 +48,8 @@ import { AsyncComponent } from '@classes/async-component';
 import { CoreText } from '@singletons/text';
 import { CoreDom } from '@singletons/dom';
 import { CoreEvents } from '@singletons/events';
-import { CoreRefreshContext, CORE_REFRESH_CONTEXT } from '@/core/utils/refresh-context';
+import { CORE_REFRESH_CONTEXT } from '@/core/utils/refresh-context';
+import type { CoreRefreshContext } from '@/core/utils/refresh-context';
 
 /**
  * Directive to format text rendered. It renders the HTML and treats all links and media, using CoreLinkDirective

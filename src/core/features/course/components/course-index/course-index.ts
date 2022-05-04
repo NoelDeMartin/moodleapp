@@ -20,7 +20,7 @@ import {
 } from '@features/course/services/course';
 import { CoreCourseHelper, CoreCourseSection } from '@features/course/services/course-helper';
 import { CoreCourseFormatDelegate } from '@features/course/services/format-delegate';
-import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
+import type { CoreCourseAnyCourseData } from '@features/courses/services/courses';
 import { CoreUtils } from '@services/utils/utils';
 import { ModalController } from '@singletons';
 import { CoreDom } from '@singletons/dom';

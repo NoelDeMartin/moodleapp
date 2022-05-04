@@ -17,7 +17,8 @@ import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { PopoverController } from '@singletons';
 import { CoreEvents } from '@singletons/events';
-import { AddonModForum, AddonModForumDiscussion, AddonModForumProvider } from '../../services/forum';
+import { AddonModForum, AddonModForumProvider } from '../../services/forum';
+import type { AddonModForumDiscussion } from '../../services/forum';
 
 /**
  * This component is meant to display a popover with the discussion options.
