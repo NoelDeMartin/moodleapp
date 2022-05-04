@@ -12,20 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import barbara from '@/storybook/fixtures/barbara.json';
-import mark from '@/storybook/fixtures/mark.json';
-import { StorybookModule } from '@/storybook/storybook.module';
-import type { Meta, Story } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
+
+import barbara from '@/storybook/fixtures/users/barbara.json';
+import mark from '@/storybook/fixtures/users/mark.json';
+import { fixtures, fixturesSelect, meta, story, template } from '@/storybook';
+import { StorybookModule } from '@/storybook/storybook.module';
+
 import { CoreUserAvatarComponent } from './user-avatar';
 
-const USER_FIXTURES = [barbara, mark].reduce((users, user) => {
-    users[user.fullname] = user;
+interface Args {
+    user: keyof typeof users;
+}
 
-    return users;
-}, {});
+const users = fixtures([barbara, mark], 'fullname');
 
-export default {
+export default meta<Args>({
     title: 'Core/User Avatar',
     component: CoreUserAvatarComponent,
     decorators: [
@@ -35,24 +37,15 @@ export default {
         }),
     ],
     argTypes: {
-        user: {
-            control: {
-                type: 'select',
-                options: Object.keys(USER_FIXTURES),
-            },
-        },
-    },
-} as Meta;
-
-const Template: Story = ({ user }) => ({
-    component: CoreUserAvatarComponent,
-    props: {
-        user: USER_FIXTURES[user],
+        user: fixturesSelect(users),
     },
 });
 
-export const Primary = Template.bind({});
+const Template = template<Args>(({ user }) => ({
+    component: CoreUserAvatarComponent,
+    props: {
+        user: users[user],
+    },
+}));
 
-Primary.args = {
-    user: Object.keys(USER_FIXTURES)[0],
-};
+export const Primary = story(Template);
