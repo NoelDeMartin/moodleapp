@@ -13,7 +13,12 @@
 // limitations under the License.
 
 import initStoryshots from '@storybook/addon-storyshots';
-import { imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
+import { imageSnapshot, ImageSnapshotConfig } from '@storybook/addon-storyshots-puppeteer';
+
+const getMatchOptions: ImageSnapshotConfig['getMatchOptions'] = () => ({
+    failureThreshold: 0.2,
+    failureThresholdType: 'percent',
+});
 
 initStoryshots({ suite: 'HTML storyshots' });
-initStoryshots({ suite: 'Image storyshots', test: imageSnapshot() });
+initStoryshots({ suite: 'Image storyshots', test: imageSnapshot({ getMatchOptions }) });

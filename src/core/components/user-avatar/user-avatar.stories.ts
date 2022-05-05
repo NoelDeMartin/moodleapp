@@ -22,7 +22,7 @@ import { StorybookModule } from '@/storybook/storybook.module';
 import { CoreUserAvatarComponent } from './user-avatar';
 
 interface Args {
-    user: keyof typeof users;
+    user: keyof typeof users | null;
 }
 
 const users = fixtures([barbara, mark], 'fullname');
@@ -44,8 +44,9 @@ export default meta<Args>({
 const Template = template<Args>(({ user }) => ({
     component: CoreUserAvatarComponent,
     props: {
-        user: users[user],
+        user: user && users[user],
     },
 }));
 
-export const Primary = story(Template);
+export const User = story(Template);
+export const Anonymous = story(Template, { user: null });

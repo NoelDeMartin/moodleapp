@@ -128,10 +128,9 @@ const Template = template<Args>(({ activity, manualCompletion }) => {
     };
 });
 
-export const Primary = story(Template, {
-    manualCompletion: ManualCompletion.NotDone,
-});
+export const Assignment = story(Template, { activity: assignment.name, manualCompletion: ManualCompletion.NotDone });
+export const Forum = story(Template, { activity: forum.name, manualCompletion: ManualCompletion.Disabled });
 
-Primary.parameters = {
+Assignment.parameters = {
     jest: ['module.test.ts'],
 };

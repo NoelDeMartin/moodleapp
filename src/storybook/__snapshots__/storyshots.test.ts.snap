@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HTML storyshots Core/Course/Module Primary 1`] = `
+exports[`HTML storyshots Core/Course/Module Assignment 1`] = `
 <storybook-dynamic-app-root
   cfr={[Function CodegenComponentFactoryResolver]}
   data={[Function Object]}
@@ -105,7 +105,106 @@ exports[`HTML storyshots Core/Course/Module Primary 1`] = `
 </storybook-dynamic-app-root>
 `;
 
-exports[`HTML storyshots Core/User Avatar Primary 1`] = `
+exports[`HTML storyshots Core/Course/Module Forum 1`] = `
+<storybook-dynamic-app-root
+  cfr={[Function CodegenComponentFactoryResolver]}
+  data={[Function Object]}
+  target={[Function ViewContainerRef_]}
+>
+  <core-course-module>
+    
+    <ion-card>
+      
+      
+      <ion-item
+        aria-label="Forum"
+        class="ion-text-wrap core-course-module-handler core-module-main-item addon-mod_forum-handler"
+        detail="false"
+        id="core-course-module-1"
+      >
+        
+        <core-mod-icon
+          class="collaboration"
+          slot="start"
+        >
+          
+          
+          <img
+            alt="Forum"
+            class="core-module-icon"
+            src="assets/img/mod/forum.svg"
+          />
+        </core-mod-icon>
+        <ion-label
+          class="core-module-title"
+        >
+          <p
+            class="item-heading"
+          >
+            <core-format-text
+              aria-label="Forum, Forum"
+              class="core-loading"
+              contextlevel="module"
+              singleline="false"
+            >
+               
+            </core-format-text>
+            
+            
+          </p>
+          <div
+            class="core-module-additional-info"
+          >
+            
+            
+            
+            
+          </div>
+        </ion-label>
+        
+        <div
+          class="buttons core-module-buttons"
+          slot="end"
+        >
+          
+          <div
+            class="core-module-buttons-more"
+          >
+            
+          </div>
+        </div>
+      </ion-item>
+      
+      
+      
+      
+    </ion-card>
+  </core-course-module>
+</storybook-dynamic-app-root>
+`;
+
+exports[`HTML storyshots Core/User Avatar Anonymous 1`] = `
+<storybook-dynamic-app-root
+  cfr={[Function CodegenComponentFactoryResolver]}
+  data={[Function Object]}
+  target={[Function ViewContainerRef_]}
+>
+  <core-user-avatar>
+    
+    
+    <img
+      alt="core.pictureof"
+      aria-hidden="false"
+      role="button"
+      src="assets/img/user-avatar.png"
+      tabindex="0"
+    />
+    
+  </core-user-avatar>
+</storybook-dynamic-app-root>
+`;
+
+exports[`HTML storyshots Core/User Avatar User 1`] = `
 <storybook-dynamic-app-root
   cfr={[Function CodegenComponentFactoryResolver]}
   data={[Function Object]}

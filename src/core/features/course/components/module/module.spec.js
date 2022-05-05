@@ -3,7 +3,7 @@
 context('Core Courses Module', () => {
 
     beforeEach(() => {
-        cy.visit('/iframe.html?id=core-course-module--primary');
+        cy.visit('/iframe.html?id=core-course-module--assignment');
     });
 
     it('Marks as done', () => {
