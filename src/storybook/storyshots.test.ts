@@ -16,9 +16,24 @@ import initStoryshots from '@storybook/addon-storyshots';
 import { imageSnapshot, ImageSnapshotConfig } from '@storybook/addon-storyshots-puppeteer';
 
 const getMatchOptions: ImageSnapshotConfig['getMatchOptions'] = () => ({
-    failureThreshold: 0.2,
+    failureThreshold: 0.1,
     failureThresholdType: 'percent',
+});
+const getScreenshotOptions: ImageSnapshotConfig['getScreenshotOptions']  = ({ context: { kind } }) => ({
+    clip: kind.includes('Avatar')
+        ? {
+            x: 0,
+            y: 0,
+            width: 100,
+            height: 100,
+        }
+        : {
+            x: 0,
+            y: 0,
+            width: 600,
+            height: 150,
+        },
 });
 
 initStoryshots({ suite: 'HTML storyshots' });
-initStoryshots({ suite: 'Image storyshots', test: imageSnapshot({ getMatchOptions }) });
+initStoryshots({ suite: 'Image storyshots', test: imageSnapshot({ getMatchOptions, getScreenshotOptions }) });
