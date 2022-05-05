@@ -24,7 +24,9 @@ export class SQLiteDBStub extends SQLiteDB {
      * @inheritdoc
      */
     async createDatabase(): Promise<SQLiteObject> {
-        return new Proxy({}, {}) as SQLiteObject;
+        return new Proxy({
+            executeSql: (): Promise<any> => Promise.resolve({ insertId: Math.random().toString() }),
+        } as any, {}) as SQLiteObject;
     }
 
 }

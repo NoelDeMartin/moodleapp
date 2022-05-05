@@ -53,8 +53,10 @@ jobs:
         fi
     - name: Run Linter (ignore warnings)
       run: npm run lint -- --quiet
-    - name: Run tests
+    - name: Run Unit tests
       run: npm run test:ci
+    - name: Run Component tests
+      run: npm run cy:test
     - name: Production builds
       run: npm run build:prod
     # - name: JavaScript code compatibility
