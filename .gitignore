@@ -35,4 +35,5 @@ npm-debug.log*
 
 /src/assets/lang/*
 /src/assets/env.json
+/src/assets/jest-results.json
 /storybook-static

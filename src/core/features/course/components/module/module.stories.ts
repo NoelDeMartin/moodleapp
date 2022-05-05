@@ -131,3 +131,7 @@ const Template = template<Args>(({ activity, manualCompletion }) => {
 export const Primary = story(Template, {
     manualCompletion: ManualCompletion.Disabled,
 });
+
+Primary.parameters = {
+    jest: ['module.test.ts'],
+};
