@@ -54,7 +54,9 @@ jobs:
     - name: Run Linter (ignore warnings)
       run: npm run lint -- --quiet
     - name: Run Unit tests
-      run: npm run test:ci
+      run: npm run test:unit:ci
+    - name: Run Snapshot tests
+      run: npm run test:snapshots:ci
     - name: Run Component tests
       run: npm run cy:test
     - name: Production builds
