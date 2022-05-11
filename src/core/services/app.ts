@@ -28,6 +28,7 @@ import { CoreRedirectPayload } from './navigator';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
 import { asyncInstance } from '../utils/async-instance';
 import { CoreDatabaseTable } from '@classes/database/database-table';
+import { CorePlatform } from '@services/platform';
 
 /**
  * Factory to provide some global functionalities, like access to the global app database.
@@ -308,9 +309,10 @@ export class CoreAppProvider {
      * Checks if the app is running in a mobile or tablet device (Cordova).
      *
      * @return Whether the app is running in a mobile or tablet device.
+     * @deprecated since 4.1. use CorePlatform instead.
      */
     isMobile(): boolean {
-        return Platform.is('cordova');
+        return CorePlatform.isMobile();
     }
 
     /**
