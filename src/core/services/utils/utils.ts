@@ -17,7 +17,6 @@ import { InAppBrowserObject, InAppBrowserOptions } from '@ionic-native/in-app-br
 import { FileEntry } from '@ionic-native/file/ngx';
 import { Subscription } from 'rxjs';
 
-import { CoreApp } from '@services/app';
 import { CoreEvents } from '@singletons/events';
 import { CoreFile } from '@services/file';
 import { CoreLang } from '@services/lang';
@@ -34,6 +33,7 @@ import { CoreFileEntry } from '@services/file-helper';
 import { CoreConstants } from '@/core/constants';
 import { CoreWindow } from '@singletons/window';
 import { CoreColors } from '@singletons/colors';
+import { CorePlatform } from '@services/platform';
 
 type TreeNode<T> = T & { children: TreeNode<T>[] };
 
@@ -953,7 +953,7 @@ export class CoreUtilsProvider {
         const extension = CoreMimetypeUtils.getFileExtension(path);
         const mimetype = extension && CoreMimetypeUtils.getMimeType(extension);
 
-        if (mimetype == 'text/html' && CoreApp.isAndroid()) {
+        if (mimetype == 'text/html' && CorePlatform.isAndroid()) {
             // Open HTML local files in InAppBrowser, in system browser some embedded files aren't loaded.
             this.openInApp(path);
 
@@ -1004,7 +1004,7 @@ export class CoreUtilsProvider {
         options.enableViewPortScale = options.enableViewPortScale ?? 'yes'; // Enable zoom on iOS by default.
         options.allowInlineMediaPlayback = options.allowInlineMediaPlayback ?? 'yes'; // Allow playing inline videos in iOS.
 
-        if (!options.location && CoreApp.isIOS() && url.indexOf('file://') === 0) {
+        if (!options.location && CorePlatform.isIOS() && url.indexOf('file://') === 0) {
             // The URL uses file protocol, don't show it on iOS.
             // In Android we keep it because otherwise we lose the whole toolbar.
             options.location = 'no';
@@ -1014,7 +1014,7 @@ export class CoreUtilsProvider {
 
         this.iabInstance = InAppBrowser.create(url, '_blank', options);
 
-        if (CoreApp.isMobile()) {
+        if (CorePlatform.isMobile()) {
             let loadStopSubscription;
             const loadStartUrls: string[] = [];
 
@@ -1032,7 +1032,7 @@ export class CoreUtilsProvider {
                 });
             });
 
-            if (CoreApp.isAndroid()) {
+            if (CorePlatform.isAndroid()) {
                 // Load stop is needed with InAppBrowser v3. Custom URL schemes no longer trigger load start, simulate it.
                 loadStopSubscription = this.iabInstance.on('loadstop').subscribe((event) => {
                     // Execute the callback in the Angular zone, so change detection doesn't stop working.
@@ -1129,7 +1129,7 @@ export class CoreUtilsProvider {
      * @return Promise resolved when opened.
      */
     async openOnlineFile(url: string): Promise<void> {
-        if (CoreApp.isAndroid()) {
+        if (CorePlatform.isAndroid()) {
             // In Android we need the mimetype to open it.
             const mimetype = await this.ignoreErrors(this.getMimeTypeFromUrl(url));
 
@@ -1594,7 +1594,7 @@ export class CoreUtilsProvider {
      * @return Whether the app can scan QR codes.
      */
     canScanQR(): boolean {
-        return CoreApp.isMobile();
+        return CorePlatform.isMobile();
     }
 
     /**
@@ -1619,7 +1619,7 @@ export class CoreUtilsProvider {
      * @return Promise resolved with the QR string, rejected if error or cancelled.
      */
     async startScanQR(): Promise<string | undefined> {
-        if (!CoreApp.isMobile()) {
+        if (!CorePlatform.isMobile()) {
             return Promise.reject('QRScanner isn\'t available in browser.');
         }
 
@@ -1762,7 +1762,7 @@ export class CoreUtilsProvider {
     shouldOpenWithDialog(options: CoreUtilsOpenFileOptions = {}): boolean {
         const openFileAction = options.iOSOpenFileAction ?? CoreConstants.CONFIG.iOSDefaultOpenFileAction;
 
-        return CoreApp.isIOS() && openFileAction == OpenFileAction.OPEN_WITH;
+        return CorePlatform.isIOS() && openFileAction == OpenFileAction.OPEN_WITH;
     }
 
 }

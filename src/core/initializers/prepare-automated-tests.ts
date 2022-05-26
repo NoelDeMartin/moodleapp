@@ -17,6 +17,7 @@ import { CorePushNotifications, CorePushNotificationsProvider } from '@features/
 import { CoreApp, CoreAppProvider } from '@services/app';
 import { CoreCronDelegate, CoreCronDelegateService } from '@services/cron';
 import { CoreDB, CoreDbProvider } from '@services/db';
+import { CorePlatform } from '@services/platform';
 import { CoreCustomURLSchemes, CoreCustomURLSchemesProvider } from '@services/urlschemes';
 import { Application, NgZone } from '@singletons';
 
@@ -41,7 +42,7 @@ function initializeAutomatedTestsWindow(window: AutomatedTestsWindow) {
 }
 
 export default function(): void {
-    if (!CoreAppProvider.isAutomated()) {
+    if (!CorePlatform.isAutomated()) {
         return;
     }
 

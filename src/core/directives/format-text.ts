@@ -48,7 +48,8 @@ import { AsyncComponent } from '@classes/async-component';
 import { CoreText } from '@singletons/text';
 import { CoreDom } from '@singletons/dom';
 import { CoreEvents } from '@singletons/events';
-import { CoreRefreshContext, CORE_REFRESH_CONTEXT } from '@/core/utils/refresh-context';
+import { CORE_REFRESH_CONTEXT } from '@/core/utils/refresh-context';
+import type { CoreRefreshContext } from '@/core/utils/refresh-context';
 
 /**
  * Directive to format text rendered. It renders the HTML and treats all links and media, using CoreLinkDirective
@@ -407,16 +408,22 @@ export class CoreFormatTextDirective implements OnChanges, OnDestroy, AsyncCompo
         let filters: CoreFilterFilter[] = [];
 
         if (filter) {
-            const filterResult = await CoreFilterHelper.getFiltersAndFormatText(
-                this.text || '',
-                this.contextLevel || '',
-                this.contextInstanceId ?? -1,
-                options,
-                siteId,
-            );
+            try {
+                const filterResult = await CoreFilterHelper.getFiltersAndFormatText(
+                    this.text || '',
+                    this.contextLevel || '',
+                    this.contextInstanceId ?? -1,
+                    options,
+                    siteId,
+                );
 
-            filters = filterResult.filters;
-            formatted = filterResult.text;
+                filters = filterResult.filters;
+                formatted = filterResult.text;
+            } catch (e) {
+                console.log('ERROR!', e);
+
+                throw e;
+            }
         } else {
             formatted = await CoreFilter.formatText(this.text || '', options, [], siteId);
         }

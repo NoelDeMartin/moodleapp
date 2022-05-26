@@ -23,7 +23,8 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { Translate } from '@singletons';
 import { CoreColors } from '@singletons/colors';
 import { CoreEventCourseStatusChanged, CoreEventObserver, CoreEvents } from '@singletons/events';
-import { CoreCourseListItem, CoreCourses, CoreCoursesProvider } from '../../services/courses';
+import { CoreCourses, CoreCoursesProvider } from '../../services/courses';
+import type { CoreCourseListItem } from '../../services/courses';
 import { CoreCoursesHelper, CoreEnrolledCourseDataWithExtraInfoAndOptions } from '../../services/courses-helper';
 import { CoreCoursesCourseOptionsMenuComponent } from '../course-options-menu/course-options-menu';
 
@@ -43,6 +44,7 @@ export class CoreCoursesCourseListItemComponent implements OnInit, OnDestroy, On
 
     @Input() course!: CoreCourseListItem; // The course to render.
     @Input() showDownload = false; // If true, will show download button.
+    @Input() justDownloaded = false; // If true, will show downloaded icon.
     @Input() layout: 'listwithenrol'|'summarycard'|'list'|'card' = 'listwithenrol';
 
     enrolmentIcons: CoreCoursesEnrolmentIcons[] = [];
@@ -91,12 +93,8 @@ export class CoreCoursesCourseListItemComponent implements OnInit, OnDestroy, On
         }
 
         if (this.isEnrolled) {
-            // This field is only available from 3.6 onwards.
-            this.courseOptionMenuEnabled = (this.layout != 'listwithenrol' && this.layout != 'summarycard') &&
-                this.course.isfavourite !== undefined;
-
+            this.updateCourseOptionMenuEnabled();
             this.initPrefetchCourse();
-
         } else if ('enrollmentmethods' in this.course) {
             this.enrolmentIcons = [];
 
@@ -128,6 +126,14 @@ export class CoreCoursesCourseListItemComponent implements OnInit, OnDestroy, On
         }
     }
 
+    updateCourseOptionMenuEnabled(): void {
+        // This field is only available from 3.6 onwards.
+        this.courseOptionMenuEnabled = this.isEnrolled &&
+            this.layout != 'listwithenrol' &&
+            this.layout != 'summarycard' &&
+            this.course.isfavourite !== undefined;
+    }
+
     /**
      * Set course color.
      */
@@ -149,7 +155,7 @@ export class CoreCoursesCourseListItemComponent implements OnInit, OnDestroy, On
      */
     ngOnChanges(): void {
         this.initPrefetchCourse();
-
+        this.updateCourseOptionMenuEnabled();
         this.updateCourseFields();
     }
 

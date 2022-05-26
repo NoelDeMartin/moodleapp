@@ -18,7 +18,7 @@ import { SQLiteDB } from '@classes/sqlitedb';
 import { SQLiteDBMock } from '@features/emulator/classes/sqlitedb';
 import { CoreBrowser } from '@singletons/browser';
 import { makeSingleton, SQLite, Platform } from '@singletons';
-import { CoreAppProvider } from './app';
+import { CorePlatform } from '@services/platform';
 
 /**
  * This service allows interacting with the local database to store and retrieve data.
@@ -36,7 +36,7 @@ export class CoreDbProvider {
      * @returns Whether queries should be logged.
      */
     loggingEnabled(): boolean {
-        return CoreBrowser.hasCookie('MoodleAppDBLoggingEnabled') || CoreAppProvider.isAutomated();
+        return CoreBrowser.hasCookie('MoodleAppDBLoggingEnabled') || CorePlatform.isAutomated();
     }
 
     /**

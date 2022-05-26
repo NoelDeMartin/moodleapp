@@ -20,7 +20,7 @@ import { CoreLang } from '@services/lang';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
 import { CoreEvents } from '@singletons/events';
 import { Network, NgZone, Platform, SplashScreen, Translate } from '@singletons';
-import { CoreApp, CoreAppProvider } from '@services/app';
+import { CoreApp } from '@services/app';
 import { CoreSites } from '@services/sites';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSubscriptions } from '@singletons/subscriptions';
@@ -32,6 +32,7 @@ import { CoreConstants } from '@/core/constants';
 import { CoreSitePlugins } from '@features/siteplugins/services/siteplugins';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreDom } from '@singletons/dom';
+import { CorePlatform } from '@services/platform';
 
 const MOODLE_VERSION_PREFIX = 'version-';
 const MOODLEAPP_VERSION_PREFIX = 'moodleapp-';
@@ -53,7 +54,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     protected lastInAppUrl?: string;
 
     constructor(changeDetector: ChangeDetectorRef) {
-        if (CoreAppProvider.isAutomated()) {
+        if (CorePlatform.isAutomated()) {
             (window as AutomatedTestsWindow).changeDetector = changeDetector;
         }
     }

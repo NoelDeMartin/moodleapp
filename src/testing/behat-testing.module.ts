@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { CoreAppProvider } from '@services/app';
+import { CorePlatform } from '@services/platform';
 import { TestsBehatBlockingService } from './services/behat-blocking';
 import { BehatTestsWindow, TestsBehatRuntime } from './services/behat-runtime';
 
@@ -24,7 +24,7 @@ function initializeBehatTestsWindow(window: BehatTestsWindow) {
 
 @NgModule({
     providers:
-        CoreAppProvider.isAutomated()
+        CorePlatform.isAutomated()
             ? [
                 { provide: APP_INITIALIZER, multi: true, useValue: () => initializeBehatTestsWindow(window) },
                 TestsBehatBlockingService,

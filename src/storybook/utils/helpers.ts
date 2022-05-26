@@ -20,7 +20,7 @@ import { Meta, Story } from '@storybook/angular';
  * @param meta Story metadata.
  * @returns Story metadata.
  */
-export function meta(meta: Meta): Meta {
+export function meta<T=unknown>(meta: Meta<T>): Meta {
     return meta;
 }
 

@@ -196,7 +196,6 @@ export class CoreFilterProvider {
         filters?: CoreFilterFilter[],
         siteId?: string,
     ): Promise<string> {
-
         if (!text || typeof text != 'string') {
             // No need to do any filters and cleaning.
             return '';
@@ -266,7 +265,6 @@ export class CoreFilterProvider {
         contexts: CoreFiltersGetAvailableInContextWSParamContext[],
         siteId?: string,
     ): Promise<CoreFilterClassifiedFilters> {
-
         const site = await CoreSites.getSite(siteId);
 
         siteId = site.getId();
