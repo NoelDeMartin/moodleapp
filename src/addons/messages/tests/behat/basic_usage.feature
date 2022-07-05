@@ -272,6 +272,7 @@ Feature: Test basic usage of messages in app
     Then I should find "Teacher teacher" in the app
     And I should find "Student1 student1" in the app
 
+  @debug
   Scenario: User blocking feature
     Given I entered the course "Course 1" as "student2" in the app
     When I press "Participants" in the app
