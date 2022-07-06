@@ -1,0 +1,16 @@
+name: Sandbox
+
+on:
+  push:
+    inputs:
+      SANDBOX_BRANCH:
+        required: true
+        default: ${{ secrets.SANDBOX_BRANCH }}
+
+jobs:
+  sandbox:
+    if: github.ref_name == inputs.SANDBOX_BRANCH
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: echo "It works $SANDBOX_BRANCH!"
