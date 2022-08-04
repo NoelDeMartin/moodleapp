@@ -43,6 +43,7 @@ export class CoreSwipeSlidesComponent<Item = unknown> implements OnChanges, OnDe
     protected hostElement: HTMLElement;
     protected unsubscribe?: () => void;
     protected resizeListener: CoreEventObserver;
+    protected activeSlideIndexes: number[] = [];
 
     constructor(
         elementRef: ElementRef<HTMLElement>,
@@ -73,6 +74,16 @@ export class CoreSwipeSlidesComponent<Item = unknown> implements OnChanges, OnDe
     }
 
     /**
+     * Check whether the slide with the given index is active.
+     *
+     * @param index Slide index.
+     * @return Whether the slide is active.
+     */
+    isActive(index: number): boolean {
+        return this.activeSlideIndexes.includes(index);
+    }
+
+    /**
      * Initialize some properties based on the manager.
      */
     protected async initialize(manager: CoreSwipeSlidesItemsManager<Item>): Promise<void> {
@@ -99,13 +110,14 @@ export class CoreSwipeSlidesComponent<Item = unknown> implements OnChanges, OnDe
         }
 
         // Validate that the initial index is inside the valid range.
-        const initialIndex = CoreMath.clamp(this.options.initialSlide as number, 0, items.length - 1);
+        const initialIndex = CoreMath.clamp(this.options.initialSlide, 0, items.length - 1);
 
         const initialItemData = {
             index: initialIndex,
             item: items[initialIndex],
         };
 
+        this.activeSlideIndexes = [initialIndex];
         manager.setSelectedItem(items[initialIndex]);
         this.onWillChange.emit(initialItemData);
         this.onDidChange.emit(initialItemData);
@@ -184,6 +196,8 @@ export class CoreSwipeSlidesComponent<Item = unknown> implements OnChanges, OnDe
             return;
         }
 
+        this.activeSlideIndexes.push(currentItemData.index);
+
         this.manager?.setSelectedItem(currentItemData.item);
 
         this.onWillChange.emit(currentItemData);
@@ -198,8 +212,12 @@ export class CoreSwipeSlidesComponent<Item = unknown> implements OnChanges, OnDe
     async slideDidChange(): Promise<void> {
         const currentItemData = await this.getCurrentSlideItemData();
         if (!currentItemData) {
+            this.activeSlideIndexes = [];
+
             return;
         }
+
+        this.activeSlideIndexes = [currentItemData.index];
 
         this.onDidChange.emit(currentItemData);
 
@@ -265,6 +283,7 @@ export class CoreSwipeSlidesComponent<Item = unknown> implements OnChanges, OnDe
  * @todo Change unknown with the right type once Swiper library is used.
  */
 export type CoreSwipeSlidesOptions = Record<string, unknown> & {
+    initialSlide?: number;
     scrollOnChange?: 'top' | 'none'; // Scroll behaviour on change slide. By default, none.
 };
 
