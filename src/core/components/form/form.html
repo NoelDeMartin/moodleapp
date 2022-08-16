@@ -1,0 +1,17 @@
+<form>
+    <ng-content></ng-content>
+</form>
+
+<!-- TODO shouldn't this be inside form? (because it has a type="submit" button, and capture form submit instead of button click) -->
+<div collapsible-footer appearOnBottom slot="fixed">
+    <div class="list-item-limited-width adaptable-buttons-row">
+        <!-- <ion-button *ngIf="hasOffline && eventId && eventId < 0" expand="block" fill="outline" (click)="discard()"
+            class="ion-margin ion-text-wrap">
+            {{ 'core.discard' | translate }}
+        </ion-button> -->
+        <ion-button expand="block" (click)="manager.submit()" [disabled]="!manager.canSubmit()" type="submit"
+            class="ion-margin ion-text-wrap">
+            {{ 'core.save' | translate }}
+        </ion-button>
+    </div>
+</div>

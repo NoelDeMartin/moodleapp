@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { IonRefresher } from '@ionic/angular';
 import { CoreEvents } from '@singletons/events';
 import { CoreGroup, CoreGroups } from '@services/groups';
@@ -36,7 +36,7 @@ import { AddonCalendarOffline } from '../../services/calendar-offline';
 import { AddonCalendarEventReminder, AddonCalendarEventTypeOption, AddonCalendarHelper } from '../../services/calendar-helper';
 import { AddonCalendarSync, AddonCalendarSyncProvider } from '../../services/calendar-sync';
 import { CoreSite } from '@classes/site';
-import { Translate } from '@singletons';
+import { FormBuilder, Translate } from '@singletons';
 import { CoreFilterHelper } from '@features/filter/services/filter-helper';
 import { AddonCalendarOfflineEventDBRecord } from '../../services/database/calendar-offline';
 import { CoreError } from '@classes/errors/error';
@@ -45,6 +45,7 @@ import { CanLeave } from '@guards/can-leave';
 import { CoreForms } from '@singletons/form';
 import { CoreLocalNotifications } from '@services/local-notifications';
 import { AddonCalendarReminderTimeModalComponent } from '@addons/calendar/components/reminder-time-modal/reminder-time-modal';
+import { CoreFormManager } from '@classes/form-manager';
 
 /**
  * Page that displays a form to create/edit an event.
@@ -59,7 +60,6 @@ export class AddonCalendarEditEventPage implements OnInit, OnDestroy, CanLeave {
     @ViewChild(CoreEditorRichTextEditorComponent) descriptionEditor!: CoreEditorRichTextEditorComponent;
     @ViewChild('editEventForm') formElement!: ElementRef;
 
-    title = 'addon.calendar.newevent';
     dateFormat: string;
     component = AddonCalendarProvider.COMPONENT;
     loaded = false;
@@ -79,16 +79,13 @@ export class AddonCalendarEditEventPage implements OnInit, OnDestroy, CanLeave {
     minDate: string;
 
     // Form variables.
-    form: FormGroup;
-    typeControl: FormControl;
-    groupControl: FormControl;
-    descriptionControl: FormControl;
+    form: AddonCalendarEventFormManager;
 
     // Reminders.
     notificationsEnabled = false;
     reminders: AddonCalendarEventCandidateReminder[] = [];
 
-    protected courseId!: number;
+    courseId!: number;
     protected originalData?: AddonCalendarOfflineEventDBRecord;
     protected currentSite: CoreSite;
     protected types: { [name: string]: boolean } = {}; // Object with the supported types.
@@ -96,9 +93,7 @@ export class AddonCalendarEditEventPage implements OnInit, OnDestroy, CanLeave {
     protected isDestroyed = false;
     protected gotEventData = false;
 
-    constructor(
-        protected fb: FormBuilder,
-    ) {
+    constructor() {
         this.currentSite = CoreSites.getRequiredCurrentSite();
         this.notificationsEnabled = CoreLocalNotifications.isAvailable();
         this.errors = {
@@ -108,26 +103,11 @@ export class AddonCalendarEditEventPage implements OnInit, OnDestroy, CanLeave {
         // Calculate format to use. ion-datetime doesn't support escaping characters ([]), so we remove them.
         this.dateFormat = CoreTimeUtils.convertPHPToMoment(Translate.instant('core.strftimedatetimeshort'))
             .replace(/[[\]]/g, '');
+        this.eventId = CoreNavigator.getRouteNumberParam('eventId') || undefined;
 
-        this.form = new FormGroup({});
+        this.form = new AddonCalendarEventFormManager(this, this.eventId ? 'addon.calendar.editevent' : 'addon.calendar.newevent');
 
         // Initialize form variables.
-        this.typeControl = this.fb.control('', Validators.required);
-        this.groupControl = this.fb.control('');
-        this.descriptionControl = this.fb.control('');
-        this.form.addControl('name', this.fb.control('', Validators.required));
-        this.form.addControl('eventtype', this.typeControl);
-        this.form.addControl('categoryid', this.fb.control(''));
-        this.form.addControl('groupcourseid', this.fb.control(''));
-        this.form.addControl('groupid', this.groupControl);
-        this.form.addControl('description', this.descriptionControl);
-        this.form.addControl('location', this.fb.control(''));
-        this.form.addControl('duration', this.fb.control(0));
-        this.form.addControl('timedurationminutes', this.fb.control(''));
-        this.form.addControl('repeat', this.fb.control(false));
-        this.form.addControl('repeats', this.fb.control('1'));
-        this.form.addControl('repeateditall', this.fb.control(1));
-
         this.maxDate = CoreTimeUtils.getDatetimeDefaultMax();
         this.minDate = CoreTimeUtils.getDatetimeDefaultMin();
     }
@@ -136,19 +116,12 @@ export class AddonCalendarEditEventPage implements OnInit, OnDestroy, CanLeave {
      * Component being initialized.
      */
     ngOnInit(): void {
-        this.eventId = CoreNavigator.getRouteNumberParam('eventId') || undefined;
         this.courseId = CoreNavigator.getRouteNumberParam('courseId') || 0;
-        this.title = this.eventId ? 'addon.calendar.editevent' : 'addon.calendar.newevent';
-
-        const timestamp = CoreNavigator.getRouteNumberParam('timestamp');
-        const currentDate = CoreTimeUtils.toDatetimeFormat(timestamp);
-        this.form.addControl('timestart', this.fb.control(currentDate, Validators.required));
-        this.form.addControl('timedurationuntil', this.fb.control(currentDate));
-        this.form.addControl('courseid', this.fb.control(this.courseId));
 
         this.initReminders();
         this.fetchData().finally(() => {
-            this.originalData = CoreUtils.clone(this.form.value);
+            // TODO double-check how to improve this
+            this.originalData = CoreUtils.clone(this.form.group.value);
             this.loaded = true;
         });
     }
@@ -237,12 +210,12 @@ export class AddonCalendarEditEventPage implements OnInit, OnDestroy, CanLeave {
             }
             await Promise.all(promises);
 
-            if (!this.typeControl.value) {
+            if (!this.form.value('eventtype')) {
                 // Initialize event type value. If course is allowed, select it first.
                 if (this.types.course) {
-                    this.typeControl.setValue(AddonCalendarEventType.COURSE);
+                    this.form.controls.eventtype.setValue(AddonCalendarEventType.COURSE);
                 } else {
-                    this.typeControl.setValue(eventTypes[0].value);
+                    this.form.controls.eventtype.setValue(eventTypes[0].value);
                 }
             }
 
@@ -415,7 +388,7 @@ export class AddonCalendarEditEventPage implements OnInit, OnDestroy, CanLeave {
         try {
             await this.loadGroups(courseId);
 
-            this.groupControl.setValue('');
+            this.form.controls.groupid.setValue('');
         } catch (error) {
             CoreDomUtils.showErrorModalDefault(error, 'Error getting data.');
         }
@@ -449,23 +422,22 @@ export class AddonCalendarEditEventPage implements OnInit, OnDestroy, CanLeave {
      */
     async submit(): Promise<void> {
         // Validate data.
-        const formData = this.form.value;
-        const timeStartDate = CoreTimeUtils.convertToTimestamp(formData.timestart, true);
-        const timeUntilDate = CoreTimeUtils.convertToTimestamp(formData.timedurationuntil, true);
-        const timeDurationMinutes = parseInt(formData.timedurationminutes || '', 10);
+        const timeStartDate = CoreTimeUtils.convertToTimestamp(this.form.value('timestart'), true);
+        const timeUntilDate = CoreTimeUtils.convertToTimestamp(this.form.value('timedurationuntil'), true);
+        const timeDurationMinutes = parseInt(this.form.value('timedurationminutes') || '', 10);
         let error: string | undefined;
 
-        if (formData.eventtype == AddonCalendarEventType.COURSE && !formData.courseid) {
+        if (this.form.value('eventtype') == AddonCalendarEventType.COURSE && !this.form.value('courseid')) {
             error = 'core.selectacourse';
-        } else if (formData.eventtype == AddonCalendarEventType.GROUP && !formData.groupcourseid) {
+        } else if (this.form.value('eventtype') == AddonCalendarEventType.GROUP && !this.form.value('groupcourseid')) {
             error = 'core.selectacourse';
-        } else if (formData.eventtype == AddonCalendarEventType.GROUP && !formData.groupid) {
+        } else if (this.form.value('eventtype') == AddonCalendarEventType.GROUP && !this.form.value('groupid')) {
             error = 'core.selectagroup';
-        } else if (formData.eventtype == AddonCalendarEventType.CATEGORY && !formData.categoryid) {
+        } else if (this.form.value('eventtype') == AddonCalendarEventType.CATEGORY && !this.form.value('categoryid')) {
             error = 'core.selectacategory';
-        } else if (formData.duration == 1 && timeStartDate > timeUntilDate) {
+        } else if (this.form.value('duration') == 1 && timeStartDate > timeUntilDate) {
             error = 'addon.calendar.invalidtimedurationuntil';
-        } else if (formData.duration == 2 && (isNaN(timeDurationMinutes) || timeDurationMinutes < 1)) {
+        } else if (this.form.value('duration') == 2 && (isNaN(timeDurationMinutes) || timeDurationMinutes < 1)) {
             error = 'addon.calendar.invalidtimedurationminutes';
         }
 
@@ -478,40 +450,40 @@ export class AddonCalendarEditEventPage implements OnInit, OnDestroy, CanLeave {
 
         // Format the data to send.
         const data: AddonCalendarSubmitCreateUpdateFormDataWSParams = {
-            name: formData.name,
-            eventtype: formData.eventtype,
+            name: this.form.value('name'),
+            eventtype: this.form.value('eventtype'),
             timestart: timeStartDate,
             description: {
-                text: formData.description || '',
+                text: this.form.value('description') || '',
                 format: 1,
             },
-            location: formData.location,
-            duration: formData.duration,
-            repeat: formData.repeat,
+            location: this.form.value('location'),
+            duration: this.form.value('duration'),
+            repeat: this.form.value('repeat'),
         };
 
-        if (formData.eventtype == AddonCalendarEventType.COURSE) {
-            data.courseid = formData.courseid;
-        } else if (formData.eventtype == AddonCalendarEventType.GROUP) {
-            data.groupcourseid = formData.groupcourseid;
-            data.groupid = formData.groupid;
-        } else if (formData.eventtype == AddonCalendarEventType.CATEGORY) {
-            data.categoryid = formData.categoryid;
+        if (this.form.value('eventtype') == AddonCalendarEventType.COURSE) {
+            data.courseid = this.form.value('courseid');
+        } else if (this.form.value('eventtype') == AddonCalendarEventType.GROUP) {
+            data.groupcourseid = this.form.value('groupcourseid');
+            data.groupid = this.form.value('groupid');
+        } else if (this.form.value('eventtype') == AddonCalendarEventType.CATEGORY) {
+            data.categoryid = this.form.value('categoryid');
         }
 
-        if (formData.duration == 1) {
+        if (this.form.value('duration') == 1) {
             data.timedurationuntil = timeUntilDate;
-        } else if (formData.duration == 2) {
-            data.timedurationminutes = formData.timedurationminutes;
+        } else if (this.form.value('duration') == 2) {
+            data.timedurationminutes = this.form.value('timedurationminutes');
         }
 
-        if (formData.repeat) {
-            data.repeats = Number(formData.repeats);
+        if (this.form.value('repeat')) {
+            data.repeats = Number(this.form.value('repeats'));
         }
 
         if (this.eventRepeatId) {
             data.repeatid = this.eventRepeatId;
-            data.repeateditall = formData.repeateditall;
+            data.repeateditall = this.form.value('repeateditall');
         }
 
         // Send the data.
@@ -528,7 +500,7 @@ export class AddonCalendarEditEventPage implements OnInit, OnDestroy, CanLeave {
 
             if (result.sent) {
                 // Event created or edited, invalidate right days & months.
-                const numberOfRepetitions = formData.repeat ? formData.repeats :
+                const numberOfRepetitions = this.form.value('repeat') ? this.form.value('repeats') :
                     (data.repeateditall && this.otherEventsCount ? this.otherEventsCount + 1 : 1);
 
                 try {
@@ -707,3 +679,52 @@ export class AddonCalendarEditEventPage implements OnInit, OnDestroy, CanLeave {
 }
 
 type AddonCalendarEventCandidateReminder = Omit<AddonCalendarEventReminder, 'id'|'eventid'>;
+
+interface EventFormData {
+    name: string;
+    timestart: string;
+    eventtype: AddonCalendarEventType;
+    categoryid?: string;
+    groupid?: string;
+    courseid?: number;
+    duration?: number;
+    description?: string;
+    groupcourseid?: string;
+    timedurationuntil?: string;
+    timedurationminutes?: string;
+    location?: string;
+    repeat: boolean;
+    repeats?: string;
+    repeateditall?: number;
+}
+
+class AddonCalendarEventFormManager extends CoreFormManager<EventFormData> {
+
+    static getFields(page: AddonCalendarEditEventPage): Record<keyof EventFormData, FormControl> {
+        const timestamp = CoreNavigator.getRouteNumberParam('timestamp');
+        const currentDate = CoreTimeUtils.toDatetimeFormat(timestamp);
+
+        return {
+            name: FormBuilder.control('', Validators.required),
+            timestart: FormBuilder.control(currentDate, Validators.required),
+            eventtype: FormBuilder.control('', Validators.required),
+            categoryid: FormBuilder.control(''),
+            groupid: FormBuilder.control(''),
+            description: FormBuilder.control(''),
+            courseid: FormBuilder.control(page.courseId),
+            duration: FormBuilder.control(0),
+            groupcourseid: FormBuilder.control(''),
+            location: FormBuilder.control(''),
+            timedurationuntil: FormBuilder.control(currentDate),
+            timedurationminutes: FormBuilder.control(''),
+            repeat: FormBuilder.control(false),
+            repeats: FormBuilder.control('1'),
+            repeateditall: FormBuilder.control(1),
+        };
+    }
+
+    constructor(page: AddonCalendarEditEventPage, title: string) {
+        super(title, AddonCalendarEventFormManager.getFields(page));
+    }
+
+}

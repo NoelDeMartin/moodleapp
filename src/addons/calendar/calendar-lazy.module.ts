@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { CoreSharedModule } from '@/core/shared.module';
+import { AddonCalendarEventFormPageComponent } from '@addons/calendar/pages/event-form/event-form';
 import { Injector, NgModule } from '@angular/core';
 import { RouterModule, ROUTES, Routes } from '@angular/router';
 
@@ -41,10 +43,10 @@ function buildRoutes(injector: Injector): Routes {
             path: 'event/:id',
             loadChildren: () => import('@addons/calendar/pages/event/event.module').then(m => m.AddonCalendarEventPageModule),
         },
+        // TODO /create route for new event
         {
             path: 'edit/:eventId',
-            loadChildren: () =>
-                import('@addons/calendar/pages/edit-event/edit-event.module').then(m => m.AddonCalendarEditEventPageModule),
+            component: AddonCalendarEventFormPageComponent,
         },
         ...buildTabMainRoutes(injector, {
             redirectTo: 'index',
@@ -54,8 +56,13 @@ function buildRoutes(injector: Injector): Routes {
 }
 
 @NgModule({
+    imports: [CoreSharedModule],
     exports: [RouterModule],
+    declarations: [
+        AddonCalendarEventFormPageComponent,
+    ],
     providers: [
+        // TODO substitute this for RouterModule.forChild?
         {
             provide: ROUTES,
             multi: true,

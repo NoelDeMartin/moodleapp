@@ -24,7 +24,7 @@ import {
 import { Router as RouterService } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer as DomSanitizerService } from '@angular/platform-browser';
-
+import { FormBuilder as FormBuilderService } from '@angular/forms';
 import {
     AngularDelegate as AngularDelegateService,
     AlertController as AlertControllerService,
@@ -178,6 +178,7 @@ export const Diagnostic = makeSingleton(DiagnosticService);
 export const File = makeSingleton(FileService);
 export const FileOpener = makeSingleton(FileOpenerService);
 export const FileTransfer = makeSingleton(FileTransferService);
+export const FormBuilder = makeSingleton(FormBuilderService);
 export const Geolocation = makeSingleton(GeolocationService);
 export const InAppBrowser = makeSingleton(InAppBrowserService);
 export const Keyboard = makeSingleton(KeyboardService);

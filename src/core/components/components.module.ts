@@ -16,7 +16,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CoreDirectivesModule } from '@directives/directives.module';
 import { CorePipesModule } from '@pipes/pipes.module';
@@ -62,6 +62,7 @@ import { CoreButtonWithSpinnerComponent } from './button-with-spinner/button-wit
 import { CoreSwipeSlidesComponent } from './swipe-slides/swipe-slides';
 import { CoreSwipeNavigationTourComponent } from './swipe-navigation-tour/swipe-navigation-tour';
 import { CoreMessageComponent } from './message/message';
+import { CoreFormComponent } from '@components/form/form';
 
 @NgModule({
     declarations: [
@@ -78,6 +79,7 @@ import { CoreMessageComponent } from './message/message';
         CoreEmptyBoxComponent,
         CoreFileComponent,
         CoreFilesComponent,
+        CoreFormComponent,
         CoreIconComponent,
         CoreIframeComponent,
         CoreInfiniteLoadingComponent,
@@ -111,6 +113,7 @@ import { CoreMessageComponent } from './message/message';
         CommonModule,
         IonicModule,
         FormsModule,
+        ReactiveFormsModule,
         TranslateModule.forChild(),
         CoreDirectivesModule,
         CorePipesModule,
@@ -129,6 +132,7 @@ import { CoreMessageComponent } from './message/message';
         CoreEmptyBoxComponent,
         CoreFileComponent,
         CoreFilesComponent,
+        CoreFormComponent,
         CoreIconComponent,
         CoreIframeComponent,
         CoreInfiniteLoadingComponent,

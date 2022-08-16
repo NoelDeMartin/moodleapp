@@ -1,0 +1,95 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [text]="'core.back' | translate"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            <h1>{{ form.title | translate }}</h1>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <!-- TODO if error, this will be empty... -->
+    <!-- TODO refresher & loading -->
+    <!-- TODO *ngIf="loaded && !error" -->
+    <core-form [manager]="form" [formGroup]="form.group">
+        <!-- Event name. -->
+        <ion-item class="ion-text-wrap">
+            <ion-label position="stacked">
+                <p class="item-heading" [core-mark-required]="true">{{ 'addon.calendar.eventname' | translate }}</p>
+            </ion-label>
+            <ion-input type="text" name="name" [placeholder]="'addon.calendar.eventname' | translate" formControlName="name">
+            </ion-input>
+            <core-input-errors [control]="form.controls.name"></core-input-errors>
+        </ion-item>
+
+        <!-- Date. -->
+        <ion-item class="ion-text-wrap">
+            <ion-label position="stacked">
+                <p class="item-heading" [core-mark-required]="true">{{ 'core.date' | translate }}</p>
+            </ion-label>
+            <ion-datetime formControlName="timestart" [placeholder]="'core.date' | translate" [displayFormat]="dateFormat" [max]="maxDate"
+                [min]="minDate" display-timezone="utc">
+            </ion-datetime>
+            <core-input-errors [control]="form.controls.timestart"></core-input-errors>
+        </ion-item>
+
+        <!-- Type. -->
+        <ion-item class="ion-text-wrap addon-calendar-eventtype-container">
+            <ion-label>
+                <p class="item-heading" [core-mark-required]="true">{{ 'addon.calendar.eventkind' | translate }}</p>
+            </ion-label>
+            <p *ngIf="eventTypes.length == 1" slot="end">{{eventTypes[0].name | translate }}</p>
+            <ion-select *ngIf="eventTypes.length > 1" formControlName="eventtype" interface="action-sheet"
+                [interfaceOptions]="{header: 'addon.calendar.eventkind' | translate}">
+                <ion-select-option *ngFor="let type of eventTypes" [value]="type.value">
+                    {{ type.name | translate }}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <!-- Category. -->
+        <ion-item class="ion-text-wrap" *ngIf="form.value('eventtype') === 'category'">
+            <ion-label>
+                <p class="item-heading" [core-mark-required]="true">{{ 'core.category' | translate }}</p>
+            </ion-label>
+            <ion-select formControlName="categoryid" interface="action-sheet" [placeholder]="'core.noselection' | translate"
+                [interfaceOptions]="{header: 'core.category' | translate}">
+                <ion-select-option *ngFor="let category of categories" [value]="category.id">
+                    {{ category.name }}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <!-- Course. -->
+        <ion-item class="ion-text-wrap" *ngIf="form.value('eventtype') === 'course'">
+            <ion-label>
+                <p class="item-heading" [core-mark-required]="true">{{ 'core.course' | translate }}</p>
+            </ion-label>
+            <ion-select formControlName="courseid" interface="action-sheet" [placeholder]="'core.noselection' | translate"
+                [interfaceOptions]="{header: 'core.course' | translate}">
+                <ion-select-option *ngFor="let course of courses" [value]="course.id">{{ course.fullname }}</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <!-- Group. -->
+        <ng-container *ngIf="form.value('eventtype') === 'group'">
+            <!-- Select the course. -->
+            <ion-item class="ion-text-wrap">
+                <ion-label>
+                    <p class="item-heading" [core-mark-required]="true">{{ 'core.course' | translate }}</p>
+                </ion-label>
+                <ion-select formControlName="groupcourseid" interface="action-sheet" [placeholder]="'core.noselection' | translate"
+                    (ionChange)="groupCourseSelected()" [interfaceOptions]="{header: 'core.course' | translate}">
+                    <ion-select-option *ngFor="let course of courses" [value]="course.id">
+                        {{ course.fullname }}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+
+            <!-- TODO groups extras -->
+        </ng-container>
+
+        <!-- TODO other fields-->
+    </core-form>
+</ion-content>
