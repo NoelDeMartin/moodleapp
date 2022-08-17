@@ -1,0 +1,15 @@
+<form (ngSubmit)="submit($event)" #form>
+    <ng-content></ng-content>
+</form>
+
+<!-- TODO shouldn't this submit button be inside of form, and capture submit event instead of button click? -->
+<div collapsible-footer appearOnBottom slot="fixed">
+    <div class="list-item-limited-width adaptable-buttons-row">
+        <ion-button *ngIf="showDiscard" expand="block" fill="outline" (click)="discard()" class="ion-margin ion-text-wrap">
+            {{ 'core.discard' | translate }}
+        </ion-button>
+        <ion-button expand="block" (click)="submit()" [disabled]="disabled" type="submit" class="ion-margin ion-text-wrap">
+            {{ 'core.save' | translate }}
+        </ion-button>
+    </div>
+</div>

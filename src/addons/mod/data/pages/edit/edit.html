@@ -9,11 +9,6 @@
                 </core-format-text>
             </h1>
         </ion-title>
-        <ion-buttons slot="end">
-            <ion-button *ngIf="entry" fill="clear" (click)="save($event)">
-                {{ 'core.save' | translate }}
-            </ion-button>
-        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -34,9 +29,9 @@
         <div class="addon-data-contents {{cssClass}}" *ngIf="database">
             <core-style [css]="database.csstemplate" prefix=".{{cssClass}}"></core-style>
 
-            <form (ngSubmit)="save($event)" [formGroup]="editForm" #editFormEl>
+            <core-form (onSubmit)="save()" [disabled]="!editForm.valid" [formGroup]="editForm" #editFormEl>
                 <core-compile-html [text]="editFormRender" [jsData]="jsData" [extraImports]="extraImports"></core-compile-html>
-            </form>
+            </core-form>
         </div>
     </core-loading>
 </ion-content>

@@ -14,7 +14,8 @@
     </ion-refresher>
 
     <core-loading [hideUntil]="loaded">
-        <form [formGroup]="form" *ngIf="!error" #editEventForm>
+        <core-form *ngIf="loaded && !error" [formGroup]="form" [showDiscard]="hasOffline && eventId && eventId < 0" [disabled]="!form.valid"
+            #editEventForm (onSubmit)="submit()" (onDiscard)="discard()">
             <!-- Event name. -->
             <ion-item class="ion-text-wrap">
                 <ion-label position="stacked">
@@ -231,17 +232,6 @@
                 <ion-input type="text" name="location" [placeholder]="'core.location' | translate" formControlName="location">
                 </ion-input>
             </ion-item>
-        </form>
-        <div collapsible-footer appearOnBottom *ngIf="loaded && !error" slot="fixed">
-            <div class="list-item-limited-width adaptable-buttons-row">
-                <ion-button *ngIf="hasOffline && eventId && eventId < 0" expand="block" fill="outline" (click)="discard()"
-                    class="ion-margin ion-text-wrap">
-                    {{ 'core.discard' | translate }}
-                </ion-button>
-                <ion-button expand="block" (click)="submit()" [disabled]="!form.valid" type="submit" class="ion-margin ion-text-wrap">
-                    {{ 'core.save' | translate }}
-                </ion-button>
-            </div>
-        </div>
+        </core-form>
     </core-loading>
 </ion-content>

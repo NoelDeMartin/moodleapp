@@ -13,7 +13,10 @@
 // limitations under the License.
 
 import { ElementRef } from '@angular/core';
+import { CoreFormComponent } from '@components/form/form';
 import { CoreEventFormAction, CoreEvents } from '@singletons/events';
+
+// TODO should be called forms.ts
 
 /**
  * Singleton with helper functions for Forms.
@@ -63,14 +66,19 @@ export class CoreForms {
      * @param formRef Form element.
      * @param siteId The site affected. If not provided, no site affected.
      */
-    static triggerFormCancelledEvent(formRef?: ElementRef | HTMLFormElement | undefined, siteId?: string): void {
+    static triggerFormCancelledEvent(
+        formRef?: ElementRef | HTMLFormElement | CoreFormComponent | undefined,
+        siteId?: string,
+    ): void {
         if (!formRef) {
             return;
         }
 
         CoreEvents.trigger(CoreEvents.FORM_ACTION, {
             action: CoreEventFormAction.CANCEL,
-            form: formRef.nativeElement || formRef,
+            form: formRef instanceof CoreFormComponent
+                ? formRef.formElement.nativeElement
+                : formRef.nativeElement || formRef,
         }, siteId);
     }
 
@@ -81,14 +89,20 @@ export class CoreForms {
      * @param online Whether the action was done in offline or not.
      * @param siteId The site affected. If not provided, no site affected.
      */
-    static triggerFormSubmittedEvent(formRef?: ElementRef | HTMLFormElement | undefined, online?: boolean, siteId?: string): void {
+    static triggerFormSubmittedEvent(
+        formRef?: ElementRef | HTMLFormElement | CoreFormComponent | undefined,
+        online?: boolean,
+        siteId?: string,
+    ): void {
         if (!formRef) {
             return;
         }
 
         CoreEvents.trigger(CoreEvents.FORM_ACTION, {
             action: CoreEventFormAction.SUBMIT,
-            form: formRef.nativeElement || formRef,
+            form: formRef instanceof CoreFormComponent
+                ? formRef.formElement.nativeElement
+                : formRef.nativeElement || formRef,
             online: !!online,
         }, siteId);
     }

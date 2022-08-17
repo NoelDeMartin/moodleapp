@@ -239,13 +239,9 @@ export class AddonModDataEditPage implements OnInit {
     /**
      * Saves data.
      *
-     * @param e Event.
      * @return Resolved when done.
      */
-    async save(e: Event): Promise<void> {
-        e.preventDefault();
-        e.stopPropagation();
-
+    async save(): Promise<void> {
         const inputData = this.editForm.value;
 
         try {
