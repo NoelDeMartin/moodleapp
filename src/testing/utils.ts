@@ -26,6 +26,7 @@ import { TranslatePipeStub } from './stubs/pipes/translate';
 import { CoreExternalContentDirectiveStub } from './stubs/directives/core-external-content';
 import { CoreNetwork } from '@services/network';
 import { CorePlatform } from '@services/platform';
+import { TranslateService } from '@ngx-translate/core';
 
 abstract class WrapperComponent<U> {
 
@@ -282,8 +283,10 @@ export function wait(time: number): Promise<void> {
  *
  * @param translations List of translations.
  */
-export function mockTranslate(translations: Record<string, string>): void {
-    mockSingleton(Translate, {
-        instant: (key) => translations[key] ?? key,
+export function mockTranslate(translations: Record<string, string> = {}): void {
+    mockSingleton(Translate as CoreSingletonProxy<TranslateService>, {
+        instant: (key) => Array.isArray(key)
+            ? key.map(k => translations[k] ?? k)
+            : translations[key] ?? key,
     });
 }
