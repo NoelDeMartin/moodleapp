@@ -5,6 +5,7 @@
     width: 100%;
 
     --line-height: 40px;
+    --text-width: 55px;
     --bar-margin: 16px 0;
     --height: var(--core-progressbar-height);
 
@@ -23,7 +24,7 @@
         line-height: var(--line-height);
         font-size: 0.9rem;
         color: var(--text-color);
-        width: 55px;
+        width: var(--text-width);
         text-align: center;
     }
 

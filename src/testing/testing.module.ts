@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { CoreAppProvider } from '@services/app';
+import { CorePlatform } from '@services/platform';
 import moment from 'moment-timezone';
 import { TestingBehatRuntime, TestingBehatRuntimeService } from './services/behat-runtime';
 
@@ -22,7 +22,7 @@ type AutomatedTestsWindow = Window & {
 };
 
 function initializeAutomatedTests(window: AutomatedTestsWindow) {
-    if (!CoreAppProvider.isAutomated()) {
+    if (!CorePlatform.isAutomated()) {
         return;
     }
 

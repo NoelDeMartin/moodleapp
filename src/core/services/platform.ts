@@ -23,6 +23,33 @@ import { makeSingleton } from '@singletons';
 export class CorePlatformService extends Platform {
 
     /**
+     * Returns whether the user agent is controlled by automation. I.e. Behat testing.
+     *
+     * @return True if the user agent is controlled by automation, false otherwise.
+     */
+    isAutomated(): boolean {
+        return !!navigator.webdriver;
+    }
+
+    /**
+     * Checks if the app is running in an Android mobile or tablet device.
+     *
+     * @return Whether the app is running in an Android mobile or tablet device.
+     */
+    isAndroid(): boolean {
+        return this.isMobile() && this.is('android');
+    }
+
+    /**
+     * Checks if the app is running in an iOS mobile or tablet device.
+     *
+     * @return Whether the app is running in an iOS mobile or tablet device.
+     */
+    isIOS(): boolean {
+        return this.isMobile() && !this.is('android');
+    }
+
+    /**
      * Checks if the app is running in a mobile or tablet device (Cordova).
      *
      * @return Whether the app is running in a mobile or tablet device.

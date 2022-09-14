@@ -15,7 +15,6 @@
 import { InAppBrowserObject, InAppBrowserOptions } from '@ionic-native/in-app-browser';
 import { Md5 } from 'ts-md5/dist/md5';
 
-import { CoreApp } from '@services/app';
 import { CoreNetwork } from '@services/network';
 import { CoreDB } from '@services/db';
 import { CoreEvents } from '@singletons/events';
@@ -57,6 +56,7 @@ import {
     WSGroups,
     WS_CACHE_TABLES_PREFIX,
 } from '@services/database/sites';
+import { CoreAuth } from '@services/auth';
 
 /**
  * QR Code type enumeration.
@@ -641,9 +641,9 @@ export class CoreSite {
                         preSets.getFromCache = false; // Don't check cache now. Also, it will skip ongoingRequests.
 
                         return this.request<T>(method, data, preSets, true);
-                    } else if (CoreApp.isSSOAuthenticationOngoing()) {
+                    } else if (CoreAuth.isSSOAuthenticationOngoing()) {
                         // There's an SSO authentication ongoing, wait for it to finish and try again.
-                        await CoreApp.waitForSSOAuthentication();
+                        await CoreAuth.waitForSSOAuthentication();
 
                         return this.request<T>(method, data, preSets, true);
                     }

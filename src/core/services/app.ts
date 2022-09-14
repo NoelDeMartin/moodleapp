@@ -31,6 +31,7 @@ import { CorePromisedValue } from '@classes/promised-value';
 import { Subscription } from 'rxjs';
 import { CorePlatform } from '@services/platform';
 import { CoreNetwork, CoreNetworkConnection } from '@services/network';
+import { CoreAuth } from '@services/auth';
 
 /**
  * Factory to provide some global functionalities, like access to the global app database.
@@ -50,7 +51,6 @@ export class CoreAppProvider {
 
     protected db?: SQLiteDB;
     protected logger: CoreLogger;
-    protected ssoAuthenticationDeferred?: CorePromisedValue<void>;
     protected isKeyboardShown = false;
     protected keyboardOpening = false;
     protected keyboardClosing = false;
@@ -59,15 +59,6 @@ export class CoreAppProvider {
 
     constructor() {
         this.logger = CoreLogger.getInstance('CoreAppProvider');
-    }
-
-    /**
-     * Returns whether the user agent is controlled by automation. I.e. Behat testing.
-     *
-     * @return True if the user agent is controlled by automation, false otherwise.
-     */
-    static isAutomated(): boolean {
-        return !!navigator.webdriver;
     }
 
     /**
@@ -225,9 +216,10 @@ export class CoreAppProvider {
      * Checks if the app is running in an Android mobile or tablet device.
      *
      * @return Whether the app is running in an Android mobile or tablet device.
+     * @deprecated since 4.1 Use CorePlatform instead.
      */
     isAndroid(): boolean {
-        return CorePlatform.isMobile() && CorePlatform.is('android');
+        return CorePlatform.isAndroid();
     }
 
     /**
@@ -244,9 +236,10 @@ export class CoreAppProvider {
      * Checks if the app is running in an iOS mobile or tablet device.
      *
      * @return Whether the app is running in an iOS mobile or tablet device.
+     * @deprecated since 4.1. Use CorePlatform instead.
      */
     isIOS(): boolean {
-        return CorePlatform.isMobile() && !CorePlatform.is('android');
+        return CorePlatform.isIOS();
     }
 
     /**
@@ -428,44 +421,40 @@ export class CoreAppProvider {
      * Start an SSO authentication process.
      * Please notice that this function should be called when the app receives the new token from the browser,
      * NOT when the browser is opened.
+     *
+     * @deprecated since 4.1.0. Use CoreAuth instead.
      */
     startSSOAuthentication(): void {
-        this.ssoAuthenticationDeferred = new CorePromisedValue();
-
-        // Resolve it automatically after 10 seconds (it should never take that long).
-        const cancelTimeout = setTimeout(() => this.finishSSOAuthentication(), 10000);
-
-        // If the promise is resolved because finishSSOAuthentication is called, stop the cancel promise.
-        // eslint-disable-next-line promise/catch-or-return
-        this.ssoAuthenticationDeferred.then(() => clearTimeout(cancelTimeout));
+        CoreAuth.startSSOAuthentication();
     }
 
     /**
      * Finish an SSO authentication process.
+     *
+     * @deprecated since 4.1.0. Use CoreAuth instead.
      */
     finishSSOAuthentication(): void {
-        if (this.ssoAuthenticationDeferred) {
-            this.ssoAuthenticationDeferred.resolve();
-            this.ssoAuthenticationDeferred = undefined;
-        }
+        CoreAuth.finishSSOAuthentication();
     }
 
     /**
      * Check if there's an ongoing SSO authentication process.
      *
      * @return Whether there's a SSO authentication ongoing.
+     * @deprecated since 4.1.0. Use CoreAuth instead.
      */
     isSSOAuthenticationOngoing(): boolean {
-        return !!this.ssoAuthenticationDeferred;
+        return CoreAuth.isSSOAuthenticationOngoing();
     }
 
     /**
      * Returns a promise that will be resolved once SSO authentication finishes.
      *
      * @return Promise resolved once SSO authentication finishes.
+     * @deprecated since 4.1. use CoreAuth instead.
      */
     async waitForSSOAuthentication(): Promise<void> {
-        await this.ssoAuthenticationDeferred;
+        await CoreAuth.waitForSSOAuthentication();
     }
 
     /**

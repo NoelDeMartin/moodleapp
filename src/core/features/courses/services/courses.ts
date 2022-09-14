@@ -1274,7 +1274,7 @@ type CoreEnrolGetUsersCoursesWSParams = {
 /**
  * Data returned by core_enrol_get_users_courses WS.
  */
-type CoreEnrolGetUsersCoursesWSResponse = (CoreEnrolledCourseData & {
+export type CoreEnrolGetUsersCoursesWSResponse = (CoreEnrolledCourseData & {
     category?: number; // Course category id.
 })[];
 

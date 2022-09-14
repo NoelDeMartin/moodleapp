@@ -1,0 +1,14 @@
+@mixin typography($type, $level) {
+    @if $type == 'subtitle' and $level == 1 {
+        font-size: 16px;
+    }
+
+    @if $type == 'subtitle' and $level == 2 {
+        font-size: 14px;
+    }
+
+    @if $type == 'label' and $level == 1 {
+        font-size: 12px;
+    }
+
+}

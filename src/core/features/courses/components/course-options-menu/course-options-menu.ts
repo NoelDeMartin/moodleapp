@@ -14,8 +14,8 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { CoreCourses } from '../../services/courses';
-import { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '../../services/courses-helper';
-import { CorePrefetchStatusInfo } from '@features/course/services/course-helper';
+import type { CoreEnrolledCourseDataWithExtraInfoAndOptions } from '../../services/courses-helper';
+import type { CorePrefetchStatusInfo } from '@features/course/services/course-helper';
 import { PopoverController } from '@singletons';
 
 /**

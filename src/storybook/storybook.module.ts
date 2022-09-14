@@ -20,6 +20,17 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import englishTranslations from '@/assets/lang/en.json';
 import { CoreApplicationInitStatus } from '@classes/application-init-status';
 import { Translate } from '@singletons';
+import { CoreDbProvider } from '@services/db';
+import { CoreDbProviderStub } from '@/storybook/stubs/services/db';
+
+// TODO order matters here :/
+import { CoreSitesProvider } from '@services/sites';
+import { CoreSitesProviderStub, CoreSitesStub } from '@/storybook/stubs/services/sites';
+import { CoreFilterDelegateService } from '@features/filter/services/filter-delegate';
+import { CoreFilterDelegateServiceStub } from '@/storybook/stubs/services/filters-delegate';
+import { CoreCourseProviderStub } from '@/storybook/stubs/services/course';
+import { CoreCourseProvider } from '@features/course/services/course';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 // For translate loader. AoT requires an exported function for factories.
 export class StaticTranslateLoader extends TranslateLoader {
@@ -35,6 +46,7 @@ export class StaticTranslateLoader extends TranslateLoader {
  */
 @NgModule({
     imports: [
+        NoopAnimationsModule,
         IonicModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
@@ -45,12 +57,18 @@ export class StaticTranslateLoader extends TranslateLoader {
     ],
     providers: [
         { provide: ApplicationInitStatus, useClass: CoreApplicationInitStatus },
+        { provide: CoreSitesProvider, useClass: CoreSitesProviderStub },
+        { provide: CoreDbProvider, useClass: CoreDbProviderStub },
+        { provide: CoreFilterDelegateService, useClass: CoreFilterDelegateServiceStub },
+        { provide: CoreCourseProvider, useClass: CoreCourseProviderStub },
         {
             provide: APP_INITIALIZER,
             multi: true,
             useValue: () => {
                 Translate.setDefaultLang('en');
                 Translate.use('en');
+
+                CoreSitesStub.stubCurrentSite();
             },
         },
     ],
