@@ -53,8 +53,9 @@ export class CoreLoginReconnectPage implements OnInit, OnDestroy {
     isLoggedOut: boolean;
     siteId!: string;
     showScanQR = false;
+    reconnectAttempts = 0;
+    siteConfig?: CoreSitePublicConfigResponse;
 
-    protected siteConfig?: CoreSitePublicConfigResponse;
     protected viewLeft = false;
     protected eventThrown = false;
     protected redirectData?: CoreRedirectPayload;
@@ -238,6 +239,8 @@ export class CoreLoginReconnectPage implements OnInit, OnDestroy {
             } else if (error.errorcode == 'forcepasswordchangenotice') {
                 // Reset password field.
                 this.credForm.controls.password.reset();
+            } else if (error.errorcode == 'invalidlogin') {
+                this.reconnectAttempts++;
             }
         } finally {
             modal.dismiss();
