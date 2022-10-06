@@ -1646,6 +1646,10 @@ export class CoreSite {
      */
     async getPublicConfig(options: { readingStrategy?: CoreSitesReadingStrategy } = {}): Promise<CoreSitePublicConfigResponse> {
         if (!this.db) {
+            if (options.readingStrategy === CoreSitesReadingStrategy.ONLY_CACHE) {
+                throw new CoreError('Cache not available to read public config');
+            }
+
             return this.requestPublicConfig();
         }
 
