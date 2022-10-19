@@ -13,8 +13,7 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { CoreError } from '@classes/errors/error';
-import { CoreSiteConfig, CoreSitePublicConfigResponse } from '@classes/site';
+import { CoreAuthenticatedUserSupportConfig, CoreUserSupportConfig } from '@features/user/classes/support-config';
 import { InAppBrowserObject } from '@ionic-native/in-app-browser';
 import { CorePlatform } from '@services/platform';
 import { CoreSites } from '@services/sites';
@@ -35,12 +34,8 @@ export class CoreUserSupportService {
      * @param options Options to configure the interaction with support.
      */
     async contact(options: CoreUserSupportContactOptions = {}): Promise<void> {
-        const supportPageUrl = options.supportPageUrl ?? CoreSites.getRequiredCurrentSite().getSupportPageUrl();
-
-        if (!supportPageUrl) {
-            throw new CoreError('Could not get support url');
-        }
-
+        const supportConfig = options.supportConfig ?? CoreAuthenticatedUserSupportConfig.forCurrentSite();
+        const supportPageUrl = supportConfig.getSupporPagetUrl();
         const autoLoginUrl = await CoreSites.getCurrentSite()?.getAutoLoginUrl(supportPageUrl, false);
         const browser = CoreUtils.openInApp(autoLoginUrl ?? supportPageUrl);
 
@@ -49,29 +44,6 @@ export class CoreUserSupportService {
         }
 
         await CoreEvents.waitUntil(CoreEvents.IAB_EXIT);
-    }
-
-    /**
-     * Get support page url from site config.
-     *
-     * @param config Site config.
-     * @returns Support page url.
-     */
-    getSupportPageUrl(config: CoreSitePublicConfigResponse): string;
-    getSupportPageUrl(config: CoreSiteConfig, siteUrl: string): string;
-    getSupportPageUrl(config: CoreSiteConfig | CoreSitePublicConfigResponse, siteUrl?: string): string {
-        return config.supportpage?.trim()
-            || `${config.httpswwwroot ?? config.wwwroot ?? siteUrl}/user/contactsitesupport.php`;
-    }
-
-    /**
-     * Check whether a site config allows contacting support.
-     *
-     * @param config Site config.
-     * @returns Whether site support can be contacted.
-     */
-    canContactSupport(config: CoreSiteConfig | CoreSitePublicConfigResponse): boolean {
-        return 'supportpage' in config;
     }
 
     /**
@@ -106,7 +78,7 @@ export const CoreUserSupport = makeSingleton(CoreUserSupportService);
  * Options to configure interaction with support.
  */
 export interface CoreUserSupportContactOptions {
-    supportPageUrl?: string | null;
+    supportConfig?: CoreUserSupportConfig | null;
     subject?: string | null;
     message?: string | null;
 }

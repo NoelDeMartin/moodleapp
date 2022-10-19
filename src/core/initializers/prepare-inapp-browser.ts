@@ -14,6 +14,7 @@
 
 import { CoreSiteError } from '@classes/errors/siteerror';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
+import { CoreAuthenticatedUserSupportConfig } from '@features/user/classes/support-config';
 import { CoreApp } from '@services/app';
 import { CoreCustomURLSchemes } from '@services/urlschemes';
 import { CoreDomUtils } from '@services/utils/dom';
@@ -47,7 +48,7 @@ export default function(): void {
             // It's an SSO token for another app. Close the IAB and show an error.
             CoreUtils.closeInAppBrowser();
             CoreDomUtils.showErrorModal(new CoreSiteError({
-                contactSupport: true,
+                supportConfig: CoreAuthenticatedUserSupportConfig.forCurrentSite(),
                 message: Translate.instant('core.cannotconnecttrouble'),
                 fallbackMessage: Translate.instant('core.cannotconnecttroublewithoutsupport'),
                 errorcode: 'invalidurlscheme',

@@ -27,6 +27,7 @@ import { CoreError } from '@classes/errors/error';
 import { CoreNavigator, CoreRedirectPayload } from '@services/navigator';
 import { CoreForms } from '@singletons/form';
 import { CoreUserSupport } from '@features/user/services/support';
+import { CoreAuthenticatedUserSupportConfig, CoreUserSupportConfig } from '@features/user/classes/support-config';
 
 /**
  * Page to enter the user password to reconnect to a site.
@@ -55,9 +56,10 @@ export class CoreLoginReconnectPage implements OnInit, OnDestroy {
     siteId!: string;
     showScanQR = false;
     reconnectAttempts = 0;
-    siteConfig?: CoreSitePublicConfigResponse;
+    supportConfig?: CoreUserSupportConfig;
     canContactSupport?: boolean;
 
+    protected siteConfig?: CoreSitePublicConfigResponse;
     protected viewLeft = false;
     protected eventThrown = false;
     protected redirectData?: CoreRedirectPayload;
@@ -102,7 +104,8 @@ export class CoreLoginReconnectPage implements OnInit, OnDestroy {
             this.userAvatar = site.infos.userpictureurl;
             this.siteUrl = site.infos.siteurl;
             this.siteName = site.getSiteName();
-            this.canContactSupport = site.canContactSupport();
+            this.supportConfig = new CoreAuthenticatedUserSupportConfig(site);
+            this.canContactSupport = this.supportConfig.canContactSupport();
 
             // If login was OAuth we should only reach this page if the OAuth method ID has changed.
             this.isOAuth = site.isOAuth();
@@ -137,9 +140,11 @@ export class CoreLoginReconnectPage implements OnInit, OnDestroy {
      * Contact site support.
      */
     async contactSupport(): Promise<void> {
-        const supportPageUrl = this.siteConfig && CoreUserSupport.getSupportPageUrl(this.siteConfig);
+        if (!this.supportConfig) {
+            throw new Error('can\'t contact support');
+        }
 
-        await CoreUserSupport.contact({ supportPageUrl });
+        await CoreUserSupport.contact({ supportConfig: this.supportConfig });
     }
 
     /**
