@@ -471,24 +471,16 @@ export class CoreNavigatorService {
     }
 
     /**
-     * Check whether a route is active within the current stack.
+     * Check whether a route is active within the current stack or the given parent route.
      *
      * @param route Route to check.
+     * @param parentRoute Parent route, the current root route will be used if this is missing.
      * @return Whether the route is active or not.
      */
-    isRouteActive(route: ActivatedRoute): boolean {
-        const routePath = this.getRouteFullPath(route.snapshot);
-        let activeRoute: ActivatedRoute | null = Router.routerState.root;
+    isRouteActive(route: ActivatedRoute, parentRoute?: ActivatedRoute): boolean {
+        parentRoute = parentRoute ?? Router.routerState.root;
 
-        while (activeRoute) {
-            if (this.getRouteFullPath(activeRoute.snapshot) === routePath) {
-                return true;
-            }
-
-            activeRoute = activeRoute.firstChild;
-        }
-
-        return false;
+        return parentRoute.children.some(child => child.snapshot === route.snapshot || this.isRouteActive(route, child));
     }
 
     /**

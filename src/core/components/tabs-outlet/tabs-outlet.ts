@@ -21,12 +21,13 @@ import {
     AfterViewInit,
     ViewChild,
     SimpleChange,
+    ElementRef,
 } from '@angular/core';
 import { IonRouterOutlet, IonTabs, ViewDidEnter, ViewDidLeave } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
 import { CoreUtils } from '@services/utils/utils';
-import { Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { CoreNavBarButtonsComponent } from '../navbar-buttons/navbar-buttons';
 import { StackEvent } from '@ionic/angular/directives/navigation/stack-utils';
 import { CoreNavigator } from '@services/navigator';
@@ -62,6 +63,14 @@ export class CoreTabsOutletComponent extends CoreTabsBaseComponent<CoreTabsOutle
     @Input() tabs: CoreTabsOutletTab[] = [];
 
     @ViewChild(IonTabs) protected ionTabs!: IonTabs;
+
+    private route: ActivatedRoute;
+
+    constructor(element: ElementRef, route: ActivatedRoute) {
+        super(element);
+
+        this.route = route;
+    }
 
     protected stackEventsSubscription?: Subscription;
     protected outletActivatedSubscription?: Subscription;
@@ -191,6 +200,10 @@ export class CoreTabsOutletComponent extends CoreTabsBaseComponent<CoreTabsOutle
      * @return Promise resolved with true if tab is successfully loaded.
      */
     protected async loadTab(tabToSelect: CoreTabsOutletTab): Promise<boolean> {
+        if (!CoreNavigator.isRouteActive(this.route)) {
+            return false;
+        }
+
         return CoreNavigator.navigate(tabToSelect.page, {
             params: tabToSelect.pageParams,
             animated: false,
