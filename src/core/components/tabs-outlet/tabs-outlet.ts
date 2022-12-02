@@ -200,6 +200,8 @@ export class CoreTabsOutletComponent extends CoreTabsBaseComponent<CoreTabsOutle
      * @return Promise resolved with true if tab is successfully loaded.
      */
     protected async loadTab(tabToSelect: CoreTabsOutletTab): Promise<boolean> {
+        // TODO this breaks tabs other than the first, because snapshot children are not the same
+        // in this.route than in the router.
         if (!CoreNavigator.isRouteActive(this.route)) {
             return false;
         }
