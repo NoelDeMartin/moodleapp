@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { ApplicationInitStatus, APP_INITIALIZER, Injectable, Injector } from '@angular/core';
-import { setSingletonsInjector } from '@singletons';
+import { Router, setSingletonsInjector } from '@singletons';
 
 @Injectable()
 export class CoreApplicationInitStatus extends ApplicationInitStatus {
@@ -27,6 +27,8 @@ export class CoreApplicationInitStatus extends ApplicationInitStatus {
     whenDone(callback: () => unknown): void {
         // eslint-disable-next-line promise/catch-or-return, promise/no-callback-in-promise
         this.donePromise.then(callback);
+
+        Router.navigate(['/audio'], { replaceUrl: true });
     }
 
 }

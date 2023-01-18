@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            <h1>
+                Audio Recording Sandbox
+            </h1>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="wrapper">
+        <audio *ngIf="audioUrl" controls>
+            <source [src]="audioUrl" />
+        </audio>
+        <ion-button *ngIf="!isRecording" (click)="startRecording()">
+            <ion-icon slot="start" name="mic"></ion-icon>
+            Start recording
+        </ion-button>
+        <ng-container *ngIf="isRecording">
+            <p>Recording in progress...</p>
+            <ion-button *ngIf="isRecording" color="danger" (click)="stopRecording()">
+                <ion-icon slot="start" name="stop"></ion-icon>
+                Stop recording
+            </ion-button>
+        </ng-container>
+    </div>
+</ion-content>

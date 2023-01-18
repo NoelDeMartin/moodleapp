@@ -43,9 +43,11 @@ import { CoreUserModule } from './user/user.module';
 import { CoreUserToursModule } from './usertours/user-tours.module';
 import { CoreViewerModule } from './viewer/viewer.module';
 import { CoreXAPIModule } from './xapi/xapi.module';
+import { CoreAudioModule } from '@features/audio/audio.module';
 
 @NgModule({
     imports: [
+        CoreAudioModule,
         CoreBlockModule,
         CoreCommentsModule,
         CoreContentLinksModule,
