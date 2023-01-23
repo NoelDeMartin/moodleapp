@@ -14,8 +14,12 @@
 
 import { Component } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
+import { initEncoderMessage } from '@features/audio/utils/worker-messages';
+import { CorePlatform } from '@services/platform';
 import { Diagnostic, DomSanitizer } from '@singletons';
 import { Mp3MediaRecorder } from 'mp3-mediarecorder';
+
+// TODO mp3-mediarecorder lib uses spread operator
 
 @Component({
     selector: 'core-page-audio',
@@ -38,10 +42,7 @@ export class CoreAudioPage {
 
         delete this.audioUrl;
 
-        this.recorder = new Mp3MediaRecorder(mediaStream, {
-            // worker: new Worker(new URL('./audio.worker')),
-            worker: new Worker(new URL(`${document.head.baseURI}assets/js/audio-worker.js`)),
-        });
+        this.recorder = new Mp3MediaRecorder(mediaStream, { worker: this.startWorker() });
         this.recorder.ondataavailable = e => this.audioChunks.push(e.data);
         this.recorder.onstop = () => this.processAudioChunks();
         this.recorder.start();
@@ -58,17 +59,20 @@ export class CoreAudioPage {
     private async getMediaStream(): Promise<MediaStream> {
         if (!this.mediaStream) {
             try {
-                const status = await Diagnostic.requestMicrophoneAuthorization();
+                if (CorePlatform.isMobile()) {
+                    const status = await Diagnostic.requestMicrophoneAuthorization();
 
-                switch (status) {
-                    case Diagnostic.permissionStatus.DENIED:
-                    case Diagnostic.permissionStatus.DENIED_ONCE:
-                    case Diagnostic.permissionStatus.DENIED_ALWAYS:
-                        alert('Recording permission denied!!');
-                        break;
-                    case Diagnostic.permissionStatus.RESTRICTED:
-                        alert('Recording permission restricted!!');
-                        break;
+                    switch (status) {
+                        case Diagnostic.permissionStatus.DENIED:
+                        case Diagnostic.permissionStatus.DENIED_ONCE:
+                        case Diagnostic.permissionStatus.DENIED_ALWAYS:
+                            alert('Recording permission denied!!');
+                            break;
+                        case Diagnostic.permissionStatus.RESTRICTED:
+                            alert('Recording permission restricted!!');
+                            break;
+                    }
+
                 }
 
                 this.mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -82,8 +86,20 @@ export class CoreAudioPage {
         return this.mediaStream;
     }
 
+    private startWorker(): Worker {
+        const worker = new Worker('./audio.worker', { type: 'module' });
+
+        worker.postMessage(
+            initEncoderMessage({ vmsgWasmUrl: `${document.head.baseURI}assets/wasm/vmsg.wasm` }),
+        );
+
+        return worker;
+    }
+
     private processAudioChunks(): void {
-        this.audioUrl = DomSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(new Blob(this.audioChunks)));
+        const blobUrl = URL.createObjectURL(new Blob(this.audioChunks, { type: 'audio/mpeg' }));
+
+        this.audioUrl = DomSanitizer.bypassSecurityTrustUrl(blobUrl);
         this.audioChunks = [];
     }
 
