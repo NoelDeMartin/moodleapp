@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreError } from './error';
+import { NgModule } from '@angular/core';
+import { CoreSharedModule } from '@/core/shared.module';
+import { CoreFileUploaderAudioRecorderComponent } from './audio-recorder/audio-recorder.component';
 
-export const CAPTURE_ERROR_NO_MEDIA_FILES = 3;
-
-/**
- * Capture error.
- */
-export class CoreCaptureError extends CoreError {
-
-    code: number;
-
-    constructor(code: number, message?: string) {
-        super(message);
-
-        this.code = code;
-    }
-
-}
+@NgModule({
+    imports: [
+        CoreSharedModule,
+    ],
+    declarations: [
+        CoreFileUploaderAudioRecorderComponent,
+    ],
+    exports: [
+        CoreFileUploaderAudioRecorderComponent,
+    ],
+})
+export class CoreFileUploaderComponentsModule {}

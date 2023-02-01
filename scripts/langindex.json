@@ -1758,6 +1758,8 @@
   "core.fileuploader.fileuploaded": "local_moodlemobileapp",
   "core.fileuploader.invalidfiletype": "repository",
   "core.fileuploader.maxbytesfile": "local_moodlemobileapp",
+  "core.fileuploader.microphonepermissiondenied": "local_moodlemobileapp",
+  "core.fileuploader.microphonepermissionrestricted": "local_moodlemobileapp",
   "core.fileuploader.more": "data",
   "core.fileuploader.photoalbums": "local_moodlemobileapp",
   "core.fileuploader.readingfile": "local_moodlemobileapp",

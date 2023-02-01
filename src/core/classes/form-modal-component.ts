@@ -12,21 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreError } from './error';
-
-export const CAPTURE_ERROR_NO_MEDIA_FILES = 3;
+import { ModalController } from '@singletons';
 
 /**
- * Capture error.
+ * Helper parent class to build form modals.
  */
-export class CoreCaptureError extends CoreError {
+export abstract class CoreFormModalComponent<T> {
 
-    code: number;
+    /**
+     * Dismiss the modal.
+     *
+     * @param result Result data, or error instance if the modal was closed in failure.
+     */
+    async dismiss(result?: T | Error): Promise<void> {
+        if (result instanceof Error) {
+            await ModalController.dismiss(result, 'error');
 
-    constructor(code: number, message?: string) {
-        super(message);
+            return;
+        }
 
-        this.code = code;
+        await ModalController.dismiss(result, 'success');
     }
 
 }

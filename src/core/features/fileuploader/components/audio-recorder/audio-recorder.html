@@ -1,0 +1,34 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            <h1>{{ 'core.captureaudio' | translate }}</h1>
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button fill="clear" (click)="cancel()">{{ 'core.cancel' | translate }}</ion-button>
+            <ion-button *ngIf="(status$ | async) === 'done'" (click)="submit()">{{ 'core.done' | translate }}</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="core-fileuploader-audio-recorder--wrapper">
+        <ion-button *ngIf="(status$ | async) === 'empty'" fill="clear" (click)="startRecording()"
+            [attr.aria-label]="'core.captureaudio' | translate">
+            <ion-icon name="fas-microphone" slot="icon-only" aria-hidden="true"></ion-icon>
+        </ion-button>
+        <ng-container *ngIf="(status$ | async) === 'recording'">
+            <core-chrono [running]="true"></core-chrono>
+            <ion-button fill="clear" (click)="stopRecording()" [attr.aria-label]="'core.captureaudio' | translate">
+                <ion-icon name="fas-square" slot="icon-only" aria-hidden="true"></ion-icon>
+            </ion-button>
+        </ng-container>
+        <ng-container *ngIf="(status$ | async) === 'done'">
+            <audio controls controlsList="nodownload">
+                <source [src]="recordingUrl$ | async" />
+            </audio>
+            <ion-button fill="clear" (click)="discardRecording()" [attr.aria-label]="'core.captureaudio' | translate">
+                <ion-icon name="fas-redo" slot="icon-only" aria-hidden="true"></ion-icon>
+            </ion-button>
+        </ng-container>
+    </div>
+</ion-content>
