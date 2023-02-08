@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, OnDestroy } from '@angular/core';
 import { CoreFormModalComponent } from '@classes/form-modal-component';
 import { CorePlatform } from '@services/platform';
 import { Diagnostic, DomSanitizer, Translate } from '@singletons';
@@ -26,6 +26,7 @@ import { CAPTURE_ERROR_NO_MEDIA_FILES, CoreCaptureError } from '@classes/errors/
 import { CoreFileUploaderAudioRecording } from '@features/fileuploader/services/fileuploader';
 import { CoreFile, CoreFileProvider } from '@services/file';
 import { CorePath } from '@singletons/path';
+import { CoreSharedModule } from '@/core/shared.module';
 
 @Component({
     selector: 'core-fileuploader-audio-recorder',
@@ -281,3 +282,11 @@ function recorderIsRecording(): OperatorFunction<Mp3MediaRecorder | null, boolea
         };
     });
 }
+
+@NgModule({
+    imports: [CoreSharedModule],
+    declarations: [CoreFileUploaderAudioRecorderComponent],
+    entryComponents: [CoreFileUploaderAudioRecorderComponent],
+})
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class CoreFileUploaderAudioRecorderComponentModule {}
