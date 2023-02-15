@@ -140,16 +140,20 @@ Feature: Attempt a quiz in app
     And I should find "Finished" in the app
     And I should find "Not yet graded" in the app
 
+  @noeldebug
   Scenario: Submit a quiz & Review a quiz attempt
     Given I entered the quiz activity "Quiz 1" on course "Course 1" as "student1" in the app
     When I press "Attempt quiz now" in the app
     And I press "True" in the app
-    And I press "Next" near "Question 1" in the app
+    Then the UI should match the snapshot
+
+    When I press "Next" near "Question 1" in the app
     And I press "False" in the app
     And I press "Submit" near "Question 2" in the app
     And I press "Submit all and finish" in the app
     And I press "OK" in the app
     Then I should find "Review" in the app
+    And the UI should match the snapshot
 
     Given I entered the quiz activity "Quiz 1" on course "Course 1" as "teacher1" in the app
     When I press "Information" in the app

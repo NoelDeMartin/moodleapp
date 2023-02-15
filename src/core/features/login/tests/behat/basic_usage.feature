@@ -2,6 +2,20 @@
 Feature: Test basic usage of login in app
   I need basic login functionality to work
 
+  # TODO test sites finder (in freemium)
+  # TODO test dashboard with some content (maybe courses?)
+#   activities:
+# - Quiz question
+# - Quiz review
+# - Forum list
+# - Forum reply
+# - Book
+# - Assignment submission
+# - Participant profile
+# - Messages main
+# - Messages conversation
+# - Calendar month view
+# - Calendar new event
   Background:
     Given the following "courses" exist:
       | fullname | shortname |
