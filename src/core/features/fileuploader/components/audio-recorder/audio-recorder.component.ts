@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ChangeDetectionStrategy, Component, NgModule, OnDestroy } from '@angular/core';
-import { CoreFormModalComponent } from '@classes/form-modal-component';
+import { ChangeDetectionStrategy, Component, ElementRef, NgModule, OnDestroy } from '@angular/core';
+import { CoreModalComponent } from '@classes/modal-component';
 import { CorePlatform } from '@services/platform';
 import { Diagnostic, DomSanitizer, Translate } from '@singletons';
 import { BehaviorSubject, combineLatest, Observable, OperatorFunction, Subscription } from 'rxjs';
@@ -27,6 +27,7 @@ import { CoreFileUploaderAudioRecording } from '@features/fileuploader/services/
 import { CoreFile, CoreFileProvider } from '@services/file';
 import { CorePath } from '@singletons/path';
 import { CoreSharedModule } from '@/core/shared.module';
+import { CoreFileUploaderAudioHistogramComponent } from '@features/fileuploader/components/audio-histogram/audio-histogram';
 
 @Component({
     selector: 'core-fileuploader-audio-recorder',
@@ -34,30 +35,42 @@ import { CoreSharedModule } from '@/core/shared.module';
     templateUrl: 'audio-recorder.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CoreFileUploaderAudioRecorderComponent extends CoreFormModalComponent<CoreFileUploaderAudioRecording>
+export class CoreFileUploaderAudioRecorderComponent extends CoreModalComponent<CoreFileUploaderAudioRecording>
     implements OnDestroy {
 
-    recorder$: BehaviorSubject<Mp3MediaRecorder | null>;
+    media$: BehaviorSubject<AudioRecorderMedia | null>;
     recording$: Observable<AudioRecording | null>;
     recordingUrl$: Observable<SafeUrl | null>;
-    status$: Observable<'recording' | 'done' | 'empty'>;
+    histogramAnalyzer$: Observable<AnalyserNode | null>;
+    status$: Observable<'recording-ongoing' | 'recording-paused' | 'done' | 'empty'>;
 
     protected recording: AudioRecording | null;
     protected recordingSubscription: Subscription;
 
-    constructor() {
-        super();
+    constructor(elementRef: ElementRef<HTMLElement>) {
+        super(elementRef);
 
-        this.recorder$ = new BehaviorSubject(null);
-        this.recording$ = this.recorder$.pipe(recorderAudioRecording(), shareReplay());
+        this.media$ = new BehaviorSubject(null);
+        this.recording$ = this.media$.pipe(recorderAudioRecording(), shareReplay());
         this.recordingUrl$ = this.recording$.pipe(
             map((recording) => recording && DomSanitizer.bypassSecurityTrustUrl(recording.url)),
         );
-        this.status$ = combineLatest([this.recorder$.pipe(recorderIsRecording(), shareReplay()), this.recording$])
-            .pipe(map(([isRecording, recording]) => {
-                if (isRecording) {
-                    return 'recording';
-                };
+        this.histogramAnalyzer$ = this.media$.pipe(map(media => {
+            if (!media?.analyser || CorePlatform.prefersReducedMotion()) {
+                return null;
+            }
+
+            return media.analyser;
+        }));
+        this.status$ = combineLatest([this.media$.pipe(recorderStatus(), shareReplay()), this.recording$])
+            .pipe(map(([recordingStatus, recording]) => {
+                if (recordingStatus === 'recording') {
+                    return 'recording-ongoing';
+                }
+
+                if (recordingStatus === 'paused') {
+                    return 'recording-paused';
+                }
 
                 if (recording) {
                     return 'done';
@@ -75,31 +88,46 @@ export class CoreFileUploaderAudioRecorderComponent extends CoreFormModalCompone
      */
     ngOnDestroy(): void {
         this.recordingSubscription.unsubscribe();
+        this.media$.value?.recorder.stop();
     }
 
     /**
      * Start recording.
      */
     async startRecording(): Promise<void> {
-        const recorder = await this.createRecorder();
+        const media = await this.createMedia();
 
-        this.recorder$.next(recorder);
+        this.media$.next(media);
 
-        recorder.start();
+        media.recorder.start();
     }
 
     /**
      * Stop recording.
      */
     stopRecording(): void {
-        this.recorder$.value?.stop();
+        this.media$.value?.recorder.stop();
+    }
+
+    /**
+     * Stop recording.
+     */
+    pauseRecording(): void {
+        this.media$.value?.recorder.pause();
+    }
+
+    /**
+     * Stop recording.
+     */
+    resumeRecording(): void {
+        this.media$.value?.recorder.resume();
     }
 
     /**
      * Discard recording.
      */
     discardRecording(): void {
-        this.recorder$.next(null);
+        this.media$.next(null);
     }
 
     /**
@@ -110,7 +138,7 @@ export class CoreFileUploaderAudioRecorderComponent extends CoreFormModalCompone
             return;
         }
 
-        this.dismiss(new CoreCaptureError(CAPTURE_ERROR_NO_MEDIA_FILES));
+        this.close(new CoreCaptureError(CAPTURE_ERROR_NO_MEDIA_FILES));
     }
 
     /**
@@ -125,7 +153,7 @@ export class CoreFileUploaderAudioRecorderComponent extends CoreFormModalCompone
         const filePath = CorePath.concatenatePaths(CoreFileProvider.TMPFOLDER, fileName);
         const fileEntry = await CoreFile.writeFile(filePath, this.recording.blob);
 
-        this.dismiss({
+        this.close({
             name: fileEntry.name,
             fullPath: fileEntry.toURL(),
             type: 'audio/mpeg',
@@ -133,16 +161,25 @@ export class CoreFileUploaderAudioRecorderComponent extends CoreFormModalCompone
     }
 
     /**
-     * Create a recorder instance.
+     * Create media instances.
      *
-     * @returns Recorder.
+     * @returns Media instances.
      */
-    protected async createRecorder(): Promise<Mp3MediaRecorder> {
+    protected async createMedia(): Promise<AudioRecorderMedia> {
         await this.prepareMicrophoneAuthorization();
 
         const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const audioContext = new window.AudioContext();
+        const source = audioContext.createMediaStreamSource(mediaStream);
+        const analyser = audioContext.createAnalyser();
 
-        return new Mp3MediaRecorder(mediaStream, { worker: this.startWorker() });
+        analyser.fftSize = 2048;
+        source.connect(analyser);
+
+        return {
+            analyser,
+            recorder: new Mp3MediaRecorder(mediaStream, { worker: this.startWorker(), audioContext }),
+        };
     }
 
     /**
@@ -205,14 +242,22 @@ interface AudioRecording {
 }
 
 /**
+ * Native media instances.
+ */
+interface AudioRecorderMedia {
+    recorder: Mp3MediaRecorder;
+    analyser: AnalyserNode;
+}
+
+/**
  * Observable operator that listens to a recorder and emits a recording file.
  *
  * @returns Operator.
  */
-function recorderAudioRecording(): OperatorFunction<Mp3MediaRecorder | null, AudioRecording | null> {
+function recorderAudioRecording(): OperatorFunction<AudioRecorderMedia | null, AudioRecording | null> {
     return source => new Observable(subscriber => {
         let audioChunks: Blob[] = [];
-        let previousRecorder: Mp3MediaRecorder | null = null;
+        let previousRecorder: Mp3MediaRecorder | undefined;
         const onDataAvailable = event => audioChunks.push(event.data);
         const onError = event => CoreDomUtils.showErrorModal(event.error);
         const onStop = () => {
@@ -223,17 +268,17 @@ function recorderAudioRecording(): OperatorFunction<Mp3MediaRecorder | null, Aud
                 blob,
             });
         };
-        const subscription = source.subscribe(recorder => {
+        const subscription = source.subscribe(media => {
             previousRecorder?.removeEventListener('dataavailable', onDataAvailable);
             previousRecorder?.removeEventListener('error', onError);
             previousRecorder?.removeEventListener('stop', onStop);
 
-            recorder?.addEventListener('dataavailable', onDataAvailable);
-            recorder?.addEventListener('error', onError);
-            recorder?.addEventListener('stop', onStop);
+            media?.recorder.addEventListener('dataavailable', onDataAvailable);
+            media?.recorder.addEventListener('error', onError);
+            media?.recorder.addEventListener('stop', onStop);
 
             audioChunks = [];
-            previousRecorder = recorder;
+            previousRecorder = media?.recorder;
 
             subscriber.next(null);
         });
@@ -255,29 +300,37 @@ function recorderAudioRecording(): OperatorFunction<Mp3MediaRecorder | null, Aud
  *
  * @returns Operator.
  */
-function recorderIsRecording(): OperatorFunction<Mp3MediaRecorder | null, boolean> {
+function recorderStatus(): OperatorFunction<AudioRecorderMedia | null, RecordingState> {
     return source => new Observable(subscriber => {
-        let previousRecorder: Mp3MediaRecorder | null = null;
-        const onStart = () => subscriber.next(true);
-        const onStop = () => subscriber.next(false);
-        const subscription = source.subscribe(recorder => {
+        let previousRecorder: Mp3MediaRecorder | undefined;
+        const onStart = () => subscriber.next('recording');
+        const onPause = () => subscriber.next('paused');
+        const onResume = () => subscriber.next('recording');
+        const onStop = () => subscriber.next('inactive');
+        const subscription = source.subscribe(media => {
             previousRecorder?.removeEventListener('start', onStart);
+            previousRecorder?.removeEventListener('pause', onPause);
+            previousRecorder?.removeEventListener('resume', onResume);
             previousRecorder?.removeEventListener('stop', onStop);
 
-            recorder?.addEventListener('start', onStart);
-            recorder?.addEventListener('stop', onStop);
+            media?.recorder.addEventListener('start', onStart);
+            media?.recorder.addEventListener('pause', onPause);
+            media?.recorder.addEventListener('resume', onResume);
+            media?.recorder.addEventListener('stop', onStop);
 
-            previousRecorder = recorder;
+            previousRecorder = media?.recorder;
 
-            subscriber.next(recorder?.state === 'recording');
+            subscriber.next(media?.recorder.state ?? 'inactive');
         });
 
-        subscriber.next(false);
+        subscriber.next('inactive');
 
         return () => {
             subscription.unsubscribe();
 
             previousRecorder?.removeEventListener('start', onStart);
+            previousRecorder?.removeEventListener('pause', onPause);
+            previousRecorder?.removeEventListener('resume', onResume);
             previousRecorder?.removeEventListener('stop', onStop);
         };
     });
@@ -285,8 +338,10 @@ function recorderIsRecording(): OperatorFunction<Mp3MediaRecorder | null, boolea
 
 @NgModule({
     imports: [CoreSharedModule],
-    declarations: [CoreFileUploaderAudioRecorderComponent],
+    declarations: [
+        CoreFileUploaderAudioRecorderComponent,
+        CoreFileUploaderAudioHistogramComponent,
+    ],
     entryComponents: [CoreFileUploaderAudioRecorderComponent],
 })
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-class CoreFileUploaderAudioRecorderComponentModule {}
+export class CoreFileUploaderAudioRecorderComponentModule {}

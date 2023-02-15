@@ -81,6 +81,15 @@ export class CorePlatformService extends Platform {
     }
 
     /**
+     * Check whether the device is configured to reduce motion.
+     *
+     * @returns Whether the device is configured to reduce motion.
+     */
+    prefersReducedMotion(): boolean {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
+    /**
      * Checks whether media capture is supported.
      *
      * @returns Whether media capture is supported.

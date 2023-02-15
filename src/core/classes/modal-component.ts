@@ -12,26 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ModalController } from '@singletons';
+import { ElementRef } from '@angular/core';
+import { CorePromisedValue } from '@classes/promised-value';
+import { CoreDirectivesRegistry } from '@singletons/directives-registry';
 
 /**
- * Helper parent class to build form modals.
+ * Helper class to build modals.
  */
-export abstract class CoreFormModalComponent<T> {
+export class CoreModalComponent<T=unknown> {
+
+    result: CorePromisedValue<T> = new CorePromisedValue();
+
+    constructor({ nativeElement: element }: ElementRef<HTMLElement>) {
+        CoreDirectivesRegistry.register(element, this);
+    }
 
     /**
-     * Dismiss the modal.
+     * Close the modal.
      *
-     * @param result Result data, or error instance if the modal was closed in failure.
+     * @param result Result data, or error instance if the modal was closed with a failure.
      */
-    async dismiss(result?: T | Error): Promise<void> {
+    async close(result: T | Error): Promise<void> {
         if (result instanceof Error) {
-            await ModalController.dismiss(result, 'error');
+            this.result.reject(result);
 
             return;
         }
 
-        await ModalController.dismiss(result, 'success');
+        this.result.resolve(result);
     }
 
 }

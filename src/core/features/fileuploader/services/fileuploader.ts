@@ -32,7 +32,7 @@ import { CoreSite } from '@classes/site';
 import { CoreFileEntry, CoreFileHelper } from '@services/file-helper';
 import { CorePath } from '@singletons/path';
 import { CorePlatform } from '@services/platform';
-import { CoreModalController } from '@services/modal-controller';
+import { CoreModals } from '@services/modals';
 
 /**
  * File upload options.
@@ -161,9 +161,7 @@ export class CoreFileUploaderProvider {
         const { CoreFileUploaderAudioRecorderComponent } =
             await import('@features/fileuploader/components/audio-recorder/audio-recorder.component');
 
-        const recording = await CoreModalController.openForm(CoreFileUploaderAudioRecorderComponent, {
-            backdropDismiss: false,
-        });
+        const recording = await CoreModals.openSheet(CoreFileUploaderAudioRecorderComponent);
 
         if (!recording) {
             throw new Error('Recording missing from audio capture');
