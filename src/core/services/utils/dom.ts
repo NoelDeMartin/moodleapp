@@ -1382,7 +1382,7 @@ export class CoreDomUtilsProvider {
         if (typeof error !== 'string' && 'buttons' in error && typeof error.buttons !== 'undefined') {
             alertOptions.buttons = error.buttons;
         } else if (error instanceof CoreSiteError) {
-            if (error.errorDetails) {
+            if (error.debug?.details) {
                 alertOptions.message = `<p>${alertOptions.message}</p><div class="core-error-info-container"></div>`;
             }
 
@@ -1396,7 +1396,7 @@ export class CoreDomUtilsProvider {
                     handler: () => CoreUserSupport.contact({
                         supportConfig,
                         subject: alertOptions.header,
-                        message: `${error.errorcode}\n\n${error.errorDetails}`,
+                        message: `${error.debug?.code}\n\n${error.debug?.details}`,
                     }),
                 });
             }
@@ -1406,11 +1406,11 @@ export class CoreDomUtilsProvider {
 
         const alertElement = await this.showAlertWithOptions(alertOptions, autocloseTime);
 
-        if (error instanceof CoreSiteError && error.errorDetails) {
+        if (error instanceof CoreSiteError && error.debug) {
             const containerElement = alertElement.querySelector('.core-error-info-container');
 
             if (containerElement) {
-                containerElement.innerHTML = CoreErrorInfoComponent.render(error.errorDetails, error.errorcode);
+                containerElement.innerHTML = CoreErrorInfoComponent.render(error.debug.details, error.debug.code);
             }
         }
 

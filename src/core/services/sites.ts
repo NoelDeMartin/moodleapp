@@ -62,6 +62,7 @@ import { asyncInstance, AsyncInstance } from '../utils/async-instance';
 import { CoreConfig } from './config';
 import { CoreNetwork } from '@services/network';
 import { CoreUserGuestSupportConfig } from '@features/user/classes/support/guest-support-config';
+import { CoreSiteErrorDebug } from '@classes/errors/siteerror';
 
 export const CORE_SITE_SCHEMAS = new InjectionToken<CoreSiteSchema[]>('CORE_SITE_SCHEMAS');
 export const CORE_SITE_CURRENT_SITE_ID_CONFIG = 'current_site_id';
@@ -301,18 +302,22 @@ export class CoreSitesProvider {
         if (!config.enablewebservices) {
             throw this.createCannotConnectLoginError(config.httpswwwroot || config.wwwroot, {
                 supportConfig: new CoreUserGuestSupportConfig(config),
-                errorcode: 'webservicesnotenabled',
-                errorDetails: Translate.instant('core.login.webservicesnotenabled'),
                 critical: true,
+                debug: {
+                    code: 'webservicesnotenabled',
+                    details: Translate.instant('core.login.webservicesnotenabled'),
+                },
             });
         }
 
         if (!config.enablemobilewebservice) {
             throw this.createCannotConnectLoginError(config.httpswwwroot || config.wwwroot, {
                 supportConfig: new CoreUserGuestSupportConfig(config),
-                errorcode: 'mobileservicesnotenabled',
-                errorDetails: Translate.instant('core.login.mobileservicesnotenabled'),
                 critical: true,
+                debug: {
+                    code: 'mobileservicesnotenabled',
+                    details: Translate.instant('core.login.mobileservicesnotenabled'),
+                },
             });
         }
 
@@ -360,14 +365,16 @@ export class CoreSitesProvider {
         siteUrl: string,
         error: CoreError | CoreAjaxError | CoreAjaxWSError,
     ): Promise<CoreLoginError> {
-        if (error instanceof CoreAjaxError || !('errorcode' in error)) {
+        if (error instanceof CoreAjaxError || (!('debug' in error) && !('errorcode' in error))) {
             // The WS didn't return data, probably cannot connect.
             return new CoreLoginError({
                 title: Translate.instant('core.cannotconnect'),
                 message: Translate.instant('core.siteunavailablehelp', { site: siteUrl }),
-                errorcode: 'publicconfigfailed',
-                errorDetails: error.message || '',
                 critical: false, // Allow fallback to http if siteUrl uses https.
+                debug: {
+                    code: 'publicconfigfailed',
+                    details: error.message || 'Failed getting public config',
+                },
             });
         }
 
@@ -376,28 +383,31 @@ export class CoreSitesProvider {
             critical: true,
             title: Translate.instant('core.cannotconnect'),
             message: Translate.instant('core.siteunavailablehelp', { site: siteUrl }),
-            errorcode: error.errorcode,
             supportConfig: error.supportConfig,
-            errorDetails: error.errorDetails ?? error.message,
+            debug: error.debug,
         };
 
-        if (error.errorcode === 'codingerror') {
+        if (error.debug?.code === 'codingerror') {
             // This could be caused by a redirect. Check if it's the case.
             const redirect = await CoreUtils.checkRedirect(siteUrl);
 
             options.message = Translate.instant('core.siteunavailablehelp', { site: siteUrl });
 
             if (redirect) {
-                options.errorcode = 'sitehasredirect';
-                options.errorDetails = Translate.instant('core.login.sitehasredirect');
                 options.critical = false; // Keep checking fallback URLs.
+                options.debug = {
+                    code: 'sitehasredirect',
+                    details: Translate.instant('core.login.sitehasredirect'),
+                };
             }
-        } else if (error.errorcode === 'invalidrecord') {
+        } else if (error.debug?.code === 'invalidrecord') {
             // WebService not found, site not supported.
             options.message = Translate.instant('core.siteunavailablehelp', { site: siteUrl });
-            options.errorcode = 'invalidmoodleversion';
-            options.errorDetails = Translate.instant('core.login.invalidmoodleversion', { $a: CoreSite.MINIMUM_MOODLE_VERSION });
-        } else if (error.errorcode === 'redirecterrordetected') {
+            options.debug = {
+                code: 'invalidmoodleversion',
+                details: Translate.instant('core.login.invalidmoodleversion', { $a: CoreSite.MINIMUM_MOODLE_VERSION }),
+            };
+        } else if (error.debug?.code === 'redirecterrordetected') {
             options.critical = false; // Keep checking fallback URLs.
         }
 
@@ -423,8 +433,10 @@ export class CoreSitesProvider {
         } catch (error) {
             throw this.createCannotConnectLoginError(null, {
                 supportConfig: await CoreUserGuestSupportConfig.forSite(siteUrl),
-                errorcode: 'sitecheckfailed',
-                errorDetails: CoreDomUtils.getErrorMessage(error) ?? undefined,
+                debug: {
+                    code: 'sitecheckfailed',
+                    details: CoreDomUtils.getErrorMessage(error) ?? 'Site check failed trying to read token.php',
+                },
             });
         }
 
@@ -432,8 +444,10 @@ export class CoreSitesProvider {
             // Cannot connect.
             throw this.createCannotConnectLoginError(null, {
                 supportConfig: await CoreUserGuestSupportConfig.forSite(siteUrl),
-                errorcode: 'appsitecheckfailed',
-                errorDetails: 'A request to /login/token.php with appsitecheck=1 returned an empty response',
+                debug: {
+                    code: 'appsitecheckfailed',
+                    details: 'A request to /login/token.php with appsitecheck=1 returned an empty response',
+                },
             });
         }
 
@@ -441,8 +455,10 @@ export class CoreSitesProvider {
             throw this.createCannotConnectLoginError(siteUrl, {
                 supportConfig: await CoreUserGuestSupportConfig.forSite(siteUrl),
                 critical: data.errorcode == 'enablewsdescription',
-                errorcode: data.errorcode,
-                errorDetails: data.error,
+                debug: {
+                    code: data.errorcode,
+                    details: data.error ?? 'Unexpected response reading token.php',
+                },
             });
         }
 
@@ -450,8 +466,10 @@ export class CoreSitesProvider {
             throw this.createCannotConnectLoginError(siteUrl, {
                 supportConfig: await CoreUserGuestSupportConfig.forSite(siteUrl),
                 critical: true,
-                errorcode: 'enablewsdescription',
-                errorDetails: data.error,
+                debug: {
+                    code: 'enablewsdescription',
+                    details: data.error,
+                },
             });
         }
 
@@ -528,16 +546,20 @@ export class CoreSitesProvider {
             if (redirect) {
                 throw this.createCannotConnectLoginError(siteUrl, {
                     supportConfig: await CoreUserGuestSupportConfig.forSite(siteUrl),
-                    errorcode: 'sitehasredirect',
-                    errorDetails: Translate.instant('core.login.sitehasredirect'),
+                    debug: {
+                        code: 'sitehasredirect',
+                        details: Translate.instant('core.login.sitehasredirect'),
+                    },
                 });
             }
         }
 
         throw this.createCannotConnectLoginError(siteUrl, {
             supportConfig: await CoreUserGuestSupportConfig.forSite(siteUrl),
-            errorcode: data.errorcode,
-            errorDetails: data.error,
+            debug: {
+                code: data.errorcode ?? 'loginfailed',
+                details: data.error ?? 'Could not get a user token in /login/token.php',
+            },
         });
     }
 
@@ -650,23 +672,33 @@ export class CoreSitesProvider {
      * @returns A promise rejected with the error info.
      */
     protected async treatInvalidAppVersion(result: number, siteId?: string): Promise<never> {
-        let errorCode: string | undefined;
+        let debug: CoreSiteErrorDebug | undefined;
         let errorKey: string | undefined;
         let translateParams = {};
 
         switch (result) {
             case CoreSitesProvider.MOODLE_APP:
                 errorKey = 'core.login.connecttomoodleapp';
-                errorCode = 'connecttomoodleapp';
+                debug = {
+                    code: 'connecttomoodleapp',
+                    details: 'Cannot connect to app',
+                };
                 break;
             case CoreSitesProvider.WORKPLACE_APP:
                 errorKey = 'core.login.connecttoworkplaceapp';
-                errorCode = 'connecttoworkplaceapp';
+                debug = {
+                    code: 'connecttoworkplaceapp',
+                    details: 'Cannot connect to app',
+                };
                 break;
             default:
-                errorCode = 'invalidmoodleversion';
                 errorKey = 'core.login.invalidmoodleversion';
                 translateParams = { $a: CoreSite.MINIMUM_MOODLE_VERSION };
+                debug = {
+                    code: 'invalidmoodleversion',
+                    details: 'Cannot connect to app',
+                };
+                break;
         }
 
         if (siteId) {
@@ -674,8 +706,8 @@ export class CoreSitesProvider {
         }
 
         throw new CoreLoginError({
+            debug,
             message: Translate.instant(errorKey, translateParams),
-            errorcode: errorCode,
             loggedOut: true,
         });
     }
