@@ -1,0 +1,88 @@
+@import "~theme/globals";
+
+.core-error-accordion {
+    background: var(--mdl-color-neutral-gray-300);
+    border-radius: var(--mdl-cornerRadius-xs);
+
+    .core-error-accordion--checkbox {
+        display: none;
+    }
+
+    .core-error-accordion--code {
+        margin: 0;
+        color: var(--mdl-color-neutral-gray-900);
+        padding-top: var(--mdl-spacing-2);
+        padding-bottom: var(--mdl-spacing-2);
+        padding-inline-start: var(--mdl-spacing-3);
+        padding-inline-end: var(--mdl-spacing-3);
+
+        @include mdl-typography('h5');
+    }
+
+    .core-error-accordion--details {
+        margin: 0;
+        color: var(--mdl-color-neutral-gray-700);
+        padding-top: var(--mdl-spacing-2);
+        padding-bottom: var(--mdl-spacing-2);
+        padding-inline-start: var(--mdl-spacing-3);
+        padding-inline-end: var(--mdl-spacing-3);
+
+        @include mdl-typography('bodySmall');
+    }
+
+    .core-error-accordion--toggle {
+        display: block;
+        color: var(--mdl-color-neutral-gray-800);
+        padding-top: var(--mdl-spacing-2);
+        padding-bottom: var(--mdl-spacing-2);
+        padding-inline-start: var(--mdl-spacing-3);
+        padding-inline-end: var(--mdl-spacing-3);
+
+        @include mdl-typography('bodySmall');
+
+        > div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            svg {
+                fill: currentColor;
+                width: 12px;
+                margin-inline-start: var(--mdl-spacing-4);
+            }
+
+        }
+
+    }
+
+    // Collapsed/Expanded styles
+    .core-error-accordion--checkbox {
+
+        & ~ {
+
+            .core-error-accordion--details,
+            .core-error-accordion--toggle .core-error-accordion--hide-details {
+                display: none;
+            }
+
+        }
+
+        &:checked ~ {
+
+            .core-error-accordion--details {
+                display: revert;
+            }
+
+            .core-error-accordion--toggle .core-error-accordion--hide-details {
+                display: flex;
+            }
+
+            .core-error-accordion--toggle .core-error-accordion--show-details {
+                display: none;
+            }
+
+        }
+
+    }
+
+}

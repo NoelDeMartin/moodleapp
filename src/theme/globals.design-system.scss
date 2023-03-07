@@ -1,0 +1,8 @@
+@mixin mdl-typography($style) {
+    font-family: var(--mdl-typography-#{$style}-fontFamily);
+    font-style: var(--mdl-typography-#{$style}-fontStyle);
+    font-weight: var(--mdl-typography-#{$style}-fontWeight);
+    font-size: var(--mdl-typography-#{$style}-fontSize);
+    line-height: var(--mdl-typography-#{$style}-lineHeight);
+    letter-spacing: var(--mdl-typography-#{$style}-letterSpacing);
+}

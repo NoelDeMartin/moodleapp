@@ -17,7 +17,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { story } from '@/storybook/utils/helpers';
 import { StorybookModule } from '@/storybook/storybook.module';
 
-import { CoreErrorInfoComponent } from '@components/error-info/error-info';
+import { CoreErrorAccordionComponent } from '@components/error-accordion/error-accordion';
 
 interface Args {
     errorCode: string;
@@ -25,16 +25,16 @@ interface Args {
 }
 
 export default <Meta<Args>> {
-    title: 'Core/Error Info',
-    component: CoreErrorInfoComponent,
+    title: 'Core/Error Accordion',
+    component: CoreErrorAccordionComponent,
     decorators: [
         moduleMetadata({
-            declarations: [CoreErrorInfoComponent],
+            declarations: [CoreErrorAccordionComponent],
             imports: [StorybookModule],
         }),
     ],
     args: {
-        errorCode: '',
+        errorCode: 'endpointnotfound',
         errorDetails:
             'AJAX endpoint not found. ' +
             'This can happen if the Moodle site is too old or it blocks access to this endpoint. ' +
@@ -43,7 +43,7 @@ export default <Meta<Args>> {
 };
 
 const Template: Story<Args> = (args) => ({
-    component: CoreErrorInfoComponent,
+    component: CoreErrorAccordionComponent,
     props: args,
 });
 

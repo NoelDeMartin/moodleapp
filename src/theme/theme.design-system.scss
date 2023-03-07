@@ -1,21 +1,32 @@
 html {
 
+    // Colors
+    --mdl-color-neutral-gray-300: #dee2e6;
+    --mdl-color-neutral-gray-700: #495057;
+    --mdl-color-neutral-gray-800: #343a40;
+    --mdl-color-neutral-gray-900: #1d2125;
+
+    // Corner radiuses
+    --mdl-cornerRadius-xs: 4px;
+
+    // Typography
+    --mdl-typography-h5-fontFamily: 'Roboto';
+    --mdl-typography-h5-fontStyle: normal;
+    --mdl-typography-h5-fontWeight: 700;
+    --mdl-typography-h5-fontSize: 16px;
+    --mdl-typography-h5-lineHeight: 20px;
+    --mdl-typography-h5-letterSpacing: 0.0012em;
+
+    --mdl-typography-bodySmall-fontFamily: 'Roboto';
+    --mdl-typography-bodySmall-fontStyle: normal;
+    --mdl-typography-bodySmall-fontWeight: 400;
+    --mdl-typography-bodySmall-fontSize: 14px;
+    --mdl-typography-bodySmall-lineHeight: 150%;
+    --mdl-typography-bodySmall-letterSpacing: 0.0012em;
+
     // Spacing
     @for $i from 0 to 13 {
-        --spacing-#{$i}: #{$i*4}px;
+        --mdl-spacing-#{$i}: #{$i*4}px;
     }
-
-    // Font sizes
-    --font-size-sm: 12px;
-    --font-size-normal: 14px;
-
-    // Radiuses
-    --small-radius: 4px;
-    --medium-radius: 8px;
-    --big-radius: 16px;
-    --huge-radius: 24px;
-
-    // A11y
-    --a11y-min-target-size: 44px;
 
 }

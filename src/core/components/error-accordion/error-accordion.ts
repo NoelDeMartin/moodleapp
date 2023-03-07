@@ -25,48 +25,46 @@ import ChevronDownSVG from '!raw-loader!ionicons/dist/svg/chevron-down.svg';
  * it can be rendered using the static render() method to get the raw HTML.
  */
 @Component({
-    selector: 'core-error-info',
-    templateUrl: 'core-error-info.html',
-    styleUrls: ['error-info.scss'],
+    selector: 'core-error-accordion',
+    templateUrl: 'core-error-accordion.html',
+    styleUrls: ['error-accordion.scss'],
 })
-export class CoreErrorInfoComponent implements OnInit, OnChanges {
+export class CoreErrorAccordionComponent implements OnInit, OnChanges {
 
     /**
      * Render an instance of the component into an HTML string.
      *
-     * @param errorDetails Error details.
      * @param errorCode Error code.
+     * @param errorDetails Error details.
      * @returns Component HTML.
      */
-    static render(errorDetails: string, errorCode?: string): string {
-        const toggleId = CoreForms.uniqueId('error-info-toggle');
+    static render(errorCode: string, errorDetails: string): string {
+        const toggleId = CoreForms.uniqueId('error-accordion-toggle');
         const errorCodeLabel = Translate.instant('core.errorcode', { errorCode });
         const hideDetailsLabel = Translate.instant('core.errordetailshide');
         const showDetailsLabel = Translate.instant('core.errordetailsshow');
 
         return `
-            <div class="core-error-info">
-                <input id="${toggleId}" type="checkbox" class="core-error-info--checkbox" />
-                ${errorCode ? `<div class="core-error-info--code"><strong>${errorCodeLabel}</strong></div>` : ''}
-                <div class="core-error-info--details">
-                    <p>${errorDetails}</p>
-                </div>
-                <label for="${toggleId}" class="core-error-info--toggle" aria-hidden="true">
-                    <span class="core-error-info--hide-content">
+            <div class="core-error-accordion">
+                <input id="${toggleId}" type="checkbox" class="core-error-accordion--checkbox" />
+                <h2 class="core-error-accordion--code">${errorCodeLabel}</h2>
+                <p class="core-error-accordion--details">${errorDetails}</p>
+                <label for="${toggleId}" class="core-error-accordion--toggle">
+                    <div class="core-error-accordion--hide-details">
                         ${hideDetailsLabel}
                         ${ChevronUpSVG}
-                    </span>
-                    <span class="core-error-info--show-content">
+                    </div>
+                    <div class="core-error-accordion--show-details">
                         ${showDetailsLabel}
                         ${ChevronDownSVG}
-                    </span>
+                    </div>
                 </label>
             </div>
         `;
     }
 
+    @Input() errorCode!: string;
     @Input() errorDetails!: string;
-    @Input() errorCode?: string;
 
     constructor(private element: ElementRef) {}
 
@@ -88,7 +86,7 @@ export class CoreErrorInfoComponent implements OnInit, OnChanges {
      * Render component html in the element created by Angular.
      */
     private render(): void {
-        this.element.nativeElement.innerHTML = CoreErrorInfoComponent.render(this.errorDetails, this.errorCode);
+        this.element.nativeElement.innerHTML = CoreErrorAccordionComponent.render(this.errorCode, this.errorDetails);
     }
 
 }
