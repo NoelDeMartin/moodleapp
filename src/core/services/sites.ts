@@ -509,19 +509,21 @@ export class CoreSitesProvider {
         try {
             data = await Http.post(loginUrl, params).pipe(timeout(CoreWS.getRequestTimeout())).toPromise();
         } catch (error) {
-            throw new CoreError(
-                this.isLoggedIn()
-                    ? Translate.instant('core.siteunavailablehelp', { site: this.currentSite?.siteUrl })
-                    : Translate.instant('core.sitenotfoundhelp'),
-            );
+            throw this.createCannotConnectLoginError(siteUrl, {
+                debug: {
+                    code: 'logintokenerror',
+                    details: error.message,
+                },
+            });
         }
 
         if (data === undefined) {
-            throw new CoreError(
-                this.isLoggedIn()
-                    ? Translate.instant('core.siteunavailablehelp', { site: this.currentSite?.siteUrl })
-                    : Translate.instant('core.sitenotfoundhelp'),
-            );
+            throw this.createCannotConnectLoginError(siteUrl, {
+                debug: {
+                    code: 'logintokenempty',
+                    details: 'The request to /login/token.php returned an empty response',
+                },
+            });
         }
 
         if (data.token !== undefined) {
