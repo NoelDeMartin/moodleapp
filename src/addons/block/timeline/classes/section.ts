@@ -15,6 +15,7 @@
 import { AddonBlockTimeline } from '@addons/block/timeline/services/timeline';
 import { AddonCalendarEvent } from '@addons/calendar/services/calendar';
 import { CoreCourse } from '@features/course/services/course';
+import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
 import { CoreEnrolledCourseDataWithOptions } from '@features/courses/services/courses-helper';
 import { CoreTimeUtils } from '@services/utils/time';
 import { BehaviorSubject } from 'rxjs';
@@ -48,11 +49,19 @@ export class AddonBlockTimelineSection {
         this.dateRange = dateRange;
         this.course = course;
         this.data$ = new BehaviorSubject({
-            events: courseEvents ? this.reduceEvents(courseEvents, overdue, dateRange) : [],
+            events: [],
             lastEventId: canLoadMore,
             canLoadMore: typeof canLoadMore !== 'undefined',
             loadingMore: false,
         });
+
+        if (courseEvents) {
+            // eslint-disable-next-line promise/catch-or-return
+            this.reduceEvents(courseEvents, overdue, dateRange).then(events => this.data$.next({
+                ...this.data$.value,
+                events,
+            }));
+        }
     }
 
     /**
@@ -70,7 +79,7 @@ export class AddonBlockTimelineSection {
             : await AddonBlockTimeline.getActionEventsByTimesort(lastEventId, this.search ?? '');
 
         this.data$.next({
-            events: this.data$.value.events.concat(this.reduceEvents(events, this.overdue, this.dateRange)),
+            events: this.data$.value.events.concat(await this.reduceEvents(events, this.overdue, this.dateRange)),
             lastEventId: canLoadMore,
             canLoadMore: canLoadMore !== undefined,
             loadingMore: false,
@@ -85,32 +94,35 @@ export class AddonBlockTimelineSection {
      * @param dateRange Date range to filter events.
      * @returns Day events list.
      */
-    private reduceEvents(
+    private async reduceEvents(
         events: AddonCalendarEvent[],
         overdue: boolean,
         { from, to }: AddonBlockTimelineDateRange,
-    ): AddonBlockTimelineDayEvents[] {
+    ): Promise<AddonBlockTimelineDayEvents[]> {
         const filterDates: AddonBlockTimelineFilterDates = {
             now: CoreTimeUtils.timestamp(),
             midnight: AddonBlockTimeline.getDayStart(),
             start: AddonBlockTimeline.getDayStart(from),
             end: typeof to === 'number' ? AddonBlockTimeline.getDayStart(to) : undefined,
         };
-        const eventsByDates = events
-            .filter((event) => this.filterEvent(event, overdue, filterDates))
-            .map((event) => this.mapToTimelineEvent(event, filterDates.now))
-            .reduce((filteredEvents, event) => {
-                const dayTimestamp = CoreTimeUtils.getMidnightForTimestamp(event.timesort);
+        const timelineEvents = await Promise.all(
+            events
+                .filter((event) => this.filterEvent(event, overdue, filterDates))
+                .map((event) => this.mapToTimelineEvent(event, filterDates.now)),
+        );
 
-                filteredEvents[dayTimestamp] = filteredEvents[dayTimestamp] ?? {
-                    dayTimestamp,
-                    events: [],
-                } as AddonBlockTimelineDayEvents;
+        const eventsByDates = timelineEvents.reduce((filteredEvents, event) => {
+            const dayTimestamp = CoreTimeUtils.getMidnightForTimestamp(event.timesort);
 
-                filteredEvents[dayTimestamp].events.push(event);
+            filteredEvents[dayTimestamp] = filteredEvents[dayTimestamp] ?? {
+                dayTimestamp,
+                events: [],
+            } as AddonBlockTimelineDayEvents;
 
-                return filteredEvents;
-            }, {} as Record<string, AddonBlockTimelineDayEvents>);
+            filteredEvents[dayTimestamp].events.push(event);
+
+            return filteredEvents;
+        }, {} as Record<string, AddonBlockTimelineDayEvents>);
 
         return Object.values(eventsByDates);
     }
@@ -151,14 +163,14 @@ export class AddonBlockTimelineSection {
      * @param now Current time.
      * @returns Timeline event.
      */
-    private mapToTimelineEvent(event: AddonCalendarEvent, now: number): AddonBlockTimelineEvent {
+    private async mapToTimelineEvent(event: AddonCalendarEvent, now: number): Promise<AddonBlockTimelineEvent> {
         const modulename = event.modulename || event.icon.component;
 
         return {
             ...event,
             modulename,
             overdue: event.timesort < now,
-            iconUrl: CoreCourse.getModuleIconSrc(event.icon.component),
+            iconUrl: await CoreCourseModuleDelegate.getModuleIconSrc(event.icon.component, event.icon.iconurl),
             iconTitle: CoreCourse.translateModuleName(modulename),
         } as AddonBlockTimelineEvent;
     }
