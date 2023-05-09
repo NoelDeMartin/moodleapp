@@ -53,6 +53,21 @@ export type Pretty<T> = T extends infer U ? {[K in keyof U]: U[K]} : never;
 export type OmitUnion<T, A extends keyof T> = T extends '' ? never : Omit<T, A>;
 
 /**
+ * Helper type to remove values that evaluate to false from type.
+ */
+export type Truthy<T> = T extends null | undefined | false | 0 ? never : T;
+
+/**
+ * Helper method to check if a value is truthy, to be used as a type guard.
+ *
+ * @param value Value.
+ * @returns Whether value is truthy or not.
+ */
+export function isTruthy<T>(value: T): value is Truthy<T> {
+    return !!value;
+}
+
+/**
  * Helper to create branded types.
  *
  * A branded type can be used to mark other types as having passed some validations.

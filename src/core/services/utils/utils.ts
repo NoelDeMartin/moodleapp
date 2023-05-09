@@ -39,6 +39,7 @@ import { CoreErrorWithOptions } from '@classes/errors/errorwithtitle';
 import { CoreFilepool } from '@services/filepool';
 import { CoreSites } from '@services/sites';
 import { CoreCancellablePromise } from '@classes/cancellable-promise';
+import { isTruthy, Truthy } from '@/core/utils/types';
 
 export type TreeNode<T> = T & { children: TreeNode<T>[] };
 
@@ -1798,21 +1799,25 @@ export class CoreUtilsProvider {
      * @param condition Condition.
      * @returns Cancellable promise.
      */
-    waitFor(condition: () => boolean, interval: number = 50): CoreCancellablePromise<void> {
-        if (condition()) {
-            return CoreCancellablePromise.resolve();
+    waitFor<T>(condition: () => T, interval: number = 50): CoreCancellablePromise<Truthy<T>> {
+        const result = condition();
+
+        if (isTruthy(result)) {
+            return CoreCancellablePromise.resolve(result);
         }
 
         let intervalId: number | undefined;
 
-        return new CoreCancellablePromise<void>(
+        return new CoreCancellablePromise<Truthy<T>>(
             async (resolve) => {
                 intervalId = window.setInterval(() => {
-                    if (!condition()) {
+                    const result = condition();
+
+                    if (!isTruthy(result)) {
                         return;
                     }
 
-                    resolve();
+                    resolve(result);
                     window.clearInterval(intervalId);
                 }, interval);
             },

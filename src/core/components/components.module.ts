@@ -64,6 +64,7 @@ import { CoreMessageComponent } from './message/message';
 import { CoreGroupSelectorComponent } from './group-selector/group-selector';
 import { CoreRefreshButtonModalComponent } from './refresh-button-modal/refresh-button-modal';
 import { CoreSheetModalComponent } from '@components/sheet-modal/sheet-modal';
+import { CoreItemBackgroundButtonComponent } from '@components/item-nested-button/item-background-button';
 
 @NgModule({
     declarations: [
@@ -84,6 +85,7 @@ import { CoreSheetModalComponent } from '@components/sheet-modal/sheet-modal';
         CoreIframeComponent,
         CoreInfiniteLoadingComponent,
         CoreInputErrorsComponent,
+        CoreItemBackgroundButtonComponent,
         CoreLoadingComponent,
         CoreLocalFileComponent,
         CoreMarkRequiredComponent,
@@ -137,6 +139,7 @@ import { CoreSheetModalComponent } from '@components/sheet-modal/sheet-modal';
         CoreIframeComponent,
         CoreInfiniteLoadingComponent,
         CoreInputErrorsComponent,
+        CoreItemBackgroundButtonComponent,
         CoreLoadingComponent,
         CoreLocalFileComponent,
         CoreMarkRequiredComponent,
