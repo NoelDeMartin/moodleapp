@@ -18,6 +18,17 @@ import { ModuleRoutes, ModuleRoutesConfig, resolveModuleRoutes } from '@/app/app
 
 const MAIN_MENU_ROUTES = new InjectionToken('MAIN_MENU_ROUTES');
 
+export interface CoreMainMenuRoutes {}
+
+export type CoreMainMenuPath = keyof CoreMainMenuRoutes;
+
+declare module '@services/router' {
+
+    // TODO add /main prefix
+    interface CoreRoutes extends CoreMainMenuRoutes {}
+
+}
+
 /**
  * Resolve dynamic routes.
  *
