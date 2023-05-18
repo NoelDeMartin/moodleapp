@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Equals, Expect, expectTypesEqual, mock } from '@/testing/utils';
+import { Equals, Expect, expectTypesEqual, mock, mockSingleton } from '@/testing/utils';
 import { Type } from '@angular/core';
-import { CoreLazyRoutesModule, CoreRouteDefinition, defineRoute } from '@services/router';
+import { CoreNavigator } from '@services/navigator';
+import { CoreLazyRoutesModule, CoreRouteDefinition, CoreRouter, defineRoute } from '@services/router';
+
+/* eslint-disable @typescript-eslint/ban-types */
 
 describe('Router', () => {
 
@@ -26,7 +29,7 @@ describe('Router', () => {
             component,
         });
 
-        type TExpected = { '/foo': true };
+        type TExpected = { '/foo': {} };
         type TActual = CoreRouteDefinition<typeof route>;
 
         expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
@@ -44,7 +47,7 @@ describe('Router', () => {
             loadChildren: () => Promise.resolve(ChildModule),
         });
 
-        type TExpected = { '/foo/bar': true };
+        type TExpected = { '/foo/bar': {} };
         type TActual = CoreRouteDefinition<typeof route>;
 
         expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
@@ -64,6 +67,10 @@ describe('Router', () => {
                 path: 'baz',
                 component,
             }),
+            defineRoute({
+                path: ':id',
+                component,
+            }),
         ];
         class ChildModule extends CoreLazyRoutesModule<typeof children> {}
 
@@ -73,13 +80,25 @@ describe('Router', () => {
         });
 
         type TExpected = {
-            '/foo': true;
-            '/foo/bar': true;
-            '/foo/baz': true;
+            '/foo': {};
+            '/foo/bar': {};
+            '/foo/baz': {};
+            '/foo/:id': {
+                id: string;
+            };
         };
         type TActual = CoreRouteDefinition<typeof route>;
 
         expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
+    });
+
+    it('accepts route arguments', async () => {
+        const mockNavigator = mockSingleton(CoreNavigator, { navigateToSitePath: jest.fn(() => Promise.resolve(true)) });
+        const badgeHash = '123456';
+
+        await CoreRouter.navigateToSitePath('/badges/:badgeHash', { badgeHash });
+
+        expect(mockNavigator.navigateToSitePath).toHaveBeenCalledWith(`/badges/${badgeHash}`, {});
     });
 
 });

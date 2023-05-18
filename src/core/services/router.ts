@@ -14,7 +14,7 @@
 
 import { Constructor } from '@/core/utils/types';
 import { Injectable, Type } from '@angular/core';
-import { CoreMainMenuPath } from '@features/mainmenu/mainmenu-routing.module';
+import { CoreMainMenuPath, CoreMainMenuRoutes } from '@features/mainmenu/mainmenu-routing.module';
 import { CoreNavigator, CoreNavigationOptions } from '@services/navigator';
 import { makeSingleton } from '@singletons';
 
@@ -27,14 +27,18 @@ export class CoreRouterService {
     /**
      * Navigate to a site path, loading the site if necessary.
      *
-     * @param path Site path to visit.
+     * @param route Path parameters.
+     * @param routeParams Navigation and site options.
      * @param options Navigation and site options.
      * @returns Whether navigation suceeded.
      */
-    async navigateToSitePath(
-        path: CoreMainMenuPath,
+    async navigateToSitePath<T extends CoreMainMenuPath>(
+        route: T,
+        routeParams: CoreMainMenuRoutes[T],
         options: CoreNavigationOptions & { siteId?: string } = {},
     ): Promise<boolean> {
+        const path = Object.entries(routeParams).reduce((path, [key, value]) => path.replace(`:${key}`, value.toString()), route);
+
         return CoreNavigator.navigateToSitePath(path, options);
     }
 
@@ -83,8 +87,14 @@ export type CoreRouteGetChildrenPaths<T extends CoreRoute> = T extends CoreLazyR
         : TChildRoute extends CoreRoutesArray<infer TChildRoutes> ? CoreRouteGetPaths<TChildRoutes> : never)
     : '';
 
+export type GetPathParams<T extends string> = T extends `${string}/:${infer Rest}`
+    ? Rest extends `${infer Param}/${infer SubRest}` ? Param | GetPathParams<SubRest> : Rest
+    : never;
+
 export type CoreRouteDefinition<T extends CoreRoute = CoreRoute> = {
-    [k in CoreRouteGetPaths<T>]: true;
+    [k in CoreRouteGetPaths<T>]: {
+        [p in GetPathParams<k>]: string;
+    }
 };
 
 type Cast<A, B> = A extends B ? A : B;

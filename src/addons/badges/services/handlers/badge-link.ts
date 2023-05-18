@@ -36,9 +36,7 @@ export class AddonBadgesBadgeLinkHandlerService extends CoreContentLinksHandlerB
 
         return [{
             action: (siteId: string): void => {
-                // TODO send hash
-                params.hash;
-                CoreRouter.navigateToSitePath('/badges/:badgeHash', { siteId });
+                CoreRouter.navigateToSitePath('/badges/:badgeHash', { badgeHash: params.hash }, { siteId });
             },
         }];
     }
