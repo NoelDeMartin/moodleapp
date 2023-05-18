@@ -21,7 +21,7 @@ import { CoreSharedModule } from '@/core/shared.module';
 
 import { AddonBadgesIssuedBadgePage } from './pages/issued-badge/issued-badge';
 import { AddonBadgesUserBadgesPage } from './pages/user-badges/user-badges';
-import { defineRoute, defineRouteModule } from '@services/router';
+import { CoreLazyRoutesModule, defineRoute } from '@services/router';
 
 const badgeRoute = defineRoute({
     path: ':badgeHash',
@@ -65,6 +65,4 @@ const routes: Routes = [
         AddonBadgesIssuedBadgePage,
     ],
 })
-export class AddonBadgesLazyModule {}
-
-export const module = defineRouteModule<typeof badgeRoute>(AddonBadgesLazyModule);
+export class AddonBadgesLazyModule extends CoreLazyRoutesModule<typeof badgeRoute> {}

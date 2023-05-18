@@ -32,7 +32,7 @@ export const ADDON_BADGES_SERVICES: Type<unknown>[] = [
 
 const badgesRoute = defineRoute({
     path: 'badges',
-    loadChildren: () => import('./badges-lazy.module').then(m => m.module),
+    loadChildren: () => import('./badges-lazy.module').then(m => m.AddonBadgesLazyModule),
 });
 
 const mainMenuRoutes: Routes = [badgesRoute];

@@ -14,7 +14,7 @@
 
 import { Equals, Expect, expectTypesEqual, mock } from '@/testing/utils';
 import { Type } from '@angular/core';
-import { CoreRouteDefinition, defineRoute, defineRouteModule } from '@services/router';
+import { CoreLazyRoutesModule, CoreRouteDefinition, defineRoute } from '@services/router';
 
 describe('Router', () => {
 
@@ -37,9 +37,11 @@ describe('Router', () => {
             path: 'bar',
             component,
         });
+        class ChildModule extends CoreLazyRoutesModule<typeof childRoute> {}
+
         const route = defineRoute({
             path: 'foo',
-            loadChildren: () => Promise.resolve(defineRouteModule<typeof childRoute>({})),
+            loadChildren: () => Promise.resolve(ChildModule),
         });
 
         type TExpected = { '/foo/bar': true };
@@ -63,9 +65,11 @@ describe('Router', () => {
                 component,
             }),
         ];
+        class ChildModule extends CoreLazyRoutesModule<typeof children> {}
+
         const route = defineRoute({
             path: 'foo',
-            loadChildren: () => Promise.resolve(defineRouteModule<typeof children>({})),
+            loadChildren: () => Promise.resolve(ChildModule),
         });
 
         type TExpected = {

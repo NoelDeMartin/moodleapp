@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { Constructor } from '@/core/utils/types';
 import { Injectable, Type } from '@angular/core';
 import { CoreMainMenuPath } from '@features/mainmenu/mainmenu-routing.module';
 import { CoreNavigator, CoreNavigationOptions } from '@services/navigator';
@@ -49,9 +50,9 @@ export interface CoreRouteBase<T extends string = string> {
 
 export interface CoreLazyRoute<
     TPath extends string = string,
-    TChildrenRoute extends CoreRoute = CoreRoute
+    TChildrenRoute extends CoreRoute | CoreRoutesArray = CoreRoute | CoreRoutesArray
 > extends CoreRouteBase<TPath> {
-    loadChildren: () => Promise<CoreLazyRoutesModule<TChildrenRoute>>;
+    loadChildren: () => Promise<Constructor<CoreLazyRoutesModule<TChildrenRoute>>>;
 }
 
 export interface CoreEagerRoute<T extends string = string> extends CoreRouteBase<T> {
@@ -59,10 +60,14 @@ export interface CoreEagerRoute<T extends string = string> extends CoreRouteBase
 }
 
 export type CoreRoute<T extends string = string> = CoreLazyRoute<T> | CoreEagerRoute<T>;
+export type CoreRoutesArray<T extends CoreRoute = CoreRoute> = Array<T>;
 
-export interface CoreLazyRoutesModule<T extends CoreRoute> {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    __route: T;
+declare const routes: unique symbol;
+
+export class CoreLazyRoutesModule<T extends CoreRoute | CoreRoutesArray> {
+
+    [routes]?: T;
+
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -73,7 +78,9 @@ export type CoreRouteGetPaths<T extends CoreRoute> = string extends T['path']
     : Trim<`/${T['path']}${CoreRouteGetChildrenPaths<T>}`>;
 
 export type CoreRouteGetChildrenPaths<T extends CoreRoute> = T extends CoreLazyRoute<GenericAny, infer TChildRoute>
-    ? CoreRouteGetPaths<TChildRoute>
+    ? (TChildRoute extends CoreRoute
+        ? CoreRouteGetPaths<TChildRoute>
+        : TChildRoute extends CoreRoutesArray<infer TChildRoutes> ? CoreRouteGetPaths<TChildRoutes> : never)
     : '';
 
 export type CoreRouteDefinition<T extends CoreRoute = CoreRoute> = {
@@ -105,21 +112,6 @@ type NarrowCoreRoute<A> = { [K in keyof A]: Narrow<A[K]> };
  */
 export function defineRoute<T extends CoreRoute>(route: NarrowCoreRoute<T>): T {
     return route as unknown as T;
-}
-
-type CoreRoutesArray<T extends CoreRoute = CoreRoute> = Array<T>;
-type CoreGetLazyRouteModule<T extends CoreRoute | CoreRoutesArray> = T extends CoreRoute
-    ? CoreLazyRoutesModule<T>
-    : (T extends CoreRoutesArray<infer TItem> ? CoreLazyRoutesModule<TItem> : never);
-
-/**
- * Define a route module.
- *
- * @param module Module.
- * @returns Module.
- */
-export function defineRouteModule<T extends CoreRoute | CoreRoutesArray>(module: unknown): CoreGetLazyRouteModule<T> {
-    return module as unknown as CoreGetLazyRouteModule<T>;
 }
 
 export const CoreRouter = makeSingleton(CoreRouterService);
