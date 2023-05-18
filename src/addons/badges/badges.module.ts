@@ -24,17 +24,18 @@ import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-ro
 import { CorePushNotificationsDelegate } from '@features/pushnotifications/services/push-delegate';
 import { AddonBadgesPushClickHandler } from './services/handlers/push-click';
 import { AddonBadgesProvider } from './services/badges';
+import { CoreRouteDefinition, defineRoute } from '@services/router';
 
 export const ADDON_BADGES_SERVICES: Type<unknown>[] = [
     AddonBadgesProvider,
 ];
 
-const mainMenuRoutes: Routes = [
-    {
-        path: 'badges',
-        loadChildren: () => import('./badges-lazy.module').then(m => m.AddonBadgesLazyModule),
-    },
-];
+const badgesRoute = defineRoute({
+    path: 'badges',
+    loadChildren: () => import('./badges-lazy.module').then(m => m.module),
+} as const);
+
+const mainMenuRoutes: Routes = [badgesRoute];
 
 @NgModule({
     imports: [
@@ -54,3 +55,12 @@ const mainMenuRoutes: Routes = [
     ],
 })
 export class AddonBadgesModule {}
+
+/**
+ * Routing Module Augmentations.
+ */
+declare module '@features/mainmenu/mainmenu-routing.module' {
+
+    interface CoreMainMenuRoutes extends CoreRouteDefinition<typeof badgesRoute> {}
+
+}

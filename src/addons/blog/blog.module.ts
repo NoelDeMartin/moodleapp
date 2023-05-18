@@ -36,18 +36,12 @@ export const ADDON_BLOG_SERVICES: Type<unknown>[] = [
 
 const blogRoute = defineRoute({
     path: 'blog',
-    loadChildren: () => import('@addons/blog/blog-lazy.module').then(m => m.AddonBlogLazyModule),
+    loadChildren: () => import('@addons/blog/blog-lazy.module').then(m => m.module),
 } as const);
 
 const routes: Routes = [
     blogRoute,
 ];
-
-declare module '@features/mainmenu/mainmenu-routing.module' {
-
-    interface CoreMainMenuRoutes extends CoreRouteDefinition<typeof blogRoute> {}
-
-}
 
 @NgModule({
     imports: [
@@ -71,3 +65,12 @@ declare module '@features/mainmenu/mainmenu-routing.module' {
     ],
 })
 export class AddonBlogModule {}
+
+/**
+ * Routing Module Augmentations.
+ */
+declare module '@features/mainmenu/mainmenu-routing.module' {
+
+    interface CoreMainMenuRoutes extends CoreRouteDefinition<typeof blogRoute> {}
+
+}

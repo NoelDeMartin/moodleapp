@@ -21,6 +21,12 @@ import { CoreSharedModule } from '@/core/shared.module';
 
 import { AddonBadgesIssuedBadgePage } from './pages/issued-badge/issued-badge';
 import { AddonBadgesUserBadgesPage } from './pages/user-badges/user-badges';
+import { defineRoute, defineRouteModule } from '@services/router';
+
+const badgeRoute = defineRoute({
+    path: ':badgeHash',
+    component: AddonBadgesIssuedBadgePage,
+} as const);
 
 const mobileRoutes: Routes = [
     {
@@ -28,10 +34,7 @@ const mobileRoutes: Routes = [
         pathMatch: 'full',
         component: AddonBadgesUserBadgesPage,
     },
-    {
-        path: ':badgeHash',
-        component: AddonBadgesIssuedBadgePage,
-    },
+    badgeRoute,
 ];
 
 const tabletRoutes: Routes = [
@@ -63,3 +66,5 @@ const routes: Routes = [
     ],
 })
 export class AddonBadgesLazyModule {}
+
+export const module = defineRouteModule<typeof badgeRoute>(AddonBadgesLazyModule);

@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable } from '@angular/core';
-import { LoadChildren } from '@angular/router';
+import { Injectable, Type } from '@angular/core';
 import { CoreMainMenuPath } from '@features/mainmenu/mainmenu-routing.module';
 import { CoreNavigator, CoreNavigationOptions } from '@services/navigator';
 import { makeSingleton } from '@singletons';
@@ -31,7 +30,7 @@ export class CoreRouterService {
      * @param options Navigation and site options.
      * @returns Whether navigation suceeded.
      */
-    async navigateToSitepath(
+    async navigateToSitePath(
         path: CoreMainMenuPath,
         options: CoreNavigationOptions & { siteId?: string } = {},
     ): Promise<boolean> {
@@ -44,20 +43,66 @@ export interface CoreRoutes {}
 
 export type CoreRoutePath = keyof CoreRoutes;
 
-export interface CoreRoute<T extends string = string> {
+export interface CoreRouteBase<T extends string = string> {
     path: T;
-    loadChildren: LoadChildren;
 }
 
-export type CoreRouteDefinition<T extends CoreRoute> = {
-    [k in `/${T['path']}`]: true;
+export interface CoreLazyRoute<
+    TPath extends string = string,
+    TChildrenRoute extends CoreRoute = CoreRoute
+> extends CoreRouteBase<TPath> {
+    loadChildren: () => Promise<CoreLazyRoutesModule<TChildrenRoute>>;
+}
+
+export interface CoreEagerRoute<T extends string = string> extends CoreRouteBase<T> {
+    component: Type<unknown>;
+}
+
+export type CoreRoute<T extends string = string> = CoreLazyRoute<T> | CoreEagerRoute<T>;
+
+export interface CoreLazyRoutesModule<T extends CoreRoute> {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    __route: T;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type GenericAny = any;
+type Trim<T extends string> = T extends `${infer S}/` ? S : T;
+export type CoreRouteGetPaths<T extends CoreRoute> = string extends T['path']
+    ? never // avoid infinite loop for generic strings
+    : Trim<`/${T['path']}${CoreRouteGetChildrenPaths<T>}`>;
+
+export type CoreRouteGetChildrenPaths<T extends CoreRoute> = T extends CoreLazyRoute<GenericAny, infer TChildRoute>
+    ? CoreRouteGetPaths<TChildRoute>
+    : '';
+
+export type CoreRouteDefinition<T extends CoreRoute = CoreRoute> = {
+    [k in CoreRouteGetPaths<T>]: true;
 };
 
 /**
+ * Define a route.
  *
+ * @param route Route.
+ * @returns Route.
  */
-export function defineRoute<T extends string>(route: CoreRoute<T>): CoreRoute<T> {
+export function defineRoute<T extends CoreRoute>(route: T): T {
     return route;
+}
+
+type CoreRoutesArray<T extends CoreRoute = CoreRoute> = Array<T>;
+type CoreGetLazyRouteModule<T extends CoreRoute | CoreRoutesArray> = T extends CoreRoute
+    ? CoreLazyRoutesModule<T>
+    : (T extends CoreRoutesArray<infer TItem> ? CoreLazyRoutesModule<TItem> : never);
+
+/**
+ * Define a route module.
+ *
+ * @param module Module.
+ * @returns Module.
+ */
+export function defineRouteModule<T extends CoreRoute | CoreRoutesArray>(module: unknown): CoreGetLazyRouteModule<T> {
+    return module as unknown as CoreGetLazyRouteModule<T>;
 }
 
 export const CoreRouter = makeSingleton(CoreRouterService);
