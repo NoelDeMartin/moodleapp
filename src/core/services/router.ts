@@ -80,14 +80,31 @@ export type CoreRouteDefinition<T extends CoreRoute = CoreRoute> = {
     [k in CoreRouteGetPaths<T>]: true;
 };
 
+type Cast<A, B> = A extends B ? A : B;
+
+type Narrowable =
+| string
+| number
+| bigint
+| boolean;
+
+type Narrow<A> = A extends Type<any> ? A : Cast<A,
+| []
+| (A extends Narrowable ? A : never)
+| ({ [K in keyof A]: Narrow<A[K]> })
+>;
+
+// TODO this can be removed with Typescript 5.0's const Type Parameters
+type NarrowCoreRoute<A> = { [K in keyof A]: Narrow<A[K]> };
+
 /**
  * Define a route.
  *
  * @param route Route.
  * @returns Route.
  */
-export function defineRoute<T extends CoreRoute>(route: T): T {
-    return route;
+export function defineRoute<T extends CoreRoute>(route: NarrowCoreRoute<T>): T {
+    return route as unknown as T;
 }
 
 type CoreRoutesArray<T extends CoreRoute = CoreRoute> = Array<T>;

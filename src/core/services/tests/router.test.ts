@@ -24,7 +24,7 @@ describe('Router', () => {
         const route = defineRoute({
             path: 'foo',
             component,
-        } as const);
+        });
 
         type TExpected = { '/foo': true };
         type TActual = CoreRouteDefinition<typeof route>;
@@ -36,11 +36,11 @@ describe('Router', () => {
         const childRoute = defineRoute({
             path: 'bar',
             component,
-        } as const);
+        });
         const route = defineRoute({
             path: 'foo',
             loadChildren: () => Promise.resolve(defineRouteModule<typeof childRoute>({})),
-        } as const);
+        });
 
         type TExpected = { '/foo/bar': true };
         type TActual = CoreRouteDefinition<typeof route>;
@@ -53,20 +53,20 @@ describe('Router', () => {
             defineRoute({
                 path: '',
                 component,
-            } as const),
+            }),
             defineRoute({
                 path: 'bar',
                 component,
-            } as const),
+            }),
             defineRoute({
                 path: 'baz',
                 component,
-            } as const),
+            }),
         ];
         const route = defineRoute({
             path: 'foo',
             loadChildren: () => Promise.resolve(defineRouteModule<typeof children>({})),
-        } as const);
+        });
 
         type TExpected = {
             '/foo': true;

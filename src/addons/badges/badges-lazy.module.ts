@@ -26,7 +26,7 @@ import { defineRoute, defineRouteModule } from '@services/router';
 const badgeRoute = defineRoute({
     path: ':badgeHash',
     component: AddonBadgesIssuedBadgePage,
-} as const);
+});
 
 const mobileRoutes: Routes = [
     {

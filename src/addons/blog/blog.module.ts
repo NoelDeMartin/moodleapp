@@ -37,7 +37,7 @@ export const ADDON_BLOG_SERVICES: Type<unknown>[] = [
 const blogRoute = defineRoute({
     path: 'blog',
     loadChildren: () => import('@addons/blog/blog-lazy.module').then(m => m.module),
-} as const);
+});
 
 const routes: Routes = [
     blogRoute,
