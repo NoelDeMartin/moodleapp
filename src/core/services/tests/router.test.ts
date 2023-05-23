@@ -44,20 +44,30 @@ describe('Router', () => {
 
         const route = defineRoute({
             path: 'foo',
+            component,
             loadChildren: () => Promise.resolve(ChildModule),
         });
 
-        type TExpected = { '/foo/bar': {} };
+        type TExpected = {
+            '/foo': {};
+            '/foo/bar': {};
+        };
         type TActual = CoreRouteDefinition<typeof route>;
 
         expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
     });
 
-    it('defines lazy routes with multiple children', () => {
+    it('defines complex routes', () => {
         const children = [
             defineRoute({
                 path: '',
                 component,
+                children: [
+                    {
+                        path: 'nested',
+                        component,
+                    },
+                ],
             }),
             defineRoute({
                 path: 'bar',
@@ -70,6 +80,24 @@ describe('Router', () => {
             defineRoute({
                 path: ':id',
                 component,
+                children: [
+                    {
+                        path: '',
+                        component,
+                    },
+                    {
+                        path: 'one',
+                        component,
+                    },
+                    {
+                        path: 'two',
+                        component,
+                    },
+                    {
+                        path: ':subid',
+                        component,
+                    },
+                ],
             }),
         ];
         class ChildModule extends CoreLazyRoutesModule<typeof children> {}
@@ -81,10 +109,21 @@ describe('Router', () => {
 
         type TExpected = {
             '/foo': {};
+            '/foo/nested': {};
             '/foo/bar': {};
             '/foo/baz': {};
             '/foo/:id': {
-                id: string;
+                id: string | number;
+            };
+            '/foo/:id/one': {
+                id: string | number;
+            };
+            '/foo/:id/two': {
+                id: string | number;
+            };
+            '/foo/:id/:subid': {
+                id: string | number;
+                subid: string | number;
             };
         };
         type TActual = CoreRouteDefinition<typeof route>;

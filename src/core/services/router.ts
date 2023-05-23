@@ -14,9 +14,11 @@
 
 import { Constructor } from '@/core/utils/types';
 import { Injectable, Type } from '@angular/core';
+import { UrlMatcher } from '@angular/router';
 import { CoreMainMenuPath, CoreMainMenuRoutes } from '@features/mainmenu/mainmenu-routing.module';
 import { CoreNavigator, CoreNavigationOptions } from '@services/navigator';
 import { makeSingleton } from '@singletons';
+import { conditionalRoutes as conditionalRoutesImpl } from '@/app/app-routing.module';
 
 /**
  * Service providing type-safe routing operations.
@@ -37,7 +39,7 @@ export class CoreRouterService {
         routeParams: CoreMainMenuRoutes[T],
         options: CoreNavigationOptions & { siteId?: string } = {},
     ): Promise<boolean> {
-        const path = Object.entries(routeParams).reduce((path, [key, value]) => path.replace(`:${key}`, value.toString()), route);
+        const path = Object.entries(routeParams).reduce((path, [key, value]) => path.replace(`:${key}`, String(value)), route);
 
         return CoreNavigator.navigateToSitePath(path, options);
     }
@@ -50,6 +52,7 @@ export type CoreRoutePath = keyof CoreRoutes;
 
 export interface CoreRouteBase<T extends string = string> {
     path: T;
+    matcher?: UrlMatcher;
 }
 
 export interface CoreLazyRoute<
@@ -61,6 +64,7 @@ export interface CoreLazyRoute<
 
 export interface CoreEagerRoute<T extends string = string> extends CoreRouteBase<T> {
     component: Type<unknown>;
+    children?: CoreRoute[];
 }
 
 export type CoreRoute<T extends string = string> = CoreLazyRoute<T> | CoreEagerRoute<T>;
@@ -77,25 +81,37 @@ export class CoreLazyRoutesModule<T extends CoreRoute | CoreRoutesArray> {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type GenericAny = any;
 type Trim<T extends string> = T extends `${infer S}/` ? S : T;
+type RemoveDuplicatedSlashes<T extends string> = T extends `${infer S}//${infer Rest}` ? `${S}/${RemoveDuplicatedSlashes<Rest>}`: T;
 export type CoreRouteGetPaths<T extends CoreRoute> = string extends T['path']
     ? never // avoid infinite loop for generic strings
-    : Trim<`/${T['path']}${CoreRouteGetChildrenPaths<T>}`>;
+    : `/${T['path']}` | Trim<RemoveDuplicatedSlashes<`/${T['path']}${CoreRouteGetLazyChildPaths<T>}`>>;
 
-export type CoreRouteGetChildrenPaths<T extends CoreRoute> = T extends CoreLazyRoute<GenericAny, infer TChildRoute>
-    ? (TChildRoute extends CoreRoute
-        ? CoreRouteGetPaths<TChildRoute>
-        : TChildRoute extends CoreRoutesArray<infer TChildRoutes> ? CoreRouteGetPaths<TChildRoutes> : never)
+export type CoreRouteGetLazyChildPaths<T extends CoreRoute> = T extends CoreLazyRoute<GenericAny, infer TChildRoute>
+    ? (TChildRoute extends CoreRoutesArray<infer TChildRoutes>
+        ? (TChildRoutes extends CoreRoute ? CoreRouteGetPaths<TChildRoutes> : never)
+        : (TChildRoute extends CoreRoute ? CoreRouteGetPaths<TChildRoute> : never))
+    : (T extends CoreEagerRoute ? CoreRouteGetChildrenPaths<T> : '');
+
+export type CoreRouteGetChildrenPaths<T extends CoreEagerRoute> = T extends { children: CoreRoutesArray<infer TChild> }
+    ? CoreRouteGetPaths<TChild>
     : '';
 
 export type GetPathParams<T extends string> = T extends `${string}/:${infer Rest}`
-    ? Rest extends `${infer Param}/${infer SubRest}` ? Param | GetPathParams<SubRest> : Rest
+    ? Rest extends `${infer Param}/${infer SubRest}` ? Param | GetPathParams<`/${SubRest}`> : Rest
     : never;
 
-export type CoreRouteDefinition<T extends CoreRoute = CoreRoute> = {
-    [k in CoreRouteGetPaths<T>]: {
-        [p in GetPathParams<k>]: string;
-    }
-};
+export type CoreRouteDefinition<T extends CoreRoute | CoreRoutesArray = CoreRoute> =
+    T extends CoreRoutesArray<infer TItem>
+        ? CoreRouteDefinition<TItem>
+        : (
+            T extends CoreRoute
+                ? {
+                    [k in CoreRouteGetPaths<T>]: {
+                        [p in GetPathParams<k>]: string | number;
+                    }
+                }
+                : never
+        );
 
 type Cast<A, B> = A extends B ? A : B;
 
@@ -112,7 +128,15 @@ type Narrow<A> = A extends Type<any> ? A : Cast<A,
 >;
 
 // TODO this can be removed with Typescript 5.0's const Type Parameters
-type NarrowCoreRoute<A> = { [K in keyof A]: Narrow<A[K]> };
+type NarrowCoreRoute<T> = { [K in keyof T]: Narrow<T[K]> };
+type NarrowCoreRoutes<T> = ([T] extends [[]] ? [] : NarrowCoreRoute<T>);
+
+/**
+ * @inheritdoc
+ */
+export function conditionalRoutes<T extends CoreRoutesArray>(routes: T, condition: () => boolean): T {
+    return conditionalRoutesImpl(routes, condition) as T;
+}
 
 /**
  * Define a route.
@@ -122,6 +146,16 @@ type NarrowCoreRoute<A> = { [K in keyof A]: Narrow<A[K]> };
  */
 export function defineRoute<T extends CoreRoute>(route: NarrowCoreRoute<T>): T {
     return route as unknown as T;
+}
+
+/**
+ * Define routes.
+ *
+ * @param routes Routes.
+ * @returns Routes.
+ */
+export function defineRoutes<T>(routes: NarrowCoreRoutes<T>): T {
+    return routes as unknown as T;
 }
 
 export const CoreRouter = makeSingleton(CoreRouterService);
