@@ -53,6 +53,23 @@ export type Pretty<T> = T extends infer U ? {[K in keyof U]: U[K]} : never;
 export type OmitUnion<T, A extends keyof T> = T extends '' ? never : Omit<T, A>;
 
 /**
+ * Casts a type into another.
+ */
+export type Cast<A, B> = A extends B ? A : B;
+
+/**
+ * Adds a prefix to a string.
+ */
+export type StringWithPrefix<TPrefix extends string, TString extends string> = `${TPrefix}${TString}`;
+
+/**
+ * Adds a given prefix to every key in an object.
+ */
+export type AddKeysPrefix<TPrefix extends string, TObject> = {
+    [K in keyof TObject as K extends string ? StringWithPrefix<TPrefix, K> : never]: TObject[K]
+};
+
+/**
  * Helper to create branded types.
  *
  * A branded type can be used to mark other types as having passed some validations.

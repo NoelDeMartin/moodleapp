@@ -15,6 +15,7 @@
 import { InjectionToken, Injector, ModuleWithProviders, NgModule } from '@angular/core';
 
 import { ModuleRoutes, ModuleRoutesConfig, resolveModuleRoutes } from '@/app/app-routing.module';
+import { AddKeysPrefix } from '@/core/utils/types';
 
 const MAIN_MENU_ROUTES = new InjectionToken('MAIN_MENU_ROUTES');
 
@@ -43,5 +44,15 @@ export class CoreMainMenuRoutingModule {
             ],
         };
     }
+
+}
+
+/**
+ * Route declarations.
+ */
+declare module '@/app/app-routing.module' {
+
+    // TODO derive /main/:tab instead of hard-coding
+    interface AppRoutesMetadata extends AddKeysPrefix<'/main/:tab', CoreMainMenuRoutesMetadata> {}
 
 }

@@ -12,19 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Constructor, Pretty } from '@/core/utils/types';
+import { AddKeysPrefix, Cast, Constructor, Pretty } from '@/core/utils/types';
 import { Injectable, Type } from '@angular/core';
 import { UrlMatcher } from '@angular/router';
 import { makeSingleton } from '@singletons';
 import { CoreNavigator, CoreNavigationOptions } from '@services/navigator';
 import { CoreMainMenuPath, CoreMainMenuRoutesMetadata } from '@features/mainmenu/mainmenu-routing.module';
 import { conditionalRoutes as conditionalRoutesImpl } from '@/app/app-routing.module';
+import { CoreComponentRouter } from '@services/utils/component-router';
 
 /**
  * Service providing type-safe routing operations.
  */
 @Injectable({ providedIn: 'root' })
 export class CoreRouterService {
+
+    /**
+     * Gets a component-scoped router.
+     *
+     * @returns Component router.
+     */
+    getComponentRouter<T>(): CoreComponentRouter<T> {
+        return new CoreComponentRouter();
+    }
 
     /**
      * Navigate to a site path, loading the site if necessary.
@@ -56,7 +66,6 @@ type GenericAny = any;
 
 // TODO this can be substituted by const Type Parameters in 5.0
 // See https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html#const-type-parameters
-type Cast<A, B> = A extends B ? A : B;
 type Narrowable = | string | number | bigint | boolean;
 type Narrow<A> = A extends Type<GenericAny>
     ? A
@@ -64,7 +73,6 @@ type Narrow<A> = A extends Type<GenericAny>
 type NarrowRoute<T> = { [K in keyof T]: Narrow<T[K]> };
 type NarrowRoutes<T> = ([T] extends [[]] ? [] : NarrowRoute<T>);
 
-type StringWithPrefix<TPrefix extends string, TString extends string> = `${TPrefix}${TString}`;
 type StringWithoutPrefix<TPrefix extends string, TString extends string> = TString extends `${TPrefix}${infer S}` ? S : never;
 
 type UnionToIntersection<T> = (T extends GenericAny ? (value: T) => void : never) extends ((value: infer TValue) => void)
@@ -72,9 +80,6 @@ type UnionToIntersection<T> = (T extends GenericAny ? (value: T) => void : never
     : never;
 
 type HoistKeys<T> = UnionToIntersection<T[keyof T]>;
-type AddKeysPrefix<TPrefix extends string, TObject> = {
-    [K in keyof TObject as K extends string ? StringWithPrefix<TPrefix, K> : never]: TObject[K]
-};
 
 type GetRoutesMetadata<T extends CoreRoutesArray> = T extends CoreRoutesArray<infer TChild>
     ? Pretty<GetRouteMetadata<TChild>>
@@ -107,9 +112,6 @@ type GetChildrenRouteMetadata<T extends CoreRoute> = T extends CoreRoute<infer T
         : never
     : never;
 
-type GetParametersFromPath<T> = T extends `${string}/:${infer Rest}`
-    ? Rest extends `${infer Param}/${infer SubRest}` ? Param | GetParametersFromPath<`/${SubRest}`> : Rest
-    : never;
 type AddParametersMetadata<T> = {
     [K in keyof T]: Pretty<T[K] & {
         parameters: {
@@ -165,6 +167,10 @@ export type CoreRoute<
     TChildRoutes extends CoreRoutesArray = GenericAny,
 > =
     CoreLazyRoute<TPath, TComponent, TChildRoutes> | CoreEagerRoute<TPath, TComponent, TChildRoutes>;
+
+export type GetParametersFromPath<T> = T extends `${string}/:${infer Rest}`
+    ? Rest extends `${infer Param}/${infer SubRest}` ? Param | GetParametersFromPath<`/${SubRest}`> : Rest
+    : never;
 
 export class CoreLazyRoutesModule<T extends CoreRoutesArray> {
 

@@ -137,6 +137,10 @@ export function buildRegExpUrlMatcher(regexp: RegExp): UrlMatcher {
 export type ModuleRoutes = { children: Routes; siblings: Routes };
 export type ModuleRoutesConfig = Routes | Partial<ModuleRoutes>;
 
+export type AppRoutePath = keyof AppRoutesMetadata;
+
+export interface AppRoutesMetadata {}
+
 /**
  * Configure routes so that they'll only match when a given condition is met.
  *

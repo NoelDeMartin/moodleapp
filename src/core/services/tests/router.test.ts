@@ -14,11 +14,11 @@
 
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable padded-blocks */
-/* eslint-disable @typescript-eslint/naming-convention */
 
 import { expectTrue, mockSingleton, sameTypes } from '@/testing/utils';
 import { CoreNavigator } from '@services/navigator';
 import { CoreLazyRoutesModule, CoreRouter, CoreRoutesMetadata, defineRoutes } from '@services/router';
+import { defineComplexRoutesStub } from '@services/tests/stubs/routes';
 
 describe('Router', () => {
 
@@ -283,7 +283,7 @@ describe('Router', () => {
         const {
             routes,
             components: { A, B, C, D, E, F, G, H },
-        } = defineComplexRoutes();
+        } = defineComplexRoutesStub();
 
         type TExpected = {
             '/foo': {
@@ -344,74 +344,3 @@ describe('Router', () => {
     });
 
 });
-
-/**
- * Define complex routes stub.
- *
- * @returns Routes and components.
- */
-function defineComplexRoutes() {
-    class A { a = ''; }
-    class B { b = ''; }
-    class C { c = ''; }
-    class D { d = ''; }
-    class E { e = ''; }
-    class F { f = ''; }
-    class G { g = ''; }
-    class H { h = ''; }
-
-    const children = defineRoutes([
-        {
-            path: '',
-            component: A,
-            children: [
-                {
-                    path: 'bar',
-                    component: B,
-                },
-            ],
-        },
-        {
-            path: 'baz',
-            component: C,
-        },
-        {
-            path: 'qux',
-            component: D,
-        },
-        {
-            path: ':id',
-            children: [
-                {
-                    path: '',
-                    component: E,
-                },
-                {
-                    path: 'quux',
-                    component: F,
-                },
-                {
-                    path: 'corge',
-                    component: G,
-                },
-                {
-                    path: ':subId',
-                    component: H,
-                },
-            ],
-        },
-    ]);
-    class ChildModule extends CoreLazyRoutesModule<typeof children> {}
-
-    const routes = defineRoutes([
-        {
-            path: 'foo',
-            loadChildren: () => Promise.resolve(ChildModule),
-        },
-    ]);
-
-    return {
-        routes,
-        components: { A, B, C, D, E, F, G, H },
-    };
-}
