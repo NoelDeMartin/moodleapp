@@ -62,4 +62,4 @@ function buildRoutes(injector: Injector): Routes {
         AddonBlogEntriesPage,
     ],
 })
-export class AddonBlogLazyModule extends CoreLazyRoutesModule<CoreRoute<''>>{ }
+export class AddonBlogLazyModule extends CoreLazyRoutesModule<[CoreRoute<''>]>{ }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Constructor } from '@/core/utils/types';
+import { Constructor, Pretty } from '@/core/utils/types';
 import { Injectable, Type } from '@angular/core';
 import { UrlMatcher } from '@angular/router';
 import { CoreMainMenuPath, CoreMainMenuRoutes } from '@features/mainmenu/mainmenu-routing.module';
@@ -36,7 +36,7 @@ export class CoreRouterService {
      */
     async navigateToSitePath<T extends CoreMainMenuPath>(
         route: T,
-        routeParams: CoreMainMenuRoutes[T],
+        routeParams: CoreMainMenuRoutes[T]['params'],
         options: CoreNavigationOptions & { siteId?: string } = {},
     ): Promise<boolean> {
         const path = Object.entries(routeParams).reduce((path, [key, value]) => path.replace(`:${key}`, String(value)), route);
@@ -50,68 +50,124 @@ export interface CoreRoutes {}
 
 export type CoreRoutePath = keyof CoreRoutes;
 
-export interface CoreRouteBase<T extends string = string> {
-    path: T;
+export type CoreRoutesWithPrefix<TPrefix extends string, TRoutes> = {
+    [k in KeysWithPrefix<TPrefix, TRoutes>]: TRoutes[KeyWithoutPrefix<TPrefix, k>]
+};
+
+type KeysWithPrefix<TPrefix extends string, TRoutes> = keyof TRoutes extends string
+    ? `${TPrefix}${keyof TRoutes}`
+    : never;
+
+type KeyWithoutPrefix<TPrefix extends string, TPrefixedRoute> = TPrefixedRoute extends `${TPrefix}${infer Rest}` ? Rest : never;
+
+export interface CoreRouteBase<TPath extends string = string, TComponent = unknown> {
+    path: TPath;
+    component?: Type<TComponent>;
     matcher?: UrlMatcher;
 }
 
 export interface CoreLazyRoute<
     TPath extends string = string,
-    TChildrenRoute extends CoreRoute | CoreRoutesArray = CoreRoute | CoreRoutesArray
-> extends CoreRouteBase<TPath> {
-    loadChildren: () => Promise<Constructor<CoreLazyRoutesModule<TChildrenRoute>>>;
+    TComponent = unknown,
+    TChildRoutes extends CoreRoutesArray = CoreRoutesArray
+> extends CoreRouteBase<TPath, TComponent> {
+    loadChildren: () => Promise<Constructor<CoreLazyRoutesModule<TChildRoutes>>>;
 }
 
-export interface CoreEagerRoute<T extends string = string> extends CoreRouteBase<T> {
-    component: Type<unknown>;
-    children?: CoreRoute[];
+export interface CoreEagerRoute<
+    TPath extends string = string,
+    TComponent = unknown,
+    TChildRoutes extends CoreRoutesArray = CoreRoutesArray
+> extends CoreRouteBase<TPath, TComponent> {
+    children?: TChildRoutes;
 }
 
-export type CoreRoute<T extends string = string> = CoreLazyRoute<T> | CoreEagerRoute<T>;
+export type CoreRoute<
+    TPath extends string = string,
+    TComponent = unknown,
+    TChildRoutes extends CoreRoutesArray = any,
+> =
+    CoreLazyRoute<TPath, TComponent, TChildRoutes> | CoreEagerRoute<TPath, TComponent, TChildRoutes>;
 export type CoreRoutesArray<T extends CoreRoute = CoreRoute> = Array<T>;
 
 declare const routes: unique symbol;
 
-export class CoreLazyRoutesModule<T extends CoreRoute | CoreRoutesArray> {
+export class CoreLazyRoutesModule<T extends CoreRoutesArray> {
 
     [routes]?: T;
 
 }
 
+export type GetRouteDefinition<T extends CoreRoute> = string extends T['path']
+    ? never // avoid treating generic strings
+    : {
+        [k in `/${T['path']}`]: T extends { path: StringWithoutPrefix<'/', k> }
+            ? {
+                component: T['component'];
+            }
+            : never
+    } & GetChildrenRouteDefinitions<T>;
+
+export type StringWithoutPrefix<TPrefix extends string, TString extends string> =
+    TString extends `${TPrefix}${infer S}` ? S : never;
+
+export type GetChildrenRouteDefinitions<T extends CoreRoute> =
+T extends CoreRoute<infer TPath, GenericAny, infer TChildren>
+    ? TChildren extends CoreRoutesArray<infer TChildRoute>
+        ? string extends TChildRoute['path']
+            ? {
+                // avoid treating generic strings
+            }
+            : {
+                [k in `/${TPath}/${TChildRoute['path']}`]: TChildRoute extends { path: StringWithoutPrefix<`/${TPath}/`, k> }
+                    ? GetRouteDefinition<TChildRoute>[`/${TChildRoute['path']}`]
+                    : never;
+            }
+            & HoistRoutes<{
+                [k in `children-${TChildRoute['path']}`]: TChildRoute extends { path: StringWithoutPrefix<'children-', k> }
+                    ? CoreRoutesWithPrefix<`/${TPath}`, GetChildrenRouteDefinitions<TChildRoute>>
+                    : never
+            }>
+        : never
+    : never;
+
+type HoistRoutes<T> = MagicType<T[keyof T]>;
+type MagicType<U> = UnionToIntersection<U> extends infer O ? { [K in keyof O]: O[K] } : never;
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never;
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type GenericAny = any;
-type Trim<T extends string> = T extends `${infer S}/` ? S : T;
-type RemoveDuplicatedSlashes<T extends string> = T extends `${infer S}//${infer Rest}` ? `${S}/${RemoveDuplicatedSlashes<Rest>}`: T;
-export type CoreRouteGetPaths<T extends CoreRoute> = string extends T['path']
-    ? never // avoid infinite loop for generic strings
-    : `/${T['path']}` | Trim<RemoveDuplicatedSlashes<`/${T['path']}${CoreRouteGetLazyChildPaths<T>}`>>;
-
-export type CoreRouteGetLazyChildPaths<T extends CoreRoute> = T extends CoreLazyRoute<GenericAny, infer TChildRoute>
-    ? (TChildRoute extends CoreRoutesArray<infer TChildRoutes>
-        ? (TChildRoutes extends CoreRoute ? CoreRouteGetPaths<TChildRoutes> : never)
-        : (TChildRoute extends CoreRoute ? CoreRouteGetPaths<TChildRoute> : never))
-    : (T extends CoreEagerRoute ? CoreRouteGetChildrenPaths<T> : '');
-
-export type CoreRouteGetChildrenPaths<T extends CoreEagerRoute> = T extends { children: CoreRoutesArray<infer TChild> }
-    ? CoreRouteGetPaths<TChild>
-    : '';
 
 export type GetPathParams<T extends string> = T extends `${string}/:${infer Rest}`
     ? Rest extends `${infer Param}/${infer SubRest}` ? Param | GetPathParams<`/${SubRest}`> : Rest
     : never;
 
-export type CoreRouteDefinition<T extends CoreRoute | CoreRoutesArray = CoreRoute> =
-    T extends CoreRoutesArray<infer TItem>
-        ? CoreRouteDefinition<TItem>
-        : (
-            T extends CoreRoute
-                ? {
-                    [k in CoreRouteGetPaths<T>]: {
-                        [p in GetPathParams<k>]: string | number;
-                    }
-                }
-                : never
-        );
+export type CoreRoutesDefinition<T extends CoreRoutesArray> =
+    WithParams<WithTrimmedPaths<WithoutUnknownRoutes<_CoreRoutesDefinition<T>>>>;
+
+type Trim<T extends string> = T extends `${infer S}/` ? S : T;
+type RemoveDoubleSlashes<T extends string> = T extends `${infer S}//${infer Rest}`
+    ? `${S}${RemoveDoubleSlashes<`/${Rest}`>}`
+    : T;
+
+export type WithTrimmedPaths<T> = {
+    [K in keyof T as K extends string ? Trim<RemoveDoubleSlashes<K>> : never]: T[K]
+};
+export type WithoutUnknownRoutes<T> = {
+    [k in keyof T as T[k] extends { component: infer C } ? unknown extends C ? never : k : never]: T[k]
+};
+export type WithParams<T> = {
+    [k in keyof T]: Pretty<T[k] & {
+        params: {
+            [j in GetPathParams<Cast<k, string>>]: string | number;
+        };
+    }>
+};
+
+export type _CoreRoutesDefinition<T extends CoreRoutesArray> =
+    T extends CoreRoutesArray<infer TChild>
+        ? Pretty<GetRouteDefinition<TChild>>
+        : never;
 
 type Cast<A, B> = A extends B ? A : B;
 
@@ -136,16 +192,6 @@ type NarrowCoreRoutes<T> = ([T] extends [[]] ? [] : NarrowCoreRoute<T>);
  */
 export function conditionalRoutes<T extends CoreRoutesArray>(routes: T, condition: () => boolean): T {
     return conditionalRoutesImpl(routes, condition) as T;
-}
-
-/**
- * Define a route.
- *
- * @param route Route.
- * @returns Route.
- */
-export function defineRoute<T extends CoreRoute>(route: NarrowCoreRoute<T>): T {
-    return route as unknown as T;
 }
 
 /**

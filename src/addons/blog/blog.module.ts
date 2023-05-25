@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreRouteDefinition, defineRoute } from '@services/router';
+import { CoreRoutesDefinition, defineRoutes } from '@services/router';
 import { APP_INITIALIZER, NgModule, Type } from '@angular/core';
-import { Routes } from '@angular/router';
 import { CoreContentLinksDelegate } from '@features/contentlinks/services/contentlinks-delegate';
 import { CoreCourseIndexRoutingModule } from '@features/course/course-routing.module';
 import { CoreCourseOptionsDelegate } from '@features/course/services/course-options-delegate';
@@ -34,14 +33,12 @@ export const ADDON_BLOG_SERVICES: Type<unknown>[] = [
     AddonBlogProvider,
 ];
 
-const blogRoute = defineRoute({
-    path: 'blog',
-    loadChildren: () => import('@addons/blog/blog-lazy.module').then(m => m.AddonBlogLazyModule),
-});
-
-const routes: Routes = [
-    blogRoute,
-];
+const routes = defineRoutes([
+    {
+        path: 'blog',
+        loadChildren: () => import('@addons/blog/blog-lazy.module').then(m => m.AddonBlogLazyModule),
+    },
+]);
 
 @NgModule({
     imports: [
@@ -71,6 +68,6 @@ export class AddonBlogModule {}
  */
 declare module '@features/mainmenu/mainmenu-routing.module' {
 
-    interface CoreMainMenuRoutes extends CoreRouteDefinition<typeof blogRoute> {}
+    interface CoreMainMenuRoutes extends CoreRoutesDefinition<typeof routes> {}
 
 }

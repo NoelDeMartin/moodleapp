@@ -12,121 +12,370 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Equals, Expect, expectTypesEqual, mock, mockSingleton } from '@/testing/utils';
-import { Type } from '@angular/core';
+import { Equals, Expect, expectTypesEqual, mockSingleton } from '@/testing/utils';
 import { CoreNavigator } from '@services/navigator';
-import { CoreLazyRoutesModule, CoreRouteDefinition, CoreRouter, defineRoute } from '@services/router';
+import { CoreLazyRoutesModule, CoreRoutesDefinition, CoreRouter, defineRoutes } from '@services/router';
 
 /* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable padded-blocks */
 
 describe('Router', () => {
 
-    const component = mock<Type<unknown>>();
-
     it('defines eager routes', () => {
-        const route = defineRoute({
-            path: 'foo',
-            component,
-        });
+        class A { a = ''; }
+        class B { b = ''; }
 
-        type TExpected = { '/foo': {} };
-        type TActual = CoreRouteDefinition<typeof route>;
+        const routes = defineRoutes([
+            {
+                path: 'foo',
+                component: A,
+            },
+            {
+                path: 'bar',
+                component: B,
+            },
+        ]);
+
+        type TExpected = {
+            '/foo': {
+                component: typeof A;
+                params: {};
+            };
+            '/bar': {
+                component: typeof B;
+                params: {};
+            };
+        };
+        type TActual = CoreRoutesDefinition<typeof routes>;
+
+        expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
+    });
+
+    it('defines eager routes with children', () => {
+        class A { a = ''; }
+        class B { b = ''; }
+
+        const routes = defineRoutes([
+            {
+                path: 'foo',
+                component: A,
+                children: [
+                    {
+                        path: 'bar',
+                        component: B,
+                    },
+                ],
+            },
+        ]);
+
+        type TExpected = {
+            '/foo': {
+                component: typeof A;
+                params: {};
+            };
+            '/foo/bar': {
+                component: typeof B;
+                params: {};
+            };
+        };
+        type TActual = CoreRoutesDefinition<typeof routes>;
+
+        expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
+    });
+
+    it('defines eager routes with index in children', () => {
+        class A { a = ''; }
+        class B { b = ''; }
+
+        const routes = defineRoutes([
+            {
+                path: 'foo',
+                children: [
+                    {
+                        path: '',
+                        component: A,
+                    },
+                    {
+                        path: 'bar',
+                        component: B,
+                    },
+                ],
+            },
+        ]);
+
+        type TExpected = {
+            '/foo': {
+                component: typeof A;
+                params: {};
+            };
+            '/foo/bar': {
+                component: typeof B;
+                params: {};
+            };
+        };
+        type TActual = CoreRoutesDefinition<typeof routes>;
 
         expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
     });
 
     it('defines lazy routes', () => {
-        const childRoute = defineRoute({
-            path: 'bar',
-            component,
-        });
-        class ChildModule extends CoreLazyRoutesModule<typeof childRoute> {}
+        class A { a = ''; }
+        class B { b = ''; }
 
-        const route = defineRoute({
-            path: 'foo',
-            component,
-            loadChildren: () => Promise.resolve(ChildModule),
-        });
+        const childRoutes = defineRoutes([
+            {
+                path: 'bar',
+                component: A,
+            },
+        ]);
+        class ChildModule extends CoreLazyRoutesModule<typeof childRoutes> {}
+
+        const routes = defineRoutes([
+            {
+                path: 'foo',
+                component: B,
+                loadChildren: () => Promise.resolve(ChildModule),
+            },
+        ]);
 
         type TExpected = {
-            '/foo': {};
-            '/foo/bar': {};
+            '/foo': {
+                component: typeof B;
+                params: {};
+            };
+            '/foo/bar': {
+                component: typeof A;
+                params: {};
+            };
         };
-        type TActual = CoreRouteDefinition<typeof route>;
+        type TActual = CoreRoutesDefinition<typeof routes>;
+
+        expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
+    });
+
+    it('defines lazy routes with index in children', () => {
+        class A { a = ''; }
+        class B { b = ''; }
+
+        const childRoutes = defineRoutes([
+            {
+                path: '',
+                component: A,
+            },
+            {
+                path: 'bar',
+                component: B,
+            },
+        ]);
+        class ChildModule extends CoreLazyRoutesModule<typeof childRoutes> {}
+
+        const routes = defineRoutes([
+            {
+                path: 'foo',
+                loadChildren: () => Promise.resolve(ChildModule),
+            },
+        ]);
+
+        type TExpected = {
+            '/foo': {
+                component: typeof A;
+                params: {};
+            };
+            '/foo/bar': {
+                component: typeof B;
+                params: {};
+            };
+        };
+        type TActual = CoreRoutesDefinition<typeof routes>;
+
+        expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
+    });
+
+    it('defines mixed routes', () => {
+        class A { a = ''; }
+        class B { b = ''; }
+        class C { c = ''; }
+
+        const childRoutes = defineRoutes([
+            {
+                path: '',
+                children: [
+                    {
+                        path: 'bar',
+                        component: A,
+                    },
+                ],
+            },
+            {
+                path: 'baz',
+                children: [
+                    {
+                        path: '',
+                        component: B,
+                    },
+                ],
+            },
+            {
+                path: 'qux',
+                component: C,
+            },
+        ]);
+        class ChildModule extends CoreLazyRoutesModule<typeof childRoutes> {}
+
+        const routes = defineRoutes([
+            {
+                path: 'foo',
+                loadChildren: () => Promise.resolve(ChildModule),
+            },
+        ]);
+
+        type TExpected = {
+            '/foo/bar': {
+                component: typeof A;
+                params: {};
+            };
+            '/foo/baz': {
+                component: typeof B;
+                params: {};
+            };
+            '/foo/qux': {
+                component: typeof C;
+                params: {};
+            };
+        };
+        type TActual = CoreRoutesDefinition<typeof routes>;
+
+        expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
+    });
+
+    it('defines routes with parameters', () => {
+        class A { a = ''; }
+
+        const routes = defineRoutes([
+            {
+                path: 'foo/:id/bar/:subId',
+                component: A,
+            },
+        ]);
+
+        type TExpected = {
+            '/foo/:id/bar/:subId': {
+                component: typeof A;
+                params: {
+                    id: number | string;
+                    subId: number | string;
+                };
+            };
+        };
+        type TActual = CoreRoutesDefinition<typeof routes>;
 
         expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
     });
 
     it('defines complex routes', () => {
-        const children = [
-            defineRoute({
+        class A { a = ''; }
+        class B { b = ''; }
+        class C { c = ''; }
+        class D { d = ''; }
+        class E { e = ''; }
+        class F { f = ''; }
+        class G { g = ''; }
+        class H { h = ''; }
+
+        const children = defineRoutes([
+            {
                 path: '',
-                component,
+                component: A,
                 children: [
                     {
-                        path: 'nested',
-                        component,
+                        path: 'bar',
+                        component: B,
                     },
                 ],
-            }),
-            defineRoute({
-                path: 'bar',
-                component,
-            }),
-            defineRoute({
+            },
+            {
                 path: 'baz',
-                component,
-            }),
-            defineRoute({
+                component: C,
+            },
+            {
+                path: 'qux',
+                component: D,
+            },
+            {
                 path: ':id',
-                component,
                 children: [
                     {
                         path: '',
-                        component,
+                        component: E,
                     },
                     {
-                        path: 'one',
-                        component,
+                        path: 'quux',
+                        component: F,
                     },
                     {
-                        path: 'two',
-                        component,
+                        path: 'corge',
+                        component: G,
                     },
                     {
                         path: ':subid',
-                        component,
+                        component: H,
                     },
                 ],
-            }),
-        ];
+            },
+        ]);
         class ChildModule extends CoreLazyRoutesModule<typeof children> {}
 
-        const route = defineRoute({
-            path: 'foo',
-            loadChildren: () => Promise.resolve(ChildModule),
-        });
+        const routes = defineRoutes([
+            {
+                path: 'foo',
+                loadChildren: () => Promise.resolve(ChildModule),
+            },
+        ]);
 
         type TExpected = {
-            '/foo': {};
-            '/foo/nested': {};
-            '/foo/bar': {};
-            '/foo/baz': {};
+            '/foo': {
+                component: typeof A;
+                params: {};
+            };
+            '/foo/bar': {
+                component: typeof B;
+                params: {};
+            };
+            '/foo/baz': {
+                component: typeof C;
+                params: {};
+            };
+            '/foo/qux': {
+                component: typeof D;
+                params: {};
+            };
             '/foo/:id': {
-                id: string | number;
+                component: typeof E;
+                params: {
+                    id: string | number;
+                };
             };
-            '/foo/:id/one': {
-                id: string | number;
+            '/foo/:id/quux': {
+                component: typeof F;
+                params: {
+                    id: string | number;
+                };
             };
-            '/foo/:id/two': {
-                id: string | number;
+            '/foo/:id/corge': {
+                component: typeof G;
+                params: {
+                    id: string | number;
+                };
             };
             '/foo/:id/:subid': {
-                id: string | number;
-                subid: string | number;
+                component: typeof H;
+                params: {
+                    id: string | number;
+                    subid: string | number;
+                };
             };
         };
-        type TActual = CoreRouteDefinition<typeof route>;
+        type TActual = CoreRoutesDefinition<typeof routes>;
 
         expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
     });

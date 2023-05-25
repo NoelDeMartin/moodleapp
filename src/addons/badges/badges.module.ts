@@ -23,7 +23,7 @@ import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-ro
 import { CorePushNotificationsDelegate } from '@features/pushnotifications/services/push-delegate';
 import { AddonBadgesPushClickHandler } from './services/handlers/push-click';
 import { AddonBadgesProvider } from './services/badges';
-import { CoreRouteDefinition, defineRoutes } from '@services/router';
+import { CoreRoutesDefinition, defineRoutes } from '@services/router';
 
 export const ADDON_BADGES_SERVICES: Type<unknown>[] = [
     AddonBadgesProvider,
@@ -60,6 +60,6 @@ export class AddonBadgesModule {}
  */
 declare module '@features/mainmenu/mainmenu-routing.module' {
 
-    interface CoreMainMenuRoutes extends CoreRouteDefinition<typeof mainMenuRoutes> {}
+    interface CoreMainMenuRoutes extends CoreRoutesDefinition<typeof mainMenuRoutes> {}
 
 }
