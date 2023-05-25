@@ -19,7 +19,7 @@ import { CorePushNotificationsClickHandler } from '@features/pushnotifications/s
 import { AddonBadges } from '../badges';
 import { makeSingleton } from '@singletons';
 import { CorePushNotificationsNotificationBasicData } from '@features/pushnotifications/services/pushnotifications';
-import { CoreNavigator } from '@services/navigator';
+import { CoreRouter } from '@services/router';
 
 /**
  * Handler for badges push notifications clicks.
@@ -59,7 +59,7 @@ export class AddonBadgesPushClickHandlerService implements CorePushNotifications
 
         if (data.hash) {
             // We have the hash, open the badge directly.
-            await CoreNavigator.navigateToSitePath(`/badges/${data.hash}`, {
+            await CoreRouter.navigateToSitePath('/badges/:badgeHash', { badgeHash: data.hash }, {
                 siteId: notification.site,
             });
 
@@ -75,7 +75,7 @@ export class AddonBadgesPushClickHandlerService implements CorePushNotifications
             ),
         );
 
-        await CoreNavigator.navigateToSitePath('/badges', { siteId: notification.site });
+        await CoreRouter.navigateToSitePath('/badges', {}, { siteId: notification.site });
     }
 
 }

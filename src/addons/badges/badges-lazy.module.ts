@@ -13,16 +13,16 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
-import { conditionalRoutes } from '@/app/app-routing.module';
 import { CoreScreen } from '@services/screen';
 import { CoreSharedModule } from '@/core/shared.module';
 
 import { AddonBadgesIssuedBadgePage } from './pages/issued-badge/issued-badge';
 import { AddonBadgesUserBadgesPage } from './pages/user-badges/user-badges';
+import { CoreLazyRoutesModule, conditionalRoutes, defineRoutes } from '@services/router';
 
-const mobileRoutes: Routes = [
+const mobileRoutes = defineRoutes([
     {
         path: '',
         pathMatch: 'full',
@@ -32,9 +32,9 @@ const mobileRoutes: Routes = [
         path: ':badgeHash',
         component: AddonBadgesIssuedBadgePage,
     },
-];
+]);
 
-const tabletRoutes: Routes = [
+const tabletRoutes = defineRoutes([
     {
         path: '',
         component: AddonBadgesUserBadgesPage,
@@ -45,9 +45,9 @@ const tabletRoutes: Routes = [
             },
         ],
     },
-];
+]);
 
-const routes: Routes = [
+const routes = [
     ...conditionalRoutes(mobileRoutes, () => CoreScreen.isMobile),
     ...conditionalRoutes(tabletRoutes, () => CoreScreen.isTablet),
 ];
@@ -62,4 +62,4 @@ const routes: Routes = [
         AddonBadgesIssuedBadgePage,
     ],
 })
-export class AddonBadgesLazyModule {}
+export class AddonBadgesLazyModule extends CoreLazyRoutesModule<typeof routes> {}

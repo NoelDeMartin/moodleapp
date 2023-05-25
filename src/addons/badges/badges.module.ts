@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import { APP_INITIALIZER, NgModule, Type } from '@angular/core';
-import { Routes } from '@angular/router';
 
 import { AddonBadgesMyBadgesLinkHandler } from './services/handlers/mybadges-link';
 import { AddonBadgesBadgeLinkHandler } from './services/handlers/badge-link';
@@ -24,17 +23,18 @@ import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-ro
 import { CorePushNotificationsDelegate } from '@features/pushnotifications/services/push-delegate';
 import { AddonBadgesPushClickHandler } from './services/handlers/push-click';
 import { AddonBadgesProvider } from './services/badges';
+import { CoreRoutesMetadata, defineRoutes } from '@services/router';
 
 export const ADDON_BADGES_SERVICES: Type<unknown>[] = [
     AddonBadgesProvider,
 ];
 
-const mainMenuRoutes: Routes = [
+const mainMenuRoutes = defineRoutes([
     {
         path: 'badges',
         loadChildren: () => import('./badges-lazy.module').then(m => m.AddonBadgesLazyModule),
     },
-];
+]);
 
 @NgModule({
     imports: [
@@ -54,3 +54,12 @@ const mainMenuRoutes: Routes = [
     ],
 })
 export class AddonBadgesModule {}
+
+/**
+ * Route declarations.
+ */
+declare module '@features/mainmenu/mainmenu-routing.module' {
+
+    interface CoreMainMenuRoutesMetadata extends CoreRoutesMetadata<typeof mainMenuRoutes> {}
+
+}

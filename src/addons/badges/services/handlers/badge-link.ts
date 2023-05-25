@@ -16,7 +16,7 @@ import { Injectable } from '@angular/core';
 
 import { CoreContentLinksHandlerBase } from '@features/contentlinks/classes/base-handler';
 import { CoreContentLinksAction } from '@features/contentlinks/services/contentlinks-delegate';
-import { CoreNavigator } from '@services/navigator';
+import { CoreRouter } from '@services/router';
 import { makeSingleton } from '@singletons';
 import { AddonBadges } from '../badges';
 
@@ -36,7 +36,7 @@ export class AddonBadgesBadgeLinkHandlerService extends CoreContentLinksHandlerB
 
         return [{
             action: (siteId: string): void => {
-                CoreNavigator.navigateToSitePath(`/badges/${params.hash}`, { siteId });
+                CoreRouter.navigateToSitePath('/badges/:badgeHash', { badgeHash: params.hash }, { siteId });
             },
         }];
     }

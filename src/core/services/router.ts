@@ -18,6 +18,7 @@ import { UrlMatcher } from '@angular/router';
 import { makeSingleton } from '@singletons';
 import { CoreNavigator, CoreNavigationOptions } from '@services/navigator';
 import { CoreMainMenuPath, CoreMainMenuRoutesMetadata } from '@features/mainmenu/mainmenu-routing.module';
+import { conditionalRoutes as conditionalRoutesImpl } from '@/app/app-routing.module';
 
 /**
  * Service providing type-safe routing operations.
@@ -184,4 +185,15 @@ export type CoreRoutesMetadata<T extends CoreRoutesArray> =
  */
 export function defineRoutes<T>(routes: NarrowRoutes<T>): T {
     return routes as T;
+}
+
+/**
+ * Configure routes so that they'll only match when a given condition is met.
+ *
+ * @param routes Routes.
+ * @param condition Condition to determine if routes should be activated or not.
+ * @returns Conditional routes.
+ */
+export function conditionalRoutes<T extends CoreRoutesArray>(routes: T, condition: () => boolean): T {
+    return conditionalRoutesImpl(routes, condition) as T;
 }

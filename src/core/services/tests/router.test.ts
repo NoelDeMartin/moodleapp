@@ -16,8 +16,9 @@
 /* eslint-disable padded-blocks */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { expectTrue, sameTypes } from '@/testing/utils';
-import { CoreLazyRoutesModule, CoreRoutesMetadata, defineRoutes } from '@services/router';
+import { expectTrue, mockSingleton, sameTypes } from '@/testing/utils';
+import { CoreNavigator } from '@services/navigator';
+import { CoreLazyRoutesModule, CoreRouter, CoreRoutesMetadata, defineRoutes } from '@services/router';
 
 describe('Router', () => {
 
@@ -331,6 +332,15 @@ describe('Router', () => {
 
         expectTrue(sameTypes<TExpected, TActual>());
 
+    });
+
+    it('accepts route arguments', async () => {
+        const mockNavigator = mockSingleton(CoreNavigator, { navigateToSitePath: jest.fn(() => Promise.resolve(true)) });
+        const badgeHash = '123456';
+
+        await CoreRouter.navigateToSitePath('/badges/:badgeHash', { badgeHash });
+
+        expect(mockNavigator.navigateToSitePath).toHaveBeenCalledWith(`/badges/${badgeHash}`, {});
     });
 
 });
