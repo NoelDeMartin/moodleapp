@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/* eslint-disable jsdoc/require-jsdoc */
+
 import { AbstractType, Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Type, ViewChild } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -420,4 +422,16 @@ export function mockTranslate(translations: Record<string, string> = {}): void {
                 : applyReplacements(translations[key] ?? key);
         },
     });
+}
+
+export type Equals<X, Y> =
+    (<T>() => T extends X ? 1 : 2) extends
+    (<T>() => T extends Y ? 1 : 2) ? true : false;
+
+export function sameTypes<A, B>(): Equals<A, B> {
+    return true as Equals<A, B>;
+}
+
+export function expectTrue(equal: true): void {
+    expect(equal).toBe(true);
 }

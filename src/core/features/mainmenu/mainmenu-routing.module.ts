@@ -18,6 +18,10 @@ import { ModuleRoutes, ModuleRoutesConfig, resolveModuleRoutes } from '@/app/app
 
 const MAIN_MENU_ROUTES = new InjectionToken('MAIN_MENU_ROUTES');
 
+export interface CoreMainMenuRoutesMetadata {}
+
+export type CoreMainMenuPath = keyof CoreMainMenuRoutesMetadata;
+
 /**
  * Resolve dynamic routes.
  *

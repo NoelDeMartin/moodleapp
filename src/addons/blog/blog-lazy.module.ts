@@ -23,6 +23,7 @@ import { CoreTagComponentsModule } from '@features/tag/components/components.mod
 import { buildTabMainRoutes } from '@features/mainmenu/mainmenu-tab-routing.module';
 import { AddonBlogMainMenuHandlerService } from './services/handlers/mainmenu';
 import { CoreMainMenuComponentsModule } from '@features/mainmenu/components/components.module';
+import { CoreLazyRoutesModule, CoreRoute } from '@services/router';
 
 /**
  * Build module routes.
@@ -40,6 +41,9 @@ function buildRoutes(injector: Injector): Routes {
         }),
     ];
 }
+
+// TODO derive from buildRoutes() rather than hard-coding.
+type BlogRoutes = [CoreRoute<'', typeof AddonBlogEntriesPage, []>];
 
 @NgModule({
     imports: [
@@ -61,4 +65,4 @@ function buildRoutes(injector: Injector): Routes {
         AddonBlogEntriesPage,
     ],
 })
-export class AddonBlogLazyModule {}
+export class AddonBlogLazyModule extends CoreLazyRoutesModule<BlogRoutes>{}
