@@ -32,6 +32,7 @@ import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-ro
 import { CoreCourseIndexRoutingModule } from '@features/course/course-routing.module';
 import { COURSE_PAGE_NAME } from '@features/course/course.module';
 import { PARTICIPANTS_PAGE_NAME } from '@features/user/user.module';
+import { CoreRoutesDefinition, defineRoutes } from '@services/router';
 
 // List of providers (without handlers).
 export const ADDON_COMPETENCY_SERVICES: Type<unknown>[] = [
@@ -43,19 +44,25 @@ export const ADDON_COMPETENCY_LEARNING_PLANS_PAGE = 'learning-plans';
 export const ADDON_COMPETENCY_COMPETENCIES_PAGE = 'competencies';
 export const ADDON_COMPETENCY_SUMMARY_PAGE = 'summary';
 
+const competencyCourseDetailsRoutes = defineRoutes([
+    {
+        // TODO type-check the "course" and "competencies" parts
+        // path: `${COURSE_PAGE_NAME}/:courseId/${ADDON_COMPETENCY_COMPETENCIES_PAGE}`,
+        path: 'course/:courseId/competencies',
+        loadChildren: () => import('./competency-course-details-lazy.module').then(m => m.AddonCompetencyCourseDetailsLazyModule),
+    },
+]);
+
 const mainMenuChildrenRoutes: Routes = [
     {
         path: ADDON_COMPETENCY_LEARNING_PLANS_PAGE,
         loadChildren: () => import('./competency-learning-plans-lazy.module').then(m => m.AddonCompetencyLearningPlansLazyModule),
     },
     {
-        path: `${COURSE_PAGE_NAME}/:courseId/${ADDON_COMPETENCY_COMPETENCIES_PAGE}`,
-        loadChildren: () => import('./competency-course-details-lazy.module').then(m => m.AddonCompetencyCourseDetailsLazyModule),
-    },
-    {
         path: `${COURSE_PAGE_NAME}/:courseId/${PARTICIPANTS_PAGE_NAME}/:userId/${ADDON_COMPETENCY_COMPETENCIES_PAGE}`,
         loadChildren: () => import('./competency-course-details-lazy.module').then(m => m.AddonCompetencyCourseDetailsLazyModule),
     },
+    ...competencyCourseDetailsRoutes,
 ];
 
 const courseIndexRoutes: Routes = [
@@ -88,3 +95,12 @@ const courseIndexRoutes: Routes = [
     ],
 })
 export class AddonCompetencyModule {}
+
+/**
+ * Routing Module Augmentations.
+ */
+declare module '@features/mainmenu/mainmenu-routing.module' {
+
+    interface CoreMainMenuRoutes extends CoreRoutesDefinition<typeof competencyCourseDetailsRoutes> {}
+
+}

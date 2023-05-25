@@ -62,4 +62,6 @@ function buildRoutes(injector: Injector): Routes {
         AddonBlogEntriesPage,
     ],
 })
+
+// TODO infer rather than hard-coding
 export class AddonBlogLazyModule extends CoreLazyRoutesModule<[CoreRoute<''>]>{ }

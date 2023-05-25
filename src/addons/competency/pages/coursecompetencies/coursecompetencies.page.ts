@@ -22,10 +22,10 @@ import { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { ContextLevel } from '@/core/constants';
-import { ADDON_COMPETENCY_SUMMARY_PAGE } from '@addons/competency/competency.module';
 import { CoreListItemsManager } from '@classes/items-management/list-items-manager';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
 import { AddonCompetencyCourseCompetenciesSource } from '@addons/competency/classes/competency-course-competencies-source';
+import { ComponentRoute, CoreRouter } from '@services/router';
 
 /**
  * Page that displays the list of competencies of a course.
@@ -41,13 +41,16 @@ export class AddonCompetencyCourseCompetenciesPage implements OnInit, OnDestroy 
         AddonCompetencyCourseCompetenciesSource
     >;
 
+    route: ComponentRoute<typeof AddonCompetencyCourseCompetenciesPage>;
+
     constructor() {
+        this.route = CoreRouter.route();
+
         try {
-            const courseId = CoreNavigator.getRequiredRouteNumberParam('courseId');
             const userId = CoreNavigator.getRouteNumberParam('userId');
             const source = CoreRoutedItemsManagerSourcesTracker.getOrCreateSource(
                 AddonCompetencyCourseCompetenciesSource,
-                [courseId, userId],
+                [Number(this.route.params.courseId), userId],
             );
 
             this.competencies = new CoreListItemsManager(source, AddonCompetencyCourseCompetenciesPage);
@@ -123,15 +126,12 @@ export class AddonCompetencyCourseCompetenciesPage implements OnInit, OnDestroy 
      * @param competencyId Competency Id.
      */
     openCompetencySummary(competencyId: number): void {
-        CoreNavigator.navigateToSitePath(
-            `./${competencyId}/${ADDON_COMPETENCY_SUMMARY_PAGE}`,
-            {
-                params: {
-                    contextLevel: ContextLevel.COURSE,
-                    contextInstanceId: this.courseId,
-                },
+        this.route.navigate('./:competencyId/summary', { competencyId }, {
+            params: {
+                contextLevel: ContextLevel.COURSE,
+                contextInstanceId: this.courseId,
             },
-        );
+        });
     }
 
     /**

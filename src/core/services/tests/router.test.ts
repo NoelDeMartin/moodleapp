@@ -14,10 +14,18 @@
 
 import { Equals, Expect, expectTypesEqual, mockSingleton } from '@/testing/utils';
 import { CoreNavigator } from '@services/navigator';
-import { CoreLazyRoutesModule, CoreRoutesDefinition, CoreRouter, defineRoutes } from '@services/router';
+import {
+    CoreLazyRoutesModule,
+    CoreRoutesDefinition,
+    CoreRouter,
+    defineRoutes,
+    GetRelativeRoutes,
+    GetComponentParams,
+} from '@services/router';
 
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable padded-blocks */
+/* eslint-disable @typescript-eslint/naming-convention */
 
 describe('Router', () => {
 
@@ -273,64 +281,10 @@ describe('Router', () => {
     });
 
     it('defines complex routes', () => {
-        class A { a = ''; }
-        class B { b = ''; }
-        class C { c = ''; }
-        class D { d = ''; }
-        class E { e = ''; }
-        class F { f = ''; }
-        class G { g = ''; }
-        class H { h = ''; }
-
-        const children = defineRoutes([
-            {
-                path: '',
-                component: A,
-                children: [
-                    {
-                        path: 'bar',
-                        component: B,
-                    },
-                ],
-            },
-            {
-                path: 'baz',
-                component: C,
-            },
-            {
-                path: 'qux',
-                component: D,
-            },
-            {
-                path: ':id',
-                children: [
-                    {
-                        path: '',
-                        component: E,
-                    },
-                    {
-                        path: 'quux',
-                        component: F,
-                    },
-                    {
-                        path: 'corge',
-                        component: G,
-                    },
-                    {
-                        path: ':subid',
-                        component: H,
-                    },
-                ],
-            },
-        ]);
-        class ChildModule extends CoreLazyRoutesModule<typeof children> {}
-
-        const routes = defineRoutes([
-            {
-                path: 'foo',
-                loadChildren: () => Promise.resolve(ChildModule),
-            },
-        ]);
+        const {
+            routes,
+            components: { A, B, C, D, E, F, G, H },
+        } = defineComplexRoutes();
 
         type TExpected = {
             '/foo': {
@@ -367,15 +321,46 @@ describe('Router', () => {
                     id: string | number;
                 };
             };
-            '/foo/:id/:subid': {
+            '/foo/:id/:subId': {
                 component: typeof H;
                 params: {
                     id: string | number;
-                    subid: string | number;
+                    subId: string | number;
                 };
             };
         };
         type TActual = CoreRoutesDefinition<typeof routes>;
+
+        expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
+    });
+
+    it('gets relative component routes', () => {
+        const {
+            routes,
+            components: { E },
+        } = defineComplexRoutes();
+
+        type Routes = CoreRoutesDefinition<typeof routes>;
+
+        type TExpected = './quux' | './corge' | './:subId';
+        type TActual = GetRelativeRoutes<typeof E, Routes>;
+
+        expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
+    });
+
+    it('gets component parameters', () => {
+        const {
+            routes,
+            components: { H },
+        } = defineComplexRoutes();
+
+        type Routes = CoreRoutesDefinition<typeof routes>;
+
+        type TExpected = {
+            id: string | number;
+            subId: string | number;
+        };
+        type TActual = GetComponentParams<typeof H, Routes>;
 
         expectTypesEqual<Expect<Equals<TExpected, TActual>>>();
     });
@@ -390,3 +375,74 @@ describe('Router', () => {
     });
 
 });
+
+/**
+ * Define stub complex routes.
+ *
+ * @returns Routes and components.
+ */
+function defineComplexRoutes() {
+    class A { a = ''; }
+    class B { b = ''; }
+    class C { c = ''; }
+    class D { d = ''; }
+    class E { e = ''; }
+    class F { f = ''; }
+    class G { g = ''; }
+    class H { h = ''; }
+
+    const children = defineRoutes([
+        {
+            path: '',
+            component: A,
+            children: [
+                {
+                    path: 'bar',
+                    component: B,
+                },
+            ],
+        },
+        {
+            path: 'baz',
+            component: C,
+        },
+        {
+            path: 'qux',
+            component: D,
+        },
+        {
+            path: ':id',
+            children: [
+                {
+                    path: '',
+                    component: E,
+                },
+                {
+                    path: 'quux',
+                    component: F,
+                },
+                {
+                    path: 'corge',
+                    component: G,
+                },
+                {
+                    path: ':subId',
+                    component: H,
+                },
+            ],
+        },
+    ]);
+    class ChildModule extends CoreLazyRoutesModule<typeof children> {}
+
+    const routes = defineRoutes([
+        {
+            path: 'foo',
+            loadChildren: () => Promise.resolve(ChildModule),
+        },
+    ]);
+
+    return {
+        routes,
+        components: { A, B, C, D, E, F, G, H },
+    };
+}

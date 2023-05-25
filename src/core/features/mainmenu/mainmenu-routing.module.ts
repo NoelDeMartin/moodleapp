@@ -24,8 +24,8 @@ export type CoreMainMenuPath = keyof CoreMainMenuRoutes;
 
 declare module '@services/router' {
 
-    // TODO add /main prefix
-    interface CoreRoutes extends CoreMainMenuRoutes {}
+    // TODO where is this module set up in the router? maybe this should be defined there (after all, we're hard-coding /main/:tab)
+    interface CoreRoutes extends CoreRoutesWithPrefix<'/main/:tab', CoreMainMenuRoutes> {}
 
 }
 

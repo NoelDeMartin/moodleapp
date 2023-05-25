@@ -26,6 +26,13 @@ import { conditionalRoutes as conditionalRoutesImpl } from '@/app/app-routing.mo
 @Injectable({ providedIn: 'root' })
 export class CoreRouterService {
 
+    route<T>(): ComponentRoute<T> {
+        return {
+            navigate: relativeNavigator,
+            params: getCurrentRouteParams(),
+        };
+    }
+
     /**
      * Navigate to a site path, loading the site if necessary.
      *
@@ -46,6 +53,23 @@ export class CoreRouterService {
 
 }
 
+/**
+ *
+ */
+function relativeNavigator(route: string, routeParams: Record<string, unknown>, options?: CoreNavigationOptions) {
+    const path = Object.entries(routeParams).reduce((path, [key, value]) => path.replace(`:${key}`, String(value)), route);
+
+    return CoreNavigator.navigate(path, options);
+}
+
+/**
+ *
+ */
+function getCurrentRouteParams(): any {
+    // TODO implement
+    return {};
+}
+
 export interface CoreRoutes {}
 
 export type CoreRoutePath = keyof CoreRoutes;
@@ -54,6 +78,40 @@ export type CoreRoutesWithPrefix<TPrefix extends string, TRoutes> = {
     [k in KeysWithPrefix<TPrefix, TRoutes>]: TRoutes[KeyWithoutPrefix<TPrefix, k>]
 };
 
+export type GetRelativeRoutes<TComponent, TRoutes> = _GetRelativeRoutes<GetComponentPaths<TComponent, TRoutes>, TRoutes>;
+
+export type ComponentRoute<TComponent> = {
+    navigate: RelativeNavigator<TComponent>;
+    params: ComponentParams<TComponent>;
+};
+
+export type RelativeNavigator<TComponent> =
+    <T extends GetRelativeRoutes<TComponent, CoreRoutes> = GetRelativeRoutes<TComponent, CoreRoutes>>(
+        route: T,
+        routeParams: { [p in GetPathParams<T>]: string | number; },
+        options?: CoreNavigationOptions,
+    ) => Promise<boolean>;
+
+export type _GetRelativeRoutes<TPath extends string, TRoutes> = {
+    [K in keyof TRoutes]: K extends `${TPath}/${infer Rest}`
+        ? `./${Rest}`
+        : never;
+}[keyof TRoutes];
+
+export type GetComponentPaths<TComponent, TRoutes> = {
+    [K in keyof TRoutes]: TRoutes[K] extends { component: TComponent }
+        ? Cast<K, string>
+        : never
+}[keyof TRoutes];
+
+export type ComponentParams<TComponent> = GetComponentParams<TComponent, CoreRoutes>;
+
+export type GetComponentParams<TComponent, TRoutes> = {
+    [K in keyof TRoutes]: TRoutes[K] extends { component: TComponent }
+        ? TRoutes[K] extends { params: infer Params } ? Params : never
+        : never
+}[keyof TRoutes];
+
 type KeysWithPrefix<TPrefix extends string, TRoutes> = keyof TRoutes extends string
     ? `${TPrefix}${keyof TRoutes}`
     : never;
@@ -61,6 +119,7 @@ type KeysWithPrefix<TPrefix extends string, TRoutes> = keyof TRoutes extends str
 type KeyWithoutPrefix<TPrefix extends string, TPrefixedRoute> = TPrefixedRoute extends `${TPrefix}${infer Rest}` ? Rest : never;
 
 export interface CoreRouteBase<TPath extends string = string, TComponent = unknown> {
+    // TODO path should be optional as well (one of the two required)
     path: TPath;
     component?: Type<TComponent>;
     matcher?: UrlMatcher;
