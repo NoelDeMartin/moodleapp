@@ -41,6 +41,13 @@ export default <Meta<Args>> {
             'This can happen if the Moodle site is too old or it blocks access to this endpoint. ' +
             'The Moodle app only supports Moodle systems 3.5 onwards.',
     },
+    parameters: {
+        design: {
+            type: 'figma',
+            // eslint-disable-next-line max-len
+            url: 'https://www.figma.com/file/6r8ladLNtqEZznPsWBc48b/%F0%9F%9A%A7-Moodle-App-4-Design-System-v1.2?type=design&node-id=870%3A2483&t=eNtFGiyeRFxLOVJz-1',
+        },
+    },
 };
 
 const Template: Story<Args> = (args) => ({
