@@ -1410,7 +1410,7 @@ export class CoreDomUtilsProvider {
             const containerElement = alertElement.querySelector('.core-error-accordion-container');
 
             if (containerElement) {
-                containerElement.innerHTML = CoreErrorAccordionComponent.render(error.debug.code, error.debug.details);
+                await CoreErrorAccordionComponent.render(containerElement, error.debug.code, error.debug.details);
             }
         }
 

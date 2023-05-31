@@ -14,9 +14,9 @@
 
 import { Component, ElementRef, Input, OnChanges, OnInit } from '@angular/core';
 import { Translate } from '@singletons';
-import { CoreForms } from '@singletons/form';
-import ChevronUpSVG from '!raw-loader!ionicons/dist/svg/chevron-up.svg';
 import ChevronDownSVG from '!raw-loader!ionicons/dist/svg/chevron-down.svg';
+import { CoreUtils } from '@services/utils/utils';
+import { CoreDom } from '@singletons/dom';
 
 /**
  * Component to show error details.
@@ -34,39 +34,72 @@ export class CoreErrorAccordionComponent implements OnInit, OnChanges {
     /**
      * Render an instance of the component into an HTML string.
      *
+     * @param element Root element.
      * @param errorCode Error code.
      * @param errorDetails Error details.
-     * @returns Component HTML.
      */
-    static render(errorCode: string, errorDetails: string): string {
-        const toggleId = CoreForms.uniqueId('error-accordion-toggle');
+    static async render(element: Element, errorCode: string, errorDetails: string): Promise<void> {
+        const html = this.html(errorCode, errorDetails);
+
+        element.innerHTML = html;
+
+        await this.hydrate(element);
+    }
+
+    static html(errorCode: string, errorDetails: string): string {
         const errorCodeLabel = Translate.instant('core.errorcode', { errorCode });
         const hideDetailsLabel = Translate.instant('core.errordetailshide');
         const showDetailsLabel = Translate.instant('core.errordetailsshow');
 
         return `
             <div class="core-error-accordion">
-                <input id="${toggleId}" type="checkbox" class="core-error-accordion--checkbox" />
                 <h2 class="core-error-accordion--code">${errorCodeLabel}</h2>
-                <p class="core-error-accordion--details">${errorDetails}</p>
-                <label for="${toggleId}" class="core-error-accordion--toggle" tabindex="0">
-                    <div class="core-error-accordion--hide-details">
-                        ${hideDetailsLabel}
-                        ${ChevronUpSVG}
+                <div class="core-error-accordion--details">
+                    <p>${errorDetails}</p>
+                </div>
+                <button type="button" class="core-error-accordion--toggle">
+                    <div class="core-error-accordion--toggle-text">
+                        <span class="core-error-accordion--show-details">
+                            ${showDetailsLabel}
+                        </span>
+                        <span class="core-error-accordion--hide-details">
+                            ${hideDetailsLabel}
+                        </span>
                     </div>
-                    <div class="core-error-accordion--show-details">
-                        ${showDetailsLabel}
-                        ${ChevronDownSVG}
-                    </div>
-                </label>
+                    ${ChevronDownSVG}
+                </button>
             </div>
         `;
+    }
+
+    static async hydrate(element: Element): Promise<void> {
+        const wrapper = element.querySelector<HTMLDivElement>('.core-error-accordion');
+        const description = element.querySelector<HTMLParagraphElement>('.core-error-accordion--details');
+        const button = element.querySelector<HTMLButtonElement>('.core-error-accordion--toggle');
+        const hideText = element.querySelector<HTMLSpanElement>('.core-error-accordion--hide-details');
+
+        if (!wrapper || !description || !button || !hideText) {
+            return;
+        }
+
+        await CoreDom.waitToBeVisible(wrapper);
+
+        button.onclick = () => wrapper.classList.toggle('expanded');
+
+        hideText.style.display = 'none';
+        wrapper.style.setProperty('--width', `${wrapper.clientWidth}px`);
+        wrapper.style.setProperty('--description-height', `${description.clientHeight}px`);
+        wrapper.classList.add('hydrated');
+
+        await CoreUtils.nextTick();
+
+        hideText.style.display = 'revert';
     }
 
     @Input() errorCode!: string;
     @Input() errorDetails!: string;
 
-    constructor(private element: ElementRef) {}
+    constructor(private element: ElementRef<HTMLElement>) {}
 
     /**
      * @inheritdoc
@@ -85,8 +118,8 @@ export class CoreErrorAccordionComponent implements OnInit, OnChanges {
     /**
      * Render component html in the element created by Angular.
      */
-    private render(): void {
-        this.element.nativeElement.innerHTML = CoreErrorAccordionComponent.render(this.errorCode, this.errorDetails);
+    private async render(): Promise<void> {
+        CoreErrorAccordionComponent.render(this.element.nativeElement, this.errorCode, this.errorDetails);
     }
 
 }
