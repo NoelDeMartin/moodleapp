@@ -1,10 +1,16 @@
 html {
 
     // Colors
+    --mdl-color-neutral-gray-200: #e9ecef;
     --mdl-color-neutral-gray-300: #dee2e6;
+    --mdl-color-neutral-gray-400: #ced4da;
     --mdl-color-neutral-gray-700: #495057;
     --mdl-color-neutral-gray-800: #343a40;
     --mdl-color-neutral-gray-900: #1d2125;
+    --mdl-color-secondary: #1272f9;
+    --mdl-color-states-overlay-gray-hover: rgba(29, 33, 37, 0.04);
+    --mdl-color-states-overlay-gray-focus: rgba(29, 33, 37, 0.12);
+    --mdl-color-states-overlay-gray-pressed: rgba(29, 33, 37, 0.12);
 
     // Corner radiuses
     --mdl-cornerRadius-xs: 4px;
@@ -28,5 +34,21 @@ html {
     @for $i from 0 to 13 {
         --mdl-spacing-#{$i}: #{$i*4}px;
     }
+
+    // Semantic colors
+    --mdl-color-background: var(--mdl-color-neutral-gray-300);
+    --mdl-color-text-header: var(--mdl-color-neutral-gray-900);
+    --mdl-color-text-body: var(--mdl-color-neutral-gray-700);
+    --mdl-color-text-secondary: var(--mdl-color-neutral-gray-800);
+
+}
+
+html.dark {
+
+    // Semantic colors
+    --mdl-color-background: var(--mdl-color-neutral-gray-700);
+    --mdl-color-text-header: var(--mdl-color-neutral-gray-200);
+    --mdl-color-text-body: var(--mdl-color-neutral-gray-400);
+    --mdl-color-text-secondary: var(--mdl-color-neutral-gray-300);
 
 }

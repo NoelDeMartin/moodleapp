@@ -20,6 +20,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import englishTranslations from '@/assets/lang/en.json';
 import { CoreApplicationInitStatus } from '@classes/application-init-status';
 import { Translate } from '@singletons';
+import { StorybookErrorAccordionModalComponent } from '@components/stories/components/error-accordion-modal';
+import { CoreLang } from '@services/lang';
 
 // For translate loader. AoT requires an exported function for factories.
 export class StaticTranslateLoader extends TranslateLoader {
@@ -34,6 +36,7 @@ export class StaticTranslateLoader extends TranslateLoader {
  * Module declaring dependencies for Storybook components.
  */
 @NgModule({
+    declarations: [StorybookErrorAccordionModalComponent],
     imports: [
         IonicModule.forRoot(),
         TranslateModule.forRoot({
@@ -51,6 +54,7 @@ export class StaticTranslateLoader extends TranslateLoader {
             useValue: () => {
                 Translate.setDefaultLang('en');
                 Translate.use('en');
+                CoreLang.changeCurrentLanguage('en');
             },
         },
     ],

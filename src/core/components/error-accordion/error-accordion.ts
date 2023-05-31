@@ -49,7 +49,7 @@ export class CoreErrorAccordionComponent implements OnInit, OnChanges {
                 <input id="${toggleId}" type="checkbox" class="core-error-accordion--checkbox" />
                 <h2 class="core-error-accordion--code">${errorCodeLabel}</h2>
                 <p class="core-error-accordion--details">${errorDetails}</p>
-                <label for="${toggleId}" class="core-error-accordion--toggle">
+                <label for="${toggleId}" class="core-error-accordion--toggle" tabindex="0">
                     <div class="core-error-accordion--hide-details">
                         ${hideDetailsLabel}
                         ${ChevronUpSVG}

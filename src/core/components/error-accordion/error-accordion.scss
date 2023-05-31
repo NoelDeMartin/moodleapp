@@ -1,7 +1,7 @@
 @import "~theme/globals";
 
 .core-error-accordion {
-    background: var(--mdl-color-neutral-gray-300);
+    background: var(--mdl-color-background);
     border-radius: var(--mdl-cornerRadius-xs);
 
     .core-error-accordion--checkbox {
@@ -10,7 +10,7 @@
 
     .core-error-accordion--code {
         margin: 0;
-        color: var(--mdl-color-neutral-gray-900);
+        color: var(--mdl-color-text-header);
         padding-top: var(--mdl-spacing-2);
         padding-bottom: var(--mdl-spacing-2);
         padding-inline-start: var(--mdl-spacing-3);
@@ -21,7 +21,7 @@
 
     .core-error-accordion--details {
         margin: 0;
-        color: var(--mdl-color-neutral-gray-700);
+        color: var(--mdl-color-text-body);
         padding-top: var(--mdl-spacing-2);
         padding-bottom: var(--mdl-spacing-2);
         padding-inline-start: var(--mdl-spacing-3);
@@ -32,7 +32,7 @@
 
     .core-error-accordion--toggle {
         display: block;
-        color: var(--mdl-color-neutral-gray-800);
+        color: var(--mdl-color-text-secondary);
         padding-top: var(--mdl-spacing-2);
         padding-bottom: var(--mdl-spacing-2);
         padding-inline-start: var(--mdl-spacing-3);
@@ -51,6 +51,24 @@
                 margin-inline-start: var(--mdl-spacing-4);
             }
 
+        }
+
+        &:hover {
+            background: var(--mdl-color-states-overlay-gray-hover);
+            cursor: pointer;
+        }
+
+        &:focus {
+            background: var(--mdl-color-states-overlay-gray-focus);
+        }
+
+        &:focus-visible {
+            box-shadow: none;
+            outline: 2px solid var(--mdl-color-secondary);
+        }
+
+        &:active {
+            background: var(--mdl-color-states-overlay-gray-pressed);
         }
 
     }

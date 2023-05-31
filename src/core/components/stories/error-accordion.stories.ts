@@ -18,6 +18,7 @@ import { story } from '@/storybook/utils/helpers';
 import { StorybookModule } from '@/storybook/storybook.module';
 
 import { CoreErrorAccordionComponent } from '@components/error-accordion/error-accordion';
+import { StorybookErrorAccordionModalComponent } from '@components/stories/components/error-accordion-modal';
 
 interface Args {
     errorCode: string;
@@ -48,3 +49,8 @@ const Template: Story<Args> = (args) => ({
 });
 
 export const Primary = story<Args>(Template);
+
+export const Modal: Story<Args> = (args) => ({
+    component: StorybookErrorAccordionModalComponent,
+    props: args,
+});
