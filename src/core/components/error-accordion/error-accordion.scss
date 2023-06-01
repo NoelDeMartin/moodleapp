@@ -9,6 +9,7 @@
 
     .core-error-accordion--code {
         margin: 0;
+        text-align: start;
         color: var(--mdl-color-text-header);
         padding-top: var(--mdl-spacing-2);
         padding-bottom: var(--mdl-spacing-2);
@@ -22,6 +23,7 @@
         opacity: 0;
         display: flex;
         overflow: hidden;
+        text-align: start;
         flex-direction: column;
         justify-content: center;
         transition-property: opacity, height;

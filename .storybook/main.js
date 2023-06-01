@@ -5,6 +5,7 @@ module.exports = {
         'storybook-addon-designs',
         'storybook-addon-rtl-direction',
         'storybook-dark-mode',
+        './addon-ionic/preset.js',
     ],
     stories: ['../src/**/*.stories.ts'],
 }

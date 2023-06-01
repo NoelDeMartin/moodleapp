@@ -33,12 +33,23 @@ export class StaticTranslateLoader extends TranslateLoader {
 }
 
 /**
+ * Get Ionic mode from query parameters.
+ *
+ * @returns Ionic mode.
+ */
+function getIonicMode(): 'ios' | 'md' {
+    const url = new URL(window.parent?.location.href);
+
+    return url.searchParams.get('ionicMode') === 'ios' ? 'ios' : 'md';
+}
+
+/**
  * Module declaring dependencies for Storybook components.
  */
 @NgModule({
     declarations: [StorybookErrorAccordionModalComponent],
     imports: [
-        IonicModule.forRoot(),
+        IonicModule.forRoot({ mode: getIonicMode() }),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -55,6 +66,9 @@ export class StaticTranslateLoader extends TranslateLoader {
                 Translate.setDefaultLang('en');
                 Translate.use('en');
                 CoreLang.changeCurrentLanguage('en');
+
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (window as any).Ionic.config.mode = getIonicMode();
             },
         },
     ],
