@@ -51,6 +51,11 @@ export class CoreErrorAccordionComponent implements OnInit, OnChanges {
         const hideDetailsLabel = Translate.instant('core.errordetailshide');
         const showDetailsLabel = Translate.instant('core.errordetailsshow');
 
+        // TODO a11y (aria-expanded, etc.)
+        // TODO accordion a11y? aria-live? aria-hidden?
+        // TODO a11y aria-hidden text that is not visible (description, toggle)
+        // TODO h2?
+
         return `
             <div class="core-error-accordion">
                 <h2 class="core-error-accordion--code">${errorCodeLabel}</h2>
@@ -79,6 +84,7 @@ export class CoreErrorAccordionComponent implements OnInit, OnChanges {
         const hideText = element.querySelector<HTMLSpanElement>('.core-error-accordion--hide-details');
 
         if (!wrapper || !description || !button || !hideText) {
+            // TODO report error
             return;
         }
 

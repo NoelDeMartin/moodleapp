@@ -1,5 +1,8 @@
 html {
 
+    // TODO auto-generate from figma?
+    // TODO ignore parentehsis, type first, then slugged path
+
     // Colors
     --mdl-color-neutral-gray-200: #e9ecef;
     --mdl-color-neutral-gray-300: #dee2e6;
@@ -10,13 +13,13 @@ html {
     --mdl-color-secondary: #1272f9;
     --mdl-color-states-overlay-gray-hover: rgba(29, 33, 37, 0.04);
     --mdl-color-states-overlay-gray-focus: rgba(29, 33, 37, 0.12);
-    --mdl-color-states-overlay-gray-pressed: rgba(29, 33, 37, 0.12);
+    --mdl-color-states-overlay-gray-pressed: rgba(29, 33, 37, 0.12); // TODO Same as focus?
 
     // Corner radiuses
     --mdl-cornerRadius-xs: 4px;
 
     // Typography
-    --mdl-typography-h5-fontFamily: 'Roboto';
+    --mdl-typography-h5-fontFamily: 'Roboto'; // fallbacks?
     --mdl-typography-h5-fontStyle: normal;
     --mdl-typography-h5-fontWeight: 700;
     --mdl-typography-h5-fontSize: 16px;
