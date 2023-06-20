@@ -21,6 +21,7 @@ import {
     CoreUserDelegateContext,
 } from '@features/user/services/user-delegate';
 import { CoreNavigator } from '@services/navigator';
+import { CoreRouter } from '@services/router';
 import { makeSingleton } from '@singletons';
 import { AddonCourseCompletion } from '../coursecompletion';
 
@@ -71,7 +72,7 @@ export class AddonCourseCompletionUserHandlerService implements CoreUserProfileH
             action: (event, user, context, contextId): void => {
                 event.preventDefault();
                 event.stopPropagation();
-                CoreNavigator.navigateToSitePath('/coursecompletion', {
+                CoreRouter.navigateToSitePath('/coursecompletion', {}, {
                     params: { courseId: contextId, userId: user.id },
                 });
             },

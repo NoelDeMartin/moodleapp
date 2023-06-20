@@ -14,17 +14,18 @@
 
 import { CoreSharedModule } from '@/core/shared.module';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CoreCommentsComponentsModule } from '@features/comments/components/components.module';
 import { CoreTagComponentsModule } from '@features/tag/components/components.module';
+import { CoreLazyRoutesModule, defineRoutes } from '@services/router';
 import { AddonCourseCompletionReportPage } from './pages/report/report';
 
-const routes: Routes = [
+const routes = defineRoutes([
     {
         path: '',
         component: AddonCourseCompletionReportPage,
     },
-];
+]);
 
 @NgModule({
     imports: [
@@ -38,4 +39,4 @@ const routes: Routes = [
         AddonCourseCompletionReportPage,
     ],
 })
-export class AddonCourseCompletionLazyModule {}
+export class AddonCourseCompletionLazyModule extends CoreLazyRoutesModule<typeof routes> {}

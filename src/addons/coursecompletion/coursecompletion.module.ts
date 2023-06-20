@@ -19,6 +19,7 @@ import { CoreCourseIndexRoutingModule } from '@features/course/course-routing.mo
 import { CoreCourseOptionsDelegate } from '@features/course/services/course-options-delegate';
 import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-routing.module';
 import { CoreUserDelegate } from '@features/user/services/user-delegate';
+import { CoreRoutesMetadata, defineRoutes } from '@services/router';
 import { AddonCourseCompletionProvider } from './services/coursecompletion';
 import { AddonCourseCompletionStatusLinkHandler } from './services/handlers/completionstatus-link';
 import { AddonCourseCompletionCourseOptionHandler } from './services/handlers/course-option';
@@ -28,12 +29,12 @@ export const ADDON_COURSECOMPLETION_SERVICES: Type<unknown>[] = [
     AddonCourseCompletionProvider,
 ];
 
-const routes: Routes = [
+const routes = defineRoutes([
     {
         path: 'coursecompletion',
         loadChildren: () => import('./coursecompletion-lazy.module').then(m => m.AddonCourseCompletionLazyModule),
     },
-];
+]);
 
 @NgModule({
     imports: [
@@ -53,3 +54,12 @@ const routes: Routes = [
     ],
 })
 export class AddonCourseCompletionModule {}
+
+/**
+ * Route declarations.
+ */
+declare module '@features/mainmenu/mainmenu-routing.module' {
+
+    interface CoreMainMenuRoutesMetadata extends CoreRoutesMetadata<typeof routes> {}
+
+}

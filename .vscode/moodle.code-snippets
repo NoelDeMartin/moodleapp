@@ -110,4 +110,19 @@
         ],
         "description": "[Moodle] Create a Pure Singleton"
     },
+    "[Moodle] Site typed routes declaration": {
+        "scope": "typescript",
+        "prefix": "masroutes",
+        "body": [
+            "/**",
+            " * Route declarations.",
+            " */",
+            "declare module '@features/mainmenu/mainmenu-routing.module' {",
+            "",
+            "    interface CoreMainMenuRoutesMetadata extends CoreRoutesMetadata$1<typeof routes> {}",
+            "",
+            "}"
+        ],
+        "description": "[Moodle] Type site routes"
+    },
 }
