@@ -20,7 +20,9 @@ import { Component, OnInit } from '@angular/core';
 import { CoreUser, CoreUserProfile } from '@features/user/services/user';
 import { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
+import { CoreRouter } from '@services/router';
 import { CoreSites } from '@services/sites';
+import { CoreComponentRouter } from '@services/utils/component-router';
 import { CoreDomUtils } from '@services/utils/dom';
 
 /**
@@ -41,6 +43,11 @@ export class AddonCourseCompletionReportPage implements OnInit {
     tracked = true; // Whether completion is tracked.
     statusText?: string;
     user?: CoreUserProfile;
+    router: CoreComponentRouter<typeof AddonCourseCompletionReportPage>;
+
+    constructor() {
+        this.router = CoreRouter.getComponentRouter();
+    }
 
     /**
      * @inheritdoc
@@ -60,6 +67,10 @@ export class AddonCourseCompletionReportPage implements OnInit {
         this.fetchCompletion().finally(() => {
             this.completionLoaded = true;
         });
+    }
+
+    viewUser(userId: number): void {
+        this.router.navigate('./user/:userId', { userId });
     }
 
     /**

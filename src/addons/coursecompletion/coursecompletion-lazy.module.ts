@@ -17,6 +17,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CoreCommentsComponentsModule } from '@features/comments/components/components.module';
 import { CoreTagComponentsModule } from '@features/tag/components/components.module';
+import { CoreUserProfilePage } from '@features/user/pages/profile/profile';
 import { CoreLazyRoutesModule, defineRoutes } from '@services/router';
 import { AddonCourseCompletionReportPage } from './pages/report/report';
 
@@ -24,6 +25,10 @@ const routes = defineRoutes([
     {
         path: '',
         component: AddonCourseCompletionReportPage,
+    },
+    {
+        path: 'user/:userId',
+        component: CoreUserProfilePage,
     },
 ]);
 

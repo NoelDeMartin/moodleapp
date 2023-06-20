@@ -35,6 +35,7 @@ import { CoreCourses } from '@features/courses/services/courses';
 import { CoreSwipeNavigationItemsManager } from '@classes/items-management/swipe-navigation-items-manager';
 import { CoreUserParticipantsSource } from '@features/user/classes/participants-source';
 import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/routed-items-manager-sources-tracker';
+import { CoreComponentRouter } from '@services/utils/component-router';
 
 @Component({
     selector: 'page-core-user-profile',
@@ -63,7 +64,11 @@ export class CoreUserProfilePage implements OnInit, OnDestroy {
 
     users?: CoreUserSwipeItemsManager;
 
+    private router: CoreComponentRouter<typeof CoreUserProfilePage>;
+
     constructor(private route: ActivatedRoute) {
+        this.router = new CoreComponentRouter();
+
         this.obsProfileRefreshed = CoreEvents.on(USER_PROFILE_REFRESHED, (data) => {
             if (!this.user || !data.user) {
                 return;
@@ -81,7 +86,7 @@ export class CoreUserProfilePage implements OnInit, OnDestroy {
         try {
             this.site = CoreSites.getRequiredCurrentSite();
             this.courseId = CoreNavigator.getRouteNumberParam('courseId');
-            this.userId = CoreNavigator.getRequiredRouteNumberParam('userId');
+            this.userId = this.router.parameters.userId as number;
         } catch (error) {
             CoreDomUtils.showErrorModal(error);
             CoreNavigator.back();
