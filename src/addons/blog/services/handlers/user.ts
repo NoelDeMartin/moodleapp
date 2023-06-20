@@ -19,7 +19,7 @@ import {
     CoreUserDelegateService,
     CoreUserDelegateContext,
 } from '@features/user/services/user-delegate';
-import { CoreRouter } from '@services/router';
+import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { makeSingleton } from '@singletons';
 import { AddonBlog } from '../blog';
@@ -73,7 +73,7 @@ export class AddonBlogUserHandlerService implements CoreUserProfileHandler {
             action: (event, user, context, contextId): void => {
                 event.preventDefault();
                 event.stopPropagation();
-                CoreRouter.navigateToSitePath('/blog', {}, {
+                CoreNavigator.navigateToSitePath('/blog', {
                     params: { courseId: contextId, userId: user.id },
                 });
             },

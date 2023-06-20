@@ -13,20 +13,21 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AddonCompetencyCompetencyPage } from './pages/competency/competency.page';
 import { AddonCompetencyCompetencySummaryPage } from './pages/competencysummary/competencysummary.page';
+import { ADDON_COMPETENCY_SUMMARY_PAGE } from './competency.module';
 import { AddonCompetencyCompetencyPageModule } from './pages/competency/competency.module';
 import { AddonCompetencyCompetencySummaryPageModule } from './pages/competencysummary/competencysummary.module';
 import { AddonCompetencyCourseCompetenciesPage } from './pages/coursecompetencies/coursecompetencies.page';
 import { AddonCompetencyCourseCompetenciesPageModule } from './pages/coursecompetencies/coursecompetencies.module';
 import { AddonCompetencyCompetenciesPage } from './pages/competencies/competencies.page';
+import { conditionalRoutes } from '@/app/app-routing.module';
 import { CoreScreen } from '@services/screen';
 import { AddonCompetencyCompetenciesPageModule } from './pages/competencies/competencies.module';
-import { conditionalRoutes, CoreLazyRoutesModule, defineRoutes } from '@services/router';
 
-const mobileRoutes = defineRoutes([
+const mobileRoutes: Routes = [
     {
         path: '',
         component: AddonCompetencyCourseCompetenciesPage,
@@ -35,9 +36,9 @@ const mobileRoutes = defineRoutes([
         path: ':competencyId',
         component: AddonCompetencyCompetencyPage,
     },
-]);
+];
 
-const tabletRoutes = defineRoutes([
+const tabletRoutes: Routes = [
     {
         path: '',
         component: AddonCompetencyCompetenciesPage,
@@ -48,21 +49,15 @@ const tabletRoutes = defineRoutes([
             },
         ],
     },
-]);
-
-const typedRoutes = [
-    ...conditionalRoutes(mobileRoutes, () => CoreScreen.isMobile),
-    ...defineRoutes([
-        {
-            path: ':competencyId/summary',
-            component: AddonCompetencyCompetencySummaryPage,
-        },
-    ]),
 ];
 
-const routes = [
-    ...typedRoutes,
+const routes: Routes = [
+    ...conditionalRoutes(mobileRoutes, () => CoreScreen.isMobile),
     ...conditionalRoutes(tabletRoutes, () => CoreScreen.isTablet),
+    {
+        path: `:competencyId/${ADDON_COMPETENCY_SUMMARY_PAGE}`,
+        component: AddonCompetencyCompetencySummaryPage,
+    },
 ];
 
 @NgModule({
@@ -74,4 +69,4 @@ const routes = [
         AddonCompetencyCompetencySummaryPageModule,
     ],
 })
-export class AddonCompetencyCourseDetailsLazyModule extends CoreLazyRoutesModule<typeof typedRoutes> {}
+export class AddonCompetencyCourseDetailsLazyModule {}

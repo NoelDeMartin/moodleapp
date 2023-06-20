@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import { APP_INITIALIZER, NgModule, Type } from '@angular/core';
+import { Routes } from '@angular/router';
 import { CoreContentLinksDelegate } from '@features/contentlinks/services/contentlinks-delegate';
 import { CoreCourseIndexRoutingModule } from '@features/course/course-routing.module';
 import { CoreCourseOptionsDelegate } from '@features/course/services/course-options-delegate';
@@ -27,18 +28,17 @@ import { AddonBlogIndexLinkHandler } from './services/handlers/index-link';
 import { AddonBlogMainMenuHandler, AddonBlogMainMenuHandlerService } from './services/handlers/mainmenu';
 import { AddonBlogTagAreaHandler } from './services/handlers/tag-area';
 import { AddonBlogUserHandler } from './services/handlers/user';
-import { CoreRoutesMetadata, defineRoutes } from '@services/router';
 
 export const ADDON_BLOG_SERVICES: Type<unknown>[] = [
     AddonBlogProvider,
 ];
 
-const routes = defineRoutes([
+const routes: Routes = [
     {
         path: AddonBlogMainMenuHandlerService.PAGE_NAME,
         loadChildren: () => import('@addons/blog/blog-lazy.module').then(m => m.AddonBlogLazyModule),
     },
-]);
+];
 
 @NgModule({
     imports: [
@@ -62,12 +62,3 @@ const routes = defineRoutes([
     ],
 })
 export class AddonBlogModule {}
-
-/**
- * Route declarations.
- */
-declare module '@features/mainmenu/mainmenu-routing.module' {
-
-    interface CoreMainMenuRoutesMetadata extends CoreRoutesMetadata<typeof routes> {}
-
-}
