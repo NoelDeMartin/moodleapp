@@ -47,6 +47,7 @@ export default <Meta<Args>> {
             // eslint-disable-next-line max-len
             url: 'https://www.figma.com/file/6r8ladLNtqEZznPsWBc48b/%F0%9F%9A%A7-Moodle-App-4-Design-System-v1.2?type=design&node-id=870%3A2483&t=eNtFGiyeRFxLOVJz-1',
         },
+        source: 'https://github.com/NoelDeMartin/moodleapp/blob/MOBILE-4268/src/core/components/error-accordion/',
     },
 };
 
