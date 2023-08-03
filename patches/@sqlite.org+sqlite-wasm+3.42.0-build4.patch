@@ -1,0 +1,41 @@
+diff --git a/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3.js b/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3.js
+index 54f12dd..7691a9a 100644
+--- a/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3.js
++++ b/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3.js
+@@ -115,7 +115,7 @@ var sqlite3InitModule = (() => {
+       return {};
+     };
+ 
+-    Module[xNameOfInstantiateWasm].uri = 'sqlite3.wasm';
++    Module[xNameOfInstantiateWasm].uri = '/assets/lib/sqlite3/sqlite3.wasm';
+ 
+     var moduleOverrides = Object.assign({}, Module);
+ 
+@@ -559,7 +559,7 @@ var sqlite3InitModule = (() => {
+     }
+ 
+     var wasmBinaryFile;
+-    wasmBinaryFile = 'sqlite3.wasm';
++    wasmBinaryFile = '/assets/lib/sqlite3/sqlite3.wasm';
+     if (!isDataURI(wasmBinaryFile)) {
+       wasmBinaryFile = locateFile(wasmBinaryFile);
+     }
+@@ -13184,7 +13184,7 @@ var sqlite3InitModule = (() => {
+           });
+           return thePromise;
+         };
+-        installOpfsVfs.defaultProxyUri = 'sqlite3-opfs-async-proxy.js';
++        installOpfsVfs.defaultProxyUri = '/assets/lib/sqlite3/sqlite3-opfs-async-proxy.js';
+         globalThis.sqlite3ApiBootstrap.initializersAsync.push(
+           async (sqlite3) => {
+             try {
+@@ -13294,8 +13294,7 @@ else if (typeof exports === 'object')
+           'undefined' !== typeof WorkerGlobalScope &&
+           (EmscriptenModule['ENVIRONMENT_IS_PTHREAD'] ||
+             EmscriptenModule['_pthread_self'] ||
+-            'function' === typeof threadAlert ||
+-            globalThis?.location?.pathname?.endsWith?.('.worker.js'))
++            'function' === typeof threadAlert)
+         ) {
+           return EmscriptenModule;
+         }

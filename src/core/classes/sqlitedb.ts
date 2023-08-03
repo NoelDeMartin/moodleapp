@@ -439,6 +439,7 @@ export class SQLiteDB {
             // No conditions, delete the whole table.
             const result = await this.execute(`DELETE FROM ${table}`);
 
+            // TODO result is typed as any
             return result.rowsAffected;
         }
 

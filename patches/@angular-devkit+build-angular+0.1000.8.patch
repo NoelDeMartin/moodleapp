@@ -1,0 +1,17 @@
+diff --git a/node_modules/@angular-devkit/build-angular/src/dev-server/index.js b/node_modules/@angular-devkit/build-angular/src/dev-server/index.js
+index b75893d..ff3c8c4 100644
+--- a/node_modules/@angular-devkit/build-angular/src/dev-server/index.js
++++ b/node_modules/@angular-devkit/build-angular/src/dev-server/index.js
+@@ -303,7 +303,11 @@ function buildServerConfig(workspaceRoot, serverOptions, browserOptions, logger)
+     const config = {
+         host: serverOptions.host,
+         port: serverOptions.port,
+-        headers: { 'Access-Control-Allow-Origin': '*' },
++        headers: {
++            'Access-Control-Allow-Origin': '*',
++            'Cross-Origin-Embedder-Policy': 'require-corp',
++            'Cross-Origin-Opener-Policy': 'same-origin',
++        },
+         historyApiFallback: !!browserOptions.index && {
+             index: `${servePath}/${webpack_browser_config_1.getIndexOutputFile(browserOptions)}`,
+             disableDotRule: true,

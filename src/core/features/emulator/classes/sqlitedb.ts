@@ -15,6 +15,13 @@
 import { SQLiteDB } from '@classes/sqlitedb';
 import { DbTransaction, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { CoreDB } from '@services/db';
+import { CorePromisedValue } from '@classes/promised-value';
+import {
+    initializeMessage,
+    isInitializedMessage,
+    isCallResultMessage,
+    callMethodMessage,
+} from '@features/emulator/utils/worker-messages';
 
 /**
  * Class to mock the interaction with the SQLite database.
@@ -38,6 +45,7 @@ export class SQLiteDBMock extends SQLiteDB {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     close(): Promise<any> {
         // WebSQL databases aren't closed.
+        // TODO this may be possible now
         return Promise.resolve();
     }
 
@@ -48,38 +56,7 @@ export class SQLiteDBMock extends SQLiteDB {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async emptyDatabase(): Promise<any> {
-        await this.ready();
-
-        return new Promise((resolve, reject): void => {
-            this.db?.transaction((tx) => {
-                // Query all tables from sqlite_master that we have created and can modify.
-                const args = [];
-                const query = `SELECT * FROM sqlite_master
-                            WHERE name NOT LIKE 'sqlite\\_%' escape '\\' AND name NOT LIKE '\\_%' escape '\\'`;
-
-                tx.executeSql(query, args, (tx, result) => {
-                    if (result.rows.length <= 0) {
-                        // No tables to delete, stop.
-                        resolve(null);
-
-                        return;
-                    }
-
-                    // Drop all the tables.
-                    const promises: Promise<void>[] = [];
-
-                    for (let i = 0; i < result.rows.length; i++) {
-                        promises.push(new Promise((resolve, reject): void => {
-                            // Drop the table.
-                            const name = JSON.stringify(result.rows.item(i).name);
-                            tx.executeSql('DROP TABLE ' + name, [], resolve, reject);
-                        }));
-                    }
-
-                    Promise.all(promises).then(resolve).catch(reject);
-                }, reject);
-            });
-        });
+        // TODO this may not be necessary anymore (it should be possible to delete databases)
     }
 
     /**
@@ -93,6 +70,8 @@ export class SQLiteDBMock extends SQLiteDB {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async execute(sql: string, params?: any[]): Promise<any> {
+        // TODO replace implementation
+
         await this.ready();
 
         return new Promise((resolve, reject): void => {
@@ -118,6 +97,8 @@ export class SQLiteDBMock extends SQLiteDB {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async executeBatch(sqlStatements: any[]): Promise<any> {
+        // TODO replace implementation
+
         await this.ready();
 
         return new Promise((resolve, reject): void => {
@@ -156,6 +137,7 @@ export class SQLiteDBMock extends SQLiteDB {
      */
     open(): Promise<void> {
         // WebSQL databases can't closed, so the open method isn't needed.
+        // TODO this may be possible now
         return Promise.resolve();
     }
 
@@ -163,8 +145,66 @@ export class SQLiteDBMock extends SQLiteDB {
      * @inheritdoc
      */
     protected async createDatabase(): Promise<SQLiteObject> {
-        // This DB is for desktop apps, so use a big size to be sure it isn't filled.
-        return (window as unknown as WebSQLWindow).openDatabase(this.name, '1.0', this.name, 500 * 1024 * 1024);
+        const worker = new Worker('./sqlitedb.worker', { type: 'module' });
+        const operations: Record<string, CorePromisedValue> = {};
+        const initialized = new CorePromisedValue<void>();
+        let operationsCounter = 0;
+
+        worker.onmessage = function (event: MessageEvent) {
+            if (isInitializedMessage(event.data)) {
+                initialized.resolve();
+
+                return;
+            }
+
+            if (isCallResultMessage(event.data)) {
+                if (!(event.data.id in operations)) {
+                    return;
+                }
+
+                if (event.data.error) {
+                    operations[event.data.id].reject(event.data.error as any);
+                } else {
+                    operations[event.data.id].resolve(event.data.success);
+                }
+
+                delete operations[event.data.id];
+
+                return;
+            }
+        };
+
+        worker.postMessage(initializeMessage(this.name, `${document.head.baseURI}/assets/lib/sqlite3/sqlite3.js`));
+
+        await initialized;
+
+        const db: Partial<SQLiteObject> = {
+            async transaction(callback) {
+                callback({
+                    executeSql(sql, values, resolve, reject) {
+                        const id = operationsCounter++;
+                        const promisedResult = operations[id] = new CorePromisedValue<any>();
+
+                        promisedResult
+                            .then(result => resolve?.(null, {
+                                rows: {
+                                    item: (index: number): any => result[index],
+                                },
+                                rowsAffected: result.length,
+                            }))
+                            .catch(error => reject?.(null, error));
+
+                        worker.postMessage(callMethodMessage(id, 'exec', [{
+                            sql,
+                            bind: values,
+                            rowMode: 'array',
+                        }]));
+                    },
+                } as DbTransaction);
+            },
+        };
+
+        return db as unknown as SQLiteObject;
     }
 
     /**
@@ -212,8 +252,4 @@ export class SQLiteDBMock extends SQLiteDB {
         };
     }
 
-}
-
-interface WebSQLWindow extends Window {
-    openDatabase(name: string, version: string, displayName: string, estimatedSize: number): SQLiteObject;
 }
