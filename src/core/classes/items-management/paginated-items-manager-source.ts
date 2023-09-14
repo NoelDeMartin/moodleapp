@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import { CoreItemsManagerSource } from './items-manager-source';
+import { CoreSemaphore } from '@classes/semaphore';
 
 /**
  * Paginated items collection source data.
@@ -20,6 +21,7 @@ import { CoreItemsManagerSource } from './items-manager-source';
 export abstract class CorePaginatedItemsManagerSource<Item = unknown> extends CoreItemsManagerSource<Item> {
 
     protected hasMoreItems = true;
+    private lock = new CoreSemaphore();
 
     /**
      * Check whether there are more pages to be loaded.
@@ -79,22 +81,24 @@ export abstract class CorePaginatedItemsManagerSource<Item = unknown> extends Co
      * Load more items, if any.
      */
     async load(): Promise<void> {
-        if (this.dirty) {
-            const { items, hasMoreItems } = await this.loadPageItems(0);
+        await this.lock.run(async () => {
+            if (this.dirty) {
+                const { items, hasMoreItems } = await this.loadPageItems(0);
 
-            this.dirty = false;
-            this.setItems(items, hasMoreItems ?? false);
+                this.dirty = false;
+                this.setItems(items, hasMoreItems ?? false);
 
-            return;
-        }
+                return;
+            }
 
-        if (!this.hasMoreItems) {
-            return;
-        }
+            if (!this.hasMoreItems) {
+                return;
+            }
 
-        const { items, hasMoreItems } = await this.loadPageItems(this.getPagesLoaded());
+            const { items, hasMoreItems } = await this.loadPageItems(this.getPagesLoaded());
 
-        this.setItems((this.items ?? []).concat(items), hasMoreItems ?? false);
+            this.setItems((this.items ?? []).concat(items), hasMoreItems ?? false);
+        });
     }
 
     /**
