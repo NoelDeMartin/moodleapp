@@ -58,6 +58,7 @@ export class CoreCourseContentsPage implements OnInit, OnDestroy, CoreRefreshCon
     sections?: CoreCourseSection[];
     sectionId?: number;
     sectionNumber?: number;
+    instanceId?: number;
     dataLoaded = false;
     updatingData = false;
     downloadCourseEnabled = false;
@@ -92,6 +93,7 @@ export class CoreCourseContentsPage implements OnInit, OnDestroy, CoreRefreshCon
 
         this.sectionId = CoreNavigator.getRouteNumberParam('sectionId');
         this.sectionNumber = CoreNavigator.getRouteNumberParam('sectionNumber');
+        this.instanceId = CoreNavigator.getRouteNumberParam('instanceId');
         this.moduleId = CoreNavigator.getRouteNumberParam('moduleId');
         this.isGuest = CoreNavigator.getRouteBooleanParam('isGuest');
 
