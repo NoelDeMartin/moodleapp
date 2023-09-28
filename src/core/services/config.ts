@@ -147,8 +147,6 @@ export class CoreConfigProvider {
 
             return true;
         } catch (error) {
-            // TODO this is failing, but not sure why
-
             return false;
         }
     }

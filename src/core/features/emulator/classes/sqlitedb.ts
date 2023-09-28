@@ -188,16 +188,17 @@ export class SQLiteDBMock extends SQLiteDB {
                         promisedResult
                             .then(result => resolve?.(null, {
                                 rows: {
+                                    length: result.length,
                                     item: (index: number): any => result[index],
                                 },
-                                rowsAffected: result.length,
+                                rowsAffected: sql.startsWith('INSERT OR REPLACE INTO') ? 1 : result.length,
                             }))
                             .catch(error => reject?.(null, error));
 
                         worker.postMessage(callMethodMessage(id, 'exec', [{
                             sql,
                             bind: values,
-                            rowMode: 'array',
+                            rowMode: 'object',
                         }]));
                     },
                 } as DbTransaction);

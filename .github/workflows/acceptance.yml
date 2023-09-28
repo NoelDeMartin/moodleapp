@@ -56,8 +56,15 @@ jobs:
         cp $GITHUB_WORKSPACE/moodle-docker/config.docker-template.php $GITHUB_WORKSPACE/moodle/config.php
         sed -i "69c\$CFG->behat_faildump_path = '/var/www/html/behatfaildumps';" $GITHUB_WORKSPACE/moodle/config.php
         sed -i "69i\$CFG->behat_increasetimeout = 2;" $GITHUB_WORKSPACE/moodle/config.php
-        sed -i "69i\$CFG->behat_ionic_wwwroot = 'http://moodleapp';" $GITHUB_WORKSPACE/moodle/config.php
+        sed -i "69i\$CFG->behat_ionic_wwwroot = 'https://moodleapp';" $GITHUB_WORKSPACE/moodle/config.php
+        sed -i "67i\        'capabilities' => [" $GITHUB_WORKSPACE/moodle/config.php
+        sed -i "68i\            'extra_capabilities' => [" $GITHUB_WORKSPACE/moodle/config.php
+        sed -i "69i\                'chromeOptions' => ['args' => ['--ignore-certificate-errors', '--allow-running-insecure-content']]," $GITHUB_WORKSPACE/moodle/config.php
+        sed -i "70i\            ]," $GITHUB_WORKSPACE/moodle/config.php
+        sed -i "71i\        ]," $GITHUB_WORKSPACE/moodle/config.php
         echo "define('TEST_MOD_BIGBLUEBUTTONBN_MOCK_SERVER', 'http://bbbmockserver/hash' . sha1(\$CFG->behat_wwwroot));" >> $GITHUB_WORKSPACE/moodle/config.php
+        sed -i "765i\        \$options = ['ssl' => ['allow_self_signed' => true, 'verify_peer' => true, 'verify_peer_name' => true]];" $GITHUB_WORKSPACE/moodle/lib/behat/classes/behat_config_util.php
+        sed -i "766c\        \$json = @file_get_contents(\$jsonurl, false, stream_context_create(\$options));" $GITHUB_WORKSPACE/moodle/lib/behat/classes/behat_config_util.php
         $GITHUB_WORKSPACE/moodle-docker/bin/moodle-docker-compose pull
         $GITHUB_WORKSPACE/moodle-docker/bin/moodle-docker-compose up -d
         $GITHUB_WORKSPACE/moodle-docker/bin/moodle-docker-wait-for-db
