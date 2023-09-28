@@ -28,5 +28,8 @@ FROM nginx:alpine as serve-stage
 
 # Copy assets & config
 COPY --from=build-stage /app/www /usr/share/nginx/html
+COPY --from=build-stage /app/nginx-selfsigned.crt /etc/ssl/nginx-selfsigned.crt
+COPY --from=build-stage /app/nginx-selfsigned.key /etc/ssl/nginx-selfsigned.key
+COPY --from=build-stage /app/dhparam.pem /etc/ssl/dhparam.pem
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-HEALTHCHECK --interval=10s --timeout=4s CMD curl -f http://localhost/assets/env.json || exit 1
+HEALTHCHECK --interval=10s --timeout=4s CMD curl -f https://localhost/assets/env.json || exit 1
