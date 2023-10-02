@@ -1420,6 +1420,7 @@ export interface CoreCourseModulePrefetchHandler extends CoreDelegateHandler {
      * @returns Whether the module can use check_updates. The promise should never be rejected.
      */
     canUseCheckUpdates?(module: CoreCourseAnyModuleData, courseId: number): Promise<boolean>;
+    // TODO
 
     /**
      * Return the status to show based on current status. E.g. a module might want to show outdated instead of downloaded.
@@ -1431,6 +1432,7 @@ export interface CoreCourseModulePrefetchHandler extends CoreDelegateHandler {
      * @returns Status to display.
      */
     determineStatus?(module: CoreCourseAnyModuleData, status: string, canCheck: true): string;
+    // TODO
 
     /**
      * Get the downloaded size of a module. If not defined, we'll use getFiles to calculate it (it can be slow).
@@ -1440,6 +1442,7 @@ export interface CoreCourseModulePrefetchHandler extends CoreDelegateHandler {
      * @returns Size, or promise resolved with the size.
      */
     getDownloadedSize?(module: CoreCourseAnyModuleData, courseId: number): Promise<number>;
+    // TODO
 
     /**
      * Get the list of files of the module. If not defined, we'll assume they are in module.contents.
@@ -1449,6 +1452,7 @@ export interface CoreCourseModulePrefetchHandler extends CoreDelegateHandler {
      * @returns List of files, or promise resolved with the files.
      */
     getFiles?(module: CoreCourseAnyModuleData, courseId: number): Promise<(CoreWSFile | CoreCourseModuleContentFile)[]>;
+    // TODO
 
     /**
      * Check if a certain module has updates based on the result of check updates.
@@ -1459,6 +1463,7 @@ export interface CoreCourseModulePrefetchHandler extends CoreDelegateHandler {
      * @returns Whether the module has updates. The promise should never be rejected.
      */
     hasUpdates?(module: CoreCourseAnyModuleData, courseId: number, moduleUpdates: false | CheckUpdatesWSInstance): Promise<boolean>;
+    // TODO
 
     /**
      * Invalidate WS calls needed to determine module status (usually, to check if module is downloadable).
@@ -1469,6 +1474,7 @@ export interface CoreCourseModulePrefetchHandler extends CoreDelegateHandler {
      * @returns Promise resolved when invalidated.
      */
     invalidateModule?(module: CoreCourseAnyModuleData, courseId: number): Promise<void>;
+    // TODO
 
     /**
      * Check if a module can be downloaded. If the function is not defined, we assume that all modules are downloadable.
@@ -1478,6 +1484,7 @@ export interface CoreCourseModulePrefetchHandler extends CoreDelegateHandler {
      * @returns Whether the module can be downloaded. The promise should never be rejected.
      */
     isDownloadable?(module: CoreCourseAnyModuleData, courseId: number): Promise<boolean>;
+    // TODO
 
     /**
      * Load module contents in module.contents if they aren't loaded already. This is meant for resources.
@@ -1487,6 +1494,7 @@ export interface CoreCourseModulePrefetchHandler extends CoreDelegateHandler {
      * @returns Promise resolved when done.
      */
     loadContents?(module: CoreCourseAnyModuleData, courseId: number): Promise<void>;
+    // TODO
 
     /**
      * Remove module downloaded files. If not defined, we'll use getFiles to remove them (slow).
@@ -1496,6 +1504,7 @@ export interface CoreCourseModulePrefetchHandler extends CoreDelegateHandler {
      * @returns Promise resolved when done.
      */
     removeFiles?(module: CoreCourseAnyModuleData, courseId: number): Promise<void>;
+    // TODO
 
     /**
      * Sync a module.
@@ -1506,6 +1515,7 @@ export interface CoreCourseModulePrefetchHandler extends CoreDelegateHandler {
      * @returns Promise resolved when done.
      */
     sync?(module: CoreCourseAnyModuleData, courseId: number, siteId?: string): Promise<unknown>;
+    // TODO
 }
 
 type ToCheckList = {

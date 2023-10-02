@@ -203,6 +203,7 @@ const appConfig = {
         'jsdoc/require-param-type': 'off',
         'jsdoc/require-returns-type': 'off',
         'jsdoc/require-param': 'off',
+        'jsdoc/require-jsdoc': 'off',
         'jsdoc/check-values': 'off',
         'linebreak-style': [
             'error',

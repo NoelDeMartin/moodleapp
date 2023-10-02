@@ -19,6 +19,8 @@ Feature: Test basic usage of workshop activity in app
       | activity   | name          | intro                 | course | idnumber |
       | workshop   | Test workshop | Workshop description  | C1     | workshop |
 
+  # TODO reproduce problem
+
   Scenario: Take a workshop
 
     # Setup phase

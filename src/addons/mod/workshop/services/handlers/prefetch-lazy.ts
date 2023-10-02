@@ -40,6 +40,8 @@ import { AddonModWorkshopPrefetchHandlerService } from '@addons/mod/workshop/ser
 @Injectable({ providedIn: 'root' })
 export class AddonModWorkshopPrefetchHandlerLazyService extends AddonModWorkshopPrefetchHandlerService {
 
+    // TODO this is the culprit
+
     /**
      * @inheritdoc
      */
