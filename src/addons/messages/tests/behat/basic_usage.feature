@@ -40,6 +40,8 @@ Feature: Test basic usage of messages in app
     When I press "Messages" in the app
     And I replace "/.*/" within ".addon-message-last-message-date" with "[Date]"
     Then I should find "Contacts" in the app
+
+    # TODO avatar has changed from image to initials
     And the UI should match the snapshot
 
     When I press "Contacts" in the app

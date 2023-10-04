@@ -85,6 +85,8 @@ Feature: It navigates properly in pages with a split-view component.
     And I should find "Course 1" in the app
     And I should find "Course 2" in the app
     And I should find "Grade category C1" in the app
+
+    # TODO grade icon has changed
     And the UI should match the snapshot
 
     # Open C1 course grades

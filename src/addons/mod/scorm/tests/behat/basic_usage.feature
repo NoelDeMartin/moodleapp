@@ -1,4 +1,6 @@
-@mod @mod_scorm @app @javascript @_switch_iframe
+# TODO opening filesystem urls is not available in new chrome versions?
+# https://chromestatus.com/feature/5816343679991808
+@mod @mod_scorm @app @javascript @_switch_iframe @wip_skip
 Feature: Test basic usage of SCORM activity in app
   In order to play a SCORM while using the mobile app
   As a student

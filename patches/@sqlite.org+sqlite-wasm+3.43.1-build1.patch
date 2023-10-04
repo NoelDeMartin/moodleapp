@@ -1,5 +1,5 @@
 diff --git a/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3.js b/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3.js
-index 54f12dd..7691a9a 100644
+index f5a5424..ec54616 100644
 --- a/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3.js
 +++ b/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3.js
 @@ -115,7 +115,7 @@ var sqlite3InitModule = (() => {
@@ -20,7 +20,7 @@ index 54f12dd..7691a9a 100644
      if (!isDataURI(wasmBinaryFile)) {
        wasmBinaryFile = locateFile(wasmBinaryFile);
      }
-@@ -13184,7 +13184,7 @@ var sqlite3InitModule = (() => {
+@@ -13370,7 +13370,7 @@ var sqlite3InitModule = (() => {
            });
            return thePromise;
          };
@@ -29,13 +29,3 @@ index 54f12dd..7691a9a 100644
          globalThis.sqlite3ApiBootstrap.initializersAsync.push(
            async (sqlite3) => {
              try {
-@@ -13294,8 +13294,7 @@ else if (typeof exports === 'object')
-           'undefined' !== typeof WorkerGlobalScope &&
-           (EmscriptenModule['ENVIRONMENT_IS_PTHREAD'] ||
-             EmscriptenModule['_pthread_self'] ||
--            'function' === typeof threadAlert ||
--            globalThis?.location?.pathname?.endsWith?.('.worker.js'))
-+            'function' === typeof threadAlert)
-         ) {
-           return EmscriptenModule;
-         }
