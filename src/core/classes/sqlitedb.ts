@@ -655,8 +655,6 @@ export class SQLiteDB {
     async getRecordSql<T = unknown>(sql: string, params?: SQLiteDBRecordValue[]): Promise<T> {
         const result = await this.getRecordsSql<T>(sql, params, 0, 1);
 
-        // TODO wip
-
         if (!result || !result.length) {
             // Not found, reject.
             throw new CoreError('No records found.');

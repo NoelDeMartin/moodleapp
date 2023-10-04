@@ -51,8 +51,6 @@ export class CoreEagerDatabaseTable<
 
             return data;
         }, {});
-
-        // TODO does it have something to do with this?
     }
 
     /**

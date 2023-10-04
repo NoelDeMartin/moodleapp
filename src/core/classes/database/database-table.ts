@@ -163,8 +163,6 @@ export class CoreDatabaseTable<
             limit: 1,
         });
 
-        // TODO wip
-
         if (records.length === 0) {
             throw new CoreError('No records found.');
         }
