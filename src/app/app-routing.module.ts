@@ -27,6 +27,8 @@ import {
 
 import { CoreArray } from '@singletons/array';
 
+const loadedModuleRoutes: WeakMap<InjectionToken<unknown>, ModuleRoutes> = new WeakMap();
+
 /**
  * Build app routes.
  *
@@ -169,6 +171,10 @@ export function conditionalRoutes(routes: Routes, condition: () => boolean): Rou
  * @returns Routes.
  */
 export function resolveModuleRoutes(injector: Injector, token: InjectionToken<ModuleRoutesConfig[]>): ModuleRoutes {
+    if (loadedModuleRoutes.has(token)) {
+        return loadedModuleRoutes.get(token) as ModuleRoutes;
+    }
+
     const configs = injector.get(token, []);
     const routes = configs.map(config => {
         if (Array.isArray(config)) {
@@ -184,25 +190,29 @@ export function resolveModuleRoutes(injector: Injector, token: InjectionToken<Mo
         };
     });
 
-    return {
+    const moduleRoutes = {
         children: CoreArray.flatten(routes.map(r => r.children)),
         siblings: CoreArray.flatten(routes.map(r => r.siblings)),
     };
+
+    loadedModuleRoutes.set(token, moduleRoutes);
+
+    return moduleRoutes;
 }
 
 export const APP_ROUTES = new InjectionToken('APP_ROUTES');
 
 @NgModule({
     imports: [
-    RouterModule.forRoot([], {
-        preloadingStrategy: PreloadAllModules,
+        RouterModule.forRoot([], {
+            preloadingStrategy: PreloadAllModules,
         }),
     ],
     providers: [
-    { provide: ROUTES, multi: true, useFactory: buildAppRoutes, deps: [Injector] },
+        { provide: ROUTES, multi: true, useFactory: buildAppRoutes, deps: [Injector] },
     ],
     exports: [RouterModule],
-    })
+})
 export class AppRoutingModule {
 
     static forChild(routes: Routes): ModuleWithProviders<AppRoutingModule> {

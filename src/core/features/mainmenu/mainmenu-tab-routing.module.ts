@@ -28,15 +28,20 @@ const MAIN_MENU_TAB_ROUTES = new InjectionToken('MAIN_MENU_TAB_ROUTES');
  * @returns Routes.
  */
 export function buildTabMainRoutes(injector: Injector, mainMenuRoute: Route, tabMainRoute: Route): Routes {
-    console.error('buildTabMainRoutes', mainMenuRoute.path);
     const routes = resolveModuleRoutes(injector, MAIN_MENU_TAB_ROUTES);
 
-    routes.children = routes.children.filter(route => route !== mainMenuRoute);
+    if (!('redirectTo' in tabMainRoute)) {
+        routes.children = routes.children.filter(route => route !== mainMenuRoute);
+    }
+
     routes.siblings = routes.siblings.filter(route => route !== mainMenuRoute);
 
     tabMainRoute.path = tabMainRoute.path || '';
-    tabMainRoute.children = tabMainRoute.children || [];
-    tabMainRoute.children = tabMainRoute.children.concat(routes.children);
+
+    if (!('redirectTo' in tabMainRoute)) {
+        tabMainRoute.children = tabMainRoute.children || [];
+        tabMainRoute.children = tabMainRoute.children.concat(routes.children);
+    }
 
     return [
         tabMainRoute,

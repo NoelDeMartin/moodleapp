@@ -46,7 +46,7 @@ import { CorePlatform } from '@services/platform';
  */
 @Component({
     template: '',
-    })
+})
 export class CoreTabsBaseComponent<T extends CoreTabBase> implements OnInit, AfterViewInit, OnChanges, OnDestroy, AsyncDirective {
 
     // Minimum tab's width.
@@ -244,7 +244,7 @@ export class CoreTabsBaseComponent<T extends CoreTabBase> implements OnInit, Aft
         }
 
         try {
-            await this.initializeSlider();
+            // await this.initializeSlider();
             await this.initializeTabs();
         } catch {
             // Something went wrong, ignore.

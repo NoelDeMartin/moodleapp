@@ -72,12 +72,12 @@ function buildRoutes(injector: Injector): Routes {
     ],
     exports: [RouterModule],
     providers: [
-        // {
-        //     provide: ROUTES,
-        //     multi: true,
-        //     deps: [Injector],
-        //     useFactory: buildRoutes,
-        // },
+        {
+            provide: ROUTES,
+            multi: true,
+            deps: [Injector],
+            useFactory: buildRoutes,
+        },
     ],
 })
 export class AddonNotificationsLazyModule {}

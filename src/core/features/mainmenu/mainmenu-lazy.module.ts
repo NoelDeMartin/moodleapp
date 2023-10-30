@@ -46,10 +46,10 @@ function buildRoutes(injector: Injector): Routes {
             path: '',
             component: CoreMainMenuPage,
             children: [
-                {
-                    path: '',
-                    pathMatch: 'full',
-                },
+                // {
+                //     path: '',
+                //     pathMatch: 'full',
+                // },
                 HOME_MAIN_MENU_ROUTE,
                 MORE_MAIN_MENU_ROUTE,
                 ...mainMenuRoutes.children,

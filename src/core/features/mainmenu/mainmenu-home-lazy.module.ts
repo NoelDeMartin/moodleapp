@@ -52,7 +52,7 @@ function buildRoutes(injector: Injector): Routes {
         CoreMainMenuComponentsModule,
     ],
     providers: [
-        // { provide: ROUTES, multi: true, useFactory: buildRoutes, deps: [Injector] },
+        { provide: ROUTES, multi: true, useFactory: buildRoutes, deps: [Injector] },
     ],
     declarations: [
         CoreMainMenuHomePage,

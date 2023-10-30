@@ -43,12 +43,12 @@ function buildRoutes(injector: Injector): Routes {
         CoreMainMenuComponentsModule,
     ],
     providers: [
-        // {
-        //     provide: ROUTES,
-        //     multi: true,
-        //     deps: [Injector],
-        //     useFactory: buildRoutes,
-        // },
+        {
+            provide: ROUTES,
+            multi: true,
+            deps: [Injector],
+            useFactory: buildRoutes,
+        },
     ],
     declarations: [
         CoreMainMenuMorePage,
