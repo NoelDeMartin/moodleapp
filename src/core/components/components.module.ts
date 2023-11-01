@@ -65,6 +65,7 @@ import { CoreGroupSelectorComponent } from './group-selector/group-selector';
 import { CoreRefreshButtonModalComponent } from './refresh-button-modal/refresh-button-modal';
 import { CoreSheetModalComponent } from '@components/sheet-modal/sheet-modal';
 import { CoreCourseImageComponent } from '@components/course-image/course-image';
+import { CoreSiteListComponent } from './site-list/site-list';
 
 @NgModule({
     declarations: [
@@ -112,6 +113,7 @@ import { CoreCourseImageComponent } from '@components/course-image/course-image'
         CoreSwipeNavigationTourComponent,
         CoreRefreshButtonModalComponent,
         CoreSheetModalComponent,
+        CoreSiteListComponent,
     ],
     imports: [
         CommonModule,
@@ -166,6 +168,7 @@ import { CoreCourseImageComponent } from '@components/course-image/course-image'
         CoreSwipeNavigationTourComponent,
         CoreRefreshButtonModalComponent,
         CoreSheetModalComponent,
+        CoreSiteListComponent,
     ],
 })
 export class CoreComponentsModule {}
