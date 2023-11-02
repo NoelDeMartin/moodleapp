@@ -1,6 +1,10 @@
 This files describes API changes in the Moodle Mobile app,
 information provided here is intended especially for developers.
 
+=== 4.4.0 ===
+
+ - Renamed CoreLoginSitesComponent to CoreLoginSitesModalComponent to make it clear that it's a modal and to avoid confusing it with the new CoreSiteListComponent.
+
 === 4.3.0 ===
 
  - CoreSiteBasicInfo fullName attribute has changed to fullname and avatar to userpictureurl to match user fields.
