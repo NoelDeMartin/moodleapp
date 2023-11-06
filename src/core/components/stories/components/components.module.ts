@@ -21,6 +21,8 @@ import { CoreComponentsModule } from '@components/components.module';
 import { CommonModule } from '@angular/common';
 import { CoreCourseImageCardsPageComponent } from '@components/stories/components/course-image-cards-page/course-image-cards-page';
 import { CoreCourseImageListPageComponent } from '@components/stories/components/course-image-list-page/course-image-list-page';
+import { CoreSiteListWrapperComponent } from './site-list-page/site-list-wrapper';
+import { CoreDirectivesModule } from '@directives/directives.module';
 
 @NgModule({
     declarations: [
@@ -28,10 +30,12 @@ import { CoreCourseImageListPageComponent } from '@components/stories/components
         CoreCourseImageListPageComponent,
         CoreEmptyBoxPageComponent,
         CoreEmptyBoxWrapperComponent,
+        CoreSiteListWrapperComponent,
     ],
     imports: [
         CommonModule,
         StorybookModule,
+        CoreDirectivesModule,
         CoreComponentsModule,
         CoreSearchComponentsModule,
     ],
