@@ -16,7 +16,7 @@ import { Injectable, Type } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { IonRefresher } from '@ionic/angular';
 
-import { CoreSite } from '@classes/site';
+import { CoreSite } from '@classes/sites/site';
 import { CoreCourseModuleDefaultHandler } from './handlers/default-module';
 import { CoreDelegate, CoreDelegateHandler } from '@classes/delegate';
 import { CoreCourseAnyCourseData } from '@features/courses/services/courses';

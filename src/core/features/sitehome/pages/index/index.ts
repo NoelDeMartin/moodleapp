@@ -16,7 +16,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IonRefresher } from '@ionic/angular';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { CoreSite, CoreSiteConfig } from '@classes/site';
+import { CoreSite, CoreSiteConfig } from '@classes/sites/site';
 import { CoreCourse, CoreCourseWSSection } from '@features/course/services/course';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreSites } from '@services/sites';
