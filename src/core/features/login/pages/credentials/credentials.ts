@@ -22,9 +22,8 @@ import { CoreNetwork } from '@services/network';
 import { CoreSiteCheckResponse, CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
-import { CoreConstants } from '@/core/constants';
 import { Translate } from '@singletons';
-import { CoreSitePublicConfigResponse } from '@classes/sites/site';
+import { CoreSitePublicConfigResponse, CoreUnauthenticatedSite } from '@classes/sites/unauthenticated-site';
 import { CoreEvents } from '@singletons/events';
 import { CoreNavigator } from '@services/navigator';
 import { CoreForms } from '@singletons/form';
@@ -33,6 +32,7 @@ import { CoreUserSupportConfig } from '@features/user/classes/support/support-co
 import { CoreUserGuestSupportConfig } from '@features/user/classes/support/guest-support-config';
 import { SafeHtml } from '@angular/platform-browser';
 import { CorePlatform } from '@services/platform';
+import { CoreSitesFactory } from '@services/sites-factory';
 
 /**
  * Page to enter the user credentials.
@@ -47,7 +47,6 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
     @ViewChild('credentialsForm') formElement?: ElementRef<HTMLFormElement>;
 
     credForm!: FormGroup;
-    siteUrl!: string;
     siteName?: string;
     logoUrl?: string;
     authInstructions?: string;
@@ -61,7 +60,7 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
     exceededAttemptsHTML?: SafeHtml | string | null;
     siteConfig?: CoreSitePublicConfigResponse;
     siteCheckError = '';
-    isDemoModeSite = false;
+    site!: CoreUnauthenticatedSite;
 
     protected siteCheck?: CoreSiteCheckResponse;
     protected eventThrown = false;
@@ -80,23 +79,17 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
     async ngOnInit(): Promise<void> {
         try {
             this.siteCheck = CoreNavigator.getRouteParam<CoreSiteCheckResponse>('siteCheck');
-            if (this.siteCheck?.siteUrl) {
-                this.siteUrl = this.siteCheck.siteUrl;
-            } else {
-                this.siteUrl = CoreNavigator.getRequiredRouteParam<string>('siteUrl');
-            }
 
+            const siteUrl = this.siteCheck?.siteUrl || CoreNavigator.getRequiredRouteParam<string>('siteUrl');
             if (this.siteCheck?.config) {
                 this.siteConfig = this.siteCheck.config;
             }
 
-            this.isDemoModeSite = CoreLoginHelper.isDemoModeSite(this.siteUrl);
-            this.siteName = this.isDemoModeSite ? CoreConstants.CONFIG.appname : CoreNavigator.getRouteParam('siteName');
-            this.logoUrl = !CoreConstants.CONFIG.forceLoginLogo && !this.isDemoModeSite ?
-                CoreNavigator.getRouteParam('logoUrl') :
-                undefined;
+            this.site = CoreSitesFactory.makeUnauthenticatedSite(siteUrl);
+            this.logoUrl = this.site.getLogoUrl(this.siteConfig);
             this.urlToOpen = CoreNavigator.getRouteParam('urlToOpen');
             this.supportConfig = this.siteConfig && new CoreUserGuestSupportConfig(this.siteConfig);
+            this.siteName = (await this.site.getSiteName()) || CoreNavigator.getRouteParam('siteName');
         } catch (error) {
             CoreDomUtils.showErrorModal(error);
 
@@ -158,14 +151,14 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
         this.pageLoaded = false;
 
         // If the site is configured with http:// protocol we force that one, otherwise we use default mode.
-        const protocol = this.siteUrl.indexOf('http://') === 0 ? 'http://' : undefined;
+        const protocol = this.site.siteUrl.indexOf('http://') === 0 ? 'http://' : undefined;
 
         try {
             if (!this.siteCheck) {
-                this.siteCheck = await CoreSites.checkSite(this.siteUrl, protocol);
+                this.siteCheck = await CoreSites.checkSite(this.site.siteUrl, protocol);
             }
 
-            this.siteUrl = this.siteCheck.siteUrl;
+            this.site.setURL(this.siteCheck.siteUrl);
             this.siteConfig = this.siteCheck.config;
             this.supportConfig = this.siteConfig && new CoreUserGuestSupportConfig(this.siteConfig);
 
@@ -195,11 +188,11 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
             return;
         }
 
-        if (this.isDemoModeSite) {
+        if (this.site.isDemoModeSite()) {
             this.showScanQR = false;
         } else {
             this.siteName = this.siteConfig.sitename;
-            this.logoUrl = CoreLoginHelper.getLogoUrl(this.siteConfig);
+            this.logoUrl = this.site.getLogoUrl(this.siteConfig);
             this.showScanQR = await CoreLoginHelper.displayQRInCredentialsScreen(this.siteConfig.tool_mobile_qrcodetype);
         }
 
@@ -256,7 +249,7 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
         CoreApp.closeKeyboard();
 
         // Get input data.
-        const siteUrl = this.siteUrl;
+        const siteUrl = this.site.getURL();
         const username = this.credForm.value.username;
         const password = this.credForm.value.password;
 
@@ -329,14 +322,14 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
      * Forgotten password button clicked.
      */
     forgottenPassword(): void {
-        CoreLoginHelper.forgottenPasswordClicked(this.siteUrl, this.credForm.value.username, this.siteConfig);
+        CoreLoginHelper.forgottenPasswordClicked(this.site.getURL(), this.credForm.value.username, this.siteConfig);
     }
 
     /**
      * Open email signup page.
      */
     openEmailSignup(): void {
-        CoreNavigator.navigate('/login/emailsignup', { params: { siteUrl: this.siteUrl } });
+        CoreNavigator.navigate('/login/emailsignup', { params: { siteUrl: this.site.getURL() } });
     }
 
     /**

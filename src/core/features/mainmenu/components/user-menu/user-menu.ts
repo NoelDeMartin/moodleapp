@@ -14,7 +14,8 @@
 
 import { CoreConstants } from '@/core/constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CoreSite, CoreSiteInfo } from '@classes/sites/site';
+import { CoreSite } from '@classes/sites/site';
+import { CoreSiteInfo } from '@classes/sites/unauthenticated-site';
 import { CoreFilter } from '@features/filter/services/filter';
 import { CoreLoginSitesModalComponent } from '@features/login/components/sites-modal/sites-modal';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
@@ -113,8 +114,8 @@ export class CoreMainMenuUserMenuComponent implements OnInit, OnDestroy {
      * @returns Promise resolved when done.
      */
     protected async loadSiteLogo(currentSite: CoreSite): Promise<void> {
-        if (CoreConstants.CONFIG.forceLoginLogo || currentSite.isDemoModeSite()) {
-            this.siteLogo = 'assets/img/login_logo.png';
+        if (currentSite.forcesLocalLogo()) {
+            this.siteLogo = currentSite.getLogoUrl();
             this.siteLogoLoaded = true;
 
             return;
@@ -123,7 +124,7 @@ export class CoreMainMenuUserMenuComponent implements OnInit, OnDestroy {
         try {
             const siteConfig = await currentSite.getPublicConfig();
 
-            this.siteLogo = CoreLoginHelper.getLogoUrl(siteConfig);
+            this.siteLogo = currentSite.getLogoUrl(siteConfig);
         } catch {
             // Ignore errors.
         } finally {

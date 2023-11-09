@@ -27,10 +27,7 @@ import { CoreConstants } from '@/core/constants';
 import {
     CoreSite,
     CoreSiteWSPreSets,
-    CoreSiteInfo,
     CoreSiteConfig,
-    CoreSitePublicConfigResponse,
-    CoreSiteInfoResponse,
 } from '@classes/sites/site';
 import { SQLiteDB, SQLiteDBRecordValues, SQLiteDBTableSchema } from '@classes/sqlitedb';
 import { CoreError } from '@classes/errors/error';
@@ -66,6 +63,7 @@ import { CoreLang, CoreLangFormat } from '@services/lang';
 import { CoreNative } from '@features/native/services/native';
 import { CoreContentLinksHelper } from '@features/contentlinks/services/contentlinks-helper';
 import { CoreAutoLogoutType, CoreAutoLogout } from '@features/autologout/services/autologout';
+import { CoreSiteInfo, CoreSiteInfoResponse, CoreSitePublicConfigResponse } from '@classes/sites/unauthenticated-site';
 
 export const CORE_SITE_SCHEMAS = new InjectionToken<CoreSiteSchema[]>('CORE_SITE_SCHEMAS');
 export const CORE_SITE_CURRENT_SITE_ID_CONFIG = 'current_site_id';
@@ -270,7 +268,7 @@ export class CoreSitesProvider {
         siteUrl = siteUrl.replace(/^https?:\/\//i, protocol);
 
         // Create a temporary site to fetch site info.
-        let temporarySite = CoreSitesFactory.makeSite(undefined, siteUrl);
+        const temporarySite = CoreSitesFactory.makeUnauthenticatedSite(siteUrl);
         let config: CoreSitePublicConfigResponse | undefined;
 
         try {
@@ -282,7 +280,7 @@ export class CoreSitesProvider {
             }
 
             // Try to add or remove 'www'.
-            temporarySite = CoreSitesFactory.makeSite(undefined, CoreUrlUtils.addOrRemoveWWW(siteUrl));
+            temporarySite.setURL(CoreUrlUtils.addOrRemoveWWW(temporarySite.getURL()));
 
             try {
                 config = await temporarySite.getPublicConfig();
@@ -1307,12 +1305,15 @@ export class CoreSitesProvider {
      * @param ids IDs of sites to return, undefined to return them all.
      * @returns Sites basic info.
      */
-    protected siteDBRecordsToBasicInfo(sites: SiteDBEntry[], ids?: string[]): CoreSiteBasicInfo[] {
+    protected async siteDBRecordsToBasicInfo(sites: SiteDBEntry[], ids?: string[]): Promise<CoreSiteBasicInfo[]> {
         const formattedSites: CoreSiteBasicInfo[] = [];
 
-        sites.forEach((site) => {
+        await Promise.all(sites.map(async (site) => {
             if (!ids || ids.indexOf(site.id) > -1) {
-                const isDemoModeSite = CoreLoginHelper.isDemoModeSite(site.siteUrl);
+                const siteInstance = CoreSitesFactory.makeUnauthenticatedSite(site.siteUrl);
+
+                const siteName = await siteInstance.getSiteName();
+                const isDemoModeSite = siteInstance.isDemoModeSite();
                 const siteInfo = site.info ? <CoreSiteInfo> CoreTextUtils.parseJSON(site.info) : undefined;
 
                 const basicInfo: CoreSiteBasicInfo = {
@@ -1322,7 +1323,7 @@ export class CoreSitesProvider {
                     fullname: siteInfo?.fullname,
                     firstname: siteInfo?.firstname,
                     lastname: siteInfo?.lastname,
-                    siteName: isDemoModeSite ? CoreConstants.CONFIG.appname : siteInfo?.sitename,
+                    siteName,
                     userpictureurl: siteInfo?.userpictureurl,
                     siteHomeId: siteInfo?.siteid || 1,
                     loggedOut: !!site.loggedOut,
@@ -1330,7 +1331,7 @@ export class CoreSitesProvider {
                 };
                 formattedSites.push(basicInfo);
             }
-        });
+        }));
 
         return formattedSites;
     }
@@ -1730,7 +1731,7 @@ export class CoreSitesProvider {
      * @returns Promise resolved with the public config.
      */
     getSitePublicConfig(siteUrl: string): Promise<CoreSitePublicConfigResponse> {
-        const temporarySite = CoreSitesFactory.makeSite(undefined, siteUrl);
+        const temporarySite = CoreSitesFactory.makeUnauthenticatedSite(siteUrl);
 
         return temporarySite.getPublicConfig();
     }

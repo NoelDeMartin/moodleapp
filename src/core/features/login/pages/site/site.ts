@@ -393,7 +393,6 @@ export class CoreLoginSitePage implements OnInit {
             const pageParams = { siteCheck };
             if (foundSite && !this.fixedSites) {
                 pageParams['siteName'] = foundSite.name;
-                pageParams['logoUrl'] = foundSite.imageurl;
             }
 
             CoreNavigator.navigate('/login/credentials', {
