@@ -26,7 +26,6 @@ import { CoreUtils } from '@services/utils/utils';
 import { CoreConstants } from '@/core/constants';
 import {
     CoreSite,
-    CoreSiteWSPreSets,
     CoreSiteConfig,
 } from '@classes/sites/site';
 import { SQLiteDB, SQLiteDBRecordValues, SQLiteDBTableSchema } from '@classes/sqlitedb';
@@ -64,6 +63,7 @@ import { CoreNative } from '@features/native/services/native';
 import { CoreContentLinksHelper } from '@features/contentlinks/services/contentlinks-helper';
 import { CoreAutoLogoutType, CoreAutoLogout } from '@features/autologout/services/autologout';
 import { CoreSiteInfo, CoreSiteInfoResponse, CoreSitePublicConfigResponse } from '@classes/sites/unauthenticated-site';
+import { CoreSiteWSPreSets } from '@classes/sites/candidate-site';
 
 export const CORE_SITE_SCHEMAS = new InjectionToken<CoreSiteSchema[]>('CORE_SITE_SCHEMAS');
 export const CORE_SITE_CURRENT_SITE_ID_CONFIG = 'current_site_id';
@@ -569,7 +569,7 @@ export class CoreSitesProvider {
         }
 
         // Create a "candidate" site to fetch the site info.
-        let candidateSite = CoreSitesFactory.makeSite(undefined, siteUrl, token, undefined, privateToken);
+        const candidateSite = CoreSitesFactory.makeCandidateSite(siteUrl, token, privateToken);
         let isNewSite = true;
 
         try {
@@ -583,33 +583,33 @@ export class CoreSitesProvider {
             const siteId = this.createSiteID(info.siteurl, info.username);
 
             // Check if the site already exists.
-            const site = await CoreUtils.ignoreErrors<CoreSite>(this.getSite(siteId));
+            const storedSite = await CoreUtils.ignoreErrors(this.getSite(siteId));
+            let site: CoreSite;
 
-            if (site) {
-                // Site already exists, update its data and use it.
+            if (storedSite) {
+                // Site already exists.
                 isNewSite = false;
-                candidateSite = site;
-                candidateSite.setToken(token);
-                candidateSite.setPrivateToken(privateToken);
-                candidateSite.setInfo(info);
-                candidateSite.setOAuthId(oauthId);
-                candidateSite.setLoggedOut(false);
+                site = storedSite;
+                site.setToken(token);
+                site.setPrivateToken(privateToken);
+                site.setInfo(info);
+                site.setOAuthId(oauthId);
+                site.setLoggedOut(false);
             } else {
                 // New site, set site ID and info.
                 isNewSite = true;
-                candidateSite.setId(siteId);
-                candidateSite.setInfo(info);
-                candidateSite.setOAuthId(oauthId);
+                site = CoreSitesFactory.makeSite(siteId, siteUrl, token, info, privateToken);
+                site.setOAuthId(oauthId);
 
                 // Create database tables before login and before any WS call.
-                await this.migrateSiteSchemas(candidateSite);
+                await this.migrateSiteSchemas(site);
             }
 
             // Try to get the site config.
             let config: CoreSiteConfig | undefined;
 
             try {
-                config = await this.getSiteConfig(candidateSite);
+                config = await this.getSiteConfig(site);
             } catch (error) {
                 // Ignore errors if it's not a new site, we'll use the config already stored.
                 if (isNewSite) {
@@ -618,16 +618,16 @@ export class CoreSitesProvider {
             }
 
             if (config !== undefined) {
-                candidateSite.setConfig(config);
+                site.setConfig(config);
             }
 
             // Add site to sites list.
             await this.addSite(siteId, siteUrl, token, info, privateToken, config, oauthId);
-            this.sites[siteId] = candidateSite;
+            this.sites[siteId] = site;
 
             if (login) {
                 // Turn candidate site into current site.
-                this.currentSite = candidateSite;
+                this.currentSite = site;
                 // Store session.
                 await this.login(siteId);
             } else if (this.currentSite && this.currentSite.getId() == siteId) {

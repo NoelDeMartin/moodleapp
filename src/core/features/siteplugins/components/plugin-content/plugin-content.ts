@@ -16,7 +16,7 @@ import { Component, OnInit, Input, Output, EventEmitter, DoCheck, KeyValueDiffer
 import { Subject } from 'rxjs';
 import { Md5 } from 'ts-md5';
 
-import { CoreSiteWSPreSets } from '@classes/sites/site';
+import { CoreSiteWSPreSets } from '@classes/sites/candidate-site';
 import { CoreCompileHtmlComponent } from '@features/compile/components/compile-html/compile-html';
 import { CoreSitePlugins, CoreSitePluginsContent, CoreSitePluginsProvider } from '@features/siteplugins/services/siteplugins';
 import { CoreNavigator } from '@services/navigator';

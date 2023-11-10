@@ -16,7 +16,7 @@ import { CoreConstants } from '@/core/constants';
 import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { CoreIonLoadingElement } from '@classes/ion-loading';
 
-import { CoreSiteWSPreSets } from '@classes/sites/site';
+import { CoreSiteWSPreSets } from '@classes/sites/candidate-site';
 import {
     CoreCourseModuleSummaryResult,
     CoreCourseModuleSummaryComponent,
