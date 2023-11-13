@@ -107,14 +107,18 @@ export class CoreCandidateSite extends CoreUnauthenticatedSite {
      *
      * @param siteUrl Site URL.
      * @param token Site's WS token.
-     * @param privateToken Private token.
+     * @param otherData Other data.
      */
-    constructor(siteUrl: string, token: string, privateToken?: string) {
-        super(siteUrl);
+    constructor(
+        siteUrl: string,
+        token: string,
+        otherData: CoreCandidateSiteOptionalData = {},
+    ) {
+        super(siteUrl, otherData.publicConfig);
 
-        this.token = token;
-        this.privateToken = privateToken;
         this.logger = CoreLogger.getInstance('CoreCandidateSite');
+        this.token = token;
+        this.privateToken = otherData.privateToken;
     }
 
     /**
@@ -699,7 +703,7 @@ export class CoreCandidateSite extends CoreUnauthenticatedSite {
                 this.saveToCache(method, data, error, preSets);
 
                 throw new CoreWSError(error);
-            } else if (preSets.emergencyCache !== undefined && !preSets.emergencyCache) {
+            } else if (preSets.emergencyCache === false) {
                 this.logger.debug(`WS call '${method}' failed. Emergency cache is forbidden, rejecting.`);
 
                 throw new CoreWSError(error);
@@ -1257,6 +1261,11 @@ export class CoreCandidateSite extends CoreUnauthenticatedSite {
      * @inheritdoc
      */
     async getPublicConfig(options: { readingStrategy?: CoreSitesReadingStrategy } = {}): Promise<CoreSitePublicConfigResponse> {
+        const ignoreCache = CoreSitesReadingStrategy.ONLY_NETWORK || CoreSitesReadingStrategy.PREFER_NETWORK;
+        if (!ignoreCache && this.publicConfig) {
+            return this.publicConfig;
+        };
+
         const method = 'tool_mobile_get_public_config';
         const cacheId = this.getCacheId(method, {});
         const cachePreSets: CoreSiteWSPreSets = {
@@ -1305,12 +1314,15 @@ export class CoreCandidateSite extends CoreUnauthenticatedSite {
                 try {
                     const config = await this.requestPublicConfig();
 
-                    if (cachePreSets.saveToCache) {
-                        this.saveToCache(method, {}, config, cachePreSets);
-                    }
+                    this.saveToCache(method, {}, config, cachePreSets);
+                    this.setPublicConfig(config);
 
                     return config;
                 } catch (error) {
+                    if (cachePreSets.emergencyCache === false) {
+                        throw error;
+                    }
+
                     cachePreSets.omitExpires = true;
                     cachePreSets.getFromCache = true;
 
@@ -1324,7 +1336,10 @@ export class CoreCandidateSite extends CoreUnauthenticatedSite {
                 }
             }).then((response) => {
                 // The app doesn't store exceptions for this call, it's safe to assume type CoreSitePublicConfigResponse.
-                subject.next(<CoreSitePublicConfigResponse> response);
+                response = <CoreSitePublicConfigResponse> response;
+
+                this.setPublicConfig(response);
+                subject.next(response);
                 subject.complete();
 
                 return;
@@ -1564,6 +1579,14 @@ export function chainRequests<T, O extends ObservableInput<any>>(
         mergeMap(({ data, readingStrategy }) => callback(data, readingStrategy)),
     );
 }
+
+/**
+ * Optional data to create a candidate site.
+ */
+export type CoreCandidateSiteOptionalData = {
+    privateToken?: string;
+    publicConfig?: CoreSitePublicConfigResponse;
+};
 
 /**
  * PreSets accepted by the WS call.
