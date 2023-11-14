@@ -73,12 +73,43 @@ import { CorePromisedValue } from '@classes/promised-value';
 const singletonsInjector = new CorePromisedValue<Injector>();
 
 /**
+ * Map holding singleton alias mappings.
+ */
+const aliasedSingletons: Map<string, CoreSingletonProxy> = new Map();
+
+/**
  * Helper to create a method that proxies calls to the underlying singleton instance.
  *
  * @returns Function.
  */
 // eslint-disable-next-line
 let createSingletonMethodProxy = (instance: any, method: Function, property: string | number | symbol) => method.bind(instance);
+
+export interface CoreAliasedSingletons {}
+
+const singletonAlias = Symbol();
+
+export interface CoreAliasedSingleton<T extends string = string> {
+    [singletonAlias]?: T;
+}
+
+export type CoreAliasedSingletonRegistration<TSingleton extends CoreAliasedSingleton> = {
+    [T in Exclude<TSingleton[typeof singletonAlias], undefined>]: TSingleton;
+};
+
+/**
+ * Resolve a singleton service using its alias.
+ *
+ * @param alias Alias.
+ * @returns Service singleton.
+ */
+export function requireSingleton<T extends keyof CoreAliasedSingletons>(alias: T): CoreAliasedSingletons[T] {
+    if (!aliasedSingletons.has(alias)) {
+        throw new Error(`Trying to resolve undefined singleton alias '${alias}'`);
+    }
+
+    return aliasedSingletons.get(alias) as CoreAliasedSingletons[T];
+}
 
 /**
  * Singleton proxy created using the factory method.
@@ -109,6 +140,17 @@ export function setCreateSingletonMethodProxy(method: typeof createSingletonMeth
     createSingletonMethodProxy = method;
 }
 
+export function makeSingleton<Service extends object = object>( // eslint-disable-line @typescript-eslint/ban-types
+    injectionToken: Type<Service> | AbstractType<Service> | Type<unknown> | string,
+): CoreSingletonProxy<Service>;
+export function makeSingleton<
+    TService extends object = object, // eslint-disable-line @typescript-eslint/ban-types
+    TAlias extends string = string
+>(
+    injectionToken: Type<TService> | AbstractType<TService> | Type<unknown> | string,
+    alias: TAlias,
+): CoreSingletonProxy<TService> & CoreAliasedSingleton<TAlias>;
+
 /**
  * Make a singleton proxy for the given injection token.
  *
@@ -123,6 +165,7 @@ export function setCreateSingletonMethodProxy(method: typeof createSingletonMeth
  */
 export function makeSingleton<Service extends object = object>( // eslint-disable-line @typescript-eslint/ban-types
     injectionToken: Type<Service> | AbstractType<Service> | Type<unknown> | string,
+    alias?: string,
 ): CoreSingletonProxy<Service> {
     const singleton = {
         injectionToken,
@@ -153,7 +196,7 @@ export function makeSingleton<Service extends object = object>( // eslint-disabl
         configurable: true,
     });
 
-    return new Proxy(singleton, {
+    const singletonProxy = new Proxy(singleton, {
         get(target, property, receiver) {
             if (property in target) {
                 return Reflect.get(target, property, receiver);
@@ -171,6 +214,12 @@ export function makeSingleton<Service extends object = object>( // eslint-disabl
             return true;
         },
     }) as CoreSingletonProxy<Service>;
+
+    if (alias) {
+        aliasedSingletons.set(alias, singletonProxy);
+    }
+
+    return singletonProxy;
 }
 
 // Convert ionic-native services to singleton.

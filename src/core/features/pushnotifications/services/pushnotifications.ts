@@ -926,7 +926,13 @@ export class CorePushNotificationsProvider {
 
 }
 
-export const CorePushNotifications = makeSingleton(CorePushNotificationsProvider);
+export const CorePushNotifications = makeSingleton(CorePushNotificationsProvider, 'CorePushNotifications');
+
+declare module '@singletons/index' {
+
+    export interface CoreAliasedSingletons extends CoreAliasedSingletonRegistration<typeof CorePushNotifications> {}
+
+}
 
 /**
  * Additional data sent in push notifications.

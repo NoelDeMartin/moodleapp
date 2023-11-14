@@ -29,13 +29,12 @@ import { CoreConstants } from '@/core/constants';
 import { CoreSite } from '@classes/sites/site';
 import { CoreError } from '@classes/errors/error';
 import { CoreWSError } from '@classes/errors/wserror';
-import { DomSanitizer, makeSingleton, Translate } from '@singletons';
+import { DomSanitizer, makeSingleton, requireSingleton, Translate } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreUrl } from '@singletons/url';
 import { CoreNavigator, CoreRedirectPayload } from '@services/navigator';
 import { CoreCanceledError } from '@classes/errors/cancelederror';
 import { CoreCustomURLSchemes } from '@services/urlschemes';
-import { CorePushNotifications } from '@features/pushnotifications/services/pushnotifications';
 import { CorePath } from '@singletons/path';
 import { CorePromisedValue } from '@classes/promised-value';
 import { SafeHtml } from '@angular/platform-browser';
@@ -48,7 +47,6 @@ import {
     CoreUnauthenticatedSite,
     TypeOfLogin,
 } from '@classes/sites/unauthenticated-site';
-import { CoreSitesFactory } from '@services/sites-factory';
 
 const PASSWORD_RESETS_CONFIG_KEY = 'password-resets';
 
@@ -571,7 +569,7 @@ export class CoreLoginHelperProvider {
      * @deprecated since 4.4. Please use isFeatureDisabled in a site instance.
      */
     isEmailSignupDisabled(config?: CoreSitePublicConfigResponse): boolean {
-        return CoreSitesFactory.makeUnauthenticatedSite('', config)
+        return requireSingleton('CoreSitesFactory').makeUnauthenticatedSite('', config)
             .isFeatureDisabled(CoreLoginHelperProvider.EMAIL_SIGNUP_FEATURE_NAME);
     }
 
@@ -584,7 +582,7 @@ export class CoreLoginHelperProvider {
      * @deprecated since 4.4. Please use isFeatureDisabled in a site instance.
      */
     isFeatureDisabled(feature: string, config?: CoreSitePublicConfigResponse): boolean {
-        return CoreSitesFactory.makeUnauthenticatedSite('', config).isFeatureDisabled(feature);
+        return requireSingleton('CoreSitesFactory').makeUnauthenticatedSite('', config).isFeatureDisabled(feature);
     }
 
     /**
@@ -616,7 +614,7 @@ export class CoreLoginHelperProvider {
      * @deprecated since 4.4. Please use isFeatureDisabled in a site instance.
      */
     isForgottenPasswordDisabled(config?: CoreSitePublicConfigResponse): boolean {
-        return CoreSitesFactory.makeUnauthenticatedSite('', config)
+        return requireSingleton('CoreSitesFactory').makeUnauthenticatedSite('', config)
             .isFeatureDisabled(CoreLoginHelperProvider.FORGOTTEN_PASSWORD_FEATURE_NAME);
     }
 
@@ -1374,7 +1372,7 @@ export class CoreLoginHelperProvider {
 
         // Add site counter and classify sites.
         await Promise.all(sites.map(async (site) => {
-            site.badge = await CoreUtils.ignoreErrors(CorePushNotifications.getSiteCounter(site.id)) || 0;
+            site.badge = await CoreUtils.ignoreErrors(requireSingleton('CorePushNotifications').getSiteCounter(site.id)) || 0;
 
             if (site.id === currentSiteId) {
                 accountsList.currentSite = site;

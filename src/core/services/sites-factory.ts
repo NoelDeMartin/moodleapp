@@ -68,4 +68,10 @@ export class CoreSitesFactoryService {
 
 }
 
-export const CoreSitesFactory = makeSingleton(CoreSitesFactoryService);
+export const CoreSitesFactory = makeSingleton(CoreSitesFactoryService, 'CoreSitesFactory');
+
+declare module '@singletons/index' {
+
+    export interface CoreAliasedSingletons extends CoreAliasedSingletonRegistration<typeof CoreSitesFactory> {}
+
+}
