@@ -88,6 +88,7 @@ Feature: Test basic usage of login in app
     When I enter the app
     Then I should find "App update required" in the app
 
+  @ionic7_failure
   Scenario: Force password change
     Given I force a password change for user "student1"
     When I enter the app

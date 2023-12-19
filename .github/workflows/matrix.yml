@@ -1,0 +1,65 @@
+name: Matrix
+
+on: [push, pull_request]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Build
+        run: |
+          mkdir build
+          echo "Build" > build/data.txt
+
+      - uses: actions/cache/save@v3
+        with:
+            key: build-${{ github.sha }}
+            path: build
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    strategy:
+      matrix:
+        tags: ['@core_auth', '@mod_forum']
+
+    steps:
+
+      - uses: actions/cache/restore@v3
+        with:
+          key: build-${{ github.sha }}
+          path: build
+
+      - name: Test
+        env:
+          BEHAT_TAGS: ${{ matrix.tags }}
+        run: |
+          mkdir test
+          echo "Test $BEHAT_TAGS" > test/$BEHAT_TAGS.txt
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-${{ github.sha }}-${{ matrix.tags }}
+          path: test
+
+  report:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+
+      - uses: actions/cache/restore@v3
+        with:
+          key: build-${{ github.sha }}
+          path: build
+
+      - uses: actions/download-artifact@v3
+
+      - run: |
+          mkdir coverage
+          for folder in $(ls | grep "coverage-"); do mv $folder/* coverage; done
+          ls -la ./coverage
