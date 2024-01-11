@@ -12,6 +12,7 @@ Feature: Set a new reminder on course
       | user     | course | role           |
       | student1 | C1     | student        |
 
+  # TODO this test can be used to reproduce bug opening course from My Courses
   Scenario: Add, delete and update reminder on course
     Given I entered the course "Course 1" as "student1" in the app
     And I press "Course summary" in the app
