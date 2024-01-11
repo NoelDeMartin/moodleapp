@@ -481,6 +481,36 @@ export class TestingBehatDomUtilsService {
     }
 
     /**
+     * Function to find ion-select option based on the field name and option label.
+     *
+     * @param field Field name.
+     * @param label Option label.
+     * @param retry Whether to retry if the option is not found.
+     * @returns First found option.
+     */
+    async findIonSelectOption(field: string, label: string, retry: boolean = true): Promise<HTMLButtonElement | undefined> {
+            const actionSheet = this.findElementBasedOnText({
+                text: field,
+                selector: '.action-sheet-title',
+            })?.parentElement;
+
+            if (!actionSheet) {
+                if (retry) {
+                    // If the select button was just pressed, we have to wait for the action sheet to show up.
+                    await new Promise(resolve => setTimeout(resolve, 500));
+
+                    return this.findIonSelectOption(field, label, false);
+                }
+
+                return;
+            }
+
+            const buttons = this.findElementsBasedOnTextInContainer({ text: label, selector: 'button' }, actionSheet, {});
+
+            return buttons[0] as HTMLButtonElement | undefined;
+    }
+
+    /**
      * Function to find elements based on their text or Aria label.
      *
      * @param locator Element locator.
@@ -674,30 +704,34 @@ export class TestingBehatDomUtilsService {
      */
     async setElementValue(element: HTMLInputElement | HTMLElement, value: string): Promise<void> {
         await NgZone.run(async () => {
-            const promise = new CorePromisedValue<void>();
-
             // Functions to get/set value depending on field type.
-            const setValue = (text: string) => {
-                if (! ('value' in element)) {
-                    element.innerHTML = text;
-
-                    return;
-                }
-
+            const setValue = async (text: string) => {
                 if (element.tagName === 'ION-SELECT') {
-                    value = value.trim();
-                    const optionValue = Array.from(element.querySelectorAll('ion-select-option'))
-                        .find((option) => option.innerHTML.trim() === value);
+                    const fieldLabel = element.parentElement?.querySelector(`#${element.getAttribute('aria-labelledby')}`);
+                    const fieldName = fieldLabel?.textContent?.trim();
 
-                    if (optionValue) {
-                        element.value = optionValue.value;
+                    if (!fieldName) {
+                        throw new Error('Couldn\'t find ion-select label.');
                     }
-                } else {
+
+                    await TestingBehatDomUtils.pressElement(element);
+
+                    const option = await TestingBehatDomUtils.findIonSelectOption(fieldName, value);
+
+                    if (!option) {
+                        throw new Error('Couldn\'t find ion-select option.');
+                    }
+
+                    await TestingBehatDomUtils.pressElement(option);
+                } else if ('value' in element) {
                     element.value = text;
+                } else {
+                    element.innerHTML = text;
                 }
 
                 element.dispatchEvent(new Event('ionChange'));
             };
+
             const getValue = () => {
                 if ('value' in element) {
                     return element.value;
@@ -708,7 +742,7 @@ export class TestingBehatDomUtilsService {
 
             // Pretend we have cut and pasted the new text.
             let event: InputEvent;
-            if (getValue() !== '') {
+            if (element.tagName !== 'ION-SELECT' && getValue() !== '') {
                 event = new InputEvent('input', {
                     bubbles: true,
                     view: window,
@@ -717,7 +751,7 @@ export class TestingBehatDomUtilsService {
                 });
 
                 await CoreUtils.nextTick();
-                setValue('');
+                await setValue('');
                 element.dispatchEvent(event);
             }
 
@@ -731,13 +765,9 @@ export class TestingBehatDomUtilsService {
                 });
 
                 await CoreUtils.nextTick();
-                setValue(value);
+                await setValue(value);
                 element.dispatchEvent(event);
             }
-
-            promise.resolve();
-
-            return promise;
         });
     }
 

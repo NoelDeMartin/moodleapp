@@ -468,11 +468,22 @@ export class TestingBehatRuntimeService {
                 ?? options.find(option => option.text === value)?.value
                 ?? options.find(option => option.text.includes(value))?.value
                 ?? value;
+        } else if (input.tagName === 'ION-SELECT') {
+            const options = Array.from(input.querySelectorAll('ion-select-option'));
+
+            value = options.find(option => option.value?.toString() === value)?.textContent?.trim()
+                ?? options.find(option => option.textContent?.trim() === value)?.textContent?.trim()
+                ?? options.find(option => option.textContent?.includes(value))?.textContent?.trim()
+                ?? value;
         }
 
-        await TestingBehatDomUtils.setElementValue(input, value);
+        try {
+            await TestingBehatDomUtils.setElementValue(input, value);
 
-        return 'OK';
+            return 'OK';
+        } catch (error) {
+            return `ERROR: ${error.message ?? 'Unknown error'}`;
+        }
     }
 
     /**
