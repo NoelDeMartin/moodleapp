@@ -65,7 +65,7 @@ export class CoreSite extends CoreAuthenticatedSite {
 
     protected db!: SQLiteDB;
     protected cacheTable: AsyncInstance<CoreDatabaseTable<CoreSiteWSCacheRecord>>;
-    protected configTable: AsyncInstance<CoreDatabaseTable<CoreSiteConfigDBRecord, 'name'>>;
+    protected configTable: AsyncInstance<CoreDatabaseTable<CoreSiteConfigDBRecord, 'name', never>>;
     protected lastViewedTable: AsyncInstance<CoreDatabaseTable<CoreSiteLastViewedDBRecord, 'component' | 'id'>>;
     protected lastAutoLogin = 0;
     protected tokenPluginFileWorks?: boolean;
@@ -99,11 +99,12 @@ export class CoreSite extends CoreAuthenticatedSite {
             config: { cachingStrategy: CoreDatabaseCachingStrategy.None },
         }));
 
-        this.configTable = asyncInstance(() => CoreSites.getSiteTable(CONFIG_TABLE, {
+        this.configTable = asyncInstance(() => CoreSites.getSiteTable<CoreSiteConfigDBRecord, 'name', never>(CONFIG_TABLE, {
             siteId: this.getId(),
             database: this.getDb(),
             config: { cachingStrategy: CoreDatabaseCachingStrategy.Eager },
             primaryKeyColumns: ['name'],
+            rowIdColumn: null,
         }));
 
         this.lastViewedTable = asyncInstance(() => CoreSites.getSiteTable(LAST_VIEWED_TABLE, {

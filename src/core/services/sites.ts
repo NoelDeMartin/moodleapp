@@ -92,7 +92,7 @@ export class CoreSitesProvider {
     protected siteSchemas: { [name: string]: CoreRegisteredSiteSchema } = {};
     protected pluginsSiteSchemas: { [name: string]: CoreRegisteredSiteSchema } = {};
     protected siteTables: Record<string, Record<string, CorePromisedValue<CoreDatabaseTable>>> = {};
-    protected schemasTables: Record<string, AsyncInstance<CoreDatabaseTable<SchemaVersionsDBEntry, 'name'>>> = {};
+    protected schemasTables: Record<string, AsyncInstance<CoreDatabaseTable<SchemaVersionsDBEntry, 'name', never>>> = {};
     protected sitesTable = asyncInstance<CoreDatabaseTable<SiteDBEntry>>();
 
     constructor(@Optional() @Inject(CORE_SITE_SCHEMAS) siteSchemas: CoreSiteSchema[][] | null) {
@@ -158,7 +158,8 @@ export class CoreSitesProvider {
      */
     async getSiteTable<
         DBRecord extends SQLiteDBRecordValues,
-        PrimaryKeyColumn extends keyof DBRecord
+        PrimaryKeyColumn extends keyof DBRecord,
+        RowIdColumn extends PrimaryKeyColumn,
     >(
         tableName: string,
         options: Partial<{
@@ -166,9 +167,10 @@ export class CoreSitesProvider {
             config: Partial<CoreDatabaseConfiguration>;
             database: SQLiteDB;
             primaryKeyColumns: PrimaryKeyColumn[];
+            rowIdColumn: RowIdColumn | null;
             onDestroy(): void;
         }> = {},
-    ): Promise<CoreDatabaseTable<DBRecord, PrimaryKeyColumn>> {
+    ): Promise<CoreDatabaseTable<DBRecord, PrimaryKeyColumn, RowIdColumn>> {
         const siteId = options.siteId ?? this.getCurrentSiteId();
 
         if (!(siteId in this.siteTables)) {
@@ -178,11 +180,12 @@ export class CoreSitesProvider {
         if (!(tableName in this.siteTables[siteId])) {
             const promisedTable = this.siteTables[siteId][tableName] = new CorePromisedValue();
             const database = options.database ?? await this.getSiteDb(siteId);
-            const table = new CoreDatabaseTableProxy<DBRecord, PrimaryKeyColumn>(
+            const table = new CoreDatabaseTableProxy<DBRecord, PrimaryKeyColumn, RowIdColumn>(
                 options.config ?? {},
                 database,
                 tableName,
                 options.primaryKeyColumns,
+                options.rowIdColumn,
             );
 
             options.onDestroy && table.addListener({ onDestroy: options.onDestroy });
@@ -192,7 +195,7 @@ export class CoreSitesProvider {
             promisedTable.resolve(table as unknown as CoreDatabaseTable);
         }
 
-        return this.siteTables[siteId][tableName] as unknown as Promise<CoreDatabaseTable<DBRecord, PrimaryKeyColumn>>;
+        return this.siteTables[siteId][tableName] as unknown as Promise<CoreDatabaseTable<DBRecord, PrimaryKeyColumn, RowIdColumn>>;
     }
 
     /**
@@ -1980,6 +1983,7 @@ export class CoreSitesProvider {
                 database: site.getDb(),
                 config: { cachingStrategy: CoreDatabaseCachingStrategy.Eager },
                 primaryKeyColumns: ['name'],
+                rowIdColumn: null,
                 onDestroy: () => delete this.schemasTables[siteId],
             }),
         );

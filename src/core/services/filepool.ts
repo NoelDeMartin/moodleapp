@@ -102,9 +102,10 @@ export class CoreFilepoolProvider {
     // Variables to prevent downloading packages/files twice at the same time.
     protected packagesPromises: { [s: string]: { [s: string]: Promise<void> } } = {};
     protected filePromises: { [s: string]: { [s: string]: Promise<string> } } = {};
-    protected filesTables: LazyMap<AsyncInstance<CoreDatabaseTable<CoreFilepoolFileEntry, 'fileId'>>>;
-    protected linksTables:
-        LazyMap<AsyncInstance<CoreDatabaseTable<CoreFilepoolLinksRecord, 'fileId' | 'component' | 'componentId'>>>;
+    protected filesTables: LazyMap<AsyncInstance<CoreDatabaseTable<CoreFilepoolFileEntry, 'fileId', never>>>;
+    protected linksTables: LazyMap<
+        AsyncInstance<CoreDatabaseTable<CoreFilepoolLinksRecord, 'fileId' | 'component' | 'componentId', never>>
+    >;
 
     protected packagesTables: LazyMap<AsyncInstance<CoreDatabaseTable<CoreFilepoolPackageEntry>>>;
     protected queueTable = asyncInstance<CoreDatabaseTable<CoreFilepoolQueueDBEntry, 'siteId' | 'fileId'>>();
@@ -113,22 +114,27 @@ export class CoreFilepoolProvider {
         this.logger = CoreLogger.getInstance('CoreFilepoolProvider');
         this.filesTables = lazyMap(
             siteId => asyncInstance(
-                () => CoreSites.getSiteTable(FILES_TABLE_NAME, {
+                () => CoreSites.getSiteTable<CoreFilepoolFileEntry, 'fileId', never>(FILES_TABLE_NAME, {
                     siteId,
                     config: { cachingStrategy: CoreDatabaseCachingStrategy.Lazy },
                     primaryKeyColumns: ['fileId'],
+                    rowIdColumn: null,
                     onDestroy: () => delete this.filesTables[siteId],
                 }),
             ),
         );
         this.linksTables = lazyMap(
             siteId => asyncInstance(
-                () => CoreSites.getSiteTable(LINKS_TABLE_NAME, {
-                    siteId,
-                    config: { cachingStrategy: CoreDatabaseCachingStrategy.Lazy },
-                    primaryKeyColumns: ['fileId', 'component', 'componentId'],
-                    onDestroy: () => delete this.linksTables[siteId],
-                }),
+                () => CoreSites.getSiteTable<CoreFilepoolLinksRecord, 'fileId' | 'component' | 'componentId', never>(
+                    LINKS_TABLE_NAME,
+                    {
+                        siteId,
+                        config: { cachingStrategy: CoreDatabaseCachingStrategy.Lazy },
+                        primaryKeyColumns: ['fileId', 'component', 'componentId'],
+                        rowIdColumn: null,
+                        onDestroy: () => delete this.linksTables[siteId],
+                    },
+                ),
             ),
         );
         this.packagesTables = lazyMap(
