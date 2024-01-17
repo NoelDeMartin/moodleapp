@@ -121,7 +121,9 @@ export class CoreCourseProvider {
 
     protected logger: CoreLogger;
     protected statusTables: LazyMap<AsyncInstance<CoreDatabaseTable<CoreCourseStatusDBRecord>>>;
-    protected viewedModulesTables: LazyMap<AsyncInstance<CoreDatabaseTable<CoreCourseViewedModulesDBRecord, 'courseId' | 'cmId'>>>;
+    protected viewedModulesTables: LazyMap<
+        AsyncInstance<CoreDatabaseTable<CoreCourseViewedModulesDBRecord, 'courseId' | 'cmId', never>>
+    >;
 
     constructor() {
         this.logger = CoreLogger.getInstance('CoreCourseProvider');
@@ -137,12 +139,16 @@ export class CoreCourseProvider {
 
         this.viewedModulesTables = lazyMap(
             siteId => asyncInstance(
-                () => CoreSites.getSiteTable(COURSE_VIEWED_MODULES_TABLE, {
-                    siteId,
-                    config: { cachingStrategy: CoreDatabaseCachingStrategy.None },
-                    primaryKeyColumns: ['courseId', 'cmId'],
-                    onDestroy: () => delete this.viewedModulesTables[siteId],
-                }),
+                () => CoreSites.getSiteTable<CoreCourseViewedModulesDBRecord, 'courseId' | 'cmId', never>(
+                    COURSE_VIEWED_MODULES_TABLE,
+                    {
+                        siteId,
+                        config: { cachingStrategy: CoreDatabaseCachingStrategy.None },
+                        primaryKeyColumns: ['courseId', 'cmId'],
+                        rowIdColumn: null,
+                        onDestroy: () => delete this.viewedModulesTables[siteId],
+                    },
+                ),
             ),
         );
     }

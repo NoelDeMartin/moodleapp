@@ -66,18 +66,19 @@ export class CorePushNotificationsProvider {
         asyncInstance<CoreDatabaseTable<CorePushNotificationsPendingUnregisterDBRecord, 'siteid'>>();
 
     protected registeredDevicesTables:
-        LazyMap<AsyncInstance<CoreDatabaseTable<CorePushNotificationsRegisteredDeviceDBRecord, 'appid' | 'uuid'>>>;
+        LazyMap<AsyncInstance<CoreDatabaseTable<CorePushNotificationsRegisteredDeviceDBRecord, 'appid' | 'uuid', never>>>;
 
     constructor() {
         this.logger = CoreLogger.getInstance('CorePushNotificationsProvider');
         this.registeredDevicesTables = lazyMap(
             siteId => asyncInstance(
-                () => CoreSites.getSiteTable(
+                () => CoreSites.getSiteTable<CorePushNotificationsRegisteredDeviceDBRecord, 'appid' | 'uuid', never>(
                     REGISTERED_DEVICES_TABLE_NAME,
                     {
                         siteId,
                         config: { cachingStrategy: CoreDatabaseCachingStrategy.None },
                         primaryKeyColumns: ['appid', 'uuid'],
+                        rowIdColumn: null,
                         onDestroy: () => delete this.registeredDevicesTables[siteId],
                     },
                 ),
