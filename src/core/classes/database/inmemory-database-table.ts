@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import { CoreConstants } from '@/core/constants';
-import { SQLiteDB, SQLiteDBRecordValues } from '@classes/sqlitedb';
 import { CoreLogger } from '@singletons/logger';
 import { CoreDatabaseTable, GetDBRecordPrimaryKey } from './database-table';
+import { CoreDatabase, CoreDatabaseRecord } from '@classes/database/database';
 
 /**
  * Database wrapper that caches database records in memory to speed up read operations.
@@ -24,13 +24,13 @@ import { CoreDatabaseTable, GetDBRecordPrimaryKey } from './database-table';
  * could be compromised.
  */
 export abstract class CoreInMemoryDatabaseTable<
-    DBRecord extends SQLiteDBRecordValues = SQLiteDBRecordValues,
+    DBRecord extends CoreDatabaseRecord = CoreDatabaseRecord,
     PrimaryKeyColumn extends keyof DBRecord = 'id',
     RowIdColumn extends PrimaryKeyColumn = PrimaryKeyColumn,
     PrimaryKey extends GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn> = GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn>,
 > extends CoreDatabaseTable<DBRecord, PrimaryKeyColumn, RowIdColumn, PrimaryKey> {
 
-    private static readonly ACTIVE_TABLES: WeakMap<SQLiteDB, Set<string>> = new WeakMap();
+    private static readonly ACTIVE_TABLES: WeakMap<CoreDatabase, Set<string>> = new WeakMap();
     private static readonly LOGGER: CoreLogger = CoreLogger.getInstance('CoreInMemoryDatabaseTable');
 
     /**

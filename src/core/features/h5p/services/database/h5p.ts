@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { SQLiteDB } from '@classes/sqlitedb';
+import { CoreDatabase } from '@classes/database/database';
 import { CoreSiteSchema } from '@services/sites';
 
 /**
@@ -244,7 +244,7 @@ export const SITE_SCHEMA: CoreSiteSchema = {
             ],
         },
     ],
-    async migrate(db: SQLiteDB, oldVersion: number): Promise<void> {
+    async migrate(db: CoreDatabase, oldVersion: number): Promise<void> {
         if (oldVersion >= 2) {
             return;
         }

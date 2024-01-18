@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { SQLiteDBRecordValues } from '@classes/sqlitedb';
 import { CoreSites } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { makeSingleton } from '@singletons';
@@ -24,6 +23,7 @@ import {
     DELETED_EVENTS_TABLE,
     EVENTS_TABLE,
 } from './database/calendar-offline';
+import { CoreDatabaseRecord } from '@classes/database/database';
 
 /**
  * Service to handle offline calendar events.
@@ -41,7 +41,7 @@ export class AddonCalendarOfflineProvider {
     async deleteEvent(eventId: number, siteId?: string): Promise<void> {
         const site = await CoreSites.getSite(siteId);
 
-        const conditions: SQLiteDBRecordValues = {
+        const conditions: CoreDatabaseRecord = {
             id: eventId,
         };
 
@@ -122,7 +122,7 @@ export class AddonCalendarOfflineProvider {
      */
     async getDeletedEvent(eventId: number, siteId?: string): Promise<AddonCalendarOfflineDeletedEventDBRecord> {
         const site = await CoreSites.getSite(siteId);
-        const conditions: SQLiteDBRecordValues = {
+        const conditions: CoreDatabaseRecord = {
             id: eventId,
         };
 
@@ -138,7 +138,7 @@ export class AddonCalendarOfflineProvider {
      */
     async getEvent(eventId: number, siteId?: string): Promise<AddonCalendarOfflineEventDBRecord> {
         const site = await CoreSites.getSite(siteId);
-        const conditions: SQLiteDBRecordValues = {
+        const conditions: CoreDatabaseRecord = {
             id: eventId,
         };
 
@@ -262,7 +262,7 @@ export class AddonCalendarOfflineProvider {
      */
     async unmarkDeleted(eventId: number, siteId?: string): Promise<void> {
         const site = await CoreSites.getSite(siteId);
-        const conditions: SQLiteDBRecordValues = {
+        const conditions: CoreDatabaseRecord = {
             id: eventId,
         };
 

@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import { SQLiteDBStub } from '@/storybook/stubs/classes/sqlitedb';
-import { SQLiteDB } from '@classes/sqlitedb';
+import { CoreDatabase } from '@classes/database/database';
+import { CoreNativeDatabase } from '@classes/database/native-database';
 import { CoreDbProvider } from '@services/db';
 
 /**
@@ -24,9 +25,9 @@ export class CoreDbProviderStub extends CoreDbProvider {
     /**
      * @inheritdoc
      */
-    getDB(name: string, forceNew?: boolean): SQLiteDB {
+    getDB(name: string, forceNew?: boolean): CoreDatabase {
         if (this.dbInstances[name] === undefined || forceNew) {
-            this.dbInstances[name] = new SQLiteDBStub(name);
+            this.dbInstances[name] = new CoreNativeDatabase(new SQLiteDBStub(name));
         }
 
         return this.dbInstances[name];

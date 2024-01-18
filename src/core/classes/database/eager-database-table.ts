@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import { CoreError } from '@classes/errors/error';
-import { SQLiteDBRecordValues } from '@classes/sqlitedb';
 import { CoreInMemoryDatabaseTable } from './inmemory-database-table';
 import {
     CoreDatabaseConditions,
@@ -21,6 +20,7 @@ import {
     CoreDatabaseReducer,
     CoreDatabaseQueryOptions,
 } from './database-table';
+import { CoreDatabaseRecord } from '@classes/database/database';
 
 /**
  * Wrapper used to improve performance by caching all the records for faster read operations.
@@ -29,7 +29,7 @@ import {
  * records use CoreLazyDatabaseTable instead.
  */
 export class CoreEagerDatabaseTable<
-    DBRecord extends SQLiteDBRecordValues = SQLiteDBRecordValues,
+    DBRecord extends CoreDatabaseRecord = CoreDatabaseRecord,
     PrimaryKeyColumn extends keyof DBRecord = 'id',
     RowIdColumn extends PrimaryKeyColumn = PrimaryKeyColumn,
     PrimaryKey extends GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn> = GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn>,

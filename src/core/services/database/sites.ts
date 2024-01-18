@@ -14,7 +14,7 @@
 
 import { CoreAppSchema } from '@services/app';
 import { CoreSiteSchema } from '@services/sites';
-import { SQLiteDB, SQLiteDBTableSchema } from '@classes/sqlitedb';
+import { CoreDatabase, CoreDatabaseTableSchema } from '@classes/database/database';
 
 /**
  * Database variables for CoreSites service.
@@ -74,7 +74,7 @@ export const APP_SCHEMA: CoreAppSchema = {
             ],
         },
     ],
-    async migrate(db: SQLiteDB, oldVersion: number): Promise<void> {
+    async migrate(db: CoreDatabase, oldVersion: number): Promise<void> {
         if (oldVersion < 2) {
             await db.migrateTable('sites', SITES_TABLE_NAME);
         }
@@ -162,7 +162,7 @@ export const SITE_SCHEMA: CoreSiteSchema = {
 };
 
 // Table for site DB to include the schema versions. It's not part of SITE_SCHEMA because it needs to be created first.
-export const SCHEMA_VERSIONS_TABLE_SCHEMA: SQLiteDBTableSchema = {
+export const SCHEMA_VERSIONS_TABLE_SCHEMA: CoreDatabaseTableSchema = {
     name: SCHEMA_VERSIONS_TABLE_NAME,
     columns: [
         {

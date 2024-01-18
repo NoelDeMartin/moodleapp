@@ -16,7 +16,6 @@ import { Injectable } from '@angular/core';
 
 import { CoreDB } from '@services/db';
 import { CoreEventObserver, CoreEvents } from '@singletons/events';
-import { SQLiteDB, SQLiteDBTableSchema } from '@classes/sqlitedb';
 
 import { makeSingleton, Keyboard, StatusBar } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
@@ -32,6 +31,7 @@ import { Subscription } from 'rxjs';
 import { CorePlatform } from '@services/platform';
 import { CoreNetwork, CoreNetworkConnection } from '@services/network';
 import { CoreMainMenuProvider } from '@features/mainmenu/services/mainmenu';
+import { CoreDatabase, CoreDatabaseTableSchema } from '@classes/database/database';
 
 /**
  * Factory to provide some global functionalities, like access to the global app database.
@@ -49,7 +49,7 @@ import { CoreMainMenuProvider } from '@features/mainmenu/services/mainmenu';
 @Injectable({ providedIn: 'root' })
 export class CoreAppProvider {
 
-    protected db?: SQLiteDB;
+    protected db?: CoreDatabase;
     protected logger: CoreLogger;
     protected ssoAuthenticationDeferred?: CorePromisedValue<void>;
     protected isKeyboardShown = false;
@@ -181,7 +181,7 @@ export class CoreAppProvider {
      *
      * @returns App's DB.
      */
-    getDB(): SQLiteDB {
+    getDB(): CoreDatabase {
         if (!this.db) {
             this.db = CoreDB.getDB(DBNAME);
         }
@@ -675,7 +675,7 @@ export type CoreAppSchema = {
     /**
      * Tables to create when installing or upgrading the schema.
      */
-    tables?: SQLiteDBTableSchema[];
+    tables?: CoreDatabaseTableSchema[];
 
     /**
      * Migrates the schema to the latest version.
@@ -686,7 +686,7 @@ export type CoreAppSchema = {
      * @param oldVersion Old version of the schema or 0 if not installed.
      * @returns Promise resolved when done.
      */
-    migrate?(db: SQLiteDB, oldVersion: number): Promise<void>;
+    migrate?(db: CoreDatabase, oldVersion: number): Promise<void>;
 
     /**
      * Make changes to install the schema.
@@ -696,5 +696,5 @@ export type CoreAppSchema = {
      * @param db Site database.
      * @returns Promise resolved when done.
      */
-    install?(db: SQLiteDB): Promise<void> | void;
+    install?(db: CoreDatabase): Promise<void> | void;
 };

@@ -30,7 +30,6 @@ import { CoreTimeUtils } from '@services/utils/time';
 import { CoreUrlUtils } from '@services/utils/url';
 import { CoreUtils, CoreUtilsOpenInBrowserOptions } from '@services/utils/utils';
 import { CoreConstants } from '@/core/constants';
-import { SQLiteDB } from '@classes/sqlitedb';
 import { CoreError } from '@classes/errors/error';
 import { CoreLogger } from '@singletons/logger';
 import { Translate } from '@singletons';
@@ -52,6 +51,7 @@ import { CoreFilepool } from '@services/filepool';
 import { CoreSiteInfo } from './unauthenticated-site';
 import { CoreAuthenticatedSite, CoreAuthenticatedSiteOptionalData, CoreSiteWSPreSets, WSObservable } from './authenticated-site';
 import { firstValueFrom } from 'rxjs';
+import { CoreDatabase } from '@classes/database/database';
 
 /**
  * Class that represents a site (combination of site + user).
@@ -63,7 +63,7 @@ export class CoreSite extends CoreAuthenticatedSite {
     config?: CoreSiteConfig;
     loggedOut?: boolean;
 
-    protected db!: SQLiteDB;
+    protected db!: CoreDatabase;
     protected cacheTable: AsyncInstance<CoreDatabaseTable<CoreSiteWSCacheRecord>>;
     protected configTable: AsyncInstance<CoreDatabaseTable<CoreSiteConfigDBRecord, 'name', never>>;
     protected lastViewedTable: AsyncInstance<CoreDatabaseTable<CoreSiteLastViewedDBRecord, 'component' | 'id'>>;
@@ -133,7 +133,7 @@ export class CoreSite extends CoreAuthenticatedSite {
      *
      * @returns Site DB.
      */
-    getDb(): SQLiteDB {
+    getDb(): CoreDatabase {
         return this.db;
     }
 

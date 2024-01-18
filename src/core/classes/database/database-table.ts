@@ -12,21 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { CoreDatabase, CoreDatabaseParam, CoreDatabaseRecord } from '@classes/database/database';
 import { CoreError } from '@classes/errors/error';
-import { SQLiteDB, SQLiteDBRecordValue, SQLiteDBRecordValues } from '@classes/sqlitedb';
 
 /**
  * Wrapper used to interact with a database table.
  */
 export class CoreDatabaseTable<
-    DBRecord extends SQLiteDBRecordValues = SQLiteDBRecordValues,
+    DBRecord extends CoreDatabaseRecord = CoreDatabaseRecord,
     PrimaryKeyColumn extends keyof DBRecord = 'id',
     RowIdColumn extends PrimaryKeyColumn = PrimaryKeyColumn,
     PrimaryKey extends GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn> = GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn>,
 > {
 
     protected config: Partial<CoreDatabaseConfiguration>;
-    protected database: SQLiteDB;
+    protected database: CoreDatabase;
     protected tableName: string;
     protected primaryKeyColumns: PrimaryKeyColumn[];
     protected rowIdColumn: RowIdColumn | null;
@@ -34,7 +34,7 @@ export class CoreDatabaseTable<
 
     constructor(
         config: Partial<CoreDatabaseConfiguration>,
-        database: SQLiteDB,
+        database: CoreDatabase,
         tableName: string,
         primaryKeyColumns?: PrimaryKeyColumn[],
         rowIdColumn?: RowIdColumn | null,
@@ -60,7 +60,7 @@ export class CoreDatabaseTable<
      *
      * @returns Database connection.
      */
-    getDatabase(): SQLiteDB {
+    getDatabase(): CoreDatabase {
         return this.database;
     }
 
@@ -428,7 +428,7 @@ export interface CoreDatabaseTableListener {
  * CoreDatabaseTable constructor.
  */
 export type CoreDatabaseTableConstructor<
-    DBRecord extends SQLiteDBRecordValues = SQLiteDBRecordValues,
+    DBRecord extends CoreDatabaseRecord = CoreDatabaseRecord,
     PrimaryKeyColumn extends keyof DBRecord = 'id',
     RowIdColumn extends PrimaryKeyColumn = PrimaryKeyColumn,
     PrimaryKey extends GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn> = GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn>,
@@ -436,7 +436,7 @@ export type CoreDatabaseTableConstructor<
 
     new (
         config: Partial<CoreDatabaseConfiguration>,
-        database: SQLiteDB,
+        database: CoreDatabase,
         tableName: string,
         primaryKeyColumns?: PrimaryKeyColumn[],
         rowIdColumn?: RowIdColumn | null,
@@ -447,7 +447,7 @@ export type CoreDatabaseTableConstructor<
 /**
  * Infer primary key type from database record and primary key column types.
  */
-export type GetDBRecordPrimaryKey<DBRecord extends SQLiteDBRecordValues, PrimaryKeyColumn extends keyof DBRecord> = {
+export type GetDBRecordPrimaryKey<DBRecord extends CoreDatabaseRecord, PrimaryKeyColumn extends keyof DBRecord> = {
     [column in PrimaryKeyColumn]: DBRecord[column];
 };
 
@@ -469,7 +469,7 @@ export type CoreDatabaseReducer<DBRecord, T> = {
  */
 export type CoreDatabaseConditions<DBRecord> = {
     sql: string;
-    sqlParams?: SQLiteDBRecordValue[];
+    sqlParams?: CoreDatabaseParam[];
     js: (record: DBRecord) => boolean;
 };
 

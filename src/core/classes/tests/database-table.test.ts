@@ -15,7 +15,7 @@
 import { mock, mockSingleton } from '@/testing/utils';
 import { CoreDatabaseConfiguration, CoreDatabaseSorting, CoreDatabaseTable } from '@classes/database/database-table';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
-import { SQLiteDB } from '@classes/sqlitedb';
+import { CoreDatabase } from '@classes/database/database';
 import { CoreConfig } from '@services/config';
 
 type User = {
@@ -39,12 +39,12 @@ function userMatches(user: User, conditions: Partial<User>) {
  * Prepares stubs for testing with a mock database configuration.
  *
  * @param config The partial CoreDatabaseConfiguration to use for the mock database.
- * @returns An array containing a mock user records array, a mock SQLite database,
+ * @returns An array containing a mock user records array, a mock database,
  * and a CoreDatabaseTable instance for the 'users' table.
  */
-function prepareStubs(config: Partial<CoreDatabaseConfiguration> = {}): [User[], SQLiteDB, CoreDatabaseTable<User>] {
+function prepareStubs(config: Partial<CoreDatabaseConfiguration> = {}): [User[], CoreDatabase, CoreDatabaseTable<User>] {
     const records: User[] = [];
-    const database = mock<SQLiteDB>({
+    const database = mock<CoreDatabase>({
         getRecord: async <T>(_, conditions) => {
             const record = records.find(record => userMatches(record, conditions));
 
@@ -107,10 +107,10 @@ async function testFindItems(records: User[], table: CoreDatabaseTable<User>) {
  * Tests the insertion of items into a database table.
  *
  * @param records An array of User records.
- * @param database The SQLite database instance.
+ * @param database The database instance.
  * @param table The database table instance.
  */
-async function testInsertItems(records: User[], database: SQLiteDB, table: CoreDatabaseTable<User>) {
+async function testInsertItems(records: User[], database: CoreDatabase, table: CoreDatabaseTable<User>) {
     // Arrange.
     const john = { id: 1, name: 'John', surname: 'Doe' };
 
@@ -129,10 +129,10 @@ async function testInsertItems(records: User[], database: SQLiteDB, table: CoreD
  * Tests the deletion of items from a database table based on a condition.
  *
  * @param records An array of User records.
- * @param database The SQLite database instance.
+ * @param database The database instance.
  * @param table The database table instance.
  */
-async function testDeleteItems(records: User[], database: SQLiteDB, table: CoreDatabaseTable<User>) {
+async function testDeleteItems(records: User[], database: CoreDatabase, table: CoreDatabaseTable<User>) {
     // Arrange.
     const john = { id: 1, name: 'John', surname: 'Doe' };
     const amy = { id: 2, name: 'Amy', surname: 'Doe' };
@@ -159,10 +159,10 @@ async function testDeleteItems(records: User[], database: SQLiteDB, table: CoreD
  * Tests the deletion of items from a database table based on primary key values.
  *
  * @param records An array of User records.
- * @param database The SQLite database instance.
+ * @param database The database instance.
  * @param table The database table instance.
  */
-async function testDeleteItemsByPrimaryKey(records: User[], database: SQLiteDB, table: CoreDatabaseTable<User>) {
+async function testDeleteItemsByPrimaryKey(records: User[], database: CoreDatabase, table: CoreDatabaseTable<User>) {
     // Arrange.
     const john = { id: 1, name: 'John', surname: 'Doe' };
     const amy = { id: 2, name: 'Amy', surname: 'Doe' };
@@ -185,7 +185,7 @@ async function testDeleteItemsByPrimaryKey(records: User[], database: SQLiteDB, 
 describe('CoreDatabaseTable with eager caching', () => {
 
     let records: User[];
-    let database: SQLiteDB;
+    let database: CoreDatabase;
     let table: CoreDatabaseTable<User>;
 
     beforeEach(() => [records, database, table] = prepareStubs({ cachingStrategy: CoreDatabaseCachingStrategy.Eager }));
@@ -237,7 +237,7 @@ describe('CoreDatabaseTable with eager caching', () => {
 describe('CoreDatabaseTable with lazy caching', () => {
 
     let records: User[];
-    let database: SQLiteDB;
+    let database: CoreDatabase;
     let table: CoreDatabaseTable<User>;
 
     beforeEach(() => [records, database, table] = prepareStubs({ cachingStrategy: CoreDatabaseCachingStrategy.Lazy }));
@@ -264,7 +264,7 @@ describe('CoreDatabaseTable with lazy caching', () => {
 describe('CoreDatabaseTable with no caching', () => {
 
     let records: User[];
-    let database: SQLiteDB;
+    let database: CoreDatabase;
     let table: CoreDatabaseTable<User>;
 
     beforeEach(() => [records, database, table] = prepareStubs({ cachingStrategy: CoreDatabaseCachingStrategy.None }));

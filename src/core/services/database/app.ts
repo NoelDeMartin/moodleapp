@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { SQLiteDBTableSchema } from '@classes/sqlitedb';
+import { CoreDatabaseTableSchema } from '@classes/database/database';
 
 /**
  * Database variables for CoreApp service.
@@ -20,7 +20,7 @@ import { SQLiteDBTableSchema } from '@classes/sqlitedb';
 export const DBNAME = 'MoodleMobile';
 export const SCHEMA_VERSIONS_TABLE_NAME = 'schema_versions';
 
-export const SCHEMA_VERSIONS_TABLE_SCHEMA: SQLiteDBTableSchema = {
+export const SCHEMA_VERSIONS_TABLE_SCHEMA: CoreDatabaseTableSchema = {
     name: SCHEMA_VERSIONS_TABLE_NAME,
     columns: [
         {

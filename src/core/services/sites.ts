@@ -28,7 +28,6 @@ import {
     CoreSite,
     CoreSiteConfig,
 } from '@classes/sites/site';
-import { SQLiteDB, SQLiteDBRecordValues, SQLiteDBTableSchema } from '@classes/sqlitedb';
 import { CoreError } from '@classes/errors/error';
 import { CoreLoginError, CoreLoginErrorOptions } from '@classes/errors/loginerror';
 import { makeSingleton, Translate, Http } from '@singletons';
@@ -66,6 +65,7 @@ import { CoreCacheManager } from '@services/cache-manager';
 import { CoreSiteInfo, CoreSiteInfoResponse, CoreSitePublicConfigResponse } from '@classes/sites/unauthenticated-site';
 import { CoreSiteWSPreSets } from '@classes/sites/authenticated-site';
 import { firstValueFrom } from 'rxjs';
+import { CoreDatabase, CoreDatabaseRecord, CoreDatabaseTableSchema } from '@classes/database/database';
 
 export const CORE_SITE_SCHEMAS = new InjectionToken<CoreSiteSchema[]>('CORE_SITE_SCHEMAS');
 export const CORE_SITE_CURRENT_SITE_ID_CONFIG = 'current_site_id';
@@ -157,7 +157,7 @@ export class CoreSitesProvider {
      * @returns Site table.
      */
     async getSiteTable<
-        DBRecord extends SQLiteDBRecordValues,
+        DBRecord extends CoreDatabaseRecord,
         PrimaryKeyColumn extends keyof DBRecord,
         RowIdColumn extends PrimaryKeyColumn,
     >(
@@ -165,7 +165,7 @@ export class CoreSitesProvider {
         options: Partial<{
             siteId: string;
             config: Partial<CoreDatabaseConfiguration>;
-            database: SQLiteDB;
+            database: CoreDatabase;
             primaryKeyColumns: PrimaryKeyColumn[];
             rowIdColumn: RowIdColumn | null;
             onDestroy(): void;
@@ -1209,7 +1209,7 @@ export class CoreSitesProvider {
      * @param siteId The site ID. If not defined, current site (if available).
      * @returns Promise resolved with the database.
      */
-    async getSiteDb(siteId?: string): Promise<SQLiteDB> {
+    async getSiteDb(siteId?: string): Promise<CoreDatabase> {
         const site = await this.getSite(siteId);
 
         return site.getDb();
@@ -2168,7 +2168,7 @@ export type CoreSiteSchema = {
     /**
      * Tables to create when installing or upgrading the schema.
      */
-    tables?: SQLiteDBTableSchema[];
+    tables?: CoreDatabaseTableSchema[];
 
     /**
      * Migrates the schema in a site to the latest version.
@@ -2180,7 +2180,7 @@ export type CoreSiteSchema = {
      * @param siteId Site Id to migrate.
      * @returns Promise resolved when done.
      */
-    migrate?(db: SQLiteDB, oldVersion: number, siteId: string): Promise<void> | void;
+    migrate?(db: CoreDatabase, oldVersion: number, siteId: string): Promise<void> | void;
 
     /**
      * Make changes to install the schema in a site.
@@ -2191,7 +2191,7 @@ export type CoreSiteSchema = {
      * @param siteId Site Id to migrate.
      * @returns Promise resolved when done.
      */
-    install?(db: SQLiteDB, siteId: string): Promise<void> | void;
+    install?(db: CoreDatabase, siteId: string): Promise<void> | void;
 };
 
 /**

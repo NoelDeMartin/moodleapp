@@ -14,7 +14,6 @@
 
 import { CoreConstants } from '@/core/constants';
 import { asyncInstance } from '@/core/utils/async-instance';
-import { SQLiteDBRecordValues } from '@classes/sqlitedb';
 import { CoreConfig, CoreConfigProvider } from '@services/config';
 import { CoreEventObserver, CoreEvents } from '@singletons/events';
 import {
@@ -29,6 +28,7 @@ import {
 import { CoreDebugDatabaseTable } from './debug-database-table';
 import { CoreEagerDatabaseTable } from './eager-database-table';
 import { CoreLazyDatabaseTable } from './lazy-database-table';
+import { CoreDatabaseRecord } from '@classes/database/database';
 
 /**
  * Database table proxy used to route database interactions through different implementations.
@@ -36,7 +36,7 @@ import { CoreLazyDatabaseTable } from './lazy-database-table';
  * This class allows using a database wrapper with different optimization strategies that can be changed at runtime.
  */
 export class CoreDatabaseTableProxy<
-    DBRecord extends SQLiteDBRecordValues = SQLiteDBRecordValues,
+    DBRecord extends CoreDatabaseRecord = CoreDatabaseRecord,
     PrimaryKeyColumn extends keyof DBRecord = 'id',
     RowIdColumn extends PrimaryKeyColumn = PrimaryKeyColumn,
     PrimaryKey extends GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn> = GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn>,

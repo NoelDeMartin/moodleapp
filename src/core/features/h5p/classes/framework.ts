@@ -498,7 +498,7 @@ export class CoreH5PFramework {
                         'l1.minorversion < l2.minorversion)) ' +
                     'WHERE l1.addto IS NOT NULL AND l2.machinename IS NULL';
 
-        const result = await db.execute(query);
+        const result = await db.execute<any>(query);
 
         const addons: CoreH5PLibraryAddonData[] = [];
 
@@ -601,7 +601,7 @@ export class CoreH5PFramework {
 
         query += ' ORDER BY hcl.weight';
 
-        const result = await db.execute(query, queryArgs);
+        const result = await db.execute<any>(query, queryArgs);
 
         const dependencies: {[machineName: string]: CoreH5PContentDependencyData} = {};
 
@@ -665,7 +665,7 @@ export class CoreH5PFramework {
 
         const db = await CoreSites.getSiteDb(siteId);
 
-        const result = await db.execute(sql, sqlParams);
+        const result = await db.execute<any>(sql, sqlParams);
 
         for (let i = 0; i < result.rows.length; i++) {
             const dependency: LibraryDependency = result.rows.item(i);

@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { SQLiteDBTableSchema } from '@classes/sqlitedb';
+import { CoreDatabaseTableSchema } from '@classes/database/database';
 import { CoreAppSchema } from '@services/app';
 import { CoreSiteSchema } from '@services/sites';
 
 export const TABLE_NAME = 'core_storage';
 
-export const TABLE_SCHEMA: SQLiteDBTableSchema = {
+export const TABLE_SCHEMA: CoreDatabaseTableSchema = {
     name: TABLE_NAME,
     columns: [
         {

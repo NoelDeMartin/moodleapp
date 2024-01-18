@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { SQLiteDB } from '@classes/sqlitedb';
 import { CoreRemindersService, CoreReminders } from '@features/reminders/services/reminders';
 import { CoreConfig } from '@services/config';
 import { CoreSiteSchema } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { AddonCalendarEventType } from '../calendar';
+import { CoreDatabase } from '@classes/database/database';
 
 /**
  * Database variables for AddonCalendarProvider service.
@@ -180,7 +180,7 @@ export const CALENDAR_SITE_SCHEMA: CoreSiteSchema = {
             ],
         },
     ],
-    async migrate(db: SQLiteDB, oldVersion: number, siteId: string): Promise<void> {
+    async migrate(db: CoreDatabase, oldVersion: number, siteId: string): Promise<void> {
         if (oldVersion < 5) {
             await migrateDefaultTime(siteId, oldVersion < 4);
         }

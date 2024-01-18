@@ -199,7 +199,7 @@ export class CoreH5PFileStorage {
                     'WHERE hcl.libraryid = ?';
         const queryArgs = [libraryId];
 
-        const result = await db.execute(query, queryArgs);
+        const result = await db.execute<any>(query, queryArgs);
 
         await Promise.all(Array.from(result.rows).map(async (entry: {foldername: string}) => {
             try {

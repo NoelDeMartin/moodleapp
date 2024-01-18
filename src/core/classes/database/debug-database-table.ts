@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { SQLiteDBRecordValues } from '@classes/sqlitedb';
 import { CoreLogger } from '@singletons/logger';
 import {
     CoreDatabaseTable,
@@ -21,6 +20,7 @@ import {
     CoreDatabaseReducer,
     CoreDatabaseQueryOptions,
 } from './database-table';
+import { CoreDatabaseRecord } from '@classes/database/database';
 
 /**
  * Database table proxy used to debug runtime operations.
@@ -28,7 +28,7 @@ import {
  * This proxy should only be used for development purposes.
  */
 export class CoreDebugDatabaseTable<
-    DBRecord extends SQLiteDBRecordValues = SQLiteDBRecordValues,
+    DBRecord extends CoreDatabaseRecord = CoreDatabaseRecord,
     PrimaryKeyColumn extends keyof DBRecord = 'id',
     RowIdColumn extends PrimaryKeyColumn = PrimaryKeyColumn,
     PrimaryKey extends GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn> = GetDBRecordPrimaryKey<DBRecord, PrimaryKeyColumn>,

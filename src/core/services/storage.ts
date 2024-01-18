@@ -19,7 +19,7 @@ import { CoreApp } from '@services/app';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
 import { CoreDatabaseTable } from '@classes/database/database-table';
 import { makeSingleton } from '@singletons';
-import { SQLiteDB } from '@classes/sqlitedb';
+import { CoreDatabase } from '@classes/database/database';
 
 import { APP_SCHEMA, CoreStorageRecord, TABLE_NAME } from './database/storage';
 import { CoreSites } from './sites';
@@ -61,7 +61,7 @@ export class CoreStorageService {
      *
      * @param database Database.
      */
-    async initializeTable(database: SQLiteDB): Promise<void> {
+    async initializeTable(database: CoreDatabase): Promise<void> {
         const table = await getStorageTable(database);
 
         this.table.setInstance(table);
@@ -184,7 +184,7 @@ export class CoreStorageService {
 export const CoreStorage = makeSingleton(CoreStorageService);
 
 const SERVICE_INSTANCES: Record<string, AsyncInstance<CoreStorageService>> = {};
-const TABLE_INSTANCES: WeakMap<SQLiteDB, Promise<CoreStorageTable>> = new WeakMap();
+const TABLE_INSTANCES: WeakMap<CoreDatabase, Promise<CoreStorageTable>> = new WeakMap();
 
 /**
  * Helper function to get a storage table for the given database.
@@ -192,7 +192,7 @@ const TABLE_INSTANCES: WeakMap<SQLiteDB, Promise<CoreStorageTable>> = new WeakMa
  * @param database Database.
  * @returns Storage table.
  */
-function getStorageTable(database: SQLiteDB): Promise<CoreStorageTable> {
+function getStorageTable(database: CoreDatabase): Promise<CoreStorageTable> {
     const existingTable = TABLE_INSTANCES.get(database);
 
     if (existingTable) {

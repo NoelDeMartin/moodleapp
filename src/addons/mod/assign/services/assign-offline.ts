@@ -14,7 +14,7 @@
 
 import { Injectable } from '@angular/core';
 import { CoreError } from '@classes/errors/error';
-import { SQLiteDBRecordValues } from '@classes/sqlitedb';
+import { CoreDatabaseRecord } from '@classes/database/database';
 import { CoreFile } from '@services/file';
 import { CoreSites } from '@services/sites';
 import { CoreTextUtils } from '@services/utils/text';
@@ -127,7 +127,7 @@ export class AddonModAssignOfflineProvider {
      * @returns Promise resolved with submissions.
      */
     protected async getAssignSubmissionsFormatted(
-        conditions: SQLiteDBRecordValues = {},
+        conditions: CoreDatabaseRecord = {},
         siteId?: string,
     ): Promise<AddonModAssignSubmissionsDBRecordFormatted[]> {
         const db = await CoreSites.getSiteDb(siteId);
@@ -180,7 +180,7 @@ export class AddonModAssignOfflineProvider {
      * @returns Promise resolved with submissions grades.
      */
     protected async getAssignSubmissionsGradeFormatted(
-        conditions: SQLiteDBRecordValues = {},
+        conditions: CoreDatabaseRecord = {},
         siteId?: string,
     ): Promise<AddonModAssignSubmissionsGradingDBRecordFormatted[]> {
         const db = await CoreSites.getSiteDb(siteId);

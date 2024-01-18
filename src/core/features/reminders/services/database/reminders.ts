@@ -14,7 +14,7 @@
 
 import { AddonCalendarProvider } from '@addons/calendar/services/calendar';
 import { AddonCalendarEventDBRecord, EVENTS_TABLE } from '@addons/calendar/services/database/calendar';
-import { SQLiteDB } from '@classes/sqlitedb';
+import { CoreDatabase } from '@classes/database/database';
 import { CoreSiteSchema } from '@services/sites';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreReminderData, CoreRemindersService } from '../reminders';
@@ -77,13 +77,13 @@ export const REMINDERS_SITE_SCHEMA: CoreSiteSchema = {
             ],
         },
     ],
-    install: async (db: SQLiteDB): Promise<void> => {
+    install: async (db: CoreDatabase): Promise<void> => {
         await migrateFromCalendarRemindersV1(db);
         await migrateFromCalendarRemindersV2(db);
     },
 };
 
-const migrateFromCalendarRemindersV1 = async (db: SQLiteDB): Promise<void> => {
+const migrateFromCalendarRemindersV1 = async (db: CoreDatabase): Promise<void> => {
     // Migrate reminders. New format @since 4.0.
     const oldTable = 'addon_calendar_reminders';
 
@@ -141,7 +141,7 @@ const migrateFromCalendarRemindersV1 = async (db: SQLiteDB): Promise<void> => {
     }
 };
 
-const migrateFromCalendarRemindersV2 = async (db: SQLiteDB): Promise<void> => {
+const migrateFromCalendarRemindersV2 = async (db: CoreDatabase): Promise<void> => {
     const oldTable = 'addon_calendar_reminders_2';
 
     const tableExists = await CoreUtils.promiseWorks(db.tableExists(oldTable));
@@ -189,7 +189,7 @@ const migrateFromCalendarRemindersV2 = async (db: SQLiteDB): Promise<void> => {
 };
 
 const createReminder = async (
-    db: SQLiteDB,
+    db: CoreDatabase,
     event: AddonCalendarEventDBRecord,
     reminderTime: number,
 ): Promise<void> => {

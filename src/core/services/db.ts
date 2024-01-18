@@ -14,11 +14,14 @@
 
 import { Injectable } from '@angular/core';
 
-import { SQLiteDB } from '@classes/sqlitedb';
-import { SQLiteDBMock } from '@features/emulator/classes/sqlitedb';
 import { CoreBrowser } from '@singletons/browser';
-import { makeSingleton, SQLite } from '@singletons';
+import { makeSingleton } from '@singletons';
 import { CorePlatform } from '@services/platform';
+import { CoreDatabase } from '@classes/database/database';
+import { CoreNativeDatabase } from '@classes/database/native-database';
+import { SQLiteDB } from '@classes/sqlitedb';
+import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
+import { asyncInstance } from '@/core/utils/async-instance';
 
 const tableNameRegex = new RegExp([
     '^SELECT.*FROM ([^ ]+)',
@@ -38,7 +41,9 @@ export class CoreDbProvider {
 
     queryLogs: CoreDbQueryLog[] = [];
 
-    protected dbInstances: {[name: string]: SQLiteDB} = {};
+    protected dbInstances: Record<string, CoreDatabase> = {};
+
+    constructor(private sqlite: SQLite) {}
 
     /**
      * Check whether database queries should be logged.
@@ -206,47 +211,134 @@ export class CoreDbProvider {
      * @param forceNew True if it should always create a new instance.
      * @returns DB.
      */
-    getDB(name: string, forceNew?: boolean): SQLiteDB {
+    getDB(name: string, forceNew?: boolean): CoreDatabase {
         if (this.dbInstances[name] === undefined || forceNew) {
-            if (CorePlatform.is('cordova')) {
-                this.dbInstances[name] = new SQLiteDB(name);
-            } else {
-                this.dbInstances[name] = new SQLiteDBMock(name);
-            }
+            this.dbInstances[name] = this.createDatabase(name);
         }
 
         return this.dbInstances[name];
     }
 
     /**
+     * Create database connection.
+     *
+     * @param name Database name.
+     * @returns Database connection.
+     */
+    protected createDatabase(name: string): CoreDatabase {
+        const create = async () => {
+            const db = await this.sqlite.create({ name, location: 'default' });
+
+            if (CoreDB.loggingEnabled()) {
+                const spies = this.getDatabaseSpies(name, db);
+
+                return new Proxy(db, {
+                    get: (target, property, receiver) => spies[property] ?? Reflect.get(target, property, receiver),
+                }) as unknown as SQLiteObject;
+            }
+
+            return db;
+        };
+
+        return asyncInstance(async () => {
+            await CorePlatform.ready();
+
+            const db = await create();
+
+            return new CoreNativeDatabase(new SQLiteDB(name, db));
+        });
+    }
+
+    /**
      * Delete a DB.
      *
      * @param name DB name.
-     * @returns Promise resolved when the DB is deleted.
      */
     async deleteDB(name: string): Promise<void> {
         if (this.dbInstances[name] !== undefined) {
-            // Close the database first.
             await this.dbInstances[name].close();
 
-            const db = this.dbInstances[name];
             delete this.dbInstances[name];
-
-            if (db instanceof SQLiteDBMock) {
-                // In WebSQL we cannot delete the database, just empty it.
-                return db.emptyDatabase();
-            } else {
-                return SQLite.deleteDatabase({
-                    name,
-                    location: 'default',
-                });
-            }
-        } else if (CorePlatform.is('cordova')) {
-            return SQLite.deleteDatabase({
-                name,
-                location: 'default',
-            });
         }
+
+        await this.deleteDatabase(name);
+    }
+
+    /**
+     * Delete database.
+     *
+     * @param name Database name.
+     */
+    protected async deleteDatabase(name: string): Promise<void> {
+        await this.sqlite.deleteDatabase({
+            name,
+            location: 'default',
+        });
+    }
+
+    /**
+     * Get database spy methods to intercept database calls and track logging information.
+     *
+     * @param dbName Database name.
+     * @param db Database to spy.
+     * @returns Spy methods.
+     */
+    protected getDatabaseSpies(dbName: string, db: SQLiteObject): Partial<SQLiteObject> {
+        return {
+            async executeSql(statement, params) {
+                const start = performance.now();
+
+                try {
+                    const result = await db.executeSql(statement, params);
+
+                    CoreDB.logQuery({
+                        params,
+                        sql: statement,
+                        duration:  performance.now() - start,
+                        dbName,
+                    });
+
+                    return result;
+                } catch (error) {
+                    CoreDB.logQuery({
+                        params,
+                        error,
+                        sql: statement,
+                        duration:  performance.now() - start,
+                        dbName,
+                    });
+
+                    throw error;
+                }
+            },
+            async sqlBatch(statements) {
+                const start = performance.now();
+                const sql = Array.isArray(statements)
+                    ? statements.join(' | ')
+                    : String(statements);
+
+                try {
+                    const result = await db.sqlBatch(statements);
+
+                    CoreDB.logQuery({
+                        sql,
+                        duration: performance.now() - start,
+                        dbName,
+                    });
+
+                    return result;
+                } catch (error) {
+                    CoreDB.logQuery({
+                        sql,
+                        error,
+                        duration: performance.now() - start,
+                        dbName,
+                    });
+
+                    throw error;
+                }
+            },
+        };
     }
 
 }
