@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable } from '@angular/core';
+import { Injectable, InjectionToken } from '@angular/core';
 
 import { CoreBrowser } from '@singletons/browser';
 import { makeSingleton } from '@singletons';
@@ -33,17 +33,16 @@ const tableNameRegex = new RegExp([
     '^DROP TABLE IF EXISTS ([^ ]+)',
 ].join('|'));
 
+export const DB_INJECTION_TOKEN = new InjectionToken('DB');
+
 /**
  * This service allows interacting with the local database to store and retrieve data.
  */
-@Injectable({ providedIn: 'root' })
-export class CoreDbProvider {
+export abstract class CoreDbProvider {
 
     queryLogs: CoreDbQueryLog[] = [];
 
     protected dbInstances: Record<string, CoreDatabase> = {};
-
-    constructor(private sqlite: SQLite) {}
 
     /**
      * Check whether database queries should be logged.
@@ -225,29 +224,7 @@ export class CoreDbProvider {
      * @param name Database name.
      * @returns Database connection.
      */
-    protected createDatabase(name: string): CoreDatabase {
-        const create = async () => {
-            const db = await this.sqlite.create({ name, location: 'default' });
-
-            if (CoreDB.loggingEnabled()) {
-                const spies = this.getDatabaseSpies(name, db);
-
-                return new Proxy(db, {
-                    get: (target, property, receiver) => spies[property] ?? Reflect.get(target, property, receiver),
-                }) as unknown as SQLiteObject;
-            }
-
-            return db;
-        };
-
-        return asyncInstance(async () => {
-            await CorePlatform.ready();
-
-            const db = await create();
-
-            return new CoreNativeDatabase(new SQLiteDB(name, db));
-        });
-    }
+    protected abstract createDatabase(name: string): CoreDatabase;
 
     /**
      * Delete a DB.
@@ -269,12 +246,7 @@ export class CoreDbProvider {
      *
      * @param name Database name.
      */
-    protected async deleteDatabase(name: string): Promise<void> {
-        await this.sqlite.deleteDatabase({
-            name,
-            location: 'default',
-        });
-    }
+    protected abstract deleteDatabase(name: string): Promise<void>;
 
     /**
      * Get database spy methods to intercept database calls and track logging information.
@@ -343,7 +315,56 @@ export class CoreDbProvider {
 
 }
 
-export const CoreDB = makeSingleton(CoreDbProvider);
+/**
+ * This service allows interacting with the local database to store and retrieve data.
+ */
+@Injectable()
+export class CoreDefaultDbProvider extends CoreDbProvider {
+
+    constructor(private sqlite: SQLite) {
+        super();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected createDatabase(name: string): CoreDatabase {
+        const create = async () => {
+            const db = await this.sqlite.create({ name, location: 'default' });
+
+            if (CoreDB.loggingEnabled()) {
+                const spies = this.getDatabaseSpies(name, db);
+
+                return new Proxy(db, {
+                    get: (target, property, receiver) => spies[property] ?? Reflect.get(target, property, receiver),
+                }) as unknown as SQLiteObject;
+            }
+
+            return db;
+        };
+
+        return asyncInstance(async () => {
+            await CorePlatform.ready();
+
+            const db = await create();
+
+            return new CoreNativeDatabase(new SQLiteDB(name, db));
+        });
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected async deleteDatabase(name: string): Promise<void> {
+        await this.sqlite.deleteDatabase({
+            name,
+            location: 'default',
+        });
+    }
+
+}
+
+export const CoreDB = makeSingleton<CoreDbProvider>(DB_INJECTION_TOKEN);
 
 /**
  * Database query log entry.

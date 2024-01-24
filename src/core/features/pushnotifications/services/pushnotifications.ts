@@ -185,7 +185,7 @@ export class CorePushNotificationsProvider {
      */
     protected async initializeDatabase(): Promise<void> {
         try {
-            await CoreApp.createTablesFromSchema(APP_SCHEMA);
+            await CoreApp.createTables(APP_SCHEMA);
         } catch (e) {
             // Ignore errors.
         }

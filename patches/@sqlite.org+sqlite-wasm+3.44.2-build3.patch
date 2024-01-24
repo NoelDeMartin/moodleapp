@@ -1,0 +1,55 @@
+diff --git a/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3-bundler-friendly.mjs b/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3-bundler-friendly.mjs
+index d47792f..d65e2bb 100644
+--- a/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3-bundler-friendly.mjs
++++ b/node_modules/@sqlite.org/sqlite-wasm/sqlite-wasm/jswasm/sqlite3-bundler-friendly.mjs
+@@ -533,7 +533,8 @@ var sqlite3InitModule = (() => {
+         wasmBinaryFile = locateFile(wasmBinaryFile);
+       }
+     } else {
+-      wasmBinaryFile = new URL('sqlite3.wasm', import.meta.url).href;
++      wasmBinaryFile = '/assets/lib/sqlite3/sqlite3.wasm';
++    //   wasmBinaryFile = new URL('/assets/lib/sqlite3/sqlite3.wasm', import.meta.url).href;
+     }
+ 
+     function getBinary(file) {
+@@ -8934,13 +8935,6 @@ var sqlite3InitModule = (() => {
+           ['sqlite3_vfs_unregister', 'int', 'sqlite3_vfs*'],
+         ];
+ 
+-        if (false && wasm.compileOptionUsed('SQLITE_ENABLE_NORMALIZE')) {
+-          wasm.bindingSignatures.push([
+-            'sqlite3_normalized_sql',
+-            'string',
+-            'sqlite3_stmt*',
+-          ]);
+-        }
+ 
+         if (wasm.exports.sqlite3_activate_see instanceof Function) {
+           wasm.bindingSignatures.push(
+@@ -11460,7 +11454,6 @@ var sqlite3InitModule = (() => {
+             } else {
+               return bindOne(this, ndx, affirmSupportedBindType(arg), arg);
+             }
+-            toss3('Should not reach this point.');
+           },
+ 
+           bindAsBlob: function (ndx, arg) {
+@@ -12515,7 +12508,8 @@ var sqlite3InitModule = (() => {
+               return promiseResolve_(sqlite3);
+             };
+             const W = new Worker(
+-              new URL('sqlite3-opfs-async-proxy.js', import.meta.url),
++                '/assets/lib/sqlite3/sqlite3-opfs-async-proxy.js'
++              // new URL('sqlite3-opfs-async-proxy.js', import.meta.url),
+             );
+             setTimeout(() => {
+               if (undefined === promiseWasRejected) {
+@@ -13438,7 +13432,7 @@ var sqlite3InitModule = (() => {
+           });
+           return thePromise;
+         };
+-        installOpfsVfs.defaultProxyUri = 'sqlite3-opfs-async-proxy.js';
++        installOpfsVfs.defaultProxyUri = '/assets/lib/sqlite3/sqlite3-opfs-async-proxy.js';
+         globalThis.sqlite3ApiBootstrap.initializersAsync.push(
+           async (sqlite3) => {
+             try {

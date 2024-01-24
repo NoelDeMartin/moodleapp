@@ -74,7 +74,7 @@ export class CoreConfigProvider {
      */
     async initializeDatabase(): Promise<void> {
         try {
-            await CoreApp.createTablesFromSchema(APP_SCHEMA);
+            await CoreApp.createTables(APP_SCHEMA);
         } catch (e) {
             // Ignore errors.
         }

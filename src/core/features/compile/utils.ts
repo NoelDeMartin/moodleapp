@@ -12,21 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { NgModule, Type } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-import { CoreBlockDelegateService } from './services/block-delegate';
-import { CoreBlockHelperProvider } from './services/block-helper';
-// import { CoreDefaultDbProvider, DB_INJECTION_TOKEN } from '@services/db';
+export interface CoreCompileServiceProvider<T=unknown> {
+    name: string;
+    injectionToken: InjectionToken<T>;
+}
 
-export const CORE_BLOCK_SERVICES: Type<unknown>[] = [
-    CoreBlockDelegateService,
-    CoreBlockHelperProvider,
-];
-
-@NgModule({
-    // TODO This shouldn't be here...
-    // providers: [
-    //     { provide: DB_INJECTION_TOKEN, useClass: CoreDefaultDbProvider },
-    // ],
-})
-export class CoreBlockModule {}
+/**
+ * Check whether the given argument is a compile provider.
+ *
+ * @param provider Potential provider.
+ * @returns Whether the argument is a compile provider.
+ */
+export function isCompileProvider(provider: unknown): provider is CoreCompileServiceProvider {
+    return typeof provider === 'object'
+        && provider !== null
+        && 'name' in provider
+        && 'injectionToken' in provider;
+}

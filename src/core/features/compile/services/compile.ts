@@ -40,7 +40,7 @@ import { CoreEvents } from '@singletons/events';
 import { makeSingleton } from '@singletons';
 
 // Import core services.
-import { CORE_SERVICES } from '@/core/core.module';
+import { CORE_SERVICES, CORE_SERVICE_PROVIDERS } from '@/core/core.module';
 import { CORE_BLOCK_SERVICES } from '@features/block/block.module';
 import { CORE_COMMENTS_SERVICES } from '@features/comments/comments.module';
 import { CORE_CONTENTLINKS_SERVICES } from '@features/contentlinks/contentlinks.module';
@@ -159,6 +159,7 @@ import { AddonModAssignComponentsModule } from '@addons/mod/assign/components/co
 import { CorePromisedValue } from '@classes/promised-value';
 import { CorePlatform } from '@services/platform';
 import { CoreAutoLogoutService } from '@features/autologout/services/autologout';
+import { isCompileProvider } from '@features/compile/utils';
 
 /**
  * Service to provide functionalities regarding compiling dynamic HTML and Javascript.
@@ -278,6 +279,7 @@ export class CoreCompileProvider {
     injectLibraries(instance: any, extraProviders: Type<unknown>[] = []): void {
         const providers = [
             ...CORE_SERVICES,
+            ...CORE_SERVICE_PROVIDERS,
             CoreAutoLogoutService,
             ...CORE_BLOCK_SERVICES,
             ...CORE_COMMENTS_SERVICES,
@@ -340,7 +342,14 @@ export class CoreCompileProvider {
         // We cannot inject anything to this constructor. Use the Injector to inject all the providers into the instance.
         for (const i in providers) {
             const providerDef = providers[i];
-            if (typeof providerDef === 'function' && providerDef.name) {
+            if (isCompileProvider(providerDef)) {
+                try {
+                    // Inject the provider to the instance using an injection token.
+                    instance[providerDef.name] = this.injector.get<Provider>(providerDef.injectionToken);
+                } catch (ex) {
+                    this.logger.error('Error injecting provider', providerDef.name, ex);
+                }
+            } else if (typeof providerDef === 'function' && providerDef.name) {
                 try {
                     // Inject the provider to the instance. We use the class name as the property name.
                     instance[providerDef.name.replace(/DelegateService$/, 'Delegate')] = this.injector.get<Provider>(providerDef);

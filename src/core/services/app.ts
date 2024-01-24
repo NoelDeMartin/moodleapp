@@ -35,16 +35,6 @@ import { CoreDatabase, CoreDatabaseTableSchema } from '@classes/database/databas
 
 /**
  * Factory to provide some global functionalities, like access to the global app database.
- *
- * @description
- * Each service or component should be responsible of creating their own database tables. Example:
- *
- * ```ts
- * constructor(appProvider: CoreAppProvider) {
- *     this.appDB = appProvider.getDB();
- *     this.appDB.createTableFromSchema(this.tableSchema);
- * }
- * ```
  */
 @Injectable({ providedIn: 'root' })
 export class CoreAppProvider {
@@ -94,7 +84,7 @@ export class CoreAppProvider {
     async initializeDatabase(): Promise<void> {
         const database = this.getDB();
 
-        await database.createTableFromSchema(SCHEMA_VERSIONS_TABLE_SCHEMA);
+        await database.createTable(SCHEMA_VERSIONS_TABLE_SCHEMA);
 
         const schemaVersionsTable = new CoreDatabaseTableProxy<SchemaVersionsDBEntry, 'name'>(
             { cachingStrategy: CoreDatabaseCachingStrategy.Eager },
@@ -141,7 +131,7 @@ export class CoreAppProvider {
      * @param schema The schema to create.
      * @returns Promise resolved when done.
      */
-    async createTablesFromSchema(schema: CoreAppSchema): Promise<void> {
+    async createTables(schema: CoreAppSchema): Promise<void> {
         this.logger.debug(`Apply schema to app DB: ${schema.name}`);
 
         const oldVersion = await this.getInstalledSchemaVersion(schema);
@@ -154,7 +144,7 @@ export class CoreAppProvider {
         this.logger.debug(`Migrating schema '${schema.name}' of app DB from version ${oldVersion} to ${schema.version}`);
 
         if (schema.tables) {
-            await this.getDB().createTablesFromSchema(schema.tables);
+            await this.getDB().createTables(schema.tables);
         }
         if (schema.install && oldVersion === 0) {
             await schema.install(this.getDB());

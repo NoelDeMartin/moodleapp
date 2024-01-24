@@ -133,7 +133,7 @@ export class CoreSitesProvider {
      */
     async initializeDatabase(): Promise<void> {
         try {
-            await CoreApp.createTablesFromSchema(APP_SCHEMA);
+            await CoreApp.createTables(APP_SCHEMA);
         } catch {
             // Ignore errors.
         }
@@ -1759,7 +1759,7 @@ export class CoreSitesProvider {
         this.logger.debug(`Migrating all schemas of ${siteId}`);
 
         // First create tables not registerd with name/version.
-        const promise = site.getDb().createTableFromSchema(SCHEMA_VERSIONS_TABLE_SCHEMA)
+        const promise = site.getDb().createTable(SCHEMA_VERSIONS_TABLE_SCHEMA)
             .then(() => this.applySiteSchemas(site, this.siteSchemas));
 
         this.siteSchemasMigration[siteId] = promise;
@@ -1818,7 +1818,7 @@ export class CoreSitesProvider {
         const db = site.getDb();
 
         if (schema.tables) {
-            await db.createTablesFromSchema(schema.tables);
+            await db.createTables(schema.tables);
         }
         if (schema.install && oldVersion == 0) {
             await schema.install(db, site.id);

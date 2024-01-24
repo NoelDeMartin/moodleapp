@@ -13,12 +13,11 @@
 // limitations under the License.
 
 import {
-    CoreDatabase,
     CoreDatabaseParam,
     CoreDatabaseValue,
     CoreDatabaseRecord,
-    CoreDatabaseTableSchema,
     CoreDatabaseColumnType,
+    CoreDatabaseBase,
 } from '@classes/database/database';
 
 import { SQLiteDB } from '@classes/sqlitedb';
@@ -26,7 +25,7 @@ import { SQLiteDB } from '@classes/sqlitedb';
 /**
  * Database implementation for native devices.
  */
-export class CoreNativeDatabase extends CoreDatabase {
+export class CoreNativeDatabase extends CoreDatabaseBase {
 
     private sqlite: SQLiteDB;
 
@@ -39,7 +38,7 @@ export class CoreNativeDatabase extends CoreDatabase {
     /**
      * @inheritdoc
      */
-    execute<T = unknown>(sql: string, params?: CoreDatabaseParam[]): Promise<T> {
+    execute<T extends unknown[] = unknown[]>(sql: string, params?: CoreDatabaseParam[]): Promise<T> {
         return this.sqlite.execute(sql, params);
     }
 
@@ -53,14 +52,6 @@ export class CoreNativeDatabase extends CoreDatabase {
 
     countRecords(table: string, conditions?: CoreDatabaseRecord): Promise<number> {
         return this.sqlite.countRecords(table, conditions);
-    }
-
-    createTableFromSchema(table: CoreDatabaseTableSchema): Promise<void> {
-        return this.sqlite.createTableFromSchema(table);
-    }
-
-    createTablesFromSchema(tables: CoreDatabaseTableSchema[]): Promise<void> {
-        return this.sqlite.createTablesFromSchema(tables);
     }
 
     deleteRecords(table: string, conditions?: CoreDatabaseRecord): Promise<number> {

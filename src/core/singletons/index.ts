@@ -20,6 +20,7 @@ import {
     NgZone as NgZoneService,
     Type,
     EnvironmentInjector,
+    InjectionToken,
 } from '@angular/core';
 import { Router as RouterService } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -117,7 +118,7 @@ export function setCreateSingletonMethodProxy(method: typeof createSingletonMeth
  * @returns Singleton proxy.
  */
 export function makeSingleton<Service extends object = object>(
-    injectionToken: Type<Service> | AbstractType<Service> | Type<unknown> | string,
+    injectionToken: Type<Service> | AbstractType<Service> | Type<unknown> | InjectionToken<unknown> |  string,
 ): CoreSingletonProxy<Service> {
     const singleton = {
         injectionToken,

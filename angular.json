@@ -95,7 +95,11 @@
           "options": {
             "browserTarget": "app:build",
             "disableHostCheck": true,
-            "port": 8100
+            "port": 8100,
+            "headers": {
+                "Cross-Origin-Opener-Policy": "same-origin",
+                "Cross-Origin-Embedder-Policy": "require-corp"
+            }
           },
           "configurations": {
             "production": {
@@ -152,6 +156,9 @@
   },
   "cli": {
     "analytics": false,
+    "cache": {
+        "enabled": false
+    },
     "schematicCollections": [
       "@ionic/angular-toolkit"
     ]

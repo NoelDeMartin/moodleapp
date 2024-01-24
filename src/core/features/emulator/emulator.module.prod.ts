@@ -13,9 +13,14 @@
 // limitations under the License.
 
 import { NgModule } from '@angular/core';
+import { CoreDefaultDbProvider, DB_INJECTION_TOKEN } from '@services/db';
 
 /**
  * Stub used in production to avoid including emulator code in production bundles.
  */
-@NgModule({})
+@NgModule({
+    providers: [
+        { provide: DB_INJECTION_TOKEN, useClass: CoreDefaultDbProvider },
+    ],
+})
 export class CoreEmulatorModule {}

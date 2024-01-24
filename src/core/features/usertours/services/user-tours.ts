@@ -42,7 +42,7 @@ export class CoreUserToursService {
      * Initialize database.
      */
     async initializeDatabase(): Promise<void> {
-        await CoreUtils.ignoreErrors(CoreApp.createTablesFromSchema(APP_SCHEMA));
+        await CoreUtils.ignoreErrors(CoreApp.createTables(APP_SCHEMA));
 
         this.table.setLazyConstructor(async () => {
             const table = new CoreDatabaseTableProxy<CoreUserToursDBEntry>(

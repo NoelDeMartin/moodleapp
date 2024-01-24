@@ -125,7 +125,7 @@ export class CoreDatabaseTable<
      */
     getMany(conditions?: Partial<DBRecord>, options?: Partial<CoreDatabaseQueryOptions<DBRecord>>): Promise<DBRecord[]> {
         if (!conditions && !options) {
-            return this.database.getAllRecords(this.tableName);
+            return this.database.execute(`SELECT * FROM ${this.tableName}`);
         }
 
         const sorting = options?.sorting

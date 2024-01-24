@@ -44,6 +44,9 @@ import { CorePlatform } from '@services/platform';
 import { CoreLocalNotifications } from '@services/local-notifications';
 import { CoreNative } from '@features/native/services/native';
 import { SecureStorageMock } from '@features/emulator/classes/SecureStorage';
+import { CoreDbProvider, CoreDefaultDbProvider, DB_INJECTION_TOKEN } from '@services/db';
+import { CoreDbProviderMock } from '@features/emulator/services/db';
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 
 /**
  * This module handles the emulation of Cordova plugins in browser and desktop.
@@ -100,6 +103,17 @@ import { SecureStorageMock } from '@features/emulator/classes/SecureStorage';
             useFactory: (): LocalNotifications => CoreLocalNotifications.isPluginAvailable()
                 ? new LocalNotifications()
                 : new LocalNotificationsMock(),
+        },
+        {
+            provide: DB_INJECTION_TOKEN,
+            deps: [SQLite],
+            useFactory: (sqlite: SQLite): CoreDbProvider => {
+                if (CorePlatform.is('cordova')) {
+                    return new CoreDefaultDbProvider(sqlite);
+                }
+
+                return new CoreDbProviderMock();
+            },
         },
         {
             provide: APP_INITIALIZER,

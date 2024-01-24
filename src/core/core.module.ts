@@ -25,7 +25,7 @@ import { CoreAppProvider } from '@services/app';
 import { CoreConfigProvider } from '@services/config';
 import { CoreCronDelegateService } from '@services/cron';
 import { CoreCustomURLSchemesProvider } from '@services/urlschemes';
-import { CoreDbProvider } from '@services/db';
+import { DB_INJECTION_TOKEN } from '@services/db';
 import { CoreDomUtilsProvider } from '@services/utils/dom';
 import { CoreFileHelperProvider } from '@services/file-helper';
 import { CoreFilepoolProvider } from '@services/filepool';
@@ -48,13 +48,13 @@ import { CoreUpdateManagerProvider } from '@services/update-manager';
 import { CoreUrlUtilsProvider } from '@services/utils/url';
 import { CoreUtilsProvider } from '@services/utils/utils';
 import { CoreWSProvider } from '@services/ws';
+import { CoreCompileServiceProvider } from '@features/compile/utils';
 
 export const CORE_SERVICES: Type<unknown>[] = [
     CoreAppProvider,
     CoreConfigProvider,
     CoreCronDelegateService,
     CoreCustomURLSchemesProvider,
-    CoreDbProvider,
     CoreDomUtilsProvider,
     CoreFileHelperProvider,
     CoreFilepoolProvider,
@@ -77,6 +77,10 @@ export const CORE_SERVICES: Type<unknown>[] = [
     CoreUrlUtilsProvider,
     CoreUtilsProvider,
     CoreWSProvider,
+];
+
+export const CORE_SERVICE_PROVIDERS: CoreCompileServiceProvider[] = [
+    { name: 'CoreDbProvider', injectionToken: DB_INJECTION_TOKEN },
 ];
 
 @NgModule({
