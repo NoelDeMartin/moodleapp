@@ -8,11 +8,11 @@ on:
       moodle_branch:
         description: 'Moodle branch'
         required: true
-        default: 'main'
+        default: 'MDL-80784-main'
       moodle_repository:
         description: 'Moodle repository'
         required: true
-        default: 'https://github.com/moodle/moodle.git'
+        default: 'https://github.com/NoelDeMartin/moodle.git'
   pull_request:
     branches: [ main, v*.x ]
 
@@ -189,11 +189,13 @@ jobs:
 
       - name: Initialise moodle-plugin-ci
         run: |
-          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4.3
+          git clone https://github.com/NoelDeMartin/moodle-plugin-ci --branch selenium-env ci
+          composer install -d ./ci
           echo $(cd ci/bin; pwd) >> $GITHUB_PATH
           echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
           sudo locale-gen en_AU.UTF-8
           echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
+          sed -i "58i\$CFG->behat_profiles['chrome']['capabilities'] = ['extra_capabilities' => ['chromeOptions' => ['args' => ['--ignore-certificate-errors', '--allow-running-insecure-content']]]];" ci/res/template/config.php.txt
 
       - name: Install Behat Snapshots plugin
         run: moodle-plugin-ci add-plugin NoelDeMartin/moodle-local_behatsnapshots
@@ -202,8 +204,8 @@ jobs:
         run: moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
         env:
           DB: pgsql
-          MOODLE_BRANCH: ${{ github.event.inputs.moodle_branch || 'main' }}
-          MOODLE_REPO: ${{ github.event.inputs.moodle_repository || 'https://github.com/moodle/moodle.git' }}
+          MOODLE_BRANCH: ${{ github.event.inputs.moodle_branch || 'MDL-80784-main' }}
+          MOODLE_REPO: ${{ github.event.inputs.moodle_repository || 'https://github.com/NoelDeMartin/moodle.git' }}
           MOODLE_BEHAT_IONIC_WWWROOT: https://localhost:8001
           MOODLE_BEHAT_DEFAULT_BROWSER: chrome
 
@@ -214,6 +216,7 @@ jobs:
         run: moodle-plugin-ci behat --auto-rerun 3 --profile chrome --tags="@app&&~@local&&$BEHAT_TAGS"
         env:
           BEHAT_TAGS: ${{ matrix.tags }}
+          MOODLE_BEHAT_SELENIUM_IMAGE: selenium/standalone-chrome:120.0
 
       - name: Upload Snapshot failures
         uses: actions/upload-artifact@v4
