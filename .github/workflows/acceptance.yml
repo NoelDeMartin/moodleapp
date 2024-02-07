@@ -15,6 +15,8 @@ on:
         default: 'https://github.com/NoelDeMartin/moodle.git'
   pull_request:
     branches: [ main, v*.x ]
+  push:
+    branches: [ MOBILE-4304-wip ]
 
 jobs:
 
