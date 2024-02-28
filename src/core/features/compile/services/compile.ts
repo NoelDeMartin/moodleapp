@@ -223,7 +223,11 @@ export class CoreCompileProvider {
 
             // Now create the module containing the component.
             const ngModuleRef = createNgModule(
-                NgModule({ imports, declarations: [component], schemas: [NO_ERRORS_SCHEMA] })(class {}),
+                NgModule({
+                    imports,
+                    declarations: [component],
+                    schemas: CoreConstants.BUILD.isProduction ? [NO_ERRORS_SCHEMA] : [],
+                })(class {}),
                 this.injector,
             );
 
