@@ -62,9 +62,10 @@ jobs:
 
       - name: Prepare Behat tags
         id: set-tags
+        working-directory: app
         run: |
           if [ -z $BEHAT_TAGS ]; then
-            tags_json=`cat .github/files/behat-tags.json | tr -d '\n' | tr -d ' '`
+            tags_json=`.github/scripts/print_behat_tags_json.sh`
             echo "tags=$tags_json" >> $GITHUB_OUTPUT;
           else
             echo "tags=[\"$BEHAT_TAGS\"]" >> $GITHUB_OUTPUT;

@@ -1,18 +1,18 @@
 name: Coverage
 
-on:
-  workflow_dispatch:
-    inputs:
-      behat_tags:
-        description: 'Behat tags to execute'
-      moodle_branch:
-        description: 'Moodle branch'
-        required: true
-        default: 'main'
-      moodle_repository:
-        description: 'Moodle repository'
-        required: true
-        default: 'https://github.com/moodle/moodle.git'
+on: ['push']
+  # workflow_dispatch:
+  #   inputs:
+  #     behat_tags:
+  #       description: 'Behat tags to execute'
+  #     moodle_branch:
+  #       description: 'Moodle branch'
+  #       required: true
+  #       default: 'main'
+  #     moodle_repository:
+  #       description: 'Moodle repository'
+  #       required: true
+  #       default: 'https://github.com/moodle/moodle.git'
 
 concurrency:
     group: coverage-${{ github.ref }}
@@ -62,15 +62,17 @@ jobs:
 
       - name: Prepare Behat tags
         id: set-tags
+        working-directory: app
         run: |
           if [ -z $BEHAT_TAGS ]; then
-            tags_json=`cat .github/files/behat-tags.json | tr -d '\n' | tr -d ' '`
+            tags_json=`.github/scripts/print_behat_tags_json.sh`
             echo "tags=$tags_json" >> $GITHUB_OUTPUT;
           else
             echo "tags=[\"$BEHAT_TAGS\"]" >> $GITHUB_OUTPUT;
           fi
         env:
           BEHAT_TAGS: ${{ github.event.inputs.behat_tags }}
+
 
       # We need to upload an artifact so that the download-artifact action
       # in the "complete" job does not fail if no other artifacts were uploaded.
