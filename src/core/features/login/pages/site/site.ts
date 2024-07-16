@@ -29,7 +29,6 @@ import { CoreError } from '@classes/errors/error';
 import { CoreConstants } from '@/core/constants';
 import { Translate } from '@singletons';
 import { CoreUrl } from '@singletons/url';
-import { CoreUrlUtils } from '@services/utils/url';
 import { CoreNavigator } from '@services/navigator';
 import { CoreCustomURLSchemes, CoreCustomURLSchemesHandleError } from '@services/urlschemes';
 import { CoreTextUtils } from '@services/utils/text';
@@ -563,7 +562,7 @@ export class CoreLoginSitePage implements OnInit {
         }
 
         // Not a custom URL scheme, check if it's a URL scheme to another app.
-        const scheme = CoreUrlUtils.getUrlProtocol(text);
+        const scheme = CoreUrl.getUrlProtocol(text);
 
         if (scheme && scheme != 'http' && scheme != 'https') {
             CoreDomUtils.showErrorModal(Translate.instant('core.errorurlschemeinvalidscheme', { $a: text }));

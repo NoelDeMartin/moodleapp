@@ -26,7 +26,7 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { CoreTextUtils } from '@services/utils/text';
 import { CoreTimeUtils } from '@services/utils/time';
-import { CoreUrlUtils } from '@services/utils/url';
+import { CoreUrl } from '@singletons/url';
 import { CoreUtils, CoreUtilsOpenFileOptions } from '@services/utils/utils';
 import { CoreError } from '@classes/errors/error';
 import { DownloadStatus } from '@/core/constants';
@@ -51,7 +51,6 @@ import {
     QUEUE_TABLE_PRIMARY_KEYS,
 } from '@services/database/filepool';
 import { CoreFileHelper } from './file-helper';
-import { CoreUrl } from '@singletons/url';
 import { CoreDatabaseTable } from '@classes/database/database-table';
 import { CoreDatabaseCachingStrategy, CoreDatabaseTableProxy } from '@classes/database/database-table-proxy';
 import { lazyMap, LazyMap } from '../utils/lazy-map';
@@ -781,7 +780,7 @@ export class CoreFilepoolProvider {
 
             CoreAnalytics.logEvent({
                 type: CoreAnalyticsEventType.DOWNLOAD_FILE,
-                fileUrl: CoreUrlUtils.unfixPluginfileURL(fileUrl, site.getURL()),
+                fileUrl: CoreUrl.unfixPluginfileURL(fileUrl, site.getURL()),
             });
 
             // Add the anchor again to the local URL.
@@ -1125,14 +1124,14 @@ export class CoreFilepoolProvider {
             const element = elements[i];
             const url = 'href' in element ? element.href : element.src;
 
-            if (url && CoreUrlUtils.isDownloadableUrl(url) && urls.indexOf(url) == -1) {
+            if (url && CoreUrl.isDownloadableUrl(url) && urls.indexOf(url) == -1) {
                 urls.push(url);
             }
 
             // Treat video poster.
             if (element.tagName == 'VIDEO' && element.getAttribute('poster')) {
                 const poster = element.getAttribute('poster');
-                if (poster && CoreUrlUtils.isDownloadableUrl(poster) && urls.indexOf(poster) == -1) {
+                if (poster && CoreUrl.isDownloadableUrl(poster) && urls.indexOf(poster) == -1) {
                     urls.push(poster);
                 }
             }
@@ -1913,7 +1912,7 @@ export class CoreFilepoolProvider {
      * @returns The args found, undefined if not a pluginfile.
      */
     protected getPluginFileArgs(url: string): string[] | undefined {
-        if (!CoreUrlUtils.isPluginFileUrl(url)) {
+        if (!CoreUrl.isPluginFileUrl(url)) {
             // Not pluginfile, return.
             return;
         }
@@ -2159,27 +2158,27 @@ export class CoreFilepoolProvider {
 
         if (fileUrl.indexOf('/webservice/pluginfile') !== -1) {
             // It's a pluginfile URL. Search for the 'file' param to extract the name.
-            const params = CoreUrlUtils.extractUrlParams(fileUrl);
+            const params = CoreUrl.extractUrlParams(fileUrl);
             if (params.file) {
                 filename = params.file.substring(params.file.lastIndexOf('/') + 1);
             } else {
                 // 'file' param not found. Extract what's after the last '/' without params.
-                filename = CoreUrlUtils.getLastFileWithoutParams(fileUrl);
+                filename = CoreUrl.getLastFileWithoutParams(fileUrl);
             }
-        } else if (CoreUrlUtils.isGravatarUrl(fileUrl)) {
+        } else if (CoreUrl.isGravatarUrl(fileUrl)) {
             // Extract gravatar ID.
-            filename = 'gravatar_' + CoreUrlUtils.getLastFileWithoutParams(fileUrl);
-        } else if (CoreUrlUtils.isThemeImageUrl(fileUrl)) {
+            filename = 'gravatar_' + CoreUrl.getLastFileWithoutParams(fileUrl);
+        } else if (CoreUrl.isThemeImageUrl(fileUrl)) {
             // Extract user ID.
             const matches = fileUrl.match(/\/core\/([^/]*)\//);
             if (matches && matches[1]) {
                 filename = matches[1];
             }
             // Attach a constant and the image type.
-            filename = 'default_' + filename + '_' + CoreUrlUtils.getLastFileWithoutParams(fileUrl);
+            filename = 'default_' + filename + '_' + CoreUrl.getLastFileWithoutParams(fileUrl);
         } else {
             // Another URL. Just get what's after the last /.
-            filename = CoreUrlUtils.getLastFileWithoutParams(fileUrl);
+            filename = CoreUrl.getLastFileWithoutParams(fileUrl);
         }
 
         // If there are hashes in the URL, extract them.
@@ -3004,7 +3003,7 @@ export class CoreFilepoolProvider {
             try {
                 let fileUrl = absoluteUrl;
 
-                if (!CoreUrlUtils.isLocalFileUrl(absoluteUrl)) {
+                if (!CoreUrl.isLocalFileUrl(absoluteUrl)) {
                     // Not a local file, download it.
                     fileUrl = await this.downloadUrl(
                         siteId,

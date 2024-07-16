@@ -39,7 +39,6 @@ import { CoreSiteError } from '@classes/errors/siteerror';
 import { CoreUserAuthenticatedSupportConfig } from '@features/user/classes/support/authenticated-support-config';
 import { CoreSiteInfo, CoreSiteInfoResponse, CoreSitePublicConfigResponse, CoreUnauthenticatedSite } from './unauthenticated-site';
 import { Md5 } from 'ts-md5';
-import { CoreUrlUtils } from '@services/utils/url';
 import { CoreSiteWSCacheRecord } from '@services/database/sites';
 import { CoreErrorLogs } from '@singletons/error-logs';
 import { CoreWait } from '@singletons/wait';
@@ -1269,10 +1268,40 @@ export class CoreAuthenticatedSite extends CoreUnauthenticatedSite {
      * @param page Docs page to go to.
      * @returns Promise resolved with the Moodle docs URL.
      */
-    getDocsUrl(page?: string): Promise<string> {
+    async getDocsUrl(page?: string): Promise<string> {
         const release = this.infos?.release ? this.infos.release : undefined;
 
-        return CoreUrlUtils.getDocsUrl(release, page);
+        return CoreAuthenticatedSite.getDocsUrlFromRelease(release, page);
+    }
+
+    /**
+     * Returns the URL to the documentation of the app, based on Moodle version and current language.
+     *
+     * @param release Moodle release.
+     * @param page Docs page to go to.
+     * @returns Promise resolved with the Moodle docs URL.
+     */
+    static async getDocsUrlFromRelease(release?: string, page: string = 'Mobile_app'): Promise<string> {
+        let docsUrl = 'https://docs.moodle.org/en/' + page;
+
+        if (release !== undefined) {
+            const version = CoreSites.getMajorReleaseNumber(release).replace('.', '');
+
+            // Check is a valid number.
+            if (Number(version) >= 24) {
+                // Append release number.
+                docsUrl = docsUrl.replace('https://docs.moodle.org/', 'https://docs.moodle.org/' + version + '/');
+            }
+        }
+
+        try {
+            let lang = await CoreLang.getCurrentLanguage(CoreLangFormat.LMS);
+            lang = CoreLang.getParentLanguage() || lang;
+
+            return docsUrl.replace('/en/', '/' + lang + '/');
+        } catch {
+            return docsUrl;
+        }
     }
 
     /**

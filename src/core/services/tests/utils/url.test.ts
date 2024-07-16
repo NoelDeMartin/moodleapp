@@ -12,26 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { CoreUrlUtilsProvider } from '@services/utils/url';
+import { CoreUrl } from '@singletons/url';
 
-describe('CoreUrlUtilsProvider', () => {
-
-    let urlUtils: CoreUrlUtilsProvider;
-
-    beforeEach(() => {
-        urlUtils = new CoreUrlUtilsProvider();
-    });
+describe('CoreUrl', () => {
 
     it('adds www if missing', () => {
         const originalUrl = 'https://moodle.org';
-        const url = urlUtils.addOrRemoveWWW(originalUrl);
+        const url = CoreUrl.addOrRemoveWWW(originalUrl);
 
         expect(url).toEqual('https://www.moodle.org');
     });
 
     it('removes www if present', () => {
         const originalUrl = 'https://www.moodle.org';
-        const url = urlUtils.addOrRemoveWWW(originalUrl);
+        const url = CoreUrl.addOrRemoveWWW(originalUrl);
 
         expect(url).toEqual('https://moodle.org');
     });
@@ -42,7 +36,7 @@ describe('CoreUrlUtilsProvider', () => {
             first: '1',
             second: '2',
         };
-        const url = urlUtils.addParamsToUrl(originalUrl, params);
+        const url = CoreUrl.addParamsToUrl(originalUrl, params);
 
         expect(url).toEqual('https://moodle.org?first=1&second=2');
     });
@@ -53,21 +47,21 @@ describe('CoreUrlUtilsProvider', () => {
             first: '1',
             second: '2',
         };
-        const url = urlUtils.addParamsToUrl(originalUrl, params);
+        const url = CoreUrl.addParamsToUrl(originalUrl, params);
 
         expect(url).toEqual('https://moodle.org?existing=1&first=1&second=2');
     });
 
     it('doesn\'t change URL if no params supplied', () => {
         const originalUrl = 'https://moodle.org';
-        const url = urlUtils.addParamsToUrl(originalUrl);
+        const url = CoreUrl.addParamsToUrl(originalUrl);
 
         expect(url).toEqual(originalUrl);
     });
 
     it('doesn\'t add undefined or null params', () => {
         const originalUrl = 'https://moodle.org';
-        const url = urlUtils.addParamsToUrl(originalUrl, {
+        const url = CoreUrl.addParamsToUrl(originalUrl, {
             foo: undefined,
             bar: null,
             baz: 1,
@@ -82,7 +76,7 @@ describe('CoreUrlUtilsProvider', () => {
             first: '1',
             second: '2',
         };
-        const url = urlUtils.addParamsToUrl(originalUrl, params, 'myanchor');
+        const url = CoreUrl.addParamsToUrl(originalUrl, params, 'myanchor');
 
         expect(url).toEqual('https://moodle.org?first=1&second=2#myanchor');
     });

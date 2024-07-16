@@ -16,7 +16,7 @@ import { Injectable } from '@angular/core';
 
 import { CoreSites } from '@services/sites';
 import { CoreWSExternalWarning, CoreWSExternalFile, CoreWSFile } from '@services/ws';
-import { CoreUrlUtils } from '@services/utils/url';
+import { CoreUrl } from '@singletons/url';
 import { CoreQueueRunner } from '@classes/queue-runner';
 import { CoreSite } from '@classes/sites/site';
 
@@ -246,7 +246,7 @@ export class CoreH5PProvider {
             url = url.replace('/webservice/pluginfile', '/pluginfile');
         }
 
-        return CoreUrlUtils.removeUrlParams(url);
+        return CoreUrl.removeUrlParams(url);
     }
 
 }

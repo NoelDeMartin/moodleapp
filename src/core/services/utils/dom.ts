@@ -21,7 +21,7 @@ import { CoreConfig } from '@services/config';
 import { CoreFile } from '@services/file';
 import { CoreWSExternalWarning } from '@services/ws';
 import { CoreTextUtils, CoreTextErrorObject } from '@services/utils/text';
-import { CoreUrlUtils } from '@services/utils/url';
+import { CoreUrl } from '@singletons/url';
 import { CoreUtils } from '@services/utils/utils';
 import { CoreConstants } from '@/core/constants';
 import { CoreIonLoadingElement } from '@classes/ion-loading';
@@ -710,7 +710,7 @@ export class CoreDomUtilsProvider {
         media.forEach((media: HTMLElement) => {
             const currentSrc = media.getAttribute('src');
             const newSrc = currentSrc ?
-                paths[CoreUrlUtils.removeUrlParams(CoreTextUtils.decodeURIComponent(currentSrc))] :
+                paths[CoreUrl.removeUrlParams(CoreTextUtils.decodeURIComponent(currentSrc))] :
                 undefined;
 
             if (newSrc !== undefined) {
@@ -732,7 +732,7 @@ export class CoreDomUtilsProvider {
         anchors.forEach((anchor: HTMLElement) => {
             const currentHref = anchor.getAttribute('href');
             const newHref = currentHref ?
-                paths[CoreUrlUtils.removeUrlParams(CoreTextUtils.decodeURIComponent(currentHref))] :
+                paths[CoreUrl.removeUrlParams(CoreTextUtils.decodeURIComponent(currentHref))] :
                 undefined;
 
             if (newHref !== undefined) {
