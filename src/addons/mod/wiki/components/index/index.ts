@@ -50,8 +50,7 @@ import {
     AddonModWikiSyncWikiResult,
     AddonModWikiSyncWikiSubwiki,
 } from '../../services/wiki-sync';
-import { AddonModWikiMapModalComponent, AddonModWikiMapModalReturn } from '../map/map';
-import { AddonModWikiSubwikiPickerComponent } from '../subwiki-picker/subwiki-picker';
+import { AddonModWikiMapModalReturn } from '../map/map';
 import {
     ADDON_MOD_WIKI_AUTO_SYNCED,
     ADDON_MOD_WIKI_COMPONENT,
@@ -665,7 +664,9 @@ export class AddonModWikiIndexComponent extends CoreCourseModuleMainActivityComp
      * Show the map.
      */
     async openMap(): Promise<void> {
-        // Create the toc modal.
+        const { AddonModWikiMapModalComponent } = await import('../map/map');
+
+        // Create the map modal.
         const modalData = await CoreModals.openSideModal<AddonModWikiMapModalReturn>({
             component: AddonModWikiMapModalComponent,
             componentProps: {
@@ -884,6 +885,8 @@ export class AddonModWikiIndexComponent extends CoreCourseModuleMainActivityComp
      * @param event Event.
      */
     async showSubwikiPicker(event: MouseEvent): Promise<void> {
+        const { AddonModWikiSubwikiPickerComponent } = await import('../subwiki-picker/subwiki-picker');
+
         const subwiki = await CoreDomUtils.openPopover<AddonModWikiSubwiki>({
             component: AddonModWikiSubwikiPickerComponent,
             componentProps: {
