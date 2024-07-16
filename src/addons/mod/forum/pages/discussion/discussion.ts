@@ -58,6 +58,7 @@ import {
     ADDON_MOD_FORUM_MARK_READ_EVENT,
     ADDON_MOD_FORUM_REPLY_DISCUSSION_EVENT,
 } from '../../constants';
+import { CoreToasts } from '@services/toasts';
 
 type SortType = 'flat-newest' | 'flat-oldest' | 'nested';
 
@@ -728,7 +729,7 @@ export class AddonModForumDiscussionPage implements OnInit, AfterViewInit, OnDes
             };
             CoreEvents.trigger(ADDON_MOD_FORUM_CHANGE_DISCUSSION_EVENT, data, CoreSites.getCurrentSiteId());
 
-            CoreDomUtils.showToast('addon.mod_forum.lockupdated', true);
+            CoreToasts.show('addon.mod_forum.lockupdated', true);
         } catch (error) {
             CoreDomUtils.showErrorModal(error);
         } finally {
@@ -761,7 +762,7 @@ export class AddonModForumDiscussionPage implements OnInit, AfterViewInit, OnDes
             };
             CoreEvents.trigger(ADDON_MOD_FORUM_CHANGE_DISCUSSION_EVENT, data, CoreSites.getCurrentSiteId());
 
-            CoreDomUtils.showToast('addon.mod_forum.pinupdated', true);
+            CoreToasts.show('addon.mod_forum.pinupdated', true);
         } catch (error) {
             CoreDomUtils.showErrorModal(error);
         } finally {
@@ -794,7 +795,7 @@ export class AddonModForumDiscussionPage implements OnInit, AfterViewInit, OnDes
             };
             CoreEvents.trigger(ADDON_MOD_FORUM_CHANGE_DISCUSSION_EVENT, data, CoreSites.getCurrentSiteId());
 
-            CoreDomUtils.showToast('addon.mod_forum.favouriteupdated', true);
+            CoreToasts.show('addon.mod_forum.favouriteupdated', true);
         } catch (error) {
             CoreDomUtils.showErrorModal(error);
         } finally {

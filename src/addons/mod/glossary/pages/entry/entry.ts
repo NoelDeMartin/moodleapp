@@ -26,7 +26,7 @@ import { CoreTag } from '@features/tag/services/tag';
 import { FileEntry } from '@awesome-cordova-plugins/file/ngx';
 import { CoreNavigator } from '@services/navigator';
 import { CoreNetwork } from '@services/network';
-import { CoreDomUtils, ToastDuration } from '@services/utils/dom';
+import { CoreDomUtils } from '@services/utils/dom';
 import { CoreUtils } from '@services/utils/utils';
 import { Translate } from '@singletons';
 import { CoreEventObserver, CoreEvents } from '@singletons/events';
@@ -39,6 +39,7 @@ import {
 import { CoreTime } from '@singletons/time';
 import { CoreAnalytics, CoreAnalyticsEventType } from '@services/analytics';
 import { ADDON_MOD_GLOSSARY_COMPONENT, ADDON_MOD_GLOSSARY_ENTRY_UPDATED } from '../../constants';
+import { CoreToasts, ToastDuration } from '@services/toasts';
 
 /**
  * Page that displays a glossary entry.
@@ -206,7 +207,7 @@ export class AddonModGlossaryEntryPage implements OnInit, OnDestroy {
                 await AddonModGlossaryHelper.deleteStoredFiles(glossaryId, concept, timecreated);
             }
 
-            CoreDomUtils.showToast('addon.mod_glossary.entrydeleted', true, ToastDuration.LONG);
+            CoreToasts.show('addon.mod_glossary.entrydeleted', true, ToastDuration.LONG);
 
             if (this.splitView?.outletActivated) {
                 await CoreNavigator.navigate('../../');
