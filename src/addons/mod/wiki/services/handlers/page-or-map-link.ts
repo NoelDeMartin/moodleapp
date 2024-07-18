@@ -23,6 +23,7 @@ import { makeSingleton } from '@singletons';
 import { Md5 } from 'ts-md5';
 import { AddonModWiki } from '../wiki';
 import { ADDON_MOD_WIKI_PAGE_NAME } from '../../constants';
+import { CoreLoadings } from '@services/loadings';
 
 /**
  * Handler to treat links to a wiki page or the wiki map.
@@ -44,8 +45,8 @@ export class AddonModWikiPageOrMapLinkHandlerService extends CoreContentLinksHan
     ): CoreContentLinksAction[] | Promise<CoreContentLinksAction[]> {
 
         return [{
-            action: async (siteId: string) => {
-                const modal = await CoreDomUtils.showModalLoading();
+            action: async function (siteId: string) {
+                const modal = await CoreLoadings.show();
                 const pageId = parseInt(params.pageid, 10);
                 const action = url.indexOf('mod/wiki/map.php') != -1 ? 'map' : 'page';
 

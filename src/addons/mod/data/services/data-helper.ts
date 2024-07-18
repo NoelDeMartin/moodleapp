@@ -45,6 +45,7 @@ import { AddonModDataOffline, AddonModDataOfflineAction } from './data-offline';
 import { CoreFileEntry } from '@services/file-helper';
 import { ADDON_MOD_DATA_COMPONENT, ADDON_MOD_DATA_ENTRY_CHANGED } from '../constants';
 import { CoreToasts, ToastDuration } from '@services/toasts';
+import { CoreLoadings } from '@services/loadings';
 
 /**
  * Service that provides helper functions for datas.
@@ -151,7 +152,7 @@ export class AddonModDataHelperProvider {
     ): Promise<void> {
         siteId = siteId || CoreSites.getCurrentSiteId();
 
-        const modal = await CoreDomUtils.showModalLoading('core.sending', true);
+        const modal = await CoreLoadings.show('core.sending', true);
 
         try {
             courseId = await this.getActivityCourseIdIfNotSet(dataId, courseId, siteId);
@@ -854,7 +855,7 @@ export class AddonModDataHelperProvider {
         try {
             await CoreDomUtils.showDeleteConfirm('addon.mod_data.confirmdeleterecord');
 
-            const modal = await CoreDomUtils.showModalLoading();
+            const modal = await CoreLoadings.show();
 
             try {
                 if (entryId > 0) {

@@ -19,7 +19,7 @@ import { CoreContentLinksAction } from '@features/contentlinks/services/contentl
 import { CoreCourse } from '@features/course/services/course';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSitesReadingStrategy } from '@services/sites';
-import { CoreDomUtils } from '@services/utils/dom';
+import { CoreLoadings } from '@services/loadings';
 import { makeSingleton } from '@singletons';
 import { ADDON_MOD_DATA_FEATURE_NAME, ADDON_MOD_DATA_PAGE_NAME } from '../../constants';
 
@@ -40,7 +40,7 @@ export class AddonModDataEditLinkHandlerService extends CoreContentLinksHandlerB
     getActions(siteIds: string[], url: string, params: Record<string, string>): CoreContentLinksAction[] {
         return [{
             action: async (siteId): Promise<void> => {
-                const modal = await CoreDomUtils.showModalLoading();
+                const modal = await CoreLoadings.show();
                 const dataId = parseInt(params.d, 10);
                 const rId = params.rid || '';
 
