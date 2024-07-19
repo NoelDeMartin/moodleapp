@@ -12,11 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { mock } from '@/testing/utils';
+import { mock, mockSingleton } from '@/testing/utils';
 import { CoreSite } from '@classes/sites/site';
+import { CorePlatform } from '@services/platform';
+import { DomSanitizer } from '@singletons';
 import { CoreUrl } from '@singletons/url';
 
 describe('CoreUrl singleton', () => {
+
+    const config = { platform: 'android' };
+
+    beforeEach(() => {
+        mockSingleton(CorePlatform, [], { isAndroid: () => config.platform === 'android' });
+        mockSingleton(DomSanitizer, [], { bypassSecurityTrustUrl: url => url });
+    });
+
+    it('builds address URL for Android platforms', () => {
+        // Arrange
+        const address = 'Moodle Spain HQ';
+
+        config.platform = 'android';
+
+        // Act
+        const url = CoreUrl.buildAddressURL(address);
+
+        // Assert
+        expect(url).toEqual('geo:0,0?q=Moodle%20Spain%20HQ');
+
+        expect(DomSanitizer.bypassSecurityTrustUrl).toHaveBeenCalled();
+        expect(CorePlatform.isAndroid).toHaveBeenCalled();
+    });
+
+    it('doesn\'t build address if it\'s already a URL', () => {
+        const address = 'https://moodle.org';
+
+        const url = CoreUrl.buildAddressURL(address);
+
+        expect(url).toEqual(address);
+
+        expect(DomSanitizer.bypassSecurityTrustUrl).toHaveBeenCalled();
+    });
 
     it('parses standard urls', () => {
         expect(CoreUrl.parse('https://u1:pw1@my.subdomain.com/path/?query=search#hash')).toEqual({
