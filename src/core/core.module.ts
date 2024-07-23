@@ -50,7 +50,7 @@ export async function getCoreServices(): Promise<Type<unknown>[]> {
     const { CorePluginFileDelegateService } = await import('@services/plugin-file-delegate');
     const { CorePopoversService } = await import('@services/popovers');
     const { CoreScreenService } = await import('@services/screen');
-    const { CoreSitesProvider } = await import('@services/sites');
+    const { CoreSitesProvider } = await import('@services/sites-lazy');
     const { CoreSitesHelperService } = await import('@services/sites-helper');
     const { CoreSyncProvider } = await import('@services/sync');
     const { CoreTextUtilsProvider } = await import('@services/utils/text');

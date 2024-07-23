@@ -26,7 +26,8 @@ import { CoreLoadingComponent } from '@components/loading/loading';
 import { CoreDirectivesRegistry } from '@singletons/directives-registry';
 import { CoreDom } from '@singletons/dom';
 import { Injectable } from '@angular/core';
-import { CoreSites, CoreSitesProvider } from '@services/sites';
+import { CoreSites } from '@services/sites';
+import type { CoreSitesProvider } from '@services/sites-lazy';
 import { CoreNavigator, CoreNavigatorService } from '@services/navigator';
 import { CoreSwipeNavigationDirective } from '@directives/swipe-navigation';
 import { Swiper } from 'swiper';
@@ -64,6 +65,10 @@ export class TestingBehatRuntimeService {
     }
 
     get sites(): CoreSitesProvider {
+        if (!CoreSites.instance) {
+            throw new Error('Sites provider not initialized yet');
+        }
+
         return CoreSites.instance;
     }
 
