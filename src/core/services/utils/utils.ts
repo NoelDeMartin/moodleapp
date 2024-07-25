@@ -17,26 +17,18 @@ import { InAppBrowserObject, InAppBrowserOptions } from '@awesome-cordova-plugin
 import { FileEntry } from '@awesome-cordova-plugins/file/ngx';
 import { CoreEvents } from '@singletons/events';
 import { CoreFile } from '@services/file';
-import { CoreLang } from '@services/lang';
-import { CoreWS } from '@services/ws';
-import { CoreMimetypeUtils } from '@services/utils/mimetype';
 import { makeSingleton, InAppBrowser, FileOpener, WebIntent, Translate, NgZone } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreFileEntry } from '@services/file-helper';
 import { CoreConstants } from '@/core/constants';
-import { CoreWindow } from '@singletons/window';
 import { CoreColors } from '@singletons/colors';
 import { CorePlatform } from '@services/platform';
 import { CoreErrorWithOptions } from '@classes/errors/errorwithoptions';
-import { CoreFilepool } from '@services/filepool';
-import { CoreSites } from '@services/sites';
 import { CoreCancellablePromise } from '@classes/cancellable-promise';
 import { CoreAnalytics, CoreAnalyticsEventType } from '@services/analytics';
-import { CoreUrl } from '@singletons/url';
 import { CoreArray } from '@singletons/array';
 import { CoreText } from '@singletons/text';
 import { CoreWait, CoreWaitOptions } from '@singletons/wait';
-import { CoreQRScan } from '@services/qrscan';
 import { CoreErrorHelper } from '@services/error-helper';
 
 export type TreeNode<T> = T & { children: TreeNode<T>[] };
@@ -253,6 +245,7 @@ export class CoreUtilsProvider {
         }
 
         try {
+            const { CoreWS } = await import('@services/ws');
             const response = await this.timeoutPromise(window.fetch(url, initOptions), CoreWS.getRequestTimeout());
 
             return response.redirected;
@@ -675,6 +668,8 @@ export class CoreUtilsProvider {
      * @returns Promise resolved with the countries list. Rejected if not translated.
      */
     protected async getCountryKeysList(): Promise<string[]> {
+        const { CoreLang } = await import('@services/lang');
+
         // It's possible that the current language isn't translated, so try with default language first.
         const defaultLang = CoreLang.getDefaultLanguage();
 
@@ -700,6 +695,8 @@ export class CoreUtilsProvider {
      * @returns Promise resolved with the countries list. Rejected if not translated.
      */
     protected async getCountryKeysListForLanguage(lang: string): Promise<string[]> {
+        const { CoreLang } = await import('@services/lang');
+
         // Get the translation table for the language.
         const table = await CoreLang.getTranslationTable(lang);
 
@@ -729,6 +726,8 @@ export class CoreUtilsProvider {
      * @returns Promise resolved with the mimetype.
      */
     async getMimeTypeFromUrl(url: string): Promise<string> {
+        const { CoreMimetypeUtils } = await import('@services/utils/mimetype');
+
         // First check if it can be guessed from the URL.
         const extension = CoreMimetypeUtils.guessExtensionFromUrl(url);
         const mimetype = extension && CoreMimetypeUtils.getMimeType(extension);
@@ -739,6 +738,7 @@ export class CoreUtilsProvider {
         }
 
         // Can't be guessed, get the remote mimetype.
+        const { CoreWS } = await import('@services/ws');
         const remoteMimetype = await CoreWS.getRemoteFileMimeType(url);
 
         return remoteMimetype || mimetype || '';
@@ -960,6 +960,8 @@ export class CoreUtilsProvider {
      * @returns Promise resolved when done.
      */
     async openFile(path: string, options: CoreUtilsOpenFileOptions = {}): Promise<void> {
+        const { CoreMimetypeUtils } = await import('@services/utils/mimetype');
+
         // Convert the path to a native path if needed.
         path = CoreFile.unconvertFileSrc(path);
 
@@ -972,6 +974,9 @@ export class CoreUtilsProvider {
 
             return;
         } else if (extension === 'apk' && CorePlatform.isAndroid()) {
+            const { CoreSites } = await import('@services/sites');
+            const { CoreFilepool } = await import('@services/filepool');
+
             const url = await CoreUtils.ignoreErrors(
                 CoreFilepool.getFileUrlByPath(CoreSites.getCurrentSiteId(), CoreFile.removeBasePath(path)),
             );
@@ -1108,7 +1113,7 @@ export class CoreUtilsProvider {
 
         CoreAnalytics.logEvent({
             type: CoreAnalyticsEventType.OPEN_LINK,
-            link: CoreUrl.unfixPluginfileURL(options.originalUrl ?? url),
+            link: this.unfixPluginfileURL(options.originalUrl ?? url),
         });
 
         return this.iabInstance;
@@ -1166,9 +1171,11 @@ export class CoreUtilsProvider {
      */
     async openInBrowser(url: string, options: CoreUtilsOpenInBrowserOptions = {}): Promise<void> {
         // eslint-disable-next-line deprecation/deprecation
-        const originaUrl = CoreUrl.unfixPluginfileURL(options.originalUrl ?? options.browserWarningUrl ?? url);
+        const originaUrl = this.unfixPluginfileURL(options.originalUrl ?? options.browserWarningUrl ?? url);
         if (options.showBrowserWarning || options.showBrowserWarning === undefined) {
             try {
+                const { CoreWindow } = await import('@singletons/window');
+
                 await CoreWindow.confirmOpenBrowserIfNeeded(originaUrl);
             } catch {
                 return; // Cancelled, stop.
@@ -1211,7 +1218,7 @@ export class CoreUtilsProvider {
 
                 CoreAnalytics.logEvent({
                     type: CoreAnalyticsEventType.OPEN_LINK,
-                    link: CoreUrl.unfixPluginfileURL(url),
+                    link: this.unfixPluginfileURL(url),
                 });
 
                 return;
@@ -1641,7 +1648,8 @@ export class CoreUtilsProvider {
      * @deprecated since 4.5. Use CoreQRScan.canScanQR instead.
      */
     canScanQR(): boolean {
-        return CoreQRScan.canScanQR();
+        // TODO copied from CoreQRScan
+        return CorePlatform.isMobile();
     }
 
     /**
@@ -1653,6 +1661,8 @@ export class CoreUtilsProvider {
      * @deprecated since 4.5. Use CoreQRScan.scanQR instead.
      */
     async scanQR(title?: string): Promise<string | undefined> {
+        const { CoreQRScan } = await import('@services/qrscan');
+
         return CoreQRScan.scanQR(title);
     }
 
@@ -1664,20 +1674,12 @@ export class CoreUtilsProvider {
      * @deprecated since 4.5. Use CoreQRScan.startScanQR instead.
      */
     async startScanQR(): Promise<string | undefined> {
+        const { CoreQRScan } = await import('@services/qrscan');
+
         return CoreQRScan.startScanQR();
     }
 
-    /**
-     * Stop scanning for QR code. If no param is provided, the app will consider the user cancelled.
-     *
-     * @param data If success, the text of the QR code. If error, the error object or message. Undefined for cancelled.
-     * @param error True if the data belongs to an error, false otherwise.
-     *
-     * @deprecated since 4.5. Use CoreQRScan.stopScanQR instead.
-     */
-    stopScanQR(data?: string | Error, error?: boolean): void {
-        CoreQRScan.stopScanQR(data, error);
-    }
+    // TODO removed deprecated stopScanQR
 
     /**
      * Ignore errors from a promise.
@@ -1754,6 +1756,31 @@ export class CoreUtilsProvider {
         const openFileAction = options.iOSOpenFileAction ?? CoreConstants.CONFIG.iOSDefaultOpenFileAction;
 
         return CorePlatform.isIOS() && openFileAction == OpenFileAction.OPEN_WITH;
+    }
+
+    // TODO copied from url
+    private unfixPluginfileURL(url: string, siteUrl?: string): string {
+        if (!url) {
+            return '';
+        }
+
+        url = url.replace(/&amp;/g, '&');
+
+        // It site URL is supplied, check if the URL belongs to the site.
+        if (siteUrl && url.indexOf(CoreText.addEndingSlash(siteUrl)) !== 0) {
+            return url;
+        }
+
+        // Check tokenpluginfile first.
+        url = url.replace(/\/tokenpluginfile\.php\/[^/]+\//, '/pluginfile.php/');
+
+        // Treat webservice/pluginfile case.
+        url = url.replace(/\/webservice\/pluginfile\.php\//, '/pluginfile.php/');
+
+        // Make sure the URL doesn't contain the token.
+        url = url.replace(/([?&])token=[^&]*&?/, '$1');
+
+        return url;
     }
 
 }
