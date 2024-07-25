@@ -18,6 +18,7 @@ import { CoreCronHandler } from '@services/cron';
 import { CoreSites } from '@services/sites';
 import { CoreCourse } from '@features/course/services/course';
 import { makeSingleton } from '@singletons';
+import { COURSE_LOG_CRON_HANDLER } from '@features/course/constants';
 
 /**
  * Log cron handler. It will update last access of the user while app is open.
@@ -25,7 +26,7 @@ import { makeSingleton } from '@singletons';
 @Injectable({ providedIn: 'root' })
 export class CoreCourseLogCronHandlerService implements CoreCronHandler {
 
-    name = 'CoreCourseLogCronHandler';
+    name = COURSE_LOG_CRON_HANDLER;
 
     /**
      * Execute the process.

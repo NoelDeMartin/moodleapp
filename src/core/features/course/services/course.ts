@@ -43,12 +43,11 @@ import {
 } from '../../courses/services/courses';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreWSError } from '@classes/errors/wserror';
-import { CoreCourseHelper, CoreCourseModuleData, CoreCourseModuleCompletionData } from './course-helper';
+import { CoreCourseModuleData, CoreCourseModuleCompletionData } from './course-helper';
 import { CoreCourseFormatDelegate } from './format-delegate';
 import { CoreCronDelegate } from '@services/cron';
-import { CoreCourseLogCronHandler } from './handlers/log-cron';
 import { CoreSitePlugins } from '@features/siteplugins/services/siteplugins';
-import { CoreCourseAutoSyncData, CoreCourseSyncProvider } from './sync';
+import { CoreCourseAutoSyncData } from './sync';
 import { CoreTagItem } from '@features/tag/services/tag';
 import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
 import { CoreCourseModuleDelegate } from './module-delegate';
@@ -62,6 +61,7 @@ import { firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CoreSiteWSPreSets, WSObservable } from '@classes/sites/authenticated-site';
 import { CoreLoadings } from '@services/loadings';
+import { COURSE_AUTO_SYNCED, COURSE_LOG_CRON_HANDLER } from '@features/course/constants';
 
 const ROOT_CACHE_KEY = 'mmCourse:';
 
@@ -75,7 +75,7 @@ declare module '@singletons/events' {
      * @see https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation
      */
     export interface CoreEventsData {
-        [CoreCourseSyncProvider.AUTO_SYNCED]: CoreCourseAutoSyncData;
+        [COURSE_AUTO_SYNCED]: CoreCourseAutoSyncData;
         [CoreCourseProvider.PROGRESS_UPDATED]: CoreCourseProgressUpdated;
     }
 
@@ -185,7 +185,7 @@ export class CoreCourseProvider {
             // Run the handler the app is open to keep user in online status.
             setTimeout(() => {
                 CoreUtils.ignoreErrors(
-                    CoreCronDelegate.forceCronHandlerExecution(CoreCourseLogCronHandler.name),
+                    CoreCronDelegate.forceCronHandlerExecution(COURSE_LOG_CRON_HANDLER),
                 );
             }, 1000);
         });
@@ -194,7 +194,7 @@ export class CoreCourseProvider {
             setTimeout(() => {
                 // Ignore errors here, since probably login is not complete: it happens on token invalid.
                 CoreUtils.ignoreErrors(
-                    CoreCronDelegate.forceCronHandlerExecution(CoreCourseLogCronHandler.name),
+                    CoreCronDelegate.forceCronHandlerExecution(COURSE_LOG_CRON_HANDLER),
                 );
             }, 1000);
         });
@@ -1367,6 +1367,7 @@ export class CoreCourseProvider {
         await CoreUtils.ignoreErrors(CoreSitePlugins.waitFetchPlugins());
 
         if (!('format' in course) || course.format === undefined) {
+            const { CoreCourseHelper } = await import('./course-helper');
             const result = await CoreCourseHelper.getCourse(course.id);
 
             course = result.course;

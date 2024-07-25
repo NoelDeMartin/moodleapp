@@ -32,7 +32,7 @@ import {
 } from '@features/course/services/course-helper';
 import { CoreCourseFormatDelegate } from '@features/course/services/format-delegate';
 import { CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
-import { CoreCourseSync, CoreCourseSyncProvider } from '@features/course/services/sync';
+import { CoreCourseSync } from '@features/course/services/sync';
 import { CoreCourseFormatComponent } from '../../components/course-format/course-format';
 import {
     CoreEvents,
@@ -43,6 +43,7 @@ import { CoreRefreshContext, CORE_REFRESH_CONTEXT } from '@/core/utils/refresh-c
 import { CoreCoursesHelper } from '@features/courses/services/courses-helper';
 import { CoreSites } from '@services/sites';
 import { CoreWait } from '@singletons/wait';
+import { COURSE_AUTO_SYNCED } from '@features/course/constants';
 
 /**
  * Page that displays the contents of a course.
@@ -154,7 +155,7 @@ export class CoreCourseContentsPage implements OnInit, OnDestroy, CoreRefreshCon
             this.onCompletionChange(data.completion);
         });
 
-        this.syncObserver = CoreEvents.on(CoreCourseSyncProvider.AUTO_SYNCED, (data) => {
+        this.syncObserver = CoreEvents.on(COURSE_AUTO_SYNCED, (data) => {
             if (!data || data.courseId != this.course.id) {
                 return;
             }
