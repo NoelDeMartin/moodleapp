@@ -25,7 +25,7 @@ import { SafeUrl } from '@angular/platform-browser';
 /**
  * Parts contained within a url.
  */
-interface UrlParts {
+export interface UrlParts {
 
     /**
      * Url protocol.

@@ -16,7 +16,6 @@ import { Injectable } from '@angular/core';
 import { FileEntry } from '@awesome-cordova-plugins/file/ngx';
 
 import { CoreFile } from '@services/file';
-import { CoreText } from '@singletons/text';
 import { makeSingleton, Translate } from '@singletons';
 import { CoreLogger } from '@singletons/logger';
 import { CoreWSFile } from '@services/ws';
@@ -24,8 +23,8 @@ import { CoreUtils } from '@services/utils/utils';
 
 import extToMime from '@/assets/exttomime.json';
 import mimeToExt from '@/assets/mimetoext.json';
-import { CoreFileEntry, CoreFileHelper } from '@services/file-helper';
-import { CoreUrl } from '@singletons/url';
+import { CoreFileEntry } from '@services/file-helper';
+import { UrlParts } from '@singletons/url';
 import { CoreSites } from '@services/sites';
 
 interface MimeTypeInfo {
@@ -185,7 +184,7 @@ export class CoreMimetypeUtilsProvider {
             // @todo linting: See if this can be removed
             (file as { embedType?: string }).embedType = embedType;
 
-            path = path ?? (CoreUtils.isFileEntry(file) ? CoreFile.getFileEntryURL(file) : CoreFileHelper.getFileUrl(file));
+            path = path ?? (CoreUtils.isFileEntry(file) ? CoreFile.getFileEntryURL(file) : this.getFileUrl(file));
             path = path && CoreFile.convertFileSrc(path);
 
             switch (embedType) {
@@ -312,7 +311,7 @@ export class CoreMimetypeUtilsProvider {
      * @returns The lowercased extension without the dot, or undefined.
      */
     guessExtensionFromUrl(fileUrl: string): string | undefined {
-        const parsed = CoreUrl.parse(fileUrl);
+        const parsed = this.parse(fileUrl);
         const split = parsed?.path?.split('.');
         let extension: string | undefined;
 
@@ -466,7 +465,7 @@ export class CoreMimetypeUtilsProvider {
             const value = attr[key];
             translateParams[key] = value;
             translateParams[key.toUpperCase()] = value.toUpperCase();
-            translateParams[CoreText.ucFirst(key)] = CoreText.ucFirst(value);
+            translateParams[this.ucFirst(key)] = this.ucFirst(value);
         }
 
         // MIME types may include + symbol but this is not permitted in string ids.
@@ -486,7 +485,7 @@ export class CoreMimetypeUtilsProvider {
         }
 
         if (capitalise) {
-            result = CoreText.ucFirst(result);
+            result = this.ucFirst(result);
         }
 
         return result;
@@ -603,6 +602,46 @@ export class CoreMimetypeUtilsProvider {
         }
 
         return path;
+    }
+
+    // TODO copied from url
+    private parse(url: string): UrlParts | null {
+        // Parse url with regular expression taken from RFC 3986: https://tools.ietf.org/html/rfc3986#appendix-B.
+        const match = url.trim().match(/^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/);
+
+        if (!match) {
+            return null;
+        }
+
+        const host = match[4] || '';
+
+        // Get the credentials and the port from the host.
+        const [domainAndPort, credentials]: string[] = host.split('@').reverse();
+        const [domain, port]: string[] = domainAndPort.split(':');
+        const [username, password]: string[] = credentials ? credentials.split(':') : [];
+
+        // Prepare parts replacing empty strings with undefined.
+        return {
+            protocol: match[2] || undefined,
+            domain: domain || undefined,
+            port: port || undefined,
+            credentials: credentials || undefined,
+            username: username || undefined,
+            password: password || undefined,
+            path: match[5] || undefined,
+            query: match[7] || undefined,
+            fragment: match[9] || undefined,
+        };
+    }
+
+    // TODO copied from file-helper
+    private getFileUrl(file: CoreWSFile): string {
+        return 'fileurl' in file ? file.fileurl : file.url;
+    }
+
+    // TODO copied from text
+    private ucFirst(text: string): string {
+        return text.charAt(0).toUpperCase() + text.slice(1);
     }
 
 }
