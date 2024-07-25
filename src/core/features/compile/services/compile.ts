@@ -128,7 +128,7 @@ import { CorePlatform } from '@services/platform';
 
 import { CoreAutoLogoutService } from '@features/autologout/services/autologout';
 import { CoreSitePluginsProvider } from '@features/siteplugins/services/siteplugins';
-import { getSitePluginsExportedObjects } from '@features/siteplugins/siteplugins.module';
+import { getSitePluginsExportedObjects } from '@features/siteplugins/services';
 import { CoreError } from '@classes/errors/error';
 
 /**
