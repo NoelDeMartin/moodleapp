@@ -13,93 +13,13 @@
 // limitations under the License.
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApplicationInitStatus, Injector, NgModule, Type } from '@angular/core';
+import { ApplicationInitStatus, Injector, NgModule } from '@angular/core';
 
 import { CoreApplicationInitStatus } from './classes/application-init-status';
 import { CoreFeaturesModule } from './features/features.module';
 import { CoreInterceptor } from './classes/interceptor';
 import { getDatabaseProviders } from './services/database';
 import { getInitializerProviders } from './initializers';
-
-/**
- * Get core services.
- *
- * @returns Core services.
- */
-export async function getCoreServices(): Promise<Type<unknown>[]> {
-
-    const { CoreAppProvider } = await import('@services/app');
-    const { CoreConfigProvider } = await import('@services/config');
-    const { CoreCronDelegateService } = await import('@services/cron');
-    const { CoreCustomURLSchemesProvider } = await import('@services/urlschemes');
-    const { CoreDbProvider } = await import('@services/db');
-    const { CoreDomUtilsProvider } = await import('@services/utils/dom');
-    const { CoreErrorHelperService } = await import('@services/error-helper');
-    const { CoreToastsService } = await import('@services/toasts');
-    const { CoreFileHelperProvider } = await import('@services/file-helper');
-    const { CoreFilepoolProvider } = await import('@services/filepool');
-    const { CoreFileProvider } = await import('@services/file');
-    const { CoreFileSessionProvider } = await import('@services/file-session');
-    const { CoreGeolocationProvider } = await import('@services/geolocation');
-    const { CoreGroupsProvider } = await import('@services/groups');
-    const { CoreIframeUtilsProvider } = await import('@services/utils/iframe');
-    const { CoreLangProvider } = await import('@services/lang');
-    const { CoreLocalNotificationsProvider } = await import('@services/local-notifications');
-    const { CoreMimetypeUtilsProvider } = await import('@services/utils/mimetype');
-    const { CoreNavigatorService } = await import('@services/navigator');
-    const { CorePluginFileDelegateService } = await import('@services/plugin-file-delegate');
-    const { CorePopoversService } = await import('@services/popovers');
-    const { CoreScreenService } = await import('@services/screen');
-    const { CoreSitesProvider } = await import('@services/sites-lazy');
-    const { CoreSitesHelperService } = await import('@services/sites-helper');
-    const { CoreSyncProvider } = await import('@services/sync');
-    const { CoreTextUtilsProvider } = await import('@services/utils/text');
-    const { CoreTimeUtilsProvider } = await import('@services/utils/time');
-    const { CoreUpdateManagerProvider } = await import('@services/update-manager');
-    const { CoreUrlUtilsProvider } = await import('@services/utils/url');
-    const { CoreUtilsProvider } = await import('@services/utils/utils');
-    const { CoreWSProvider } = await import('@services/ws-lazy');
-    const { CorePlatformService } = await import('@services/platform');
-    const { CoreQRScanService } = await import('@services/qrscan');
-    const { CoreLoadingsService } = await import('@services/loadings');
-
-    return [
-        CoreAppProvider,
-        CoreConfigProvider,
-        CoreCronDelegateService,
-        CoreCustomURLSchemesProvider,
-        CoreDbProvider,
-        CoreDomUtilsProvider,
-        CoreErrorHelperService,
-        CoreFileHelperProvider,
-        CoreFilepoolProvider,
-        CoreFileProvider,
-        CoreFileSessionProvider,
-        CoreGeolocationProvider,
-        CoreGroupsProvider,
-        CoreIframeUtilsProvider,
-        CoreLangProvider,
-        CoreLoadingsService,
-        CoreLocalNotificationsProvider,
-        CoreMimetypeUtilsProvider,
-        CoreNavigatorService,
-        CorePluginFileDelegateService,
-        CorePopoversService,
-        CorePlatformService,
-        CoreQRScanService,
-        CoreScreenService,
-        CoreSitesProvider,
-        CoreSitesHelperService,
-        CoreSyncProvider,
-        CoreTextUtilsProvider,
-        CoreTimeUtilsProvider,
-        CoreToastsService,
-        CoreUpdateManagerProvider,
-        CoreUrlUtilsProvider,
-        CoreUtilsProvider,
-        CoreWSProvider,
-    ];
-}
 
 @NgModule({
     imports: [

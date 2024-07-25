@@ -37,7 +37,7 @@ import { CoreEvents } from '@singletons/events';
 import { makeSingleton } from '@singletons';
 
 // Import core services.
-import { getCoreServices } from '@/core/core.module';
+import { getCoreServices } from '@/core/services';
 import { getBlockServices } from '@features/block/block.module';
 import { getCommentsServices } from '@features/comments/comments.module';
 import { getContentLinksExportedObjects, getContentLinksServices } from '@features/contentlinks/contentlinks.module';
