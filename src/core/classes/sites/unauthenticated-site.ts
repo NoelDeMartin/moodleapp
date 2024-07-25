@@ -14,8 +14,7 @@
 
 import { CoreConstants } from '@/core/constants';
 import { CoreError } from '@classes/errors/error';
-import { CoreLoginHelper } from '@features/login/services/login-helper';
-import { CoreSitesReadingStrategy } from '@services/sites';
+import { CoreLoginSiteInfo, CoreSitesReadingStrategy } from '@services/sites';
 import { CoreText } from '@singletons/text';
 import { CoreUrl } from '@singletons/url';
 import { CoreWS, CoreWSAjaxPreSets, CoreWSExternalWarning } from '@services/ws';
@@ -100,6 +99,7 @@ export class CoreUnauthenticatedSite {
         }
 
         // Fallback.
+        const { CoreLoginHelper } = await import('@features/login/services/login-helper');
         const isSingleFixedSite = await CoreLoginHelper.isSingleFixedSite();
 
         if (isSingleFixedSite) {
@@ -297,7 +297,7 @@ export class CoreUnauthenticatedSite {
      * @returns Whether the site is a demo mode site.
      */
     isDemoModeSite(): boolean {
-        const demoSiteData = CoreLoginHelper.getDemoModeSiteInfo();
+        const demoSiteData = this.getDemoModeSiteInfo();
 
         return this.containsUrl(demoSiteData?.url);
     }
@@ -335,6 +335,11 @@ export class CoreUnauthenticatedSite {
      */
     protected getDisabledFeatures(): string | undefined {
         return this.publicConfig?.tool_mobile_disabledfeatures;
+    }
+
+    // TODO copied from login-helper
+    private getDemoModeSiteInfo(): CoreLoginSiteInfo | undefined {
+        return CoreConstants.CONFIG.sites.find(site => site.demoMode);
     }
 
 }
