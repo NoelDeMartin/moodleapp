@@ -17,7 +17,6 @@ import { CorePlatform } from '@services/platform';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
 import { NgZone, makeSingleton } from '@singletons';
 import { Observable, Subject, merge } from 'rxjs';
-import { CoreHTMLClasses } from '@singletons/html-classes';
 
 export enum CoreNetworkConnection {
     UNKNOWN = 'unknown',
@@ -102,6 +101,8 @@ export class CoreNetworkService extends Network {
      */
     async onPlaformReady(): Promise<void> {
         await CorePlatform.ready();
+
+        const { CoreHTMLClasses } = await import('@singletons/html-classes');
 
         // Refresh online status when changes.
         CoreNetwork.onChange().subscribe(() => {
