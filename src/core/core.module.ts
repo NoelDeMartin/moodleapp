@@ -58,7 +58,7 @@ export async function getCoreServices(): Promise<Type<unknown>[]> {
     const { CoreUpdateManagerProvider } = await import('@services/update-manager');
     const { CoreUrlUtilsProvider } = await import('@services/utils/url');
     const { CoreUtilsProvider } = await import('@services/utils/utils');
-    const { CoreWSProvider } = await import('@services/ws');
+    const { CoreWSProvider } = await import('@services/ws-lazy');
     const { CorePlatformService } = await import('@services/platform');
     const { CoreQRScanService } = await import('@services/qrscan');
     const { CoreLoadingsService } = await import('@services/loadings');
